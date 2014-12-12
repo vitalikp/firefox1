@@ -74,6 +74,8 @@ int av_dict_set(AVDictionary **pm, const char *key, const char *value,
 
     if (!m)
         m = *pm = av_mallocz(sizeof(*m));
+    if (!m)
+        goto err_out;
 
     if (tag) {
         if (flags & AV_DICT_DONT_OVERWRITE) {
@@ -96,9 +98,11 @@ int av_dict_set(AVDictionary **pm, const char *key, const char *value,
     }
     if (value) {
         if (flags & AV_DICT_DONT_STRDUP_KEY)
-            m->elems[m->count].key   = (char*)(intptr_t)key;
+            m->elems[m->count].key = (char*)(intptr_t)key;
         else
             m->elems[m->count].key = av_strdup(key);
+        if (!m->elems[m->count].key)
+            goto err_out;
         if (flags & AV_DICT_DONT_STRDUP_VAL) {
             m->elems[m->count].value = (char*)(intptr_t)value;
         } else if (oldval && flags & AV_DICT_APPEND) {
@@ -122,7 +126,7 @@ int av_dict_set(AVDictionary **pm, const char *key, const char *value,
     return 0;
 
 err_out:
-    if (!m->count) {
+    if (m && !m->count) {
         av_free(m->elems);
         av_freep(pm);
     }
