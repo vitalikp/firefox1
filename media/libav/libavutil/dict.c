@@ -119,7 +119,7 @@ int av_dict_set(AVDictionary **pm, const char *key, const char *value,
         m->count++;
     }
     if (!m->count) {
-        av_free(m->elems);
+        av_freep(&m->elems);
         av_freep(pm);
     }
 
@@ -127,7 +127,7 @@ int av_dict_set(AVDictionary **pm, const char *key, const char *value,
 
 err_out:
     if (m && !m->count) {
-        av_free(m->elems);
+        av_freep(&m->elems);
         av_freep(pm);
     }
     if (flags & AV_DICT_DONT_STRDUP_KEY) av_free((void*)key);
@@ -188,10 +188,10 @@ void av_dict_free(AVDictionary **pm)
 
     if (m) {
         while (m->count--) {
-            av_free(m->elems[m->count].key);
-            av_free(m->elems[m->count].value);
+            av_freep(&m->elems[m->count].key);
+            av_freep(&m->elems[m->count].value);
         }
-        av_free(m->elems);
+        av_freep(&m->elems);
     }
     av_freep(pm);
 }
