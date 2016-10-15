@@ -1608,17 +1608,6 @@ nsXULElement::GetFrameLoader()
     return already_AddRefed<nsFrameLoader>(static_cast<nsFrameLoader*>(loader.forget().take()));
 }
 
-nsresult
-nsXULElement::GetParentApplication(mozIApplication** aApplication)
-{
-    if (!aApplication) {
-        return NS_ERROR_FAILURE;
-    }
-
-    *aApplication = nullptr;
-    return NS_OK;
-}
-
 void
 nsXULElement::PresetOpenerWindow(mozIDOMWindowProxy* aWindow, ErrorResult& aRv)
 {
