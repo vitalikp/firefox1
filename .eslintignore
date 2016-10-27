@@ -63,7 +63,6 @@ browser/base/content/sanitizeDialog.js
 browser/base/content/newtab/**
 browser/components/downloads/**
 browser/components/privatebrowsing/**
-browser/components/sessionstore/**
 browser/components/tabview/**
 # generated files in cld2
 browser/components/translation/cld2/cld-worker.js
