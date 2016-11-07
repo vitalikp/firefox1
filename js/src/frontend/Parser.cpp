@@ -3925,7 +3925,8 @@ Parser<ParseHandler>::PossibleError::hasError(ErrorKind kind)
 
 template <typename ParseHandler>
 void
-Parser<ParseHandler>::PossibleError::setPending(ErrorKind kind, Node pn, unsigned errorNumber)
+Parser<ParseHandler>::PossibleError::setPending(ErrorKind kind, const TokenPos& pos,
+                                                unsigned errorNumber)
 {
     // Don't overwrite a previously recorded error.
     if (hasError(kind))
@@ -3934,23 +3935,25 @@ Parser<ParseHandler>::PossibleError::setPending(ErrorKind kind, Node pn, unsigne
     // If we report an error later, we'll do it from the position where we set
     // the state to pending.
     Error& err = error(kind);
-    err.offset_ = (pn ? parser_.handler.getPosition(pn) : parser_.pos()).begin;
+    err.offset_ = pos.begin;
     err.errorNumber_ = errorNumber;
     err.state_ = ErrorState::Pending;
 }
 
 template <typename ParseHandler>
 void
-Parser<ParseHandler>::PossibleError::setPendingDestructuringError(Node pn, unsigned errorNumber)
+Parser<ParseHandler>::PossibleError::setPendingDestructuringErrorAt(const TokenPos& pos,
+                                                                    unsigned errorNumber)
 {
-    setPending(ErrorKind::Destructuring, pn, errorNumber);
+    setPending(ErrorKind::Destructuring, pos, errorNumber);
 }
 
 template <typename ParseHandler>
 void
-Parser<ParseHandler>::PossibleError::setPendingExpressionError(Node pn, unsigned errorNumber)
+Parser<ParseHandler>::PossibleError::setPendingExpressionErrorAt(const TokenPos& pos,
+                                                                 unsigned errorNumber)
 {
-    setPending(ErrorKind::Expression, pn, errorNumber);
+    setPending(ErrorKind::Expression, pos, errorNumber);
 }
 
 template <typename ParseHandler>
@@ -8879,7 +8882,7 @@ Parser<ParseHandler>::arrayInitializer(YieldHandling yieldHandling, PossibleErro
                     break;
                 }
                 if (tt == TOK_TRIPLEDOT && possibleError)
-                    possibleError->setPendingDestructuringError(null(), JSMSG_REST_WITH_COMMA);
+                    possibleError->setPendingDestructuringErrorAt(pos(), JSMSG_REST_WITH_COMMA);
             }
         }
 
@@ -9149,6 +9152,8 @@ Parser<ParseHandler>::objectLiteral(YieldHandling yieldHandling, PossibleError* 
         if (tt == TOK_RC)
             break;
 
+        TokenPos namePos = pos();
+
         tokenStream.ungetToken();
 
         PropertyType propType;
@@ -9176,8 +9181,8 @@ Parser<ParseHandler>::objectLiteral(YieldHandling yieldHandling, PossibleError* 
 
                     // Otherwise delay error reporting until we've determined
                     // whether or not we're destructuring.
-                    possibleError->setPendingExpressionError(propName,
-                                                             JSMSG_DUPLICATE_PROTO_PROPERTY);
+                    possibleError->setPendingExpressionErrorAt(namePos,
+                                                               JSMSG_DUPLICATE_PROTO_PROPERTY);
                 }
                 seenPrototypeMutation = true;
 
@@ -9262,7 +9267,7 @@ Parser<ParseHandler>::objectLiteral(YieldHandling yieldHandling, PossibleError* 
                 // Here we set a pending error so that later in the parse, once we've
                 // determined whether or not we're destructuring, the error can be
                 // reported or ignored appropriately.
-                possibleError->setPendingExpressionError(null(), JSMSG_COLON_AFTER_ID);
+                possibleError->setPendingExpressionErrorAt(pos(), JSMSG_COLON_AFTER_ID);
             }
 
             Node rhs;
