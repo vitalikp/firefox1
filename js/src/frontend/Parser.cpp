@@ -601,6 +601,17 @@ Parser<ParseHandler>::qeport(ParseReportKind kind, unsigned errorNumber, ...)
 
 template <typename ParseHandler>
 bool
+Parser<ParseHandler>::warning(unsigned errorNumber, ...)
+{
+    va_list args;
+    va_start(args, errorNumber);
+    bool result = reportHelper(ParseWarning, false, pos().begin, errorNumber, args);
+    va_end(args);
+    return result;
+}
+
+template <typename ParseHandler>
+bool
 Parser<ParseHandler>::extraWarning(unsigned errorNumber, ...)
 {
     va_list args;
@@ -7061,7 +7072,7 @@ Parser<ParseHandler>::statementListItem(YieldHandling yieldHandling,
         if (!canHaveDirectives && tokenStream.currentToken().atom() == context->names().useAsm) {
             if (!abortIfSyntaxParser())
                 return null();
-            if (!qeport(ParseWarning, JSMSG_USE_ASM_DIRECTIVE_FAIL))
+            if (!warning(JSMSG_USE_ASM_DIRECTIVE_FAIL))
                 return null();
         }
         return expressionStatement(yieldHandling);
@@ -9602,7 +9613,7 @@ Parser<ParseHandler>::warnOnceAboutExprClosure()
         return true;
 
     if (!cx->compartment()->warnedAboutExprClosure) {
-        if (!qeport(ParseWarning, JSMSG_DEPRECATED_EXPR_CLOSURE))
+        if (!warning(JSMSG_DEPRECATED_EXPR_CLOSURE))
             return false;
         cx->compartment()->warnedAboutExprClosure = true;
     }
@@ -9619,7 +9630,7 @@ Parser<ParseHandler>::warnOnceAboutForEach()
         return true;
 
     if (!cx->compartment()->warnedAboutForEach) {
-        if (!qeport(ParseWarning, JSMSG_DEPRECATED_FOR_EACH))
+        if (!warning(JSMSG_DEPRECATED_FOR_EACH))
             return false;
         cx->compartment()->warnedAboutForEach = true;
     }
