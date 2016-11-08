@@ -107,7 +107,6 @@ if CONFIG['MOZ_WIDGET_TOOLKIT'] == 'gonk':
     DIRS += [
         'speakermanager',
         'tethering',
-        'wifi',
     ]
 
 if CONFIG['MOZ_SECUREELEMENT']:
