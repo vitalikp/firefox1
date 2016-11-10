@@ -359,7 +359,6 @@ public:
   void Enter()
   {
     MOZ_ASSERT(!mMaster->mVideoDecodeSuspended);
-    mMaster->UpdateNextFrameStatus(MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE);
   }
 
   void Exit() override
@@ -570,10 +569,6 @@ public:
     }
 
     mMaster->UpdatePlaybackPositionPeriodically();
-
-    // Ensure currentTime is up to date prior updating mNextFrameStatus so that
-    // the MediaDecoderOwner fire events at correct currentTime.
-    mMaster->UpdateNextFrameStatus();
 
     MOZ_ASSERT(!mMaster->IsPlaying() ||
                mMaster->IsStateMachineScheduled(),
@@ -1027,6 +1022,13 @@ public:
     // We've decoded all samples. We don't need decoders anymore.
     Reader()->ReleaseResources();
 
+    bool hasNextFrame = (!mMaster->HasAudio() || !mMaster->mAudioCompleted)
+      && (!mMaster->HasVideo() || !mMaster->mVideoCompleted);
+
+    mMaster->UpdateNextFrameStatus(hasNextFrame
+      ? MediaDecoderOwner::NEXT_FRAME_AVAILABLE
+      : MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE);
+
     Step();
   }
 
@@ -1066,7 +1068,7 @@ public:
       mMaster->UpdatePlaybackPosition(clockTime);
 
       // Ensure readyState is updated before firing the 'ended' event.
-      mMaster->UpdateNextFrameStatus();
+      mMaster->UpdateNextFrameStatus(MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE);
 
       mMaster->mOnPlaybackEvent.Notify(MediaEventType::PlaybackEnded);
 
@@ -1349,8 +1351,6 @@ DecodingFirstFrameState::Enter(SeekJob aPendingSeek)
 
   // Dispatch tasks to decode first frames.
   mMaster->DispatchDecodeTasksIfNeeded();
-
-  mMaster->UpdateNextFrameStatus(MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE);
 }
 
 RefPtr<MediaDecoder::SeekPromise>
@@ -1413,6 +1413,8 @@ DecodingState::Enter()
     SetState<CompletedState>();
     return;
   }
+
+  mMaster->UpdateNextFrameStatus(MediaDecoderOwner::NEXT_FRAME_AVAILABLE);
 
   mDecodeStartTime = TimeStamp::Now();
 
@@ -1547,10 +1549,6 @@ SeekingState::SeekCompleted()
   if (video) {
     mMaster->mMediaSink->Redraw(Info().mVideo);
     mMaster->mOnPlaybackEvent.Notify(MediaEventType::Invalidate);
-  }
-
-  if (mVisibility == EventVisibility::Observable) {
-    mMaster->UpdateNextFrameStatus();
   }
 
   SetState<DecodingState>();
@@ -1730,7 +1728,7 @@ MediaDecoderStateMachine::MediaDecoderStateMachine(MediaDecoder* aDecoder,
   INIT_MIRROR(mIsVisible, true),
   INIT_CANONICAL(mDuration, NullableTimeUnit()),
   INIT_CANONICAL(mIsShutdown, false),
-  INIT_CANONICAL(mNextFrameStatus, MediaDecoderOwner::NEXT_FRAME_UNINITIALIZED),
+  INIT_CANONICAL(mNextFrameStatus, MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE),
   INIT_CANONICAL(mCurrentPosition, 0),
   INIT_CANONICAL(mPlaybackOffset, 0),
   INIT_CANONICAL(mIsAudioDataAudible, false)
