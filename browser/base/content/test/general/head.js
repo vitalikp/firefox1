@@ -242,7 +242,7 @@ function promiseWindowClosed(win) {
   return promise;
 }
 
-function promiseOpenAndLoadWindow(aOptions, aWaitForDelayedStartup=false) {
+function promiseOpenAndLoadWindow(aOptions, aWaitForDelayedStartup = false) {
   let deferred = Promise.defer();
   let win = OpenBrowserWindow(aOptions);
   if (aWaitForDelayedStartup) {
@@ -383,7 +383,7 @@ function promiseHistoryClearedState(aURIs, aShouldBeCleared) {
  *        progress listener callback.
  * @return promise
  */
-function waitForDocLoadAndStopIt(aExpectedURL, aBrowser=gBrowser.selectedBrowser, aStopFromProgressListener=true) {
+function waitForDocLoadAndStopIt(aExpectedURL, aBrowser = gBrowser.selectedBrowser, aStopFromProgressListener = true) {
   function content_script(contentStopFromProgressListener) {
     let { interfaces: Ci, utils: Cu } = Components;
     Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
@@ -451,7 +451,7 @@ function waitForDocLoadAndStopIt(aExpectedURL, aBrowser=gBrowser.selectedBrowser
  *
  * @return promise
  */
-function waitForDocLoadComplete(aBrowser=gBrowser) {
+function waitForDocLoadComplete(aBrowser = gBrowser) {
   return new Promise(resolve => {
     let listener = {
       onStateChange: function (webProgress, req, flags, status) {

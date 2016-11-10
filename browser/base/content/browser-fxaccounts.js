@@ -350,7 +350,7 @@ var gFxAccounts = {
     openPreferences("paneSync", { urlParams: { entrypoint: "menupanel" } });
   },
 
-  openAccountsPage: function (action, urlParams={}) {
+  openAccountsPage: function (action, urlParams = {}) {
     let params = new URLSearchParams();
     if (action) {
       params.set("action", action);

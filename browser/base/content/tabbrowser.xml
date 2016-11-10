@@ -2283,7 +2283,7 @@
               try {
                 b.loadURIWithFlags(aURI, {
                   flags,
-                  referrerURI: aNoReferrer ? null: aReferrerURI,
+                  referrerURI: aNoReferrer ? null : aReferrerURI,
                   referrerPolicy: aReferrerPolicy,
                   charset: aCharset,
                   postData: aPostData,
@@ -3273,7 +3273,7 @@
 
           let wasFocused = (document.activeElement == this.mCurrentTab);
 
-          aIndex = aIndex < aTab._tPos ? aIndex: aIndex+1;
+          aIndex = aIndex < aTab._tPos ? aIndex : aIndex + 1;
 
           // invalidate cache
           this._visibleTabs = null;
@@ -5597,7 +5597,7 @@
           if (!tabs.length)
             return;
 
-          var isEndTab = (aTab._tPos > tabs[tabs.length-1]._tPos);
+          var isEndTab = (aTab._tPos > tabs[tabs.length - 1]._tPos);
           var tabWidth = aTab.getBoundingClientRect().width;
 
           if (!this._tabDefaultMaxWidth)
@@ -6437,7 +6437,7 @@
         else {
           let newIndex = this._getDropIndex(event, effects == "link");
           if (newIndex == this.childNodes.length) {
-            let tabRect = this.childNodes[newIndex-1].getBoundingClientRect();
+            let tabRect = this.childNodes[newIndex - 1].getBoundingClientRect();
             if (ltr)
               newMargin = tabRect.right - rect.left;
             else
