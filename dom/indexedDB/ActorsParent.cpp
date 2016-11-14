@@ -12346,7 +12346,7 @@ ConnectionPool::Start(const nsID& aBackgroundChildLoggingId,
     mDatabases.Put(aDatabaseId, dbInfo);
   }
 
-  TransactionInfo* transactionInfo =
+  auto* transactionInfo =
     new TransactionInfo(dbInfo,
                         aBackgroundChildLoggingId,
                         aDatabaseId,

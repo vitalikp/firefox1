@@ -2666,7 +2666,7 @@ CreateStreamHelper::RunInternal(RemoteBlobImpl* aBaseRemoteBlobImpl,
       stream = new RemoteInputStream(mRemoteBlobImpl, mStart, mLength);
     }
 
-    InputStreamChild* streamActor = new InputStreamChild(stream);
+    auto* streamActor = new InputStreamChild(stream);
     if (actor->SendPBlobStreamConstructor(streamActor, mStart, mLength)) {
       stream.swap(mInputStream);
     }
@@ -3510,7 +3510,7 @@ BlobChild::GetOrCreateFromImpl(ChildManagerType* aManager,
     }
   }
 
-  BlobChild* actor = new BlobChild(aManager, aBlobImpl);
+  auto* actor = new BlobChild(aManager, aBlobImpl);
 
   ParentBlobConstructorParams params(blobParams);
 
@@ -3571,7 +3571,7 @@ BlobChild::SendSliceConstructor(ChildManagerType* aManager,
 
   const nsID& id = aParams.blobParams().get_SlicedBlobConstructorParams().id();
 
-  BlobChild* newActor = new BlobChild(aManager, id, aRemoteBlobSliceImpl);
+  auto* newActor = new BlobChild(aManager, id, aRemoteBlobSliceImpl);
 
   if (aManager->SendPBlobConstructor(newActor, aParams)) {
     if (gProcessType != GeckoProcessType_Default || !NS_IsMainThread()) {
@@ -4071,7 +4071,7 @@ BlobParent::GetOrCreateFromImpl(ParentManagerType* aManager,
     IDTableEntry::GetOrCreate(id, ActorManagerProcessID(aManager), aBlobImpl);
   MOZ_ASSERT(idTableEntry);
 
-  BlobParent* actor = new BlobParent(aManager, idTableEntry);
+  auto* actor = new BlobParent(aManager, idTableEntry);
 
   ChildBlobConstructorParams params(id, blobParams);
   if (NS_WARN_IF(!aManager->SendPBlobConstructor(actor, params))) {
