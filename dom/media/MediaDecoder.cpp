@@ -1164,15 +1164,10 @@ MediaDecoder::OnSeekResolved(SeekResolveValue aVal)
   MOZ_ASSERT(!IsShutdown());
   mSeekRequest.Complete();
 
-  bool fireEnded = false;
   {
     // An additional seek was requested while the current seek was
     // in operation.
     UnpinForSeek();
-    fireEnded = aVal.mAtEnd;
-    if (aVal.mAtEnd) {
-      ChangeState(PLAY_STATE_ENDED);
-    }
     mLogicallySeeking = false;
   }
 
@@ -1181,9 +1176,6 @@ MediaDecoder::OnSeekResolved(SeekResolveValue aVal)
 
   mOwner->SeekCompleted();
   AsyncResolveSeekDOMPromiseIfExists();
-  if (fireEnded) {
-    mOwner->PlaybackEnded();
-  }
 }
 
 void
