@@ -4165,7 +4165,9 @@ class CastableObjectUnwrapper():
                 // that already has a content reflection...
                 if (!IsDOMObject(js::UncheckedUnwrap(&${source}.toObject()))) {
                   nsCOMPtr<nsIGlobalObject> contentGlobal;
-                  if (!GetContentGlobalForJSImplementedObject(cx, Callback(), getter_AddRefs(contentGlobal))) {
+                  JS::Handle<JSObject*> callback = CallbackOrNull();
+                  if (!callback ||
+                      !GetContentGlobalForJSImplementedObject(cx, callback, getter_AddRefs(contentGlobal))) {
                     $*{exceptionCode}
                   }
                   JS::Rooted<JSObject*> jsImplSourceObj(cx, &${source}.toObject());
@@ -15063,11 +15065,11 @@ class CGJSImplClass(CGBindingImplClass):
             }
 
             // Now define it on our chrome object
-            JSAutoCompartment ac(aCx, mImpl->Callback());
+            JSAutoCompartment ac(aCx, mImpl->CallbackOrNull());
             if (!JS_WrapObject(aCx, &obj)) {
               return nullptr;
             }
-            if (!JS_DefineProperty(aCx, mImpl->Callback(), "__DOM_IMPL__", obj, 0)) {
+            if (!JS_DefineProperty(aCx, mImpl->CallbackOrNull(), "__DOM_IMPL__", obj, 0)) {
               return nullptr;
             }
             return obj;
