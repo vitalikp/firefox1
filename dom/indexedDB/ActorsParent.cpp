@@ -5473,8 +5473,7 @@ protected:
   explicit
   ConnectionRunnable(DatabaseInfo* aDatabaseInfo);
 
-  virtual
-  ~ConnectionRunnable() = default;
+  ~ConnectionRunnable() override = default;
 };
 
 class ConnectionPool::IdleConnectionRunnable final
@@ -5491,7 +5490,7 @@ public:
   NS_DECL_ISUPPORTS_INHERITED
 
 private:
-  ~IdleConnectionRunnable() = default;
+  ~IdleConnectionRunnable() override = default;
 
   NS_DECL_NSIRUNNABLE
 };
@@ -5508,7 +5507,7 @@ public:
   NS_DECL_ISUPPORTS_INHERITED
 
 private:
-  ~CloseConnectionRunnable() = default;
+  ~CloseConnectionRunnable() override = default;
 
   NS_DECL_NSIRUNNABLE
 };
@@ -5624,7 +5623,7 @@ public:
   NS_DECL_ISUPPORTS_INHERITED
 
 private:
-  ~FinishCallbackWrapper();
+  ~FinishCallbackWrapper() override;
 
   NS_DECL_NSIRUNNABLE
 };
@@ -5725,7 +5724,7 @@ public:
   }
 
 private:
-  ~ThreadRunnable();
+  ~ThreadRunnable() override;
 
   NS_DECL_NSIRUNNABLE
 };
@@ -5898,8 +5897,7 @@ protected:
     AssertIsOnOwningThread();
   }
 
-  virtual
-  ~DatabaseOperationBase()
+  ~DatabaseOperationBase() override
   {
     MOZ_ASSERT(mActorDestroyed);
   }
@@ -6104,8 +6102,7 @@ protected:
   TransactionDatabaseOperationBase(TransactionBase* aTransaction,
                                    uint64_t aLoggingSerialNumber);
 
-  virtual
-  ~TransactionDatabaseOperationBase();
+  ~TransactionDatabaseOperationBase() override;
 
   virtual void
   RunOnConnectionThread();
@@ -6191,40 +6188,40 @@ private:
   Factory(already_AddRefed<DatabaseLoggingInfo> aLoggingInfo);
 
   // Reference counted.
-  ~Factory();
+  ~Factory() override;
 
   // IPDL methods are only called by IPDL.
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 
-  virtual bool
+  bool
   RecvDeleteMe() override;
 
-  virtual bool
+  bool
   RecvIncrementLoggingRequestSerialNumber() override;
 
-  virtual PBackgroundIDBFactoryRequestParent*
+  PBackgroundIDBFactoryRequestParent*
   AllocPBackgroundIDBFactoryRequestParent(const FactoryRequestParams& aParams)
                                           override;
 
-  virtual bool
+  bool
   RecvPBackgroundIDBFactoryRequestConstructor(
                                      PBackgroundIDBFactoryRequestParent* aActor,
                                      const FactoryRequestParams& aParams)
                                      override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBFactoryRequestParent(
                                      PBackgroundIDBFactoryRequestParent* aActor)
                                      override;
 
-  virtual PBackgroundIDBDatabaseParent*
+  PBackgroundIDBDatabaseParent*
   AllocPBackgroundIDBDatabaseParent(
                                    const DatabaseSpec& aSpec,
                                    PBackgroundIDBFactoryRequestParent* aRequest)
                                    override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBDatabaseParent(PBackgroundIDBDatabaseParent* aActor)
                                       override;
 };
@@ -6261,7 +6258,7 @@ public:
   NS_DECL_ISUPPORTS_INHERITED
 
 private:
-  ~WaitForTransactionsHelper()
+  ~WaitForTransactionsHelper() override
   {
     MOZ_ASSERT(!mCallback);
     MOZ_ASSERT(mState == State::Complete);
@@ -6508,7 +6505,7 @@ public:
 
 private:
   // Reference counted.
-  ~Database()
+  ~Database() override
   {
     MOZ_ASSERT(mClosed);
     MOZ_ASSERT_IF(mActorWasAlive, mActorDestroyed);
@@ -6530,52 +6527,52 @@ private:
   VerifyRequestParams(const DatabaseRequestParams& aParams) const;
 
   // IPDL methods are only called by IPDL.
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 
-  virtual PBackgroundIDBDatabaseFileParent*
+  PBackgroundIDBDatabaseFileParent*
   AllocPBackgroundIDBDatabaseFileParent(PBlobParent* aBlobParent)
                                         override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBDatabaseFileParent(
                                        PBackgroundIDBDatabaseFileParent* aActor)
                                        override;
 
-  virtual PBackgroundIDBDatabaseRequestParent*
+  PBackgroundIDBDatabaseRequestParent*
   AllocPBackgroundIDBDatabaseRequestParent(const DatabaseRequestParams& aParams)
                                            override;
 
-  virtual bool
+  bool
   RecvPBackgroundIDBDatabaseRequestConstructor(
                                     PBackgroundIDBDatabaseRequestParent* aActor,
                                     const DatabaseRequestParams& aParams)
                                     override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBDatabaseRequestParent(
                                     PBackgroundIDBDatabaseRequestParent* aActor)
                                     override;
 
-  virtual PBackgroundIDBTransactionParent*
+  PBackgroundIDBTransactionParent*
   AllocPBackgroundIDBTransactionParent(
                                     const nsTArray<nsString>& aObjectStoreNames,
                                     const Mode& aMode)
                                     override;
 
-  virtual bool
+  bool
   RecvPBackgroundIDBTransactionConstructor(
                                     PBackgroundIDBTransactionParent* aActor,
                                     InfallibleTArray<nsString>&& aObjectStoreNames,
                                     const Mode& aMode)
                                     override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBTransactionParent(
                                         PBackgroundIDBTransactionParent* aActor)
                                         override;
 
-  virtual PBackgroundIDBVersionChangeTransactionParent*
+  PBackgroundIDBVersionChangeTransactionParent*
   AllocPBackgroundIDBVersionChangeTransactionParent(
                                               const uint64_t& aCurrentVersion,
                                               const uint64_t& aRequestedVersion,
@@ -6583,26 +6580,26 @@ private:
                                               const int64_t& aNextIndexId)
                                               override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBVersionChangeTransactionParent(
                            PBackgroundIDBVersionChangeTransactionParent* aActor)
                            override;
 
-  virtual PBackgroundMutableFileParent*
+  PBackgroundMutableFileParent*
   AllocPBackgroundMutableFileParent(const nsString& aName,
                                     const nsString& aType) override;
 
-  virtual bool
+  bool
   DeallocPBackgroundMutableFileParent(PBackgroundMutableFileParent* aActor)
                                       override;
 
-  virtual bool
+  bool
   RecvDeleteMe() override;
 
-  virtual bool
+  bool
   RecvBlocked() override;
 
-  virtual bool
+  bool
   RecvClose() override;
 };
 
@@ -6618,21 +6615,21 @@ private:
                                        /* aLoggingSerialNumber */ 0)
   { }
 
-  ~StartTransactionOp() = default;
+  ~StartTransactionOp() override = default;
 
-  virtual void
+  void
   RunOnConnectionThread() override;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual nsresult
+  nsresult
   SendSuccessResult() override;
 
-  virtual bool
+  bool
   SendFailureResult(nsresult aResultCode) override;
 
-  virtual void
+  void
   Cleanup() override;
 };
 
@@ -6765,9 +6762,9 @@ private:
     MOZ_ASSERT(aFileInfo);
   }
 
-  ~DatabaseFile() = default;
+  ~DatabaseFile() override = default;
 
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override
   {
     AssertIsOnBackgroundThread();
@@ -7126,7 +7123,7 @@ class TransactionBase::CommitOp final
 private:
   CommitOp(TransactionBase* aTransaction, nsresult aResultCode);
 
-  ~CommitOp() = default;
+  ~CommitOp() override = default;
 
   // Writes new autoIncrement counts to database.
   nsresult
@@ -7146,10 +7143,10 @@ private:
 
   NS_DECL_NSIRUNNABLE
 
-  virtual void
+  void
   TransactionFinishedBeforeUnblock() override;
 
-  virtual void
+  void
   TransactionFinishedAfterUnblock() override;
 
 public:
@@ -7171,49 +7168,49 @@ private:
                     nsTArray<RefPtr<FullObjectStoreMetadata>>& aObjectStores);
 
   // Reference counted.
-  ~NormalTransaction() = default;
+  ~NormalTransaction() override = default;
 
   bool
   IsSameProcessActor();
 
   // Only called by TransactionBase.
-  virtual void
+  void
   SendCompleteNotification(nsresult aResult) override;
 
   // IPDL methods are only called by IPDL.
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 
-  virtual bool
+  bool
   RecvDeleteMe() override;
 
-  virtual bool
+  bool
   RecvCommit() override;
 
-  virtual bool
+  bool
   RecvAbort(const nsresult& aResultCode) override;
 
-  virtual PBackgroundIDBRequestParent*
+  PBackgroundIDBRequestParent*
   AllocPBackgroundIDBRequestParent(const RequestParams& aParams) override;
 
-  virtual bool
+  bool
   RecvPBackgroundIDBRequestConstructor(PBackgroundIDBRequestParent* aActor,
                                        const RequestParams& aParams)
                                        override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBRequestParent(PBackgroundIDBRequestParent* aActor)
                                      override;
 
-  virtual PBackgroundIDBCursorParent*
+  PBackgroundIDBCursorParent*
   AllocPBackgroundIDBCursorParent(const OpenCursorParams& aParams) override;
 
-  virtual bool
+  bool
   RecvPBackgroundIDBCursorConstructor(PBackgroundIDBCursorParent* aActor,
                                       const OpenCursorParams& aParams)
                                       override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBCursorParent(PBackgroundIDBCursorParent* aActor)
                                     override;
 };
@@ -7234,7 +7231,7 @@ private:
   explicit VersionChangeTransaction(OpenDatabaseOp* aOpenDatabaseOp);
 
   // Reference counted.
-  ~VersionChangeTransaction();
+  ~VersionChangeTransaction() override;
 
   bool
   IsSameProcessActor();
@@ -7247,70 +7244,70 @@ private:
   SetActorAlive();
 
   // Only called by TransactionBase.
-  virtual void
+  void
   UpdateMetadata(nsresult aResult) override;
 
   // Only called by TransactionBase.
-  virtual void
+  void
   SendCompleteNotification(nsresult aResult) override;
 
   // IPDL methods are only called by IPDL.
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 
-  virtual bool
+  bool
   RecvDeleteMe() override;
 
-  virtual bool
+  bool
   RecvCommit() override;
 
-  virtual bool
+  bool
   RecvAbort(const nsresult& aResultCode) override;
 
-  virtual bool
+  bool
   RecvCreateObjectStore(const ObjectStoreMetadata& aMetadata) override;
 
-  virtual bool
+  bool
   RecvDeleteObjectStore(const int64_t& aObjectStoreId) override;
 
-  virtual bool
+  bool
   RecvRenameObjectStore(const int64_t& aObjectStoreId,
                         const nsString& aName) override;
 
-  virtual bool
+  bool
   RecvCreateIndex(const int64_t& aObjectStoreId,
                   const IndexMetadata& aMetadata) override;
 
-  virtual bool
+  bool
   RecvDeleteIndex(const int64_t& aObjectStoreId,
                   const int64_t& aIndexId) override;
 
-  virtual bool
+  bool
   RecvRenameIndex(const int64_t& aObjectStoreId,
                   const int64_t& aIndexId,
                   const nsString& aName) override;
 
-  virtual PBackgroundIDBRequestParent*
+  PBackgroundIDBRequestParent*
   AllocPBackgroundIDBRequestParent(const RequestParams& aParams) override;
 
-  virtual bool
+  bool
   RecvPBackgroundIDBRequestConstructor(PBackgroundIDBRequestParent* aActor,
                                        const RequestParams& aParams)
                                        override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBRequestParent(PBackgroundIDBRequestParent* aActor)
                                      override;
 
-  virtual PBackgroundIDBCursorParent*
+  PBackgroundIDBCursorParent*
   AllocPBackgroundIDBCursorParent(const OpenCursorParams& aParams) override;
 
-  virtual bool
+  bool
   RecvPBackgroundIDBCursorConstructor(PBackgroundIDBCursorParent* aActor,
                                       const OpenCursorParams& aParams)
                                       override;
 
-  virtual bool
+  bool
   DeallocPBackgroundIDBCursorParent(PBackgroundIDBCursorParent* aActor)
                                     override;
 };
@@ -7345,19 +7342,19 @@ public:
     return mFileInfo;
   }
 
-  virtual void
+  void
   NoteActiveState() override;
 
-  virtual void
+  void
   NoteInactiveState() override;
 
-  virtual PBackgroundParent*
+  PBackgroundParent*
   GetBackgroundParent() const override;
 
-  virtual already_AddRefed<nsISupports>
+  already_AddRefed<nsISupports>
   CreateStream(bool aReadOnly) override;
 
-  virtual already_AddRefed<BlobImpl>
+  already_AddRefed<BlobImpl>
   CreateBlobImpl() override;
 
 private:
@@ -7365,16 +7362,16 @@ private:
               Database* aDatabase,
               FileInfo* aFileInfo);
 
-  ~MutableFile();
+  ~MutableFile() override;
 
-  virtual PBackgroundFileHandleParent*
+  PBackgroundFileHandleParent*
   AllocPBackgroundFileHandleParent(const FileMode& aMode) override;
 
-  virtual bool
+  bool
   RecvPBackgroundFileHandleConstructor(PBackgroundFileHandleParent* aActor,
                                        const FileMode& aMode) override;
 
-  virtual bool
+  bool
   RecvGetFileId(int64_t* aFileId) override;
 };
 
@@ -7514,8 +7511,7 @@ protected:
             const CommonFactoryRequestParams& aCommonParams,
             bool aDeleting);
 
-  virtual
-  ~FactoryOp()
+  ~FactoryOp() override
   {
     // Normally this would be out-of-line since it is a virtual function but
     // MSVC 2010 fails to link for some reason if it is not inlined here...
@@ -7574,17 +7570,17 @@ protected:
   Run() final;
 
   // OpenDirectoryListener overrides.
-  virtual void
+  void
   DirectoryLockAcquired(DirectoryLock* aLock) override;
 
-  virtual void
+  void
   DirectoryLockFailed() override;
 
   // IPDL methods.
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 
-  virtual bool
+  bool
   RecvPermissionRetry() override;
 
   virtual void
@@ -7688,7 +7684,7 @@ public:
   }
 
 private:
-  ~OpenDatabaseOp()
+  ~OpenDatabaseOp() override
   {
     MOZ_ASSERT(!mVersionChangeOp);
   }
@@ -7719,28 +7715,28 @@ private:
   void
   ConnectionClosedCallback();
 
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 
-  virtual nsresult
+  nsresult
   DatabaseOpen() override;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork() override;
 
-  virtual nsresult
+  nsresult
   BeginVersionChange() override;
 
-  virtual void
+  void
   NoteDatabaseClosed(Database* aDatabase) override;
 
-  virtual void
+  void
   SendBlockedNotification() override;
 
-  virtual nsresult
+  nsresult
   DispatchToWorkThread() override;
 
-  virtual void
+  void
   SendResults() override;
 
 #ifdef ENABLE_INTL_API
@@ -7774,21 +7770,21 @@ private:
     MOZ_ASSERT(mRequestedVersion);
   }
 
-  ~VersionChangeOp()
+  ~VersionChangeOp() override
   {
     MOZ_ASSERT(!mOpenDatabaseOp);
   }
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual nsresult
+  nsresult
   SendSuccessResult() override;
 
-  virtual bool
+  bool
   SendFailureResult(nsresult aResultCode) override;
 
-  virtual void
+  void
   Cleanup() override;
 };
 
@@ -7810,30 +7806,30 @@ public:
   { }
 
 private:
-  ~DeleteDatabaseOp() = default;
+  ~DeleteDatabaseOp() override = default;
 
   void
   LoadPreviousVersion(nsIFile* aDatabaseFile);
 
-  virtual nsresult
+  nsresult
   DatabaseOpen() override;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork() override;
 
-  virtual nsresult
+  nsresult
   BeginVersionChange() override;
 
-  virtual void
+  void
   NoteDatabaseClosed(Database* aDatabase) override;
 
-  virtual void
+  void
   SendBlockedNotification() override;
 
-  virtual nsresult
+  nsresult
   DispatchToWorkThread() override;
 
-  virtual void
+  void
   SendResults() override;
 };
 
@@ -7855,7 +7851,7 @@ private:
     MOZ_ASSERT(!aDeleteDatabaseOp->mDatabaseDirectoryPath.IsEmpty());
   }
 
-  ~VersionChangeOp() = default;
+  ~VersionChangeOp() override = default;
 
   nsresult
   RunOnIOThread();
@@ -7910,8 +7906,7 @@ public:
 protected:
   DatabaseOp(Database* aDatabase);
 
-  virtual
-  ~DatabaseOp()
+  ~DatabaseOp() override
   {
     MOZ_ASSERT_IF(OperationMayProceed(),
                   mState == State::Initial || mState == State::Completed);
@@ -7932,7 +7927,7 @@ protected:
   Run() final;
 
   // IPDL methods.
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 };
 
@@ -7948,15 +7943,15 @@ public:
                const DatabaseRequestParams& aParams);
 
 private:
-  ~CreateFileOp() = default;
+  ~CreateFileOp() override = default;
 
   nsresult
   CreateMutableFile(MutableFile** aMutableFile);
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork() override;
 
-  virtual void
+  void
   SendResults() override;
 };
 
@@ -7964,7 +7959,7 @@ class VersionChangeTransactionOp
   : public TransactionDatabaseOperationBase
 {
 public:
-  virtual void
+  void
   Cleanup() override;
 
 protected:
@@ -7972,14 +7967,13 @@ protected:
     : TransactionDatabaseOperationBase(aTransaction)
   { }
 
-  virtual
-  ~VersionChangeTransactionOp() = default;
+  ~VersionChangeTransactionOp() override = default;
 
 private:
-  virtual nsresult
+  nsresult
   SendSuccessResult() override;
 
-  virtual bool
+  bool
   SendFailureResult(nsresult aResultCode) override;
 };
 
@@ -8000,9 +7994,9 @@ private:
     MOZ_ASSERT(aMetadata.id());
   }
 
-  ~CreateObjectStoreOp() = default;
+  ~CreateObjectStoreOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 };
 
@@ -8026,9 +8020,9 @@ private:
     MOZ_ASSERT(aMetadata->mCommonMetadata.id());
   }
 
-  ~DeleteObjectStoreOp() = default;
+  ~DeleteObjectStoreOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 };
 
@@ -8051,9 +8045,9 @@ private:
     MOZ_ASSERT(mId);
   }
 
-  ~RenameObjectStoreOp() = default;
+  ~RenameObjectStoreOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 };
 
@@ -8082,7 +8076,7 @@ private:
                 const int64_t aObjectStoreId,
                 const IndexMetadata& aMetadata);
 
-  ~CreateIndexOp() = default;
+  ~CreateIndexOp() override = default;
 
   nsresult
   InsertDataFromObjectStore(DatabaseConnection* aConnection);
@@ -8090,10 +8084,10 @@ private:
   nsresult
   InsertDataFromObjectStoreInternal(DatabaseConnection* aConnection);
 
-  virtual bool
+  bool
   Init(TransactionBase* aTransaction) override;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 };
 
@@ -8213,14 +8207,14 @@ private:
                 const bool aUnique,
                 const bool aIsLastIndex);
 
-  ~DeleteIndexOp() = default;
+  ~DeleteIndexOp() override = default;
 
   nsresult
   RemoveReferencesToIndex(DatabaseConnection* aConnection,
                           const Key& aObjectDataKey,
                           nsTArray<IndexDataValue>& aIndexValues);
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 };
 
@@ -8246,9 +8240,9 @@ private:
     MOZ_ASSERT(mIndexId);
   }
 
-  ~RenameIndexOp() = default;
+  ~RenameIndexOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 };
 
@@ -8261,7 +8255,7 @@ class NormalTransactionOp
 #endif
 
 public:
-  virtual void
+  void
   Cleanup() override;
 
 protected:
@@ -8272,8 +8266,7 @@ protected:
 #endif
   { }
 
-  virtual
-  ~NormalTransactionOp() = default;
+  ~NormalTransactionOp() override = default;
 
   // An overload of DatabaseOperationBase's function that can avoid doing extra
   // work on non-versionchange transactions.
@@ -8293,20 +8286,20 @@ protected:
   GetResponse(RequestResponse& aResponse) = 0;
 
 private:
-  virtual nsresult
+  nsresult
   SendPreprocessInfo() override;
 
-  virtual nsresult
+  nsresult
   SendSuccessResult() override;
 
-  virtual bool
+  bool
   SendFailureResult(nsresult aResultCode) override;
 
   // IPDL methods.
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 
-  virtual bool
+  bool
   RecvContinue(const PreprocessResponse& aResponse) override;
 };
 
@@ -8342,21 +8335,21 @@ private:
   ObjectStoreAddOrPutRequestOp(TransactionBase* aTransaction,
                                const RequestParams& aParams);
 
-  ~ObjectStoreAddOrPutRequestOp() = default;
+  ~ObjectStoreAddOrPutRequestOp() override = default;
 
   nsresult
   RemoveOldIndexDataValues(DatabaseConnection* aConnection);
 
-  virtual bool
+  bool
   Init(TransactionBase* aTransaction) override;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual void
+  void
   GetResponse(RequestResponse& aResponse) override;
 
-  virtual void
+  void
   Cleanup() override;
 };
 
@@ -8460,22 +8453,22 @@ private:
                           const RequestParams& aParams,
                           bool aGetAll);
 
-  ~ObjectStoreGetRequestOp() = default;
+  ~ObjectStoreGetRequestOp() override = default;
 
   template <bool aForPreprocess, typename T>
   nsresult
   ConvertResponse(StructuredCloneReadInfo& aInfo, T& aResult);
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual bool
+  bool
   HasPreprocessInfo() override;
 
-  virtual nsresult
+  nsresult
   GetPreprocessParams(PreprocessParams& aParams) override;
 
-  virtual void
+  void
   GetResponse(RequestResponse& aResponse) override;
 };
 
@@ -8496,12 +8489,12 @@ private:
                              const RequestParams& aParams,
                              bool aGetAll);
 
-  ~ObjectStoreGetKeyRequestOp() = default;
+  ~ObjectStoreGetKeyRequestOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual void
+  void
   GetResponse(RequestResponse& aResponse) override;
 };
 
@@ -8518,12 +8511,12 @@ private:
   ObjectStoreDeleteRequestOp(TransactionBase* aTransaction,
                              const ObjectStoreDeleteParams& aParams);
 
-  ~ObjectStoreDeleteRequestOp() = default;
+  ~ObjectStoreDeleteRequestOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual void
+  void
   GetResponse(RequestResponse& aResponse) override
   {
     aResponse = Move(mResponse);
@@ -8543,12 +8536,12 @@ private:
   ObjectStoreClearRequestOp(TransactionBase* aTransaction,
                             const ObjectStoreClearParams& aParams);
 
-  ~ObjectStoreClearRequestOp() = default;
+  ~ObjectStoreClearRequestOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual void
+  void
   GetResponse(RequestResponse& aResponse) override
   {
     aResponse = Move(mResponse);
@@ -8570,12 +8563,12 @@ private:
     , mParams(aParams)
   { }
 
-  ~ObjectStoreCountRequestOp() = default;
+  ~ObjectStoreCountRequestOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual void
+  void
   GetResponse(RequestResponse& aResponse) override
   {
     aResponse = Move(mResponse);
@@ -8595,8 +8588,8 @@ protected:
     , mMetadata(IndexMetadataForParams(aTransaction, aParams))
   { }
 
-  virtual
-  ~IndexRequestOpBase() = default;
+  
+  ~IndexRequestOpBase() override = default;
 
 private:
   static already_AddRefed<FullIndexMetadata>
@@ -8622,12 +8615,12 @@ private:
                     const RequestParams& aParams,
                     bool aGetAll);
 
-  ~IndexGetRequestOp() = default;
+  ~IndexGetRequestOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual void
+  void
   GetResponse(RequestResponse& aResponse) override;
 };
 
@@ -8647,12 +8640,12 @@ private:
                        const RequestParams& aParams,
                        bool aGetAll);
 
-  ~IndexGetKeyRequestOp() = default;
+  ~IndexGetKeyRequestOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual void
+  void
   GetResponse(RequestResponse& aResponse) override;
 };
 
@@ -8672,12 +8665,12 @@ private:
     , mParams(aParams.get_IndexCountParams())
   { }
 
-  ~IndexCountRequestOp() = default;
+  ~IndexCountRequestOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual void
+  void
   GetResponse(RequestResponse& aResponse) override
   {
     aResponse = Move(mResponse);
@@ -8742,7 +8735,7 @@ private:
          Direction aDirection);
 
   // Reference counted.
-  ~Cursor()
+  ~Cursor() override
   {
     MOZ_ASSERT(mActorDestroyed);
   }
@@ -8764,13 +8757,13 @@ private:
   SendResponse(const CursorResponse& aResponse) = delete;
 
   // IPDL methods.
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 
-  virtual bool
+  bool
   RecvDeleteMe() override;
 
-  virtual bool
+  bool
   RecvContinue(const CursorRequestParams& aParams) override;
 
   bool
@@ -8804,13 +8797,13 @@ protected:
     MOZ_ASSERT(aCursor);
   }
 
-  virtual
-  ~CursorOpBase() = default;
+  
+  ~CursorOpBase() override = default;
 
-  virtual bool
+  bool
   SendFailureResult(nsresult aResultCode) override;
 
-  virtual void
+  void
   Cleanup() override;
 
   nsresult
@@ -8834,7 +8827,7 @@ private:
   { }
 
   // Reference counted.
-  ~OpenOp() = default;
+  ~OpenOp() override = default;
 
   void
   GetRangeKeyInfo(bool aLowerBound, Key* aKey, bool* aOpen);
@@ -8851,10 +8844,10 @@ private:
   nsresult
   DoIndexKeyDatabaseWork(DatabaseConnection* aConnection);
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual nsresult
+  nsresult
   SendSuccessResult() override;
 };
 
@@ -8876,12 +8869,12 @@ private:
   }
 
   // Reference counted.
-  ~ContinueOp() = default;
+  ~ContinueOp() override = default;
 
-  virtual nsresult
+  nsresult
   DoDatabaseWork(DatabaseConnection* aConnection) override;
 
-  virtual nsresult
+  nsresult
   SendSuccessResult() override;
 };
 
@@ -8899,16 +8892,16 @@ public:
 
 private:
   // Reference counted.
-  ~Utils();
+  ~Utils() override;
 
   // IPDL methods are only called by IPDL.
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 
-  virtual bool
+  bool
   RecvDeleteMe() override;
 
-  virtual bool
+  bool
   RecvGetFileReferences(const PersistenceType& aPersistenceType,
                         const nsCString& aOrigin,
                         const nsString& aDatabaseName,
@@ -8960,7 +8953,7 @@ public:
                                   bool* aResult);
 
 private:
-  ~GetFileReferencesHelper() = default;
+  ~GetFileReferencesHelper() override = default;
 
   NS_DECL_NSIRUNNABLE
 };
@@ -8969,7 +8962,7 @@ class FlushPendingFileDeletionsRunnable final
   : public Runnable
 {
 private:
-  ~FlushPendingFileDeletionsRunnable() = default;
+  ~FlushPendingFileDeletionsRunnable() override = default;
 
   NS_DECL_NSIRUNNABLE
 };
@@ -8988,13 +8981,13 @@ public:
   { }
 
 protected:
-  ~PermissionRequestHelper() = default;
+  ~PermissionRequestHelper() override = default;
 
 private:
-  virtual void
+  void
   OnPromptComplete(PermissionValue aPermissionValue) override;
 
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 };
 
@@ -9138,12 +9131,12 @@ public:
   }
 
 private:
-  ~BlobImplStoredFile() = default;
+  ~BlobImplStoredFile() override = default;
 
   NS_DECL_ISUPPORTS_INHERITED
   NS_DECLARE_STATIC_IID_ACCESSOR(BLOB_IMPL_STORED_FILE_IID)
 
-  virtual int64_t
+  int64_t
   GetFileId() override
   {
     MOZ_ASSERT(mFileInfo);
@@ -9234,54 +9227,54 @@ public:
 
   NS_INLINE_DECL_THREADSAFE_REFCOUNTING(QuotaClient, override)
 
-  virtual mozilla::dom::quota::Client::Type
+  mozilla::dom::quota::Client::Type
   GetType() override;
 
-  virtual nsresult
+  nsresult
   InitOrigin(PersistenceType aPersistenceType,
              const nsACString& aGroup,
              const nsACString& aOrigin,
              const AtomicBool& aCanceled,
              UsageInfo* aUsageInfo) override;
 
-  virtual nsresult
+  nsresult
   GetUsageForOrigin(PersistenceType aPersistenceType,
                     const nsACString& aGroup,
                     const nsACString& aOrigin,
                     const AtomicBool& aCanceled,
                     UsageInfo* aUsageInfo) override;
 
-  virtual void
+  void
   OnOriginClearCompleted(PersistenceType aPersistenceType,
                          const nsACString& aOrigin)
                          override;
 
-  virtual void
+  void
   ReleaseIOThreadObjects() override;
 
-  virtual void
+  void
   AbortOperations(const nsACString& aOrigin) override;
 
-  virtual void
+  void
   AbortOperationsForProcess(ContentParentId aContentParentId) override;
 
-  virtual void
+  void
   StartIdleMaintenance() override;
 
-  virtual void
+  void
   StopIdleMaintenance() override;
 
-  virtual void
+  void
   ShutdownWorkThreads() override;
 
-  virtual void
+  void
   DidInitialize(QuotaManager* aQuotaManager) override;
 
-  virtual void
+  void
   WillShutdown() override;
 
 private:
-  ~QuotaClient();
+  ~QuotaClient() override;
 
   nsresult
   GetDirectory(PersistenceType aPersistenceType,
@@ -9424,7 +9417,7 @@ public:
   }
 
 private:
-  ~Maintenance()
+  ~Maintenance() override
   {
     MOZ_ASSERT(mState == State::Complete);
     MOZ_ASSERT(!mDatabaseMaintenances.Count());
@@ -9470,10 +9463,10 @@ private:
   NS_DECL_NSIRUNNABLE
 
   // OpenDirectoryListener overrides.
-  virtual void
+  void
   DirectoryLockAcquired(DirectoryLock* aLock) override;
 
-  virtual void
+  void
   DirectoryLockFailed() override;
 };
 
@@ -9599,7 +9592,7 @@ public:
   }
 
 private:
-  ~DatabaseMaintenance() = default;
+  ~DatabaseMaintenance() override = default;
 
   // Runs on maintenance thread pool. Does maintenance on the database.
   void
@@ -11691,8 +11684,8 @@ UpdateRefcountFunction::Reset()
     nsCOMPtr<nsIFile> mJournalDirectory;
 
   public:
-    virtual nsresult
-    Cleanup(FileManager* aFileManager, int64_t aId)
+    nsresult
+    Cleanup(FileManager* aFileManager, int64_t aId) override
     {
       if (!mDirectory) {
         MOZ_ASSERT(!mJournalDirectory);
