@@ -153,7 +153,6 @@
 #if defined(MOZ_WIDGET_GONK)
 #include "nsVolume.h"
 #include "nsVolumeService.h"
-#include "SpeakerManagerService.h"
 #endif
 
 #ifdef XP_WIN
@@ -1433,21 +1432,6 @@ ContentChild::RecvNotifyLayerAllocated(const dom::TabId& aTabId, const uint64_t&
 
   APZChild* apz = ContentProcessController::Create(aTabId);
   return CompositorBridgeChild::Get()->SendPAPZConstructor(apz, aLayersId);
-}
-
-bool
-ContentChild::RecvSpeakerManagerNotify()
-{
-#ifdef MOZ_WIDGET_GONK
-  // Only notify the process which has the SpeakerManager instance.
-  RefPtr<SpeakerManagerService> service =
-    SpeakerManagerService::GetSpeakerManagerService();
-  if (service) {
-    service->Notify();
-  }
-  return true;
-#endif
-  return false;
 }
 
 bool

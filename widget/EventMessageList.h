@@ -422,9 +422,6 @@ NS_EVENT_MESSAGE(eMediaRecorderDataAvailable)
 NS_EVENT_MESSAGE(eMediaRecorderWarning)
 NS_EVENT_MESSAGE(eMediaRecorderStop)
 
-// SpeakerManager events
-NS_EVENT_MESSAGE(eSpeakerForcedChange)
-
 // input and beforeinput events.
 NS_EVENT_MESSAGE(eEditorInput)
 

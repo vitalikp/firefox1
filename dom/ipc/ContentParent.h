@@ -918,10 +918,6 @@ private:
 
   virtual bool RecvGetLookAndFeelCache(nsTArray<LookAndFeelInt>* aLookAndFeelIntCache) override;
 
-  virtual bool RecvSpeakerManagerGetSpeakerStatus(bool* aValue) override;
-
-  virtual bool RecvSpeakerManagerForceSpeaker(const bool& aEnable) override;
-
   virtual bool RecvCreateFakeVolume(const nsString& aFsName,
                                     const nsString& aMountPoint) override;
 
