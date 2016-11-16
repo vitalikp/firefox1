@@ -361,8 +361,6 @@ public:
 
   virtual bool RecvNotifyLayerAllocated(const dom::TabId& aTabId, const uint64_t& aLayersId) override;
 
-  virtual bool RecvSpeakerManagerNotify() override;
-
   virtual bool RecvBidiKeyboardNotify(const bool& isLangRTL,
                                       const bool& haveBidiKeyboards) override;
 
