@@ -80,13 +80,13 @@ class TestParent final : public mozilla::ipc::PBackgroundTestParent
   }
 
 protected:
-  ~TestParent()
+  ~TestParent() override
   {
     MOZ_COUNT_DTOR(TestParent);
   }
 
 public:
-  virtual void
+  void
   ActorDestroy(ActorDestroyReason aWhy) override;
 };
 
@@ -383,7 +383,7 @@ public:
   }
 
 private:
-  ~InitUDPSocketParentCallback() = default;
+  ~InitUDPSocketParentCallback() override = default;
 
   RefPtr<UDPSocketParent> mActor;
   nsCString mFilter;

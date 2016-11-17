@@ -86,7 +86,7 @@ public:
 #if defined(XP_MACOSX) && defined(MOZ_GMP_SANDBOX)
 class MacSandboxStarter : public mozilla::gmp::SandboxStarter {
 public:
-    virtual bool Start(const char *aLibPath) override {
+    bool Start(const char *aLibPath) override {
       std::string err;
       bool rv = mozilla::StartMacSandbox(mInfo, err);
       if (!rv) {
@@ -94,7 +94,7 @@ public:
       }
       return rv;
     }
-    virtual void SetSandboxInfo(MacSandboxInfo* aSandboxInfo) override {
+    void SetSandboxInfo(MacSandboxInfo* aSandboxInfo) override {
       mInfo = *aSandboxInfo;
     }
 private:
