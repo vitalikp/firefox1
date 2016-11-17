@@ -36,7 +36,6 @@
 #include "mozilla/AppProcessChecker.h"
 #include "nsPrintfCString.h"
 #include "nsHTMLDNSPrefetch.h"
-#include "nsIAppsService.h"
 #include "nsEscape.h"
 #include "SerializedLoadContext.h"
 #include "nsAuthInformationHolder.h"

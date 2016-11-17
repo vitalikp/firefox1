@@ -35,7 +35,6 @@
 #include "mozilla/layout/VsyncParent.h"
 #include "mozilla/dom/network/UDPSocketParent.h"
 #include "mozilla/Preferences.h"
-#include "nsIAppsService.h"
 #include "nsNetUtil.h"
 #include "nsIScriptSecurityManager.h"
 #include "nsProxyRelease.h"
