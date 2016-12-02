@@ -20,8 +20,10 @@
 
 #define LOG(args...) __android_log_print(ANDROID_LOG_INFO, MOZ_APP_NAME, args)
 
+using namespace mozilla;
+
 extern "C" NS_EXPORT void
-GeckoStart(JNIEnv* env, char* data, const nsXREAppData* appData)
+GeckoStart(JNIEnv* env, char* data, const StaticXREAppData& aAppData)
 {
     mozilla::jni::SetGeckoThreadEnv(env);
 
@@ -37,6 +39,9 @@ GeckoStart(JNIEnv* env, char* data, const nsXREAppData* appData)
         arg = strtok(nullptr, " ");
     }
     targs.AppendElement(static_cast<char *>(nullptr));
+
+    XREAppData appData;
+    appData = aAppData;
 
     int result = XRE_main(targs.Length() - 1, targs.Elements(), appData, 0);
 
