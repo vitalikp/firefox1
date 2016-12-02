@@ -64,7 +64,9 @@ types.getType = function (type) {
 
   // If already registered, we're done here.
   let reg = registeredTypes.get(type);
-  if (reg) return reg;
+  if (reg) {
+    return reg;
+  }
 
   // New type, see if it's a collection/lifetime type:
   let sep = type.indexOf(":");
@@ -145,7 +147,9 @@ types.addType = function (name, typeObject = {}, options = {}) {
   }
 
   let type = object.merge({
-    toString() { return "[protocol type:" + name + "]";},
+    toString() {
+      return "[protocol type:" + name + "]";
+    },
     name: name,
     primitive: !(typeObject.read || typeObject.write),
     read: identityWrite,
@@ -169,7 +173,9 @@ types.removeType = function (name) {
   type.name = "DEFUNCT:" + name;
   type.category = "defunct";
   type.primitive = false;
-  type.read = type.write = function () { throw new Error("Using defunct type: " + name); };
+  type.read = type.write = function () {
+    throw new Error("Using defunct type: " + name);
+  };
 
   registeredTypes.delete(name);
 };
@@ -273,7 +279,7 @@ types.addActorType = function (name) {
       let actorID = typeof (v) === "string" ? v : v.actor;
       let front = ctx.conn.getActor(actorID);
       if (!front) {
-        front = new type.frontClass(ctx.conn);
+        front = new type.frontClass(ctx.conn); // eslint-disable-line new-cap
         front.actorID = actorID;
         ctx.marshallPool().manage(front);
       }
@@ -352,7 +358,8 @@ types.addNullableType = function (subtype) {
 types.addActorDetail = function (name, actorType, detail) {
   actorType = types.getType(actorType);
   if (!actorType._actor) {
-    throw Error("Details only apply to actor types, tried to add detail '" + detail + "'' to " + actorType.name + "\n");
+    throw Error(`Details only apply to actor types, tried to add detail '${detail}' ` +
+                `to ${actorType.name}`);
   }
   return types.addType(name, {
     _actor: true,
@@ -401,7 +408,8 @@ types.removeLifetime = function (name) {
 types.addLifetimeType = function (lifetime, subtype) {
   subtype = types.getType(subtype);
   if (!subtype._actor) {
-    throw Error("Lifetimes only apply to actor types, tried to apply lifetime '" + lifetime + "'' to " + subtype.name);
+    throw Error(`Lifetimes only apply to actor types, tried to apply ` +
+                `lifetime '${lifetime}' to ${subtype.name}`);
   }
   let prop = registeredLifetimes.get(lifetime);
   return types.addType(lifetime + ":" + subtype.name, {
@@ -579,7 +587,6 @@ function findPlaceholders(template, constructor, path = [], placeholders = []) {
   return placeholders;
 }
 
-
 function describeTemplate(template) {
   return JSON.parse(JSON.stringify(template, (key, value) => {
     if (value.describe) {
@@ -643,7 +650,9 @@ var Request = Class({
     return fnArgs;
   },
 
-  describe: function () { return describeTemplate(this.template); }
+  describe: function () {
+    return describeTemplate(this.template);
+  }
 });
 
 /**
@@ -700,7 +709,9 @@ var Response = Class({
     return this.retVal.read(v, ctx);
   },
 
-  describe: function () { return describeTemplate(this.template); }
+  describe: function () {
+    return describeTemplate(this.template);
+  }
 });
 
 /**
@@ -733,13 +744,17 @@ var Pool = Class({
   /**
    * Return the parent pool for this client.
    */
-  parent: function () { return this.conn.poolFor(this.actorID); },
+  parent: function () {
+    return this.conn.poolFor(this.actorID);
+  },
 
   /**
    * Override this if you want actors returned by this actor
    * to belong to a different actor by default.
    */
-  marshallPool: function () { return this; },
+  marshallPool: function () {
+    return this;
+  },
 
   /**
    * Pool is the base class for all actors, even leaf nodes.
@@ -748,7 +763,9 @@ var Pool = Class({
    */
   __poolMap: null,
   get _poolMap() {
-    if (this.__poolMap) return this.__poolMap;
+    if (this.__poolMap) {
+      return this.__poolMap;
+    }
     this.__poolMap = new Map();
     this.conn.addActorPool(this);
     return this.__poolMap;
@@ -868,7 +885,9 @@ var Actor = Class({
     }
   },
 
-  toString: function () { return "[Actor " + this.typeName + "/" + this.actorID + "]"; },
+  toString: function () {
+    return "[Actor " + this.typeName + "/" + this.actorID + "]";
+  },
 
   _sendEvent: function (name, ...args) {
     if (!this._actorSpec.events.has(name)) {
@@ -935,8 +954,12 @@ exports.Actor = Actor;
  */
 exports.method = function (fn, spec = {}) {
   fn._methodSpec = Object.freeze(spec);
-  if (spec.request) Object.freeze(spec.request);
-  if (spec.response) Object.freeze(spec.response);
+  if (spec.request) {
+    Object.freeze(spec.request);
+  }
+  if (spec.response) {
+    Object.freeze(spec.response);
+  }
   return fn;
 };
 
@@ -971,7 +994,8 @@ var generateActorSpec = function (actorDesc) {
       let methodSpec = desc.value._methodSpec;
       let spec = {};
       spec.name = methodSpec.name || name;
-      spec.request = Request(object.merge({type: spec.name}, methodSpec.request || undefined));
+      spec.request = Request(object.merge({type: spec.name},
+                                          methodSpec.request || undefined));
       spec.response = Response(methodSpec.response || undefined);
       spec.release = methodSpec.release;
       spec.oneway = methodSpec.oneway;
@@ -987,7 +1011,8 @@ var generateActorSpec = function (actorDesc) {
       let spec = {};
 
       spec.name = methodSpec.name || name;
-      spec.request = Request(object.merge({type: spec.name}, methodSpec.request || undefined));
+      spec.request = Request(object.merge({type: spec.name},
+                                          methodSpec.request || undefined));
       spec.response = Response(methodSpec.response || undefined);
       spec.release = methodSpec.release;
       spec.oneway = methodSpec.oneway;
@@ -1041,7 +1066,7 @@ var generateRequestHandlers = function (actorSpec, actorProto) {
 
         let ret = this[spec.name].apply(this, args);
 
-        let sendReturn = (ret) => {
+        let sendReturn = (retToSend) => {
           if (spec.oneway) {
             // No need to send a response.
             return;
@@ -1049,7 +1074,7 @@ var generateRequestHandlers = function (actorSpec, actorProto) {
 
           let response;
           try {
-            response = spec.response.write(ret, this);
+            response = spec.response.write(retToSend, this);
           } catch (ex) {
             console.error("Error writing response to: " + spec.name);
             throw ex;
@@ -1187,9 +1212,13 @@ var Front = Class({
    * @returns a promise that will resolve to the actorID this front
    * represents.
    */
-  actor: function () { return promise.resolve(this.actorID); },
+  actor: function () {
+    return promise.resolve(this.actorID);
+  },
 
-  toString: function () { return "[Front for " + this.typeName + "/" + this.actorID + "]"; },
+  toString: function () {
+    return "[Front for " + this.typeName + "/" + this.actorID + "]";
+  },
 
   /**
    * Update the actor from its representation.
@@ -1250,7 +1279,9 @@ var Front = Class({
         // Check to see if any of the preEvents returned a promise -- if so,
         // wait for their resolution before emitting. Otherwise, emit synchronously.
         if (results.some(result => result && typeof result.then === "function")) {
-          promise.all(results).then(() => events.emit.apply(null, [this, event.name].concat(args)));
+          promise.all(results).then(() => {
+            return events.emit.apply(null, [this, event.name].concat(args));
+          });
           return;
         }
       }
@@ -1337,7 +1368,8 @@ var generateRequestMethods = function (actorSpec, frontProto) {
     if (name in frontProto) {
       let custom = frontProto[spec.name]._customFront;
       if (custom === undefined) {
-        throw Error("Existing method for " + spec.name + " not marked customFront while processing " + actorType.typeName + ".");
+        throw Error(`Existing method for ${spec.name} not marked customFront while ` +
+                    ` processing ${actorSpec.typeName}.`);
       }
       // If the user doesn't need the impl don't generate it.
       if (!custom.impl) {
@@ -1384,12 +1416,11 @@ var generateRequestMethods = function (actorSpec, frontProto) {
     }
   });
 
-
   // Process event specifications
   frontProto._clientSpec = {};
 
-  let events = actorSpec.events;
-  if (events) {
+  let actorEvents = actorSpec.events;
+  if (actorEvents) {
     // This actor has events, scan the prototype for preEvent handlers...
     let preHandlers = new Map();
     for (let name of Object.getOwnPropertyNames(frontProto)) {
@@ -1399,7 +1430,7 @@ var generateRequestMethods = function (actorSpec, frontProto) {
       }
       if (desc.value._preEvent) {
         let preEvent = desc.value._preEvent;
-        if (!events.has(preEvent)) {
+        if (!actorEvents.has(preEvent)) {
           throw Error("preEvent for event that doesn't exist: " + preEvent);
         }
         let handlers = preHandlers.get(preEvent);
@@ -1413,7 +1444,7 @@ var generateRequestMethods = function (actorSpec, frontProto) {
 
     frontProto._clientSpec.events = new Map();
 
-    for (let [name, request] of events) {
+    for (let [name, request] of actorEvents) {
       frontProto._clientSpec.events.set(request.type, {
         name: name,
         request: request,
@@ -1486,7 +1517,6 @@ exports.dumpActorSpec = function (type) {
       ret.events[name] = request.describe();
     }
   }
-
 
   JSON.stringify(ret);
 
