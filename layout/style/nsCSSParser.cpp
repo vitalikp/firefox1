@@ -15267,7 +15267,9 @@ CSSParserImpl::ParseFontFeatureSettings(nsCSSValue& aValue)
     return true;
   }
 
-  nsCSSValuePairList *cur = aValue.SetPairListValue();
+  auto resultHead = MakeUnique<nsCSSValuePairList>();
+  nsCSSValuePairList* cur = resultHead.get();
+
   for (;;) {
     // feature tag
     if (!GetToken(true)) {
@@ -15309,6 +15311,8 @@ CSSParserImpl::ParseFontFeatureSettings(nsCSSValue& aValue)
     cur->mNext = new nsCSSValuePairList;
     cur = cur->mNext;
   }
+
+  aValue.AdoptPairListValue(Move(resultHead));
 
   return true;
 }
