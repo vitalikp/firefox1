@@ -2407,7 +2407,6 @@ nsCSSValueList_heap::SizeOfIncludingThis(mozilla::MallocSizeOf aMallocSizeOf) co
 
 nsCSSValueSharedList::~nsCSSValueSharedList()
 {
-  MOZ_COUNT_DTOR(nsCSSValueSharedList);
   if (mHead) {
     NS_CSS_DELETE_LIST_MEMBER(nsCSSValueList, mHead, mNext);
     delete mHead;
@@ -3063,14 +3062,10 @@ nsCSSValueTokenStream::nsCSSValueTokenStream()
   : mPropertyID(eCSSProperty_UNKNOWN)
   , mShorthandPropertyID(eCSSProperty_UNKNOWN)
   , mLevel(SheetType::Count)
-{
-  MOZ_COUNT_CTOR(nsCSSValueTokenStream);
-}
+{}
 
 nsCSSValueTokenStream::~nsCSSValueTokenStream()
-{
-  MOZ_COUNT_DTOR(nsCSSValueTokenStream);
-}
+{}
 
 size_t
 nsCSSValueTokenStream::SizeOfIncludingThis(mozilla::MallocSizeOf aMallocSizeOf) const

@@ -21,13 +21,11 @@ NS_IMPL_ISUPPORTS(MediaShutdownManager, nsIAsyncShutdownBlocker)
 MediaShutdownManager::MediaShutdownManager()
 {
   MOZ_ASSERT(NS_IsMainThread());
-  MOZ_COUNT_CTOR(MediaShutdownManager);
 }
 
 MediaShutdownManager::~MediaShutdownManager()
 {
   MOZ_ASSERT(NS_IsMainThread());
-  MOZ_COUNT_DTOR(MediaShutdownManager);
 }
 
 // Note that we don't use ClearOnShutdown() on this StaticRefPtr, as that
