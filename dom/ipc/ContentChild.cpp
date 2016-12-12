@@ -239,7 +239,6 @@ MemoryReportRequestChild::MemoryReportRequestChild(
   bool aAnonymize, const MaybeFileDesc& aDMDFile)
 : mAnonymize(aAnonymize)
 {
-  MOZ_COUNT_CTOR(MemoryReportRequestChild);
   if (aDMDFile.type() == MaybeFileDesc::TFileDescriptor) {
     mDMDFile = aDMDFile.get_FileDescriptor();
   }
@@ -247,7 +246,6 @@ MemoryReportRequestChild::MemoryReportRequestChild(
 
 MemoryReportRequestChild::~MemoryReportRequestChild()
 {
-  MOZ_COUNT_DTOR(MemoryReportRequestChild);
 }
 
 // IPC sender for remote GC/CC logging.
