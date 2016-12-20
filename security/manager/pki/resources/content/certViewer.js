@@ -257,10 +257,10 @@ function addTreeItemToTreeChild(treeChild, label, value, addTwistie)
 }
 
 function displaySelected() {
-  var asn1Tree = document.getElementById('prettyDumpTree')
+  var asn1Tree = document.getElementById("prettyDumpTree")
           .view.QueryInterface(nsIASN1Tree);
   var items = asn1Tree.selection;
-  var certDumpVal = document.getElementById('certDumpVal');
+  var certDumpVal = document.getElementById("certDumpVal");
   if (items.currentIndex != -1) {
     var value = asn1Tree.getDisplayData(items.currentIndex);
     certDumpVal.value = value;
@@ -274,16 +274,16 @@ function BuildPrettyPrint(cert)
   var certDumpTree = Components.classes[nsASN1Tree].
                           createInstance(nsIASN1Tree);
   certDumpTree.loadASN1Structure(cert.ASN1Structure);
-  document.getElementById('prettyDumpTree').view = certDumpTree;
+  document.getElementById("prettyDumpTree").view = certDumpTree;
 }
 
 function addAttributeFromCert(nodeName, value)
 {
   var node = document.getElementById(nodeName);
   if (!value) {
-    value = bundle.getString('notPresent');
+    value = bundle.getString("notPresent");
   }
-  node.setAttribute('value', value);
+  node.setAttribute("value", value);
 }
 
 /**
@@ -310,15 +310,15 @@ function DisplayGeneralDataFromCert(cert)
 
 function updateCertDump()
 {
-  var asn1Tree = document.getElementById('prettyDumpTree')
+  var asn1Tree = document.getElementById("prettyDumpTree")
           .view.QueryInterface(nsIASN1Tree);
 
-  var tree = document.getElementById('treesetDump');
+  var tree = document.getElementById("treesetDump");
   if (tree.currentIndex < 0) {
     doPrompt("No items are selected."); //This should never happen.
   } else {
     var item = tree.contentView.getItemAtIndex(tree.currentIndex);
-    var dbKey = item.firstChild.firstChild.getAttribute('display');
+    var dbKey = item.firstChild.firstChild.getAttribute("display");
     //  Get the cert from the cert database
     var certdb = Components.classes[nsX509CertDB].getService(nsIX509CertDB);
     var cert = certdb.findCertByDBKey(dbKey);
@@ -330,9 +330,9 @@ function updateCertDump()
 function getCurrentCert()
 {
   var realIndex;
-  var tree = document.getElementById('treesetDump');
+  var tree = document.getElementById("treesetDump");
   if (tree.view.selection.isSelected(tree.currentIndex)
-      && document.getElementById('prettyprint_tab').selected) {
+      && document.getElementById("prettyprint_tab").selected) {
     /* if the user manually selected a cert on the Details tab,
        then take that one  */
     realIndex = tree.currentIndex;
@@ -344,7 +344,7 @@ function getCurrentCert()
   }
   if (realIndex >= 0) {
     var item = tree.contentView.getItemAtIndex(realIndex);
-    var dbKey = item.firstChild.firstChild.getAttribute('display');
+    var dbKey = item.firstChild.firstChild.getAttribute("display");
     var certdb = Components.classes[nsX509CertDB].getService(nsIX509CertDB);
     var cert = certdb.findCertByDBKey(dbKey);
     return cert;
