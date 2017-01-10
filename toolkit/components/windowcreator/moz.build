@@ -4,12 +4,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-EXPORTS += [
-    'nsIAppStartupNotifier.h',
+XPIDL_SOURCES += [
+    'nsIWindowCreator.idl',
+    'nsIWindowCreator2.idl',
+    'nsIWindowProvider.idl',
 ]
 
-SOURCES += [
-    'nsAppStartupNotifier.cpp',
-]
-
-FINAL_LIBRARY = 'xul'
+XPIDL_MODULE = 'windowcreator'
