@@ -188,7 +188,8 @@ class nsThreadStartupEvent : public Runnable
 {
 public:
   nsThreadStartupEvent()
-    : mMon("nsThreadStartupEvent.mMon")
+    : Runnable("nsThreadStartupEvent")
+    , mMon("nsThreadStartupEvent.mMon")
     , mInitialized(false)
   {
   }
@@ -327,7 +328,8 @@ class nsThreadShutdownAckEvent : public CancelableRunnable
 {
 public:
   explicit nsThreadShutdownAckEvent(NotNull<nsThreadShutdownContext*> aCtx)
-    : mShutdownContext(aCtx)
+    : CancelableRunnable("nsThreadShutdownAckEvent")
+    , mShutdownContext(aCtx)
   {
   }
   NS_IMETHOD Run() override
@@ -351,7 +353,8 @@ class nsThreadShutdownEvent : public Runnable
 public:
   nsThreadShutdownEvent(NotNull<nsThread*> aThr,
                         NotNull<nsThreadShutdownContext*> aCtx)
-    : mThread(aThr)
+    : Runnable("nsThreadShutdownEvent")
+    , mThread(aThr)
     , mShutdownContext(aCtx)
   {
   }
