@@ -20,7 +20,6 @@ EXPORTS += [
     'nsServiceManagerUtils.h',
     'nsStringAPI.h',
     'nsStringGlue.h',
-    'nsXPTCUtils.h',
 ]
 
 EXPORTS.mozilla += [
