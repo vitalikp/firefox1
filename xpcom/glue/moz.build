@@ -15,16 +15,12 @@ if CONFIG['OS_ARCH'] == 'WINNT':
     DIRS += ['staticruntime']
 
 EXPORTS += [
-    'nsCategoryCache.h',
-    'nsComponentManagerUtils.h',
-    'nsServiceManagerUtils.h',
     'nsStringAPI.h',
     'nsStringGlue.h',
 ]
 
 EXPORTS.mozilla += [
     'FileUtils.h',
-    'GenericFactory.h',
 ]
 
 include('objs.mozbuild')
