@@ -124,12 +124,15 @@ nsNSSCertificateDB::FindCertByNickname(const nsAString& nickname,
 }
 
 NS_IMETHODIMP
-nsNSSCertificateDB::FindCertByDBKey(const char* aDBKey,nsIX509Cert** _cert)
+nsNSSCertificateDB::FindCertByDBKey(const nsACString& aDBKey,
+                            /*out*/ nsIX509Cert** _cert)
 {
-  NS_ENSURE_ARG_POINTER(aDBKey);
-  NS_ENSURE_ARG(aDBKey[0]);
   NS_ENSURE_ARG_POINTER(_cert);
   *_cert = nullptr;
+
+  if (aDBKey.IsEmpty()) {
+    return NS_ERROR_INVALID_ARG;
+  }
 
   nsNSSShutDownPreventionLock locker;
   if (isAlreadyShutDown()) {
@@ -154,7 +157,7 @@ nsNSSCertificateDB::FindCertByDBKey(const char* aDBKey,nsIX509Cert** _cert)
 }
 
 nsresult
-nsNSSCertificateDB::FindCertByDBKey(const char* aDBKey,
+nsNSSCertificateDB::FindCertByDBKey(const nsACString& aDBKey,
                                     UniqueCERTCertificate& cert)
 {
   static_assert(sizeof(uint64_t) == 8, "type size sanity check");
@@ -1112,7 +1115,7 @@ nsNSSCertificateDB::FindEmailSigningCert(const nsAString& aNickname,
 }
 
 NS_IMETHODIMP
-nsNSSCertificateDB::FindCertByEmailAddress(const char* aEmailAddress,
+nsNSSCertificateDB::FindCertByEmailAddress(const nsACString& aEmailAddress,
                                            nsIX509Cert** _retval)
 {
   nsNSSShutDownPreventionLock locker;
@@ -1123,8 +1126,9 @@ nsNSSCertificateDB::FindCertByEmailAddress(const char* aEmailAddress,
   RefPtr<SharedCertVerifier> certVerifier(GetDefaultCertVerifier());
   NS_ENSURE_TRUE(certVerifier, NS_ERROR_UNEXPECTED);
 
+  const nsCString& flatEmailAddress = PromiseFlatCString(aEmailAddress);
   UniqueCERTCertList certlist(
-      PK11_FindCertsFromEmailAddress(aEmailAddress, nullptr));
+    PK11_FindCertsFromEmailAddress(flatEmailAddress.get(), nullptr));
   if (!certlist)
     return NS_ERROR_FAILURE;
 
@@ -1191,12 +1195,11 @@ nsNSSCertificateDB::ConstructX509FromBase64(const nsACString& base64,
     return rv;
   }
 
-  return ConstructX509(certDER.get(), certDER.Length(), _retval);
+  return ConstructX509(certDER, _retval);
 }
 
 NS_IMETHODIMP
-nsNSSCertificateDB::ConstructX509(const char* certDER,
-                                  uint32_t lengthDER,
+nsNSSCertificateDB::ConstructX509(const nsACString& certDER,
                                   nsIX509Cert** _retval)
 {
   nsNSSShutDownPreventionLock locker;
@@ -1207,13 +1210,13 @@ nsNSSCertificateDB::ConstructX509(const char* certDER,
     return NS_ERROR_INVALID_POINTER;
   }
 
-  SECItem secitem_cert;
-  secitem_cert.type = siDERCertBuffer;
-  secitem_cert.data = (unsigned char*)certDER;
-  secitem_cert.len = lengthDER;
+  SECItem certData;
+  certData.type = siDERCertBuffer;
+  certData.data = BitwiseCast<unsigned char*, const char*>(certDER.BeginReading());
+  certData.len = certDER.Length();
 
   UniqueCERTCertificate cert(CERT_NewTempCertificate(CERT_GetDefaultCertDB(),
-                                                     &secitem_cert, nullptr,
+                                                     &certData, nullptr,
                                                      false, true));
   if (!cert)
     return (PORT_GetError() == SEC_ERROR_NO_MEMORY)
@@ -1459,7 +1462,7 @@ nsresult
 VerifyCertAtTime(nsIX509Cert* aCert,
                  int64_t /*SECCertificateUsage*/ aUsage,
                  uint32_t aFlags,
-                 const char* aHostname,
+                 const nsACString& aHostname,
                  mozilla::pkix::Time aTime,
                  nsIX509CertList** aVerifiedChain,
                  bool* aHasEVPolicy,
@@ -1487,13 +1490,14 @@ VerifyCertAtTime(nsIX509Cert* aCert,
   SECOidTag evOidPolicy;
   mozilla::pkix::Result result;
 
-  if (aHostname && aUsage == certificateUsageSSLServer) {
+  const nsCString& flatHostname = PromiseFlatCString(aHostname);
+  if (!aHostname.IsVoid() && aUsage == certificateUsageSSLServer) {
     result = certVerifier->VerifySSLServerCert(nssCert,
                                                nullptr, // stapledOCSPResponse
                                                nullptr, // sctsFromTLSExtension
                                                aTime,
                                                nullptr, // Assume no context
-                                               aHostname,
+                                               flatHostname.get(),
                                                resultChain,
                                                false, // don't save intermediates
                                                aFlags,
@@ -1502,7 +1506,8 @@ VerifyCertAtTime(nsIX509Cert* aCert,
   } else {
     result = certVerifier->VerifyCert(nssCert.get(), aUsage, aTime,
                                       nullptr, // Assume no context
-                                      aHostname,
+                                      aHostname.IsVoid() ? nullptr
+                                                         : flatHostname.get(),
                                       resultChain,
                                       aFlags,
                                       nullptr, // stapledOCSPResponse
@@ -1529,7 +1534,7 @@ NS_IMETHODIMP
 nsNSSCertificateDB::VerifyCertNow(nsIX509Cert* aCert,
                                   int64_t /*SECCertificateUsage*/ aUsage,
                                   uint32_t aFlags,
-                                  const char* aHostname,
+                                  const nsACString& aHostname,
                                   nsIX509CertList** aVerifiedChain,
                                   bool* aHasEVPolicy,
                                   int32_t* /*PRErrorCode*/ _retval)
@@ -1548,7 +1553,7 @@ NS_IMETHODIMP
 nsNSSCertificateDB::VerifyCertAtTime(nsIX509Cert* aCert,
                                      int64_t /*SECCertificateUsage*/ aUsage,
                                      uint32_t aFlags,
-                                     const char* aHostname,
+                                     const nsACString& aHostname,
                                      uint64_t aTime,
                                      nsIX509CertList** aVerifiedChain,
                                      bool* aHasEVPolicy,
@@ -1568,7 +1573,7 @@ class VerifyCertAtTimeTask final : public CryptoTask
 {
 public:
   VerifyCertAtTimeTask(nsIX509Cert* aCert, int64_t aUsage, uint32_t aFlags,
-                       const char* aHostname, uint64_t aTime,
+                       const nsACString& aHostname, uint64_t aTime,
                        nsICertVerificationCallback* aCallback)
     : mCert(aCert)
     , mUsage(aUsage)
@@ -1589,13 +1594,7 @@ private:
     if (!certDB) {
       return NS_ERROR_FAILURE;
     }
-    // Unfortunately mHostname will have made the empty string out of a null
-    // pointer passed in the constructor. If we pass the empty string on to
-    // VerifyCertAtTime with the usage certificateUsageSSLServer, it will call
-    // VerifySSLServerCert, which expects a non-empty hostname. To avoid this,
-    // check the length and use nullptr if appropriate.
-    const char* hostname = mHostname.Length() > 0 ? mHostname.get() : nullptr;
-    return certDB->VerifyCertAtTime(mCert, mUsage, mFlags, hostname, mTime,
+    return certDB->VerifyCertAtTime(mCert, mUsage, mFlags, mHostname, mTime,
                                     getter_AddRefs(mVerifiedCertList),
                                     &mHasEVPolicy, &mPRErrorCode);
   }
@@ -1629,7 +1628,7 @@ NS_IMETHODIMP
 nsNSSCertificateDB::AsyncVerifyCertAtTime(nsIX509Cert* aCert,
                                           int64_t /*SECCertificateUsage*/ aUsage,
                                           uint32_t aFlags,
-                                          const char* aHostname,
+                                          const nsACString& aHostname,
                                           uint64_t aTime,
                                           nsICertVerificationCallback* aCallback)
 {
