@@ -186,7 +186,7 @@ FileLocation::Data::GetSize(uint32_t* aResult)
     *aResult = fileInfo.size;
     return NS_OK;
   }
-  else if (mItem) {
+  if (mItem) {
     *aResult = mItem->RealSize();
     return NS_OK;
   }
@@ -207,7 +207,7 @@ FileLocation::Data::Copy(char* aBuf, uint32_t aLen)
     }
     return NS_OK;
   }
-  else if (mItem) {
+  if (mItem) {
     nsZipCursor cursor(mItem, mZip, reinterpret_cast<uint8_t*>(aBuf),
                        aLen, true);
     uint32_t readLen;
