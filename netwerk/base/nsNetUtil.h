@@ -17,7 +17,9 @@
 #include "nsIIOService.h"
 #include "mozilla/Services.h"
 #include "nsNetCID.h"
+#include "nsReadableUtils.h"
 #include "nsServiceManagerUtils.h"
+#include "nsString.h"
 
 class nsIURI;
 class nsIPrincipal;
@@ -53,26 +55,9 @@ namespace mozilla { class NeckoOriginAttributes; }
 template <class> class nsCOMPtr;
 template <typename> struct already_AddRefed;
 
-#ifdef MOZILLA_INTERNAL_API
-#include "nsReadableUtils.h"
-#include "nsString.h"
-#else
-#include "nsStringAPI.h"
-#endif
-
-#ifdef MOZILLA_INTERNAL_API
 already_AddRefed<nsIIOService> do_GetIOService(nsresult *error = 0);
 
 already_AddRefed<nsINetUtil> do_GetNetUtil(nsresult *error = 0);
-
-#else
-// Helper, to simplify getting the I/O service.
-const nsGetServiceByContractIDWithError do_GetIOService(nsresult *error = 0);
-
-// An alias to do_GetIOService
-const nsGetServiceByContractIDWithError do_GetNetUtil(nsresult *error = 0);
-
-#endif
 
 // private little helper function... don't call this directly!
 nsresult net_EnsureIOService(nsIIOService **ios, nsCOMPtr<nsIIOService> &grip);
@@ -566,14 +551,9 @@ nsresult NS_ReadInputStreamToBuffer(nsIInputStream *aInputStream,
                                     void **aDest,
                                     uint32_t aCount);
 
-// external code can't see fallible_t
-#ifdef MOZILLA_INTERNAL_API
-
 nsresult NS_ReadInputStreamToString(nsIInputStream *aInputStream,
                                     nsACString &aDest,
                                     uint32_t aCount);
-
-#endif
 
 nsresult
 NS_LoadPersistentPropertiesFromURISpec(nsIPersistentProperties **outResult,
@@ -989,10 +969,5 @@ bool InScriptableRange(uint64_t val);
 
 } // namespace net
 } // namespace mozilla
-
-// Include some function bodies for callers with external linkage
-#ifndef MOZILLA_INTERNAL_API
-#include "nsNetUtilInlines.h"
-#endif
 
 #endif // !nsNetUtil_h__
