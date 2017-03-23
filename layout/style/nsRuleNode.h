@@ -1045,6 +1045,8 @@ public:
                                         nsPresContext* aPresContext,
                                         nsFontSizeType aFontSizeType = eFontSize_HTML);
 
+  static uint32_t ParseFontLanguageOverride(const nsAString& aLangTag);
+
   /**
    * @param aValue The color value, returned from nsCSSParser::ParseColorString
    * @param aPresContext Presentation context whose preferences are used
