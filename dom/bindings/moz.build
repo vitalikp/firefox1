@@ -103,11 +103,6 @@ SOURCES += [
 
 include('/ipc/chromium/chromium-config.mozbuild')
 
-if CONFIG['MOZ_AUDIO_CHANNEL_MANAGER']:
-    LOCAL_INCLUDES += [
-        '/dom/system/gonk',
-    ]
-
 if CONFIG['MOZ_AVCODEC']:
     CXXFLAGS += CONFIG['MOZ_AVCODEC_CFLAGS']
 
