@@ -8,7 +8,7 @@
 
 #include "nsPoint.h"
 #include "nsRect.h"
-#include "nsStringGlue.h"
+#include "nsString.h"
 
 class nsIWidget;
 
