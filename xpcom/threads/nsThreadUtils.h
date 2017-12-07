@@ -17,7 +17,7 @@
 #include "nsIRunnable.h"
 #include "nsIThreadManager.h"
 #include "nsIThread.h"
-#include "nsStringGlue.h"
+#include "nsString.h"
 #include "nsCOMPtr.h"
 #include "nsAutoPtr.h"
 #include "mozilla/Atomics.h"

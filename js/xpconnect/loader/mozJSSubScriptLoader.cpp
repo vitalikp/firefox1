@@ -32,7 +32,7 @@
 #include "mozilla/scache/StartupCacheUtils.h"
 #include "mozilla/Unused.h"
 #include "nsContentUtils.h"
-#include "nsStringGlue.h"
+#include "nsString.h"
 #include "nsCycleCollectionParticipant.h"
 
 using namespace mozilla::scache;

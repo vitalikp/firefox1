@@ -34,7 +34,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "nscore.h"
-#include "nsStringGlue.h"
+#include "nsString.h"
 
 #ifdef XPCOM_GLUE
 #error "nsTextFormatter is not available in the standalone glue due to NSPR dependencies."

@@ -20,7 +20,7 @@
 #include "nsISelectionListener.h"
 #include "nsITransferable.h"
 #include "nsRect.h"
-#include "nsStringGlue.h"
+#include "nsString.h"
 #include "nsTArray.h"
 #include "WritingModes.h"
 

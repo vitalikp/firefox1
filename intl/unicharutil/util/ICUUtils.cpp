@@ -10,7 +10,7 @@
 #include "nsIContent.h"
 #include "nsIDocument.h"
 #include "nsIToolkitChromeRegistry.h"
-#include "nsStringGlue.h"
+#include "nsString.h"
 #include "unicode/uloc.h"
 #include "unicode/unum.h"
 
