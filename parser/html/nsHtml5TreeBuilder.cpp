@@ -302,6 +302,7 @@ nsHtml5TreeBuilder::characters(const char16_t* buf, int32_t start, int32_t lengt
                 continue;
               }
             }
+          MOZ_FALLTHROUGH_ASSERT("unreachable");
           }
           default: {
             switch(mode) {
