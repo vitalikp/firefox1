@@ -509,10 +509,14 @@
 @RESPATH@/components/PeerConnection.manifest
 #endif
 
+; Remote control protocol
+#ifdef ENABLE_MARIONETTE
 @RESPATH@/chrome/marionette@JAREXT@
 @RESPATH@/chrome/marionette.manifest
 @RESPATH@/components/marionette.manifest
 @RESPATH@/components/marionette.js
+@RESPATH@/defaults/pref/marionette.js
+#endif
 
 #ifdef MOZ_WEBSPEECH
 @RESPATH@/components/dom_webspeechsynth.xpt
