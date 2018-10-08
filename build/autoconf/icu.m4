@@ -60,38 +60,6 @@ if test -n "$ENABLE_INTL_API"; then
 fi
 
 dnl Settings for the implementation of the ECMAScript Internationalization API
-if test -n "$USE_ICU"; then
-    icudir="$_topsrcdir/intl/icu/source"
-    if test ! -d "$icudir"; then
-        icudir="$_topsrcdir/../../intl/icu/source"
-        if test ! -d "$icudir"; then
-            AC_MSG_ERROR([Cannot find the ICU directory])
-        fi
-    fi
-
-    version=`sed -n 's/^[[[:space:]]]*#[[:space:]]*define[[:space:]][[:space:]]*U_ICU_VERSION_MAJOR_NUM[[:space:]][[:space:]]*\([0-9][0-9]*\)[[:space:]]*$/\1/p' "$icudir/common/unicode/uvernum.h"`
-    if test x"$version" = x; then
-       AC_MSG_ERROR([cannot determine icu version number from uvernum.h header file $lineno])
-    fi
-    MOZ_ICU_VERSION="$version"
-
-    # TODO: the l is actually endian-dependent
-    # We could make this set as 'l' or 'b' for little or big, respectively,
-    # but we'd need to check in a big-endian version of the file.
-    ICU_DATA_FILE="icudt${version}l.dat"
-
-    dnl We won't build ICU data as a separate file when building
-    dnl JS standalone so that embedders don't have to deal with it.
-    dnl We also don't do it on Windows because sometimes the file goes
-    dnl missing -- possibly due to overzealous antivirus software? --
-    dnl which prevents the browser from starting up :(
-    if test -z "$JS_STANDALONE" -a -z "$MOZ_SYSTEM_ICU" -a "$OS_TARGET" != WINNT -a "$MOZ_WIDGET_TOOLKIT" != "android"; then
-        MOZ_ICU_DATA_ARCHIVE=1
-    else
-        MOZ_ICU_DATA_ARCHIVE=
-    fi
-fi
-
 AC_SUBST(MOZ_ICU_VERSION)
 AC_SUBST(ENABLE_INTL_API)
 AC_SUBST(USE_ICU)
