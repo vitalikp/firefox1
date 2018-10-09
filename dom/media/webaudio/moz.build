@@ -9,21 +9,6 @@ with Files('*'):
 
 DIRS += ['blink']
 
-MOCHITEST_MANIFESTS += [
-    'test/blink/mochitest.ini',
-    'test/mochitest.ini',
-]
-
-BROWSER_CHROME_MANIFESTS += [
-    'test/browser.ini',
-]
-
-TEST_HARNESS_FILES.testing.mochitest.tests.dom.media.webaudio.test.blink += [
-    'test/blink/audio-testing.js',
-    'test/blink/convolution-testing.js',
-    'test/blink/panner-model-testing.js',
-]
-
 EXPORTS += [
     'AlignedTArray.h',
     'AudioBlock.h',
