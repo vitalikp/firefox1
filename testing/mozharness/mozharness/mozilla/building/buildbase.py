@@ -1985,11 +1985,6 @@ or run without that action (ie: --no-{action})"
             self.info("We are not running this in buildbot; skipping")
             return
 
-        if self.config.get('enable_talos_sendchange'):
-            self._do_sendchange('talos')
-        else:
-            self.info("'enable_talos_sendchange' is false; skipping")
-
         if self.config.get('enable_unittest_sendchange'):
             self._do_sendchange('unittest')
         else:
@@ -2031,20 +2026,7 @@ or run without that action (ie: --no-{action})"
         }
         if self.query_is_nightly():
             sendchange_props['nightly_build'] = True
-        if test_type == 'talos':
-            if pgo_build:
-                build_type = 'pgo-'
-            else:  # we don't do talos sendchange for debug so no need to check
-                build_type = ''  # leave 'opt' out of branch for talos
-            talos_branch = "%s-%s-%s%s" % (self.branch,
-                                           self.stage_platform,
-                                           build_type,
-                                           'talos')
-            self.invoke_sendchange(downloadables=[installer_url],
-                            branch=talos_branch,
-                            username='sendchange',
-                            sendchange_props=sendchange_props)
-        elif test_type == 'unittest':
+        if test_type == 'unittest':
             # do unittest sendchange
             if c.get('debug_build'):
                 build_type = ''  # for debug builds we append nothing
@@ -2074,7 +2056,7 @@ or run without that action (ie: --no-{action})"
                                    sendchange_props=sendchange_props)
         else:
             self.fatal('type: "%s" is unknown for sendchange type. valid '
-                       'strings are "unittest" or "talos"' % test_type)
+                       'strings are "unittest"' % test_type)
 
     def update(self):
         """ submit balrog update steps. """

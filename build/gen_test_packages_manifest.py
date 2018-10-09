@@ -16,7 +16,6 @@ ALL_HARNESSES = [
     'cppunittest',
     'jittest',
     'mozbase',
-    'talos',
     'gtest',
 ]
 
@@ -25,7 +24,6 @@ PACKAGE_SPECIFIED_HARNESSES = [
     'mochitest',
     'reftest',
     'xpcshell',
-    'talos',
 ]
 
 # These packages are not present for every build configuration.

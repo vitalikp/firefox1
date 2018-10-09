@@ -28,7 +28,6 @@ config = {
     'debug_build': True,
     # decides whether we want to use moz_sign_cmd in env
     'enable_signing': False,
-    'enable_talos_sendchange': False,
     # allows triggering of test jobs when --artifact try syntax is detected on buildbot
     'enable_unittest_sendchange': True,
     #########################################################################

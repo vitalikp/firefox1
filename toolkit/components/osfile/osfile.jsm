@@ -11,7 +11,7 @@ if (typeof Components != "undefined") {
   Components.utils.import("resource://gre/modules/osfile/osfile_async_front.jsm", this);
 } else {
   // At this stage, we need to import all sources at once to avoid
-  // a unique failure on tbpl + talos that seems caused by a
+  // a unique failure on tbpl that seems caused by a
   // what looks like a nested event loop bug (see bug 794091).
 #ifdef XP_WIN
   importScripts(

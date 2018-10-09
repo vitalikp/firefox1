@@ -439,7 +439,7 @@ class SUTDeviceHandler(BaseDeviceHandler):
             # TODO configurable?
             self.devicemanager.debug = c.get('devicemanager_debug_level', 0)
         except ImportError, e:
-            self.fatal("Can't import DeviceManagerSUT! %s\nDid you check out talos?" % str(e))
+            self.fatal("Can't import DeviceManagerSUT! %s" % str(e))
         return self.devicemanager
 
     # maintenance {{{2

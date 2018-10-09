@@ -184,7 +184,6 @@ LINTER = {
         'testing/marionette/puppeteer',
         'testing/mozbase',
         'testing/mochitest',
-        'testing/talos/',
         'tools/lint',
     ],
     'exclude': ["testing/mozbase/mozdevice/mozdevice/Zeroconf.py",

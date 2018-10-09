@@ -19,7 +19,6 @@ config = {
     'platform_supports_post_upload_to_latest': False,
     'objdir': 'obj-firefox',
     'enable_signing': False,
-    'enable_talos_sendchange': False,
     #### 64 bit build specific #####
     'env': {
         'MOZBUILD_STATE_PATH': os.path.join(os.getcwd(), '.mozbuild'),

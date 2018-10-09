@@ -531,13 +531,6 @@ class PushToTry(MachCommandBase):
             print("Error parsing -u argument (%s):\n%s" % (kwargs["tests"], e.message))
             sys.exit(1)
 
-        try:
-            talos = (self.normalise_list(kwargs["talos"], allow_subitems=True)
-                     if kwargs["talos"] else [])
-        except ValueError as e:
-            print("Error parsing -t argument:\n%s" % e.message)
-            sys.exit(1)
-
         paths = []
         for p in kwargs["paths"]:
             p = mozpath.normpath(os.path.abspath(p))
@@ -561,7 +554,7 @@ class PushToTry(MachCommandBase):
         extra_args = {k: v for k, v in kwargs.items()
                       if k in extra_values and v}
 
-        return kwargs["builds"], platforms, tests, talos, paths, tags, extra_args
+        return kwargs["builds"], platforms, tests, paths, tags, extra_args
 
 
     @Command('try',
@@ -640,7 +633,7 @@ class PushToTry(MachCommandBase):
         if not any(kwargs[item] for item in ("paths", "tests", "tags")):
             kwargs["paths"], kwargs["tags"] = at.find_paths_and_tags(kwargs["verbose"])
 
-        builds, platforms, tests, talos, paths, tags, extra = self.validate_args(**kwargs)
+        builds, platforms, tests, paths, tags, extra = self.validate_args(**kwargs)
 
         if paths or tags:
             paths = [os.path.relpath(os.path.normpath(os.path.abspath(item)), self.topsrcdir)
@@ -658,7 +651,7 @@ class PushToTry(MachCommandBase):
             paths_by_flavor = {}
 
         try:
-            msg = at.calc_try_syntax(platforms, tests, talos, builds, paths_by_flavor, tags,
+            msg = at.calc_try_syntax(platforms, tests, builds, paths_by_flavor, tags,
                                      extra, kwargs["intersection"])
         except ValueError as e:
             print(e.message)

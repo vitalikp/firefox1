@@ -24,8 +24,6 @@ def arg_parser():
                         help='Platforms to run (required if not found in the environment as AUTOTRY_PLATFORM_HINT).')
     parser.add_argument('-u', '--unittests', dest='tests', action='append',
                         help='Test suites to run in their entirety.')
-    parser.add_argument('-t', '--talos', dest='talos', action='append',
-                        help='Talos suites to run.')
     parser.add_argument('--tag', dest='tags', action='append',
                         help='Restrict tests to the given tag (may be specified multiple times).')
     parser.add_argument('--and', action='store_true', dest='intersection',
@@ -204,11 +202,6 @@ class AutoTry(object):
             'dest': 'rebuild',
             'help': 'Re-trigger all test jobs (up to 20 times)',
         },
-        '--rebuild-talos': {
-            'action': 'store',
-            'dest': 'rebuild_talos',
-            'help': 'Re-trigger all talos jobs',
-        },
         '--interactive': {
             'action': 'store_true',
             'dest': 'interactive',
@@ -379,7 +372,7 @@ class AutoTry(object):
                 rv[item] = paths_by_flavor[item].copy()
         return rv
 
-    def calc_try_syntax(self, platforms, tests, talos, builds, paths_by_flavor, tags,
+    def calc_try_syntax(self, platforms, tests, builds, paths_by_flavor, tags,
                         extras, intersection):
         parts = ["try:", "-b", builds, "-p", ",".join(platforms)]
 
@@ -408,10 +401,6 @@ class AutoTry(object):
         parts.append("-u")
         parts.append(",".join("%s%s" % (k, "[%s]" % ",".join(v) if v else "")
                               for k,v in sorted(suites.items())) if suites else "none")
-
-        parts.append("-t")
-        parts.append(",".join("%s%s" % (k, "[%s]" % ",".join(v) if v else "")
-                              for k,v in sorted(talos.items())) if talos else "none")
 
         if tags:
             parts.append(' '.join('--tag %s' % t for t in tags))

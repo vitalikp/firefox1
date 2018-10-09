@@ -86,7 +86,6 @@ ARCHIVE_FILES = {
                 'gtest/**',
                 'mochitest/**',
                 'reftest/**',
-                'talos/**',
                 'xpcshell/**',
             ],
         },
@@ -342,13 +341,6 @@ ARCHIVE_FILES = {
             ],
             'dest': 'reftest/tests',
         }
-    ],
-    'talos': [
-        {
-            'source': buildconfig.topsrcdir,
-            'base': 'testing',
-            'pattern': 'talos/**',
-        },
     ],
     'xpcshell': [
         {

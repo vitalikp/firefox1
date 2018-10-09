@@ -107,7 +107,7 @@ public abstract class BaseRobocopTest extends ActivityInstrumentationTestCase2<A
     }
 
     /**
-     * Returns the test type: mochitest or talos.
+     * Returns the test type: mochitest.
      * <p>
      * By default tests are mochitests, but a test can override this method in
      * order to change its type. Most Robocop tests are mochitests.

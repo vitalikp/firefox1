@@ -177,7 +177,6 @@ TEST_PKGS := \
   cppunittest \
   mochitest \
   reftest \
-  talos \
   xpcshell \
   $(NULL)
 

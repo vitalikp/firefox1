@@ -49,7 +49,6 @@ config = {
     'enable_count_ctors': False,
     # debug specific
     'debug_build': True,
-    'enable_talos_sendchange': False,
     # allows triggering of test jobs when --artifact try syntax is detected on buildbot
     'enable_unittest_sendchange': True,
     'max_build_output_timeout': 60 * 80,
