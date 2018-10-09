@@ -23,7 +23,6 @@ DIRS += [
     'modules',
     'themes/core',
     'app',
-    'fonts',
 ]
 
 if CONFIG['MOZ_ANDROID_PACKAGE_INSTALL_BOUNCER']:
