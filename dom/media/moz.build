@@ -54,10 +54,6 @@ if CONFIG['MOZ_FMP4']:
 if CONFIG['MOZ_WEBRTC']:
     DIRS += ['bridge']
 
-MOCHITEST_MANIFESTS += [
-    'test/mochitest.ini',
-]
-
 XPIDL_SOURCES += [
     'nsIDOMNavigatorUserMedia.idl',
     'nsIMediaManager.idl',
