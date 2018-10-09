@@ -29,8 +29,4 @@ DIRS += [
 if CONFIG['MOZ_ANDROID_PACKAGE_INSTALL_BOUNCER']:
     DIRS += ['bouncer'] # No ordering implied with respect to base.
 
-TEST_DIRS += [
-    'tests',
-]
-
 SPHINX_TREES['fennec'] = 'docs'
