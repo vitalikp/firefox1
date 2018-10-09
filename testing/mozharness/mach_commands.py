@@ -128,11 +128,6 @@ class MozharnessRunner(MozbuildObject):
                 "config": ["--config-file", self.config_path("marionette",
                                                              "test_config.py")]
             },
-            "web-platform-tests": {
-                "script": "web_platform_tests.py",
-                "config": ["--config-file", self.config_path("web_platform_tests",
-                                                             self.wpt_config)]
-            },
         }
 
 

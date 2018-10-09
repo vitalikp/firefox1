@@ -200,8 +200,6 @@ class TestResolver(MozbuildObject):
                 'mochitest', 'chrome'),
             'mochitest': os.path.join(self.topobjdir, '_tests', 'testing',
                 'mochitest', 'tests'),
-            'web-platform-tests': os.path.join(self.topobjdir, '_tests', 'testing',
-                                               'web-platform'),
             'xpcshell': os.path.join(self.topobjdir, '_tests', 'xpcshell'),
         }
 
@@ -299,13 +297,9 @@ TEST_MANIFESTS = dict(
 # Reftests have their own manifest format and are processed separately.
 REFTEST_FLAVORS = ('crashtest', 'reftest')
 
-# Web platform tests have their own manifest format and are processed separately.
-WEB_PLATFORM_TESTS_FLAVORS = ('web-platform-tests',)
-
 def all_test_flavors():
     return ([v[0] for v in TEST_MANIFESTS.values()] +
             list(REFTEST_FLAVORS) +
-            list(WEB_PLATFORM_TESTS_FLAVORS) +
             ['python'])
 
 class TestInstallInfo(object):
@@ -513,23 +507,3 @@ def read_reftest_manifest(context, manifest_path):
     manifest = reftest.ReftestManifest(finder=context._finder)
     manifest.load(path)
     return manifest
-
-def read_wpt_manifest(context, paths):
-    manifest_path, tests_root = paths
-    full_path = mozpath.normpath(mozpath.join(context.srcdir, manifest_path))
-    old_path = sys.path[:]
-    try:
-        # Setup sys.path to include all the dependencies required to import
-        # the web-platform-tests manifest parser. web-platform-tests provides
-        # a the localpaths.py to do the path manipulation, which we load,
-        # providing the __file__ variable so it can resolve the relative
-        # paths correctly.
-        paths_file = os.path.join(context.config.topsrcdir, "testing",
-                                  "web-platform", "tests", "tools", "localpaths.py")
-        _globals = {"__file__": paths_file}
-        execfile(paths_file, _globals)
-        import manifest as wptmanifest
-    finally:
-        sys.path = old_path
-        f = context._finder.get(full_path)
-        return wptmanifest.manifest.load(tests_root, f)

@@ -87,7 +87,6 @@ ARCHIVE_FILES = {
                 'mochitest/**',
                 'reftest/**',
                 'talos/**',
-                'web-platform/**',
                 'xpcshell/**',
             ],
         },
@@ -184,12 +183,6 @@ ARCHIVE_FILES = {
             'base': 'services/sync/tests/tps',
             'pattern': '**',
             'dest': 'tps/tests',
-        },
-        {
-            'source': buildconfig.topsrcdir,
-            'base': 'testing/web-platform/tests/tools/wptserve',
-            'pattern': '**',
-            'dest': 'tools/wptserve',
         },
         {
             'source': buildconfig.topobjdir,
@@ -355,34 +348,6 @@ ARCHIVE_FILES = {
             'source': buildconfig.topsrcdir,
             'base': 'testing',
             'pattern': 'talos/**',
-        },
-    ],
-    'web-platform': [
-        {
-            'source': buildconfig.topsrcdir,
-            'base': 'testing',
-            'pattern': 'web-platform/meta/**',
-        },
-        {
-            'source': buildconfig.topsrcdir,
-            'base': 'testing',
-            'pattern': 'web-platform/mozilla/**',
-        },
-        {
-            'source': buildconfig.topsrcdir,
-            'base': 'testing',
-            'pattern': 'web-platform/tests/**',
-        },
-        {
-            'source': buildconfig.topobjdir,
-            'base': '_tests',
-            'pattern': 'web-platform/**',
-        },
-        {
-            'source': buildconfig.topobjdir,
-            'base': '',
-            'pattern': 'mozinfo.json',
-            'dest': 'web-platform',
         },
     ],
     'xpcshell': [

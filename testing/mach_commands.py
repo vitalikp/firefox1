@@ -107,11 +107,6 @@ TEST_SUITES = {
         'mach_command': 'reftest',
         'kwargs': {'tests': None},
     },
-    'web-platform-tests': {
-        'aliases': ('wpt',),
-        'mach_command': 'web-platform-tests',
-        'kwargs': {}
-    },
     'valgrind': {
         'aliases': ('V', 'v'),
         'mach_command': 'valgrind-test',
@@ -164,10 +159,6 @@ TEST_FLAVORS = {
         'kwargs': {'tests': []}
     },
     'steeplechase': {},
-    'web-platform-tests': {
-        'mach_command': 'web-platform-tests',
-        'kwargs': {'include': []}
-    },
     'xpcshell': {
         'mach_command': 'xpcshell-test',
         'kwargs': {'test_paths': []},
@@ -589,13 +580,13 @@ class PushToTry(MachCommandBase):
         selected by passing that directory as a positional argument to the
         command. For example:
 
-        mach try -b d -p linux64 dom testing/web-platform/tests/dom
+        mach try -b d -p linux64 dom
 
         would schedule a try run for linux64 debug consisting of all
-        tests under dom/ and testing/web-platform/tests/dom.
+        tests under dom/.
 
         Test selection using positional arguments is available for
-        mochitests, reftests, xpcshell tests and web-platform-tests.
+        mochitests, reftests, xpcshell tests.
 
         Tests may be also filtered by passing --tag to the command,
         which will run only tests marked as having the specified

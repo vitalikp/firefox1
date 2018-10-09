@@ -157,7 +157,6 @@ class AutoTry(object):
                             'mochitest-e10s-devtools-chrome-1'],
         'crashtest': ['crashtest', 'crashtest-e10s'],
         'reftest': ['reftest', 'reftest-e10s'],
-        'web-platform-tests': ['web-platform-tests-1'],
     }
 
     flavor_suites = {
@@ -168,7 +167,6 @@ class AutoTry(object):
         "devtools-chrome": "mochitest-dt",
         "crashtest": "crashtest",
         "reftest": "reftest",
-        "web-platform-tests": "web-platform-tests",
     }
 
     compiled_suites = [
@@ -189,7 +187,6 @@ class AutoTry(object):
         "media-tests",
         "mochitests",
         "reftest",
-        "web-platform-tests",
         "xpcshell",
     ]
 

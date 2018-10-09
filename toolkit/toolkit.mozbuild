@@ -180,7 +180,6 @@ if CONFIG['ENABLE_TESTS']:
         '/testing/mozbase',
         '/testing/modules',
         '/testing/runtimes',
-        '/testing/web-platform',
     ]
 
     # The file id utility requires breakpad libraries.

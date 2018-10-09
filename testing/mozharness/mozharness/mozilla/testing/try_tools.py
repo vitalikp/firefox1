@@ -34,9 +34,6 @@ test_flavors = {
     'crashtest': {
         "path": lambda x: os.path.join("tests", "reftest", "tests", x)
     },
-    'web-platform-tests': {
-        "path": lambda x: os.path.join("tests", x.split("testing" + os.path.sep)[1])
-    }
 }
 
 class TryToolsMixin(TransferMixin):

@@ -41,7 +41,6 @@ from ..testing import (
     all_test_flavors,
     read_manifestparser_manifest,
     read_reftest_manifest,
-    read_wpt_manifest,
 )
 
 import mozpack.path as mozpath
@@ -618,7 +617,6 @@ WebPlatformTestManifest = TypedNamedTuple("WebPlatformTestManifest",
                                            ("test_root", unicode)])
 ManifestparserManifestList = OrderedListWithAction(read_manifestparser_manifest)
 ReftestManifestList = OrderedListWithAction(read_reftest_manifest)
-WptManifestList = TypedListWithAction(WebPlatformTestManifest, read_wpt_manifest)
 
 OrderedSourceList = ContextDerivedTypedList(SourcePath, StrictOrderingOnAppendList)
 OrderedTestFlavorList = TypedList(Enum(*all_test_flavors()),
@@ -1561,10 +1559,6 @@ VARIABLES = {
         """List of manifest files defining crashtests.
 
         These are commonly named crashtests.list.
-        """),
-
-    'WEB_PLATFORM_TESTS_MANIFESTS': (WptManifestList, list,
-        """List of (manifest_path, test_path) defining web-platform-tests.
         """),
 
     'WEBRTC_SIGNALLING_TEST_MANIFESTS': (ManifestparserManifestList, list,
