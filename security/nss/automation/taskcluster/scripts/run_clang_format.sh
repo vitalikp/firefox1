@@ -40,12 +40,6 @@ else
          "$top/lib/ssl" \
          "$top/lib/sysinit" \
          "$top/lib/util" \
-         "$top/gtests/common" \
-         "$top/gtests/der_gtest" \
-         "$top/gtests/freebl_gtest" \
-         "$top/gtests/pk11_gtest" \
-         "$top/gtests/ssl_gtest" \
-         "$top/gtests/util_gtest" \
     )
 fi
 

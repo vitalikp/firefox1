@@ -26,9 +26,6 @@ include $(CORE_DEPTH)/coreconf/config.mk
 # (4) Include "local" platform-dependent assignments (OPTIONAL).      #
 #######################################################################
 
-ifdef NSS_DISABLE_GTESTS
-DIRS := $(filter-out gtests,$(DIRS))
-endif
 
 #######################################################################
 # (5) Execute "global" rules. (OPTIONAL)                              #

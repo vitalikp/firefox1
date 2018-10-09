@@ -75,9 +75,9 @@ If you get name resolution errors, try to disable IPv6 on the loopback device, i
     ./all.sh
 Make sure that all environment variables set for the build are set while running the tests as well.
 Test results are published in the folder `../../test_results/`.
-Individual tests can be run with the `NSS_TESTS` environment variable, e.g. `NSS_TESTS=ssl_gtests ./all.sh` or by changing into the according directory and running the bash script there `cd ssl_gtests && ./ssl_gtests.sh`.  The following tests are available:
+The following tests are available:
 
-    cipher lowhash libpkix cert dbtests tools fips sdr crmf smime ssl ocsp merge pkits chains ec gtests ssl_gtests bogo
+    cipher lowhash libpkix cert dbtests tools fips sdr crmf smime ssl ocsp merge pkits chains ec bogo
 
 To make tests run faster it's recommended to set `NSS_CYCLES=standard` to run only the standard cycle.
 
@@ -93,7 +93,7 @@ The nss directory contains the following important subdirectories:
 - `coreconf` contains the build logic.
 - `lib` contains all library code that is used to create the runtime libraries.
 - `cmd` contains a set of various tool programs that are built with NSS. Several tools are general purpose and can be used to inspect and manipulate the storage files that software using the NSS library creates and modifies. Other tools are only used for testing purposes.
-- `test` and `gtests` contain the NSS test suite. While `test` contains shell scripts to drive test programs in `cmd`, `gtests` holds a set of [gtests](https://github.com/google/googletest).
+- `test` contain the NSS test suite. While `test` contains shell scripts to drive test programs in `cmd`.
 
 A more comprehensible overview of the NSS folder structure and API guidelines can be found [here](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_API_Guidelines).
 
