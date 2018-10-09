@@ -21,7 +21,6 @@ if CONFIG['ENABLE_CLANG_PLUGIN']:
 DIRS += [
     'config',
     'python',
-    'taskcluster',
 ]
 
 if not CONFIG['JS_STANDALONE']:
