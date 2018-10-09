@@ -54,10 +54,6 @@ if CONFIG['MOZ_FMP4']:
 if CONFIG['MOZ_WEBRTC']:
     DIRS += ['bridge']
 
-TEST_DIRS += [
-    'gtest',
-]
-
 MOCHITEST_MANIFESTS += [
     'test/mochitest.ini',
 ]
