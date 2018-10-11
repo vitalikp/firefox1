@@ -148,11 +148,11 @@ public:
 
         switch(seq_sz) {
             case 4:     u <<= 6; u |= *++cp & 0x3F; if (*cp >> 6 != 2) break; ++l; toolong  = (u < 0x10); GR_FALLTHROUGH;
-                // no break
+                // fallthrough
             case 3:     u <<= 6; u |= *++cp & 0x3F; if (*cp >> 6 != 2) break; ++l; toolong |= (u < 0x20); GR_FALLTHROUGH;
-                // no break
+                // fallthrough
             case 2:     u <<= 6; u |= *++cp & 0x3F; if (*cp >> 6 != 2) break; ++l; toolong |= (u < 0x80); GR_FALLTHROUGH;
-                // no break
+                // fallthrough
             case 1:     break;
             case 0:     l = -1; return 0xFFFD;
         }
