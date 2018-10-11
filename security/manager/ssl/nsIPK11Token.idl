@@ -81,7 +81,7 @@ interface nsIPK11Token : nsISupports
   [must_use]
   long getAskPasswordTimeout();
   [must_use]
-  void setAskPasswordDefaults([const] in long askTimes, [const] in long timeout);
+  void setAskPasswordDefaults(in long askTimes, in long timeout);
 
   /*
    * True if a password has been configured for this token, and false otherwise.
