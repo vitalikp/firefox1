@@ -228,6 +228,7 @@ nsHtml5TreeBuilder::characters(const char16_t* buf, int32_t start, int32_t lengt
       if (!isInForeignButNotHtmlOrMathTextIntegrationPoint()) {
         reconstructTheActiveFormattingElements();
       }
+      MOZ_FALLTHROUGH;
     }
     case NS_HTML5TREE_BUILDER_TEXT: {
       accumulateCharacters(buf, start, length);
@@ -525,6 +526,7 @@ nsHtml5TreeBuilder::eof()
         if (isTemplateModeStackEmpty()) {
           NS_HTML5_BREAK(eofloop);
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TREE_BUILDER_IN_TEMPLATE: {
         int32_t eltPos = findLast(nsHtml5Atoms::template_);
@@ -641,6 +643,7 @@ nsHtml5TreeBuilder::startTag(nsHtml5ElementName* elementName, nsHtml5HtmlAttribu
                 NS_HTML5_CONTINUE(starttagloop);
               }
             }
+            MOZ_FALLTHROUGH;
           }
           default: {
             if (kNameSpaceID_SVG == currNs) {
@@ -1203,6 +1206,7 @@ nsHtml5TreeBuilder::startTag(nsHtml5ElementName* elementName, nsHtml5HtmlAttribu
             case NS_HTML5TREE_BUILDER_EMBED:
             case NS_HTML5TREE_BUILDER_AREA_OR_WBR: {
               reconstructTheActiveFormattingElements();
+              MOZ_FALLTHROUGH;
             }
 #ifdef ENABLE_VOID_MENUITEM
             case NS_HTML5TREE_BUILDER_MENUITEM:
@@ -1301,8 +1305,8 @@ nsHtml5TreeBuilder::startTag(nsHtml5ElementName* elementName, nsHtml5HtmlAttribu
                 appendToCurrentNodeAndPushElementMayFoster(elementName, attributes);
                 attributes = nullptr;
                 NS_HTML5_BREAK(starttagloop);
-              } else {
               }
+              MOZ_FALLTHROUGH;
             }
             case NS_HTML5TREE_BUILDER_NOFRAMES:
             case NS_HTML5TREE_BUILDER_IFRAME:
@@ -1427,6 +1431,7 @@ nsHtml5TreeBuilder::startTag(nsHtml5ElementName* elementName, nsHtml5HtmlAttribu
           }
         }
         inbodyloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TREE_BUILDER_IN_HEAD: {
         for (; ; ) {
@@ -1495,6 +1500,7 @@ nsHtml5TreeBuilder::startTag(nsHtml5ElementName* elementName, nsHtml5HtmlAttribu
           }
         }
         inheadloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TREE_BUILDER_IN_HEAD_NOSCRIPT: {
         switch(group) {
@@ -2256,6 +2262,7 @@ nsHtml5TreeBuilder::endTag(nsHtml5ElementName* elementName)
             NS_HTML5_BREAK(endtagloop);
           }
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TREE_BUILDER_IN_ROW: {
         switch(group) {
@@ -2311,6 +2318,7 @@ nsHtml5TreeBuilder::endTag(nsHtml5ElementName* elementName)
           default:
             ; // fall through
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TREE_BUILDER_IN_TABLE_BODY: {
         switch(group) {
@@ -2350,6 +2358,7 @@ nsHtml5TreeBuilder::endTag(nsHtml5ElementName* elementName)
           default:
             ; // fall through
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TREE_BUILDER_IN_TABLE: {
         switch(group) {
@@ -2384,6 +2393,7 @@ nsHtml5TreeBuilder::endTag(nsHtml5ElementName* elementName)
             errStrayEndTag(name);
           }
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TREE_BUILDER_IN_CAPTION: {
         switch(group) {
@@ -2721,8 +2731,8 @@ nsHtml5TreeBuilder::endTag(nsHtml5ElementName* elementName)
             if (scriptingEnabled) {
               errStrayEndTag(name);
               NS_HTML5_BREAK(endtagloop);
-            } else {
             }
+            MOZ_FALLTHROUGH;
           }
           case NS_HTML5TREE_BUILDER_A:
           case NS_HTML5TREE_BUILDER_B_OR_BIG_OR_CODE_OR_EM_OR_I_OR_S_OR_SMALL_OR_STRIKE_OR_STRONG_OR_TT_OR_U:
@@ -2731,6 +2741,7 @@ nsHtml5TreeBuilder::endTag(nsHtml5ElementName* elementName)
             if (adoptionAgencyEndTag(name)) {
               NS_HTML5_BREAK(endtagloop);
             }
+            MOZ_FALLTHROUGH;
           }
           default: {
             if (isCurrent(name)) {
@@ -2757,6 +2768,7 @@ nsHtml5TreeBuilder::endTag(nsHtml5ElementName* elementName)
             }
           }
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TREE_BUILDER_IN_HEAD: {
         switch(group) {

@@ -461,6 +461,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               continue;
@@ -468,6 +469,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         dataloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_TAG_OPEN: {
         for (; ; ) {
@@ -548,6 +550,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -571,6 +574,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               if (c >= 'A' && c <= 'Z') {
@@ -582,6 +586,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         tagnameloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_BEFORE_ATTRIBUTE_NAME: {
         for (; ; ) {
@@ -600,6 +605,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -619,6 +625,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             case '\"':
             case '\'':
@@ -627,6 +634,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
               if (P::reportErrors) {
                 errBadCharBeforeAttributeNameOrNull(c);
               }
+              MOZ_FALLTHROUGH;
             }
             default: {
               if (c >= 'A' && c <= 'Z') {
@@ -641,6 +649,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         beforeattributenameloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_ATTRIBUTE_NAME: {
         for (; ; ) {
@@ -657,6 +666,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -687,6 +697,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             case '\"':
             case '\'':
@@ -694,6 +705,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
               if (P::reportErrors) {
                 errQuoteOrLtInAttributeNameOrNull(c);
               }
+              MOZ_FALLTHROUGH;
             }
             default: {
               if (c >= 'A' && c <= 'Z') {
@@ -705,6 +717,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         attributenameloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_BEFORE_ATTRIBUTE_VALUE: {
         for (; ; ) {
@@ -719,6 +732,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -758,6 +772,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             case '<':
             case '=':
@@ -765,6 +780,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
               if (P::reportErrors) {
                 errLtOrEqualsOrGraveInUnquotedAttributeOrNull(c);
               }
+              MOZ_FALLTHROUGH;
             }
             default: {
               attributeLine = line;
@@ -777,6 +793,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         beforeattributevalueloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_ATTRIBUTE_VALUE_DOUBLE_QUOTED: {
         for (; ; ) {
@@ -812,6 +829,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+               MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -820,6 +838,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         attributevaluedoublequotedloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_AFTER_ATTRIBUTE_VALUE_QUOTED: {
         for (; ; ) {
@@ -835,6 +854,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -864,6 +884,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         afterattributevaluequotedloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SELF_CLOSING_START_TAG: {
         if (++pos == endPos) {
@@ -907,6 +928,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -933,6 +955,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             case '<':
             case '\"':
@@ -942,6 +965,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
               if (P::reportErrors) {
                 errUnquotedAttributeValOrNull(c);
               }
+              MOZ_FALLTHROUGH;
             }
             default: {
 
@@ -964,6 +988,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -989,6 +1014,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             case '\"':
             case '\'':
@@ -996,6 +1022,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
               if (P::reportErrors) {
                 errQuoteOrLtInAttributeNameOrNull(c);
               }
+              MOZ_FALLTHROUGH;
             }
             default: {
               addAttributeWithoutValue();
@@ -1039,6 +1066,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
                 state = P::transition(mViewSource, NS_HTML5TOKENIZER_CDATA_START, reconsume, pos);
                 NS_HTML5_CONTINUE(stateloop);
               }
+              MOZ_FALLTHROUGH;
             }
             default: {
               if (P::reportErrors) {
@@ -1052,6 +1080,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         markupdeclarationopenloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_MARKUP_DECLARATION_HYPHEN: {
         for (; ; ) {
@@ -1079,6 +1108,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         markupdeclarationhyphenloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_COMMENT_START: {
         for (; ; ) {
@@ -1112,6 +1142,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -1121,6 +1152,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         commentstartloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_COMMENT: {
         for (; ; ) {
@@ -1144,6 +1176,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -1152,6 +1185,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         commentloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_COMMENT_END_DASH: {
         for (; ; ) {
@@ -1177,6 +1211,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -1186,6 +1221,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         commentenddashloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_COMMENT_END: {
         for (; ; ) {
@@ -1223,6 +1259,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               adjustDoubleHyphenAndAppendToStrBufAndErr(c);
@@ -1260,6 +1297,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -1300,6 +1338,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
           case '\0': {
             c = 0xfffd;
+            MOZ_FALLTHROUGH;
           }
           default: {
             appendStrBuf(c);
@@ -1335,6 +1374,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             break;
           }
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_CDATA_SECTION: {
         for (; ; ) {
@@ -1362,6 +1402,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               continue;
@@ -1369,6 +1410,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         cdatasectionloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_CDATA_RSQB: {
         for (; ; ) {
@@ -1391,6 +1433,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         cdatarsqb_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_CDATA_RSQB_RSQB: {
         for (; ; ) {
@@ -1453,6 +1496,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -1461,6 +1505,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         attributevaluesinglequotedloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_CONSUME_CHARACTER_REFERENCE: {
         if (++pos == endPos) {
@@ -1518,6 +1563,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             state = P::transition(mViewSource, NS_HTML5TOKENIZER_CHARACTER_REFERENCE_HILO_LOOKUP, reconsume, pos);
           }
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_CHARACTER_REFERENCE_HILO_LOOKUP: {
         {
@@ -1555,6 +1601,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           charRefBufMark = 0;
           state = P::transition(mViewSource, NS_HTML5TOKENIZER_CHARACTER_REFERENCE_TAIL, reconsume, pos);
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_CHARACTER_REFERENCE_TAIL: {
         for (; ; ) {
@@ -1697,6 +1744,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             state = P::transition(mViewSource, NS_HTML5TOKENIZER_DECIMAL_NRC_LOOP, reconsume, pos);
           }
         }
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_DECIMAL_NRC_LOOP: {
         for (; ; ) {
@@ -1761,6 +1809,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         decimalloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_HANDLE_NCR_VALUE: {
         charRefBufLen = 0;
@@ -1862,6 +1911,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               continue;
@@ -1906,6 +1956,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
           case '\0': {
             c = 0xfffd;
+            MOZ_FALLTHROUGH;
           }
           default: {
             if (c >= 'A' && c <= 'Z') {
@@ -1965,6 +2016,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               continue;
@@ -2000,6 +2052,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               continue;
@@ -2007,6 +2060,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         rawtextloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_RAWTEXT_RCDATA_LESS_THAN_SIGN: {
         for (; ; ) {
@@ -2031,6 +2085,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         rawtextrcdatalessthansignloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_NON_DATA_END_TAG_NAME: {
         for (; ; ) {
@@ -2067,6 +2122,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
               }
               case '\n': {
                 silentLineFeed();
+                MOZ_FALLTHROUGH;
               }
               case ' ':
               case '\t':
@@ -2134,6 +2190,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -2142,6 +2199,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         boguscommentloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_BOGUS_COMMENT_HYPHEN: {
         boguscommenthyphenloop: for (; ; ) {
@@ -2171,6 +2229,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -2208,6 +2267,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               continue;
@@ -2215,6 +2275,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdataloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_LESS_THAN_SIGN: {
         for (; ; ) {
@@ -2245,6 +2306,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdatalessthansignloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_ESCAPE_START: {
         for (; ; ) {
@@ -2265,6 +2327,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdataescapestartloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_ESCAPE_START_DASH: {
         for (; ; ) {
@@ -2285,6 +2348,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdataescapestartdashloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_ESCAPED_DASH_DASH: {
         for (; ; ) {
@@ -2317,6 +2381,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               state = P::transition(mViewSource, NS_HTML5TOKENIZER_SCRIPT_DATA_ESCAPED, reconsume, pos);
@@ -2325,6 +2390,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdataescapeddashdashloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_ESCAPED: {
         for (; ; ) {
@@ -2356,6 +2422,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               continue;
@@ -2363,6 +2430,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdataescapedloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_ESCAPED_DASH: {
         for (; ; ) {
@@ -2392,6 +2460,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               state = P::transition(mViewSource, NS_HTML5TOKENIZER_SCRIPT_DATA_ESCAPED, reconsume, pos);
@@ -2400,6 +2469,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdataescapeddashloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_ESCAPED_LESS_THAN_SIGN: {
         for (; ; ) {
@@ -2433,6 +2503,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdataescapedlessthanloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_DOUBLE_ESCAPE_START: {
         for (; ; ) {
@@ -2462,6 +2533,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -2479,6 +2551,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdatadoubleescapestartloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_DOUBLE_ESCAPED: {
         for (; ; ) {
@@ -2509,6 +2582,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               continue;
@@ -2516,6 +2590,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdatadoubleescapedloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_DOUBLE_ESCAPED_DASH: {
         for (; ; ) {
@@ -2544,6 +2619,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               state = P::transition(mViewSource, NS_HTML5TOKENIZER_SCRIPT_DATA_DOUBLE_ESCAPED, reconsume, pos);
@@ -2552,6 +2628,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdatadoubleescapeddashloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_DOUBLE_ESCAPED_DASH_DASH: {
         for (; ; ) {
@@ -2583,6 +2660,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               state = P::transition(mViewSource, NS_HTML5TOKENIZER_SCRIPT_DATA_DOUBLE_ESCAPED, reconsume, pos);
@@ -2591,6 +2669,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdatadoubleescapeddashdashloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_DOUBLE_ESCAPED_LESS_THAN_SIGN: {
         for (; ; ) {
@@ -2612,6 +2691,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         scriptdatadoubleescapedlessthanloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_SCRIPT_DATA_DOUBLE_ESCAPE_END: {
         for (; ; ) {
@@ -2640,6 +2720,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -2688,6 +2769,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         markupdeclarationdoctypeloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_DOCTYPE: {
         for (; ; ) {
@@ -2708,6 +2790,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -2726,6 +2809,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         doctypeloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_BEFORE_DOCTYPE_NAME: {
         for (; ; ) {
@@ -2744,6 +2828,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -2761,6 +2846,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               if (c >= 'A' && c <= 'Z') {
@@ -2774,6 +2860,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         beforedoctypenameloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_DOCTYPE_NAME: {
         for (; ; ) {
@@ -2790,6 +2877,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -2806,6 +2894,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               if (c >= 'A' && c <= 'Z') {
@@ -2817,6 +2906,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         doctypenameloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_AFTER_DOCTYPE_NAME: {
         for (; ; ) {
@@ -2831,6 +2921,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -2862,6 +2953,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         afterdoctypenameloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_DOCTYPE_UBLIC: {
         for (; ; ) {
@@ -2889,6 +2981,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         doctypeublicloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_AFTER_DOCTYPE_PUBLIC_KEYWORD: {
         for (; ; ) {
@@ -2908,6 +3001,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -2948,6 +3042,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         afterdoctypepublickeywordloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_BEFORE_DOCTYPE_PUBLIC_IDENTIFIER: {
         for (; ; ) {
@@ -2962,6 +3057,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -2995,6 +3091,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         beforedoctypepublicidentifierloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_DOCTYPE_PUBLIC_IDENTIFIER_DOUBLE_QUOTED: {
         for (; ; ) {
@@ -3028,6 +3125,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -3036,6 +3134,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         doctypepublicidentifierdoublequotedloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_AFTER_DOCTYPE_PUBLIC_IDENTIFIER: {
         for (; ; ) {
@@ -3051,6 +3150,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -3087,6 +3187,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         afterdoctypepublicidentifierloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_BETWEEN_DOCTYPE_PUBLIC_AND_SYSTEM_IDENTIFIERS: {
         for (; ; ) {
@@ -3101,6 +3202,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -3130,6 +3232,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         betweendoctypepublicandsystemidentifiersloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_DOCTYPE_SYSTEM_IDENTIFIER_DOUBLE_QUOTED: {
         for (; ; ) {
@@ -3163,6 +3266,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -3185,6 +3289,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -3204,6 +3309,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         afterdoctypesystemidentifierloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_BOGUS_DOCTYPE: {
         for (; ; ) {
@@ -3227,6 +3333,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             default: {
               continue;
@@ -3260,6 +3367,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         doctypeystemloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_AFTER_DOCTYPE_SYSTEM_KEYWORD: {
         for (; ; ) {
@@ -3279,6 +3387,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -3319,6 +3428,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         afterdoctypesystemkeywordloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_BEFORE_DOCTYPE_SYSTEM_IDENTIFIER: {
         for (; ; ) {
@@ -3333,6 +3443,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\n': {
               silentLineFeed();
+              MOZ_FALLTHROUGH;
             }
             case ' ':
             case '\t':
@@ -3366,6 +3477,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         beforedoctypesystemidentifierloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_DOCTYPE_SYSTEM_IDENTIFIER_SINGLE_QUOTED: {
         for (; ; ) {
@@ -3399,6 +3511,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -3439,6 +3552,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
             }
             case '\0': {
               c = 0xfffd;
+              MOZ_FALLTHROUGH;
             }
             default: {
               appendStrBuf(c);
@@ -3464,6 +3578,7 @@ nsHtml5Tokenizer::stateLoop(int32_t state, char16_t c, int32_t pos, char16_t* bu
           }
         }
         processinginstructionloop_end: ;
+        MOZ_FALLTHROUGH;
       }
       case NS_HTML5TOKENIZER_PROCESSING_INSTRUCTION_QUESTION_MARK: {
         if (++pos == endPos) {
