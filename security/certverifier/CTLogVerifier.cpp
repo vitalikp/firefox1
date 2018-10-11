@@ -7,6 +7,7 @@
 #include "CTLogVerifier.h"
 
 #include "CTSerialization.h"
+#include "seccomon.h"
 #include "hasht.h"
 #include "mozilla/ArrayUtils.h"
 #include "mozilla/Assertions.h"

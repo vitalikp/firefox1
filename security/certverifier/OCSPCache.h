@@ -25,13 +25,13 @@
 #ifndef mozilla_psm_OCSPCache_h
 #define mozilla_psm_OCSPCache_h
 
+#include "seccomon.h"
 #include "hasht.h"
 #include "mozilla/Mutex.h"
 #include "mozilla/Vector.h"
 #include "pkix/Result.h"
 #include "pkix/Time.h"
 #include "prerror.h"
-#include "seccomon.h"
 
 namespace mozilla {
 class NeckoOriginAttributes;
