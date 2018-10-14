@@ -1971,8 +1971,10 @@ moz_gtk_check_menu_item_paint(WidgetNodeType widgetType,
 {
     GtkStateFlags state_flags = GetStateFlagsFromGtkWidgetState(state);
     GtkStyleContext* style;
-    gint indicator_size, horizontal_padding;
-    gint x, y;
+	GtkRequisition min_size;
+	GtkBorder margin, border, padding;
+    gint x, y, width, height;
+	gint border_x, border_y;
 
     moz_gtk_menu_item_paint(MOZ_GTK_MENUITEM, cr, rect, state, direction);
 
@@ -1983,12 +1985,19 @@ moz_gtk_check_menu_item_paint(WidgetNodeType widgetType,
     bool pre_3_20 = gtk_get_minor_version() < 20;
     gint offset;
     style = ClaimStyleContext(widgetType, direction);
-    gtk_style_context_get_style(style,
-                                "indicator-size", &indicator_size,
-                                "horizontal-padding", &horizontal_padding,
-                                NULL);
+    if (pre_3_20)
+	{
+		gint indicator_size;
+		gtk_style_context_get_style(style, "indicator-size", &indicator_size, NULL);
+		
+		min_size.width = indicator_size;
+		min_size.height = indicator_size;
+	}
+
     if (pre_3_20) {
+		gint horizontal_padding;
         GtkBorder padding;
+		gtk_style_context_get_style(style, "horizontal-padding", &horizontal_padding, NULL);
         gtk_style_context_get_padding(style, state_flags, &padding);
         offset = horizontal_padding + padding.left + 2;
     } else {
@@ -2004,23 +2013,39 @@ moz_gtk_check_menu_item_paint(WidgetNodeType widgetType,
                                            : MOZ_GTK_CHECKMENUITEM_INDICATOR;
     style = ClaimStyleContext(indicatorType, direction, state_flags);
 
+	gtk_style_context_get_margin(style, state_flags, &margin);
+	gtk_style_context_get_border(style, state_flags, &border);
+	gtk_style_context_get(style, state_flags, "min-width", &min_size.width, "min-height", &min_size.height, NULL);
+	gtk_style_context_get_padding(style, state_flags, &padding);
+
     if (direction == GTK_TEXT_DIR_RTL) {
-        x = rect->width - indicator_size - offset;
+        x = rect->width - min_size.width - offset;
     }
     else {
         x = rect->x + offset;
     }
-    y = rect->y + (rect->height - indicator_size) / 2;
+    y = rect->y + (rect->height - min_size.height) / 2;
+
+	border_x = x - (border.left + padding.left);
+	border_y = y - (border.top + padding.top);
+
+	width = min_size.width;
+	height = min_size.height;
+	width += border.left + border.right;
+	height += border.top + border.bottom;
+	width += padding.left + padding.right;
+	height += padding.top + padding.bottom;
+	offset += margin.left + border.left + padding.left;
 
     if (!pre_3_20) {
-        gtk_render_background(style, cr, x, y, indicator_size, indicator_size);
-        gtk_render_frame(style, cr, x, y, indicator_size, indicator_size);
+        gtk_render_background(style, cr, border_x, border_y, width, height);
+        gtk_render_frame(style, cr, border_x, border_y, width, height);
     }
 
     if (isRadio) {
-      gtk_render_option(style, cr, x, y, indicator_size, indicator_size);
+      gtk_render_option(style, cr, x, y, min_size.width, min_size.height);
     } else {
-      gtk_render_check(style, cr, x, y, indicator_size, indicator_size);
+      gtk_render_check(style, cr, x, y, min_size.width, min_size.height);
     }
     ReleaseStyleContext(style);
 
