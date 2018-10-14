@@ -669,6 +669,9 @@ GetInternals(JSContext* cx, HandleObject obj)
 static bool
 equal(const char* s1, const char* s2)
 {
+    if (!s1)
+        return s1 == s2;
+
     return !strcmp(s1, s2);
 }
 
