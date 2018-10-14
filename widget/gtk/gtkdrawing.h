@@ -344,26 +344,40 @@ moz_gtk_get_tab_border(gint* left, gint* top, gint* right, gint* bottom,
                        WidgetNodeType widget);
 
 /**
- * Get the desired size of a GtkCheckButton
- * indicator_size:     [OUT] the indicator size
- * indicator_spacing:  [OUT] the spacing between the indicator and its
- *                     container
+ * Get the minimum size of a GtkCheckButton
+ * width:   [OUT] the indicator minimum width
+ * height:  [OUT] the indicator minimum height
  *
  * returns:    MOZ_GTK_SUCCESS if there was no error, an error code otherwise
  */
-gint
-moz_gtk_checkbox_get_metrics(gint* indicator_size, gint* indicator_spacing);
+gint moz_gtk_checkbox_get_minsize(gint* width, gint* height);
 
 /**
- * Get the desired size of a GtkRadioButton
- * indicator_size:     [OUT] the indicator size
- * indicator_spacing:  [OUT] the spacing between the indicator and its
- *                     container
+ * Get the margin size of a GtkCheckButton
+ * left/right:   [OUT] the indicator left/right margin size
+ * top/bottom:   [OUT] the indicator top/bottom margin size
  *
  * returns:    MOZ_GTK_SUCCESS if there was no error, an error code otherwise
  */
-gint
-moz_gtk_radio_get_metrics(gint* indicator_size, gint* indicator_spacing);
+gint moz_gtk_checkbox_get_margin(gint* top, gint* right, gint* bottom, gint* left);
+
+/**
+ * Get the minimum size of a GtkRadioButton
+ * width:   [OUT] the indicator minimum width
+ * height:  [OUT] the indicator minimum height
+ *
+ * returns:    MOZ_GTK_SUCCESS if there was no error, an error code otherwise
+ */
+gint moz_gtk_radio_get_minsize(gint* width, gint* height);
+
+/**
+ * Get the margin size of a GtkRadioButton
+ * left/right:   [OUT] the indicator left/right margin size
+ * top/bottom:   [OUT] the indicator top/bottom margin size
+ *
+ * returns:    MOZ_GTK_SUCCESS if there was no error, an error code otherwise
+ */
+gint moz_gtk_radio_get_margin(gint* top, gint* right, gint* bottom, gint* left);
 
 /** Get the extra size for the focus ring for outline:auto.
  * widget:             [IN]  the widget to get the focus metrics for    

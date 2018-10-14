@@ -1030,18 +1030,11 @@ nsNativeThemeGTK::GetExtraSizeForWidget(nsIFrame* aFrame, uint8_t aWidgetType,
   case NS_THEME_CHECKBOX:
   case NS_THEME_RADIO:
     {
-      gint indicator_size, indicator_spacing;
-
       if (aWidgetType == NS_THEME_CHECKBOX) {
-        moz_gtk_checkbox_get_metrics(&indicator_size, &indicator_spacing);
+        moz_gtk_checkbox_get_margin(&aExtra->top, &aExtra->right, &aExtra->bottom, &aExtra->left);
       } else {
-        moz_gtk_radio_get_metrics(&indicator_size, &indicator_spacing);
+        moz_gtk_radio_get_margin(&aExtra->top, &aExtra->right, &aExtra->bottom, &aExtra->left);
       }
-
-      aExtra->top = indicator_spacing;
-      aExtra->right = indicator_spacing;
-      aExtra->bottom = indicator_spacing;
-      aExtra->left = indicator_spacing;
       break;
     }
   case NS_THEME_BUTTON :
@@ -1607,17 +1600,13 @@ nsNativeThemeGTK::GetMinimumWidgetSize(nsPresContext* aPresContext,
   case NS_THEME_CHECKBOX:
   case NS_THEME_RADIO:
     {
-      gint indicator_size, indicator_spacing;
-
       if (aWidgetType == NS_THEME_CHECKBOX) {
-        moz_gtk_checkbox_get_metrics(&indicator_size, &indicator_spacing);
+        moz_gtk_checkbox_get_minsize(&aResult->width, &aResult->height);
       } else {
-        moz_gtk_radio_get_metrics(&indicator_size, &indicator_spacing);
+        moz_gtk_radio_get_minsize(&aResult->width, &aResult->height);
       }
 
       // Include space for the indicator and the padding around it.
-      aResult->width = indicator_size;
-      aResult->height = indicator_size;
     }
     break;
   case NS_THEME_TOOLBARBUTTON_DROPDOWN:

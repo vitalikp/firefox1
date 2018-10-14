@@ -785,7 +785,7 @@ moz_gtk_widget_get_colormap()
     return gtk_widget_get_colormap(gProtoWindow);
 }
 
-gint
+static gint
 moz_gtk_checkbox_get_metrics(gint* indicator_size, gint* indicator_spacing)
 {
     ensure_checkbox_widget();
@@ -798,7 +798,7 @@ moz_gtk_checkbox_get_metrics(gint* indicator_size, gint* indicator_spacing)
     return MOZ_GTK_SUCCESS;
 }
 
-gint
+static gint
 moz_gtk_radio_get_metrics(gint* indicator_size, gint* indicator_spacing)
 {
     ensure_radiobutton_widget();
