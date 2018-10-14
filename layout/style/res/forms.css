@@ -595,7 +595,7 @@ input[type="checkbox"]:disabled:hover:active {
 
 % On Mac, the native theme takes care of this.
 % See nsNativeThemeCocoa::ThemeDrawsFocusForWidget.
-%ifndef XP_MACOSX
+%if !defined(XP_MACOSX) && !defined(MOZ_WIDGET_GTK)
 input[type="checkbox"]:-moz-focusring,
 input[type="radio"]:-moz-focusring {
   /* Don't specify the outline-color, we should always use initial value. */
