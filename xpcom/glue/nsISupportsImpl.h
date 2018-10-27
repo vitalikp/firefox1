@@ -817,7 +817,7 @@ NS_IMETHODIMP _class::QueryInterface(REFNSIID aIID, void** aInstancePtr)      \
   else
 
 #define NS_IMPL_QUERY_TAIL_GUTS                                               \
-    foundInterface = 0;                                                       \
+    { foundInterface = 0; }                                                   \
   nsresult status;                                                            \
   if ( !foundInterface )                                                      \
     {                                                                         \
@@ -835,7 +835,7 @@ NS_IMETHODIMP _class::QueryInterface(REFNSIID aIID, void** aInstancePtr)      \
 }
 
 #define NS_IMPL_QUERY_TAIL_INHERITING(_baseclass)                             \
-    foundInterface = 0;                                                       \
+    { foundInterface = 0; }                                                   \
   nsresult status;                                                            \
   if ( !foundInterface )                                                      \
     status = _baseclass::QueryInterface(aIID, (void**)&foundInterface);       \
@@ -849,7 +849,7 @@ NS_IMETHODIMP _class::QueryInterface(REFNSIID aIID, void** aInstancePtr)      \
 }
 
 #define NS_IMPL_QUERY_TAIL_USING_AGGREGATOR(_aggregator)                      \
-    foundInterface = 0;                                                       \
+    { foundInterface = 0; }                                                   \
   nsresult status;                                                            \
   if ( !foundInterface ) {                                                    \
     NS_ASSERTION(_aggregator, "null aggregator");                             \
