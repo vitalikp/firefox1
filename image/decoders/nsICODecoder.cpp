@@ -508,10 +508,13 @@ nsICODecoder::ReadMaskRow(const char* aData)
   // decoded image data (if we're not).
   uint32_t* decoded = nullptr;
   if (mDownscaler) {
-    // Initialize the row to all white and fully opaque.
-    memset(mDownscaler->RowBuffer(), 0xFF, GetRealWidth() * sizeof(uint32_t));
+    uint8_t* rowBuffer = mDownscaler->RowBuffer();
+    if (rowBuffer) {
+      // Initialize the row to all white and fully opaque.
+      memset(rowBuffer, 0xFF, GetRealWidth() * sizeof(uint32_t));
 
-    decoded = reinterpret_cast<uint32_t*>(mDownscaler->RowBuffer());
+      decoded = reinterpret_cast<uint32_t*>(rowBuffer);
+    }
   } else {
     RefPtr<nsBMPDecoder> bmpDecoder =
       static_cast<nsBMPDecoder*>(mContainedDecoder.get());
