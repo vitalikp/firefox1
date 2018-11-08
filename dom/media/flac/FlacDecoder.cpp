@@ -32,12 +32,7 @@ FlacDecoder::CreateStateMachine()
 /* static */ bool
 FlacDecoder::IsEnabled()
 {
-#ifdef MOZ_FFVPX
   return MediaPrefs::FlacEnabled();
-#else
-  // Until bug 1295886 is fixed.
-  return false;
-#endif
 }
 
 /* static */ bool

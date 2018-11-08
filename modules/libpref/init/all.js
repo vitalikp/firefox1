@@ -367,9 +367,6 @@ pref("media.ffmpeg.enabled", true);
 #endif
 pref("media.libavcodec.allow-obsolete", false);
 #endif
-#if defined(MOZ_FFVPX)
-pref("media.ffvpx.enabled", true);
-#endif
 pref("media.gmp.decoder.enabled", false);
 pref("media.gmp.decoder.aac", 0);
 pref("media.gmp.decoder.h264", 0);

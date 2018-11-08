@@ -10,9 +10,6 @@
 #include "WMFDecoderModule.h"
 
 #endif
-#ifdef MOZ_FFVPX
-#include "FFVPXRuntimeLinker.h"
-#endif
 #ifdef MOZ_FFMPEG
 #include "FFmpegRuntimeLinker.h"
 #endif
@@ -67,9 +64,6 @@ public:
 #endif
 #ifdef MOZ_APPLEMEDIA
     AppleDecoderModule::Init();
-#endif
-#ifdef MOZ_FFVPX
-    FFVPXRuntimeLinker::Init();
 #endif
 #ifdef MOZ_FFMPEG
     FFmpegRuntimeLinker::Init();
@@ -383,12 +377,6 @@ PDMFactory::CreatePDMs()
     mWMFFailedToLoad = !StartupPDM(m);
   } else {
     mWMFFailedToLoad = MediaPrefs::DecoderDoctorWMFDisabledIsFailure();
-  }
-#endif
-#ifdef MOZ_FFVPX
-  if (MediaPrefs::PDMFFVPXEnabled()) {
-    m = FFVPXRuntimeLinker::CreateDecoderModule();
-    StartupPDM(m);
   }
 #endif
 #ifdef MOZ_FFMPEG
