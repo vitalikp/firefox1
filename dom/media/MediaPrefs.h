@@ -154,7 +154,7 @@ private:
   DECL_MEDIA_PREF("media.ogg.enabled",                        OggEnabled, bool, true);
   // Flac
   DECL_MEDIA_PREF("media.ogg.flac.enabled",                   FlacInOgg, bool, false);
-  DECL_MEDIA_PREF("media.flac.enabled",                       FlacEnabled, bool, true);
+  DECL_MEDIA_PREF("media.flac.enabled",                       FlacEnabled, bool, false);
 
 #if defined(MOZ_RUST_MP4PARSE) && !defined(RELEASE_OR_BETA)
   DECL_MEDIA_PREF("media.rust.test_mode",                     RustTestMode, bool, false);
