@@ -1004,7 +1004,7 @@ MediaStreamGraphImpl::OpenAudioInput(int aID,
 void
 MediaStreamGraphImpl::CloseAudioInputImpl(AudioDataListener *aListener)
 {
-  uint32_t count;
+  uint32_t count = 0;
   DebugOnly<bool> result = mInputDeviceUsers.Get(aListener, &count);
   MOZ_ASSERT(result);
   if (--count > 0) {

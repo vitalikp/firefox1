@@ -354,7 +354,7 @@ RSignExtend::recover(JSContext* cx, SnapshotIterator& iter) const
 {
     RootedValue operand(cx, iter.read());
 
-    int32_t result;
+    int32_t result = 0;
     switch (MSignExtend::Mode(mode_)) {
       case MSignExtend::Byte:
         if (!js::SignExtendOperation<int8_t>(cx, operand, &result))

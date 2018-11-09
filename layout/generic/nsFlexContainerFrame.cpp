@@ -1684,7 +1684,7 @@ nsFlexContainerFrame::
     }
   }
 
-  nscoord resolvedMinSize; // (only set/used if isMainMinSizeAuto==true)
+  nscoord resolvedMinSize = 0; // (only set/used if isMainMinSizeAuto==true)
   bool minSizeNeedsToMeasureContent = false; // assume the best
   if (isMainMinSizeAuto) {
     // Resolve the min-size, except for considering the min-content size.
@@ -4342,7 +4342,7 @@ nsFlexContainerFrame::DoFlexLayout(nsPresContext*           aPresContext,
   // do that here (while crossAxisPosnTracker is conveniently pointing
   // at the cross-start edge of that line, which the line's baseline offset is
   // measured from):
-  nscoord flexContainerAscent;
+  nscoord flexContainerAscent = 0;
   if (!aAxisTracker.AreAxesInternallyReversed()) {
     nscoord firstLineBaselineOffset = lines.getFirst()->GetFirstBaselineOffset();
     if (firstLineBaselineOffset == nscoord_MIN) {

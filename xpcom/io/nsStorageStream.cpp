@@ -576,11 +576,11 @@ void
 nsStorageInputStream::Serialize(InputStreamParams& aParams, FileDescriptorArray&)
 {
   nsCString combined;
-  int64_t offset;
+  int64_t offset = 0;
   mozilla::DebugOnly<nsresult> rv = Tell(&offset);
   MOZ_ASSERT(NS_SUCCEEDED(rv));
 
-  uint64_t remaining;
+  uint64_t remaining = 0;
   rv = Available(&remaining);
   MOZ_ASSERT(NS_SUCCEEDED(rv));
 

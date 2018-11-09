@@ -725,7 +725,7 @@ bool StringToInt64(const string16& input, int64_t* output) {
 }
 
 int StringToInt(const std::string& value) {
-  int result;
+  int result = 0;
   StringToInt(value, &result);
   return result;
 }

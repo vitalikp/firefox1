@@ -4735,7 +4735,7 @@ WorkerPrivate::DoRunLoop(JSContext* aCx)
     }
 
     if (debuggerRunnablesPending) {
-      WorkerRunnable* runnable;
+      WorkerRunnable* runnable = nullptr;
 
       {
         MutexAutoLock lock(mMutex);
@@ -5185,9 +5185,14 @@ WorkerPrivate::ClearMainEventQueue(WorkerRanOrNot aRanOrNot)
 void
 WorkerPrivate::ClearDebuggerEventQueue()
 {
+  WorkerRunnable* runnable;
+
   while (!mDebuggerQueue.IsEmpty()) {
-    WorkerRunnable* runnable;
+    runnable = nullptr;
     mDebuggerQueue.Pop(runnable);
+    if (!runnable)
+      continue;
+
     // It should be ok to simply release the runnable, without running it.
     runnable->Release();
   }
@@ -5732,7 +5737,7 @@ WorkerPrivate::EnterDebuggerEventLoop()
       // Start the periodic GC timer if it is not already running.
       SetGCTimerMode(PeriodicTimer);
 
-      WorkerRunnable* runnable;
+      WorkerRunnable* runnable = nullptr;
 
       {
         MutexAutoLock lock(mMutex);

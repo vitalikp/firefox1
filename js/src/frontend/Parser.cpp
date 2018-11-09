@@ -7605,7 +7605,7 @@ Parser<ParseHandler>::assignExpr(InHandling inHandling, YieldHandling yieldHandl
     tokenStream.tell(&start);
 
     PossibleError possibleErrorInner(*this);
-    Node lhs;
+    Node lhs = null();
     if (maybeAsyncArrow) {
         tokenStream.consumeKnownToken(TOK_NAME, TokenStream::Operand);
         MOZ_ASSERT(tokenStream.currentName() == context->names().async);
@@ -7756,7 +7756,7 @@ Parser<ParseHandler>::assignExpr(InHandling inHandling, YieldHandling yieldHandl
     if (!possibleErrorInner.checkForExpressionError())
         return null();
 
-    Node rhs;
+    Node rhs = null();
     {
         AutoClearInDestructuringDecl autoClear(pc);
         rhs = assignExpr(inHandling, yieldHandling, TripledotProhibited);

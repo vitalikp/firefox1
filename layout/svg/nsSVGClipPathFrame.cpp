@@ -151,7 +151,7 @@ nsSVGClipPathFrame::GetClipMask(gfxContext& aReferenceContext,
     // Check if this clipPath is itself clipped by another clipPath:
     nsSVGClipPathFrame* clipPathThatClipsClipPath =
       nsSVGEffects::GetEffectProperties(this).GetClipPathFrame(nullptr);
-    bool clippingOfClipPathRequiredMasking;
+    bool clippingOfClipPathRequiredMasking = false;
     if (clipPathThatClipsClipPath) {
       ctx->Save();
       clippingOfClipPathRequiredMasking = !clipPathThatClipsClipPath->IsTrivial();

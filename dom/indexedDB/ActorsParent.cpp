@@ -19055,7 +19055,7 @@ DatabaseMaintenance::PerformMaintenanceOnDatabase()
     return;
   }
 
-  MaintenanceAction maintenanceAction;
+  MaintenanceAction maintenanceAction = MaintenanceAction::Nothing;
   rv = DetermineMaintenanceAction(connection, databaseFile, &maintenanceAction);
   if (NS_WARN_IF(NS_FAILED(rv))) {
     return;

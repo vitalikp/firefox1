@@ -385,7 +385,7 @@ public:
       return RejectPromise(rv);
     }
 
-    nsGlobalWindow* window;
+    nsGlobalWindow* window = nullptr;
     rv = Navigate(url, principal, &window);
     if (NS_WARN_IF(NS_FAILED(rv))) {
       return RejectPromise(rv);

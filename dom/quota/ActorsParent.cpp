@@ -7327,7 +7327,7 @@ CreateOrUpgradeDirectoryMetadataHelper::CreateOrUpgradeMetadataFiles()
       int64_t timestamp;
       nsCString group;
       nsCString origin;
-      bool hasIsApp;
+      bool hasIsApp = false;
       rv = GetDirectoryMetadata(originDir,
                                 &timestamp,
                                 group,
@@ -7698,7 +7698,7 @@ UpgradeDirectoryMetadataFrom1To2Helper::UpgradeMetadataFiles()
       return rv;
     }
 
-    int64_t timestamp;
+    int64_t timestamp = INT64_MIN;
     nsCString group;
     nsCString origin;
     bool isApp;

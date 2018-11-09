@@ -69,7 +69,7 @@ SpeechSynthesisVoice::GetLang(nsString& aRetval) const
 bool
 SpeechSynthesisVoice::LocalService() const
 {
-  bool isLocal;
+  bool isLocal = false;
   DebugOnly<nsresult> rv =
     nsSynthVoiceRegistry::GetInstance()->IsLocalVoice(mUri, &isLocal);
   NS_WARNING_ASSERTION(

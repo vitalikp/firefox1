@@ -651,7 +651,7 @@ GenerateType3Msg(const nsString &domain,
   //
   uint8_t lmResp[LM_RESP_LEN];
   uint8_t ntlmResp[NTLM_RESP_LEN];
-  uint8_t ntlmv2Resp[NTLMv2_RESP_LEN];
+  uint8_t ntlmv2Resp[NTLMv2_RESP_LEN] = {};
   uint8_t ntlmHash[NTLM_HASH_LEN];
   uint8_t ntlmv2_blob1[NTLMv2_BLOB1_LEN];
   if (ntlmv2) {

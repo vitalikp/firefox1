@@ -2690,7 +2690,7 @@ PresShell::FrameNeedsReflow(nsIFrame *aFrame, IntrinsicDirty aIntrinsicDirty,
 
     // Determine whether we need to keep looking for the next ancestor
     // reflow root if subtreeRoot itself is a reflow root.
-    bool targetNeedsReflowFromParent;
+    bool targetNeedsReflowFromParent = false;
     switch (aRootHandling) {
       case ePositionOrSizeChange:
         targetNeedsReflowFromParent = true;

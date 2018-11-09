@@ -466,7 +466,7 @@ BufferList<AllocPolicy>::Extract(IterImpl& aIter, size_t aSize, bool* aSuccess)
   size_t segmentsNeeded = 0;
   // If this is None then the last segment is a full segment, otherwise we need
   // to copy this many bytes.
-  Maybe<size_t> lastSegmentSize;
+  Maybe<size_t> lastSegmentSize = Some(0lu);
   {
     // Copy of the iterator to walk the BufferList and see how many segments we
     // need to copy.

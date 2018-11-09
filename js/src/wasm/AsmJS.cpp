@@ -2368,7 +2368,7 @@ class MOZ_STACK_CLASS ModuleValidator
         uint32_t endBeforeCurly = tokenStream().currentToken().pos.end;
         asmJSMetadata_->srcLength = endBeforeCurly - asmJSMetadata_->srcStart;
 
-        TokenPos pos;
+        TokenPos pos(0, 0);
         JS_ALWAYS_TRUE(tokenStream().peekTokenPos(&pos, TokenStream::Operand));
         uint32_t endAfterCurly = pos.end;
         asmJSMetadata_->srcLengthWithRightBrace = endAfterCurly - asmJSMetadata_->srcStart;

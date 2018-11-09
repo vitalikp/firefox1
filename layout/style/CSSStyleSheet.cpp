@@ -154,7 +154,8 @@ nsMediaExpression::Matches(nsPresContext *aPresContext,
 
   NS_ASSERTION(mFeature->mRangeType == nsMediaFeature::eMinMaxAllowed ||
                mRange == nsMediaExpression::eEqual, "yikes");
-  int32_t cmp; // -1 (actual < required)
+  int32_t cmp = 0;
+               // -1 (actual < required)
                //  0 (actual == required)
                //  1 (actual > required)
   switch (mFeature->mValueType) {

@@ -663,7 +663,7 @@ void ProfileBuffer::StreamSamplesToJSON(SpliceableJSONWriter& aWriter, int aThre
   Maybe<ProfileSample> sample;
   int readPos = mReadPos;
   int currentThreadID = -1;
-  Maybe<double> currentTime;
+  Maybe<double> currentTime = Some(0.0);
   UniquePtr<char[]> tagBuff = MakeUnique<char[]>(DYNAMIC_MAX_STRING);
 
   while (readPos != mWritePos) {

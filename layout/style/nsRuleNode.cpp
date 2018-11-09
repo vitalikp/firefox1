@@ -3199,7 +3199,7 @@ nsRuleNode::CalcFontPointSize(int32_t aHTMLSize, int32_t aBasePointSize,
   else if (aHTMLSize > 6)
     aHTMLSize = 6;
 
-  int32_t* column;
+  int32_t* column = nullptr;
   switch (aFontSizeType)
   {
     case eFontSize_HTML: column = sHTMLColumns; break;
@@ -10393,7 +10393,7 @@ nsRuleNode::HasAuthorSpecifiedRules(nsStyleContext* aStyleContext,
 
   // properties in the SIDS, whether or not we care about them
   size_t nprops = 0,
-         backgroundOffset, borderOffset, paddingOffset, textShadowOffset;
+         backgroundOffset, borderOffset = 0, paddingOffset = 0, textShadowOffset = 0;
 
   // We put the reset properties the start of the nsCSSValue array....
 

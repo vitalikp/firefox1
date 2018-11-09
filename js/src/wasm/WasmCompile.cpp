@@ -153,7 +153,7 @@ DecodeFunctionBodyExprs(FunctionDecoder& f)
 #define CHECK(c) if (!(c)) return false; break
 
     while (true) {
-        uint16_t op;
+        uint16_t op = 0;
         if (!f.iter().readOp(&op))
             return false;
 

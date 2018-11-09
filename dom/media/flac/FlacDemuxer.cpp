@@ -767,7 +767,7 @@ FlacTrackDemuxer::FastSeek(const TimeUnit& aTime)
   static const int GAP_THRESHOLD = 5;
   int64_t first = mParser->FirstFrame().Offset();
   int64_t last = mSource.GetLength();
-  Maybe<int64_t> lastFoundOffset;
+  Maybe<int64_t> lastFoundOffset = Some(0l);
   uint32_t iterations = 0;
   TimeUnit timeSeekedTo;
 

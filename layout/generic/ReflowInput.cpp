@@ -2202,7 +2202,7 @@ ReflowInput::InitConstraints(nsPresContext*     aPresContext,
 
     // See if the containing block height is based on the size of its
     // content
-    nsIAtom* fType;
+    nsIAtom* fType = nullptr;
     if (NS_AUTOHEIGHT == cbSize.BSize(wm)) {
       // See if the containing block is a cell frame which needs
       // to use the mComputedHeight of the cell instead of what the cell block passed in.

@@ -2133,8 +2133,8 @@ nsIFrame::BuildDisplayListForStackingContext(nsDisplayListBuilder* aBuilder,
   }
 
   bool extend3DContext = Extend3DContext();
-  Maybe<nsDisplayListBuilder::AutoPreserves3DContext> autoPreserves3DContext;
   if (extend3DContext && !Combines3DTransformWithAncestors()) {
+    Maybe<nsDisplayListBuilder::AutoPreserves3DContext> autoPreserves3DContext;
     // Start a new preserves3d context to keep informations on
     // nsDisplayListBuilder.
     autoPreserves3DContext.emplace(aBuilder);
@@ -5003,7 +5003,7 @@ nsFrame::ComputeSizeWithIntrinsicDimensions(nsRenderingContext*  aRenderingConte
     aMargin.ISize(aWM) + aBorder.ISize(aWM) + aPadding.ISize(aWM) -
       boxSizingAdjust.ISize(aWM);
 
-  nscoord iSize, minISize, maxISize, bSize, minBSize, maxBSize;
+  nscoord iSize = 0, minISize, maxISize, bSize = 0, minBSize, maxBSize;
   enum class Stretch {
     // stretch to fill the CB (preserving intrinsic ratio) in the relevant axis
     eStretchPreservingRatio,
@@ -5431,7 +5431,7 @@ nsIFrame::ComputeISizeValue(nsRenderingContext* aRenderingContext,
   NS_PRECONDITION(aContainingBlockISize >= 0,
                   "inline-size less than zero");
 
-  nscoord result;
+  nscoord result = 0;
   if (aCoord.IsCoordPercentCalcUnit()) {
     result = nsRuleNode::ComputeCoordPercentCalc(aCoord,
                                                  aContainingBlockISize);

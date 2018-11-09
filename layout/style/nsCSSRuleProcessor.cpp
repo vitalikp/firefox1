@@ -2663,7 +2663,7 @@ nsCSSRuleProcessor::HasStateDependentStyle(ElementDependentRuleProcessorData* aD
         continue;
       }
 
-      nsCSSSelector* selectorForPseudo;
+      nsCSSSelector* selectorForPseudo = nullptr;
       if (isPseudoElement) {
         if (selector->PseudoType() != aPseudoType) {
           continue;

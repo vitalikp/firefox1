@@ -1895,7 +1895,7 @@ template <typename Float>
 static AstConst*
 ParseFloatLiteral(WasmParseContext& c, WasmToken token)
 {
-    Float result;
+    Float result = 0;
     switch (token.kind()) {
       case WasmToken::Index:           result = token.index(); break;
       case WasmToken::UnsignedInteger: result = token.uint(); break;

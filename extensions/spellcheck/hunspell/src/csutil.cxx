@@ -390,9 +390,13 @@ int line_tok(const char* text, char*** lines, char breakchar) {
 
 // uniq line in place
 char* line_uniq(char* text, char breakchar) {
-  char** lines;
+  char** lines = nullptr;
   int linenum = line_tok(text, &lines, breakchar);
   int i;
+
+  if (!lines)
+    return nullptr;
+
   strcpy(text, lines[0]);
   for (i = 1; i < linenum; i++) {
     int dup = 0;

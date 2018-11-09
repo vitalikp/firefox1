@@ -19,7 +19,7 @@ Ebml_Serialize(EbmlGlobal *glob, const void *buffer_in, int buffer_size, unsigne
    */
   long i;
   for(i = len-1; i >= 0; i--) {
-    unsigned char x;
+    unsigned char x = 0;
     if (buffer_size == 1) {
       x = (char)(*(const int8_t *)buffer_in >> (i * 8));
     } else if (buffer_size == 2) {

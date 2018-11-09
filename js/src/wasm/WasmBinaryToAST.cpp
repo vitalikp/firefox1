@@ -838,8 +838,8 @@ AstDecodeBranch(AstDecodeContext& c, Op op)
 {
     MOZ_ASSERT(op == Op::Br || op == Op::BrIf);
 
-    uint32_t depth;
-    ExprType type;
+    uint32_t depth = 0;
+    ExprType type = ExprType::Void;
     AstDecodeStackItem value;
     AstDecodeStackItem cond;
     if (op == Op::Br) {
@@ -874,7 +874,7 @@ AstDecodeBranch(AstDecodeContext& c, Op op)
 static bool
 AstDecodeGetLocal(AstDecodeContext& c)
 {
-    uint32_t getLocalId;
+    uint32_t getLocalId = 0;
     if (!c.iter().readGetLocal(c.locals(), &getLocalId))
         return false;
 
@@ -895,7 +895,7 @@ AstDecodeGetLocal(AstDecodeContext& c)
 static bool
 AstDecodeSetLocal(AstDecodeContext& c)
 {
-    uint32_t setLocalId;
+    uint32_t setLocalId = 0;
     if (!c.iter().readSetLocal(c.locals(), &setLocalId, nullptr))
         return false;
 
@@ -922,7 +922,7 @@ AstDecodeSetLocal(AstDecodeContext& c)
 static bool
 AstDecodeTeeLocal(AstDecodeContext& c)
 {
-    uint32_t teeLocalId;
+    uint32_t teeLocalId = 0;
     if (!c.iter().readTeeLocal(c.locals(), &teeLocalId, nullptr))
         return false;
 
@@ -945,7 +945,7 @@ AstDecodeTeeLocal(AstDecodeContext& c)
 static bool
 AstDecodeGetGlobal(AstDecodeContext& c)
 {
-    uint32_t globalId;
+    uint32_t globalId = 0;
     if (!c.iter().readGetGlobal(c.globalDescs(), &globalId))
         return false;
 
@@ -966,7 +966,7 @@ AstDecodeGetGlobal(AstDecodeContext& c)
 static bool
 AstDecodeSetGlobal(AstDecodeContext& c)
 {
-    uint32_t globalId;
+    uint32_t globalId = 0;
     if (!c.iter().readSetGlobal(c.globalDescs(), &globalId, nullptr))
         return false;
 
@@ -1014,7 +1014,7 @@ static bool
 AstDecodeExpr(AstDecodeContext& c)
 {
     uint32_t exprOffset = c.iter().currentOffset();
-    uint16_t op;
+    uint16_t op = 0;
     if (!c.iter().readOp(&op))
         return false;
 
@@ -1894,7 +1894,7 @@ AstDecodeCodeSection(AstDecodeContext &c)
         return c.d.fail("function body count does not match function signature count");
 
     for (uint32_t funcDefIndex = 0; funcDefIndex < numFuncBodies; funcDefIndex++) {
-        AstFunc* func;
+        AstFunc* func = nullptr;
         if (!AstDecodeFunctionBody(c, funcDefIndex, &func))
             return false;
         if (!c.module().append(func))

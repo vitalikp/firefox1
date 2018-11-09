@@ -1785,7 +1785,7 @@ EmitBr(FunctionCompiler& f)
 {
     uint32_t relativeDepth;
     ExprType type;
-    MDefinition* value;
+    MDefinition* value = nullptr;
     if (!f.iter().readBr(&relativeDepth, &type, &value))
         return false;
 
@@ -1805,8 +1805,8 @@ EmitBrIf(FunctionCompiler& f)
 {
     uint32_t relativeDepth;
     ExprType type;
-    MDefinition* value;
-    MDefinition* condition;
+    MDefinition* value = nullptr;
+    MDefinition* condition = nullptr;
     if (!f.iter().readBrIf(&relativeDepth, &type, &value, &condition))
         return false;
 
@@ -1827,7 +1827,7 @@ EmitBrTable(FunctionCompiler& f)
     uint32_t tableLength;
     ExprType type;
     MDefinition* value;
-    MDefinition* index;
+    MDefinition* index = nullptr;
     if (!f.iter().readBrTable(&tableLength, &type, &value, &index))
         return false;
 
@@ -1869,7 +1869,7 @@ EmitBrTable(FunctionCompiler& f)
 static bool
 EmitReturn(FunctionCompiler& f)
 {
-    MDefinition* value;
+    MDefinition* value = nullptr;
     if (!f.iter().readReturn(&value))
         return false;
 
@@ -1955,7 +1955,7 @@ EmitCallIndirect(FunctionCompiler& f, bool oldStyle)
     uint32_t lineOrBytecode = f.readCallSiteLineOrBytecode();
 
     uint32_t sigIndex;
-    MDefinition* callee;
+    MDefinition* callee = nullptr;
     if (oldStyle) {
         if (!f.iter().readOldCallIndirect(&sigIndex))
             return false;
@@ -2011,7 +2011,7 @@ static bool
 EmitSetLocal(FunctionCompiler& f)
 {
     uint32_t id;
-    MDefinition* value;
+    MDefinition* value = nullptr;
     if (!f.iter().readSetLocal(f.locals(), &id, &value))
         return false;
 
@@ -2023,7 +2023,7 @@ static bool
 EmitTeeLocal(FunctionCompiler& f)
 {
     uint32_t id;
-    MDefinition* value;
+    MDefinition* value = nullptr;
     if (!f.iter().readTeeLocal(f.locals(), &id, &value))
         return false;
 
@@ -2086,7 +2086,7 @@ static bool
 EmitSetGlobal(FunctionCompiler& f)
 {
     uint32_t id;
-    MDefinition* value;
+    MDefinition* value = nullptr;
     if (!f.iter().readSetGlobal(f.mg().globals, &id, &value))
         return false;
 
@@ -2101,7 +2101,7 @@ static bool
 EmitTeeGlobal(FunctionCompiler& f)
 {
     uint32_t id;
-    MDefinition* value;
+    MDefinition* value = nullptr;
     if (!f.iter().readTeeGlobal(f.mg().globals, &id, &value))
         return false;
 
@@ -2128,7 +2128,7 @@ template <typename MIRClass>
 static bool
 EmitConversion(FunctionCompiler& f, ValType operandType, ValType resultType)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readConversion(operandType, resultType, &input))
         return false;
 
@@ -2140,7 +2140,7 @@ template <typename MIRClass>
 static bool
 EmitUnaryWithType(FunctionCompiler& f, ValType operandType, MIRType mirType)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readUnary(operandType, &input))
         return false;
 
@@ -2165,7 +2165,7 @@ static bool
 EmitTruncate(FunctionCompiler& f, ValType operandType, ValType resultType,
              bool isUnsigned)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readConversion(operandType, resultType, &input))
         return false;
 
@@ -2185,7 +2185,7 @@ EmitTruncate(FunctionCompiler& f, ValType operandType, ValType resultType,
 static bool
 EmitExtendI32(FunctionCompiler& f, bool isUnsigned)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readConversion(ValType::I32, ValType::I64, &input))
         return false;
 
@@ -2197,7 +2197,7 @@ static bool
 EmitConvertI64ToFloatingPoint(FunctionCompiler& f,
                               ValType resultType, MIRType mirType, bool isUnsigned)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readConversion(ValType::I64, resultType, &input))
         return false;
 
@@ -2208,7 +2208,7 @@ EmitConvertI64ToFloatingPoint(FunctionCompiler& f,
 static bool
 EmitReinterpret(FunctionCompiler& f, ValType resultType, ValType operandType, MIRType mirType)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readConversion(operandType, resultType, &input))
         return false;
 
@@ -2342,8 +2342,8 @@ static bool
 EmitComparison(FunctionCompiler& f,
                ValType operandType, JSOp compareOp, MCompare::CompareType compareType)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readComparison(operandType, &lhs, &rhs))
         return false;
 
@@ -2357,7 +2357,7 @@ EmitSelect(FunctionCompiler& f)
     ValType type;
     MDefinition* trueValue;
     MDefinition* falseValue;
-    MDefinition* condition;
+    MDefinition* condition = nullptr;
     if (!f.iter().readSelect(&type, &trueValue, &falseValue, &condition))
         return false;
 
@@ -2368,7 +2368,7 @@ EmitSelect(FunctionCompiler& f)
 static bool
 EmitLoad(FunctionCompiler& f, ValType type, Scalar::Type viewType)
 {
-    LinearMemoryAddress<MDefinition*> addr;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
     if (!f.iter().readLoad(type, Scalar::byteSize(viewType), &addr))
         return false;
 
@@ -2380,8 +2380,8 @@ EmitLoad(FunctionCompiler& f, ValType type, Scalar::Type viewType)
 static bool
 EmitStore(FunctionCompiler& f, ValType resultType, Scalar::Type viewType)
 {
-    LinearMemoryAddress<MDefinition*> addr;
-    MDefinition* value;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
+    MDefinition* value = nullptr;
     if (!f.iter().readStore(resultType, Scalar::byteSize(viewType), &addr, &value))
         return false;
 
@@ -2394,8 +2394,8 @@ EmitStore(FunctionCompiler& f, ValType resultType, Scalar::Type viewType)
 static bool
 EmitTeeStore(FunctionCompiler& f, ValType resultType, Scalar::Type viewType)
 {
-    LinearMemoryAddress<MDefinition*> addr;
-    MDefinition* value;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
+    MDefinition* value = nullptr;
     if (!f.iter().readTeeStore(resultType, Scalar::byteSize(viewType), &addr, &value))
         return false;
 
@@ -2408,8 +2408,8 @@ EmitTeeStore(FunctionCompiler& f, ValType resultType, Scalar::Type viewType)
 static bool
 EmitTeeStoreWithCoercion(FunctionCompiler& f, ValType resultType, Scalar::Type viewType)
 {
-    LinearMemoryAddress<MDefinition*> addr;
-    MDefinition* value;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
+    MDefinition* value = nullptr;
     if (!f.iter().readTeeStore(resultType, Scalar::byteSize(viewType), &addr, &value))
         return false;
 
@@ -2435,7 +2435,7 @@ EmitUnaryMathBuiltinCall(FunctionCompiler& f, SymbolicAddress callee, ValType op
     if (!f.startCall(&call))
         return false;
 
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readUnary(operandType, &input))
         return false;
 
@@ -2487,7 +2487,7 @@ EmitBinaryMathBuiltinCall(FunctionCompiler& f, SymbolicAddress callee, ValType o
 static bool
 EmitAtomicsLoad(FunctionCompiler& f)
 {
-    LinearMemoryAddress<MDefinition*> addr;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
     Scalar::Type viewType;
     if (!f.iter().readAtomicLoad(&addr, &viewType))
         return false;
@@ -2502,9 +2502,9 @@ EmitAtomicsLoad(FunctionCompiler& f)
 static bool
 EmitAtomicsStore(FunctionCompiler& f)
 {
-    LinearMemoryAddress<MDefinition*> addr;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
     Scalar::Type viewType;
-    MDefinition* value;
+    MDefinition* value = nullptr;
     if (!f.iter().readAtomicStore(&addr, &viewType, &value))
         return false;
 
@@ -2519,10 +2519,10 @@ EmitAtomicsStore(FunctionCompiler& f)
 static bool
 EmitAtomicsBinOp(FunctionCompiler& f)
 {
-    LinearMemoryAddress<MDefinition*> addr;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
     Scalar::Type viewType;
     jit::AtomicOp op;
-    MDefinition* value;
+    MDefinition* value = nullptr;
     if (!f.iter().readAtomicBinOp(&addr, &viewType, &op, &value))
         return false;
 
@@ -2535,10 +2535,10 @@ EmitAtomicsBinOp(FunctionCompiler& f)
 static bool
 EmitAtomicsCompareExchange(FunctionCompiler& f)
 {
-    LinearMemoryAddress<MDefinition*> addr;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
     Scalar::Type viewType;
-    MDefinition* oldValue;
-    MDefinition* newValue;
+    MDefinition* oldValue = nullptr;
+    MDefinition* newValue = nullptr;
     if (!f.iter().readAtomicCompareExchange(&addr, &viewType, &oldValue, &newValue))
         return false;
 
@@ -2551,9 +2551,9 @@ EmitAtomicsCompareExchange(FunctionCompiler& f)
 static bool
 EmitAtomicsExchange(FunctionCompiler& f)
 {
-    LinearMemoryAddress<MDefinition*> addr;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
     Scalar::Type viewType;
-    MDefinition* value;
+    MDefinition* value = nullptr;
     if (!f.iter().readAtomicExchange(&addr, &viewType, &value))
         return false;
 
@@ -2615,8 +2615,8 @@ static bool
 EmitSimdBinaryComp(FunctionCompiler& f, ValType operandType, MSimdBinaryComp::Operation op,
                    SimdSign sign)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readSimdComparison(operandType, &lhs, &rhs))
         return false;
 
@@ -2673,7 +2673,7 @@ static bool
 EmitExtractLane(FunctionCompiler& f, ValType operandType, SimdSign sign)
 {
     uint8_t lane;
-    MDefinition* vector;
+    MDefinition* vector = nullptr;
     if (!f.iter().readExtractLane(operandType, &lane, &vector))
         return false;
 
@@ -2698,8 +2698,8 @@ EmitSimdReplaceLane(FunctionCompiler& f, ValType simdType)
         f.iter().setResult(EmitSimdBooleanLaneExpr(f, f.iter().getResult()));
 
     uint8_t lane;
-    MDefinition* vector;
-    MDefinition* scalar;
+    MDefinition* vector = nullptr;
+    MDefinition* scalar = nullptr;
     if (!f.iter().readReplaceLane(simdType, &lane, &vector, &scalar))
         return false;
 
@@ -2710,7 +2710,7 @@ EmitSimdReplaceLane(FunctionCompiler& f, ValType simdType)
 inline bool
 EmitSimdBitcast(FunctionCompiler& f, ValType fromType, ValType toType)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readConversion(fromType, toType, &input))
         return false;
 
@@ -2721,7 +2721,7 @@ EmitSimdBitcast(FunctionCompiler& f, ValType fromType, ValType toType)
 inline bool
 EmitSimdConvert(FunctionCompiler& f, ValType fromType, ValType toType, SimdSign sign)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readConversion(fromType, toType, &input))
         return false;
 
@@ -2733,7 +2733,7 @@ static bool
 EmitSimdSwizzle(FunctionCompiler& f, ValType simdType)
 {
     uint8_t lanes[16];
-    MDefinition* vector;
+    MDefinition* vector = nullptr;
     if (!f.iter().readSwizzle(simdType, &lanes, &vector))
         return false;
 
@@ -2745,8 +2745,8 @@ static bool
 EmitSimdShuffle(FunctionCompiler& f, ValType simdType)
 {
     uint8_t lanes[16];
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readShuffle(simdType, &lanes, &lhs, &rhs))
         return false;
 
@@ -2776,7 +2776,7 @@ EmitSimdLoad(FunctionCompiler& f, ValType resultType, unsigned numElems)
     if (!numElems)
         numElems = defaultNumElems;
 
-    LinearMemoryAddress<MDefinition*> addr;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
     if (!f.iter().readLoad(resultType, Scalar::byteSize(viewType), &addr))
         return false;
 
@@ -2795,8 +2795,8 @@ EmitSimdStore(FunctionCompiler& f, ValType resultType, unsigned numElems)
     if (!numElems)
         numElems = defaultNumElems;
 
-    LinearMemoryAddress<MDefinition*> addr;
-    MDefinition* value;
+    LinearMemoryAddress<MDefinition*> addr = { nullptr, 0, 0 };
+    MDefinition* value = nullptr;
     if (!f.iter().readTeeStore(resultType, Scalar::byteSize(viewType), &addr, &value))
         return false;
 
@@ -2809,9 +2809,9 @@ EmitSimdStore(FunctionCompiler& f, ValType resultType, unsigned numElems)
 static bool
 EmitSimdSelect(FunctionCompiler& f, ValType simdType)
 {
-    MDefinition* trueValue;
-    MDefinition* falseValue;
-    MDefinition* condition;
+    MDefinition* trueValue = nullptr;
+    MDefinition* falseValue = nullptr;
+    MDefinition* condition = nullptr;
     if (!f.iter().readSimdSelect(simdType, &trueValue, &falseValue, &condition))
         return false;
 
@@ -2823,7 +2823,7 @@ EmitSimdSelect(FunctionCompiler& f, ValType simdType)
 static bool
 EmitSimdAllTrue(FunctionCompiler& f, ValType operandType)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readSimdBooleanReduction(operandType, &input))
         return false;
 
@@ -2834,7 +2834,7 @@ EmitSimdAllTrue(FunctionCompiler& f, ValType operandType)
 static bool
 EmitSimdAnyTrue(FunctionCompiler& f, ValType operandType)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readSimdBooleanReduction(operandType, &input))
         return false;
 
@@ -2848,7 +2848,7 @@ EmitSimdSplat(FunctionCompiler& f, ValType simdType)
     if (IsSimdBoolType(simdType))
         f.iter().setResult(EmitSimdBooleanLaneExpr(f, f.iter().getResult()));
 
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readSplat(simdType, &input))
         return false;
 
@@ -3060,7 +3060,7 @@ EmitGrowMemory(FunctionCompiler& f)
     if (!f.passInstance(&args))
         return false;
 
-    MDefinition* delta;
+    MDefinition* delta = nullptr;
     if (!f.iter().readGrowMemory(&delta))
         return false;
 

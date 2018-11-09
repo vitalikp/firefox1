@@ -10366,7 +10366,7 @@ DebuggerEnvironment::typeGetter(JSContext* cx, unsigned argc, Value* vp)
 
     DebuggerEnvironmentType type = environment->type();
 
-    const char* s;
+    const char* s = nullptr;
     switch (type) {
       case DebuggerEnvironmentType::Declarative:
         s = "declarative";

@@ -249,7 +249,7 @@ nsCSSClipPathInstance::CreateClipPathCircle(DrawTarget* aDrawTarget,
                                 aRefBox.height * aRefBox.height) / 2.0);
   nscoord r = 0;
   if (coords[0].GetUnit() == eStyleUnit_Enumerated) {
-    nscoord horizontal, vertical;
+    nscoord horizontal = 0, vertical = 0;
     EnumerationToLength(horizontal, coords[0].GetIntValue(),
                         center.x, aRefBox.x, aRefBox.x + aRefBox.width);
     EnumerationToLength(vertical, coords[0].GetIntValue(),
