@@ -15,7 +15,6 @@ DIRS += [
     'qcms',
     'gl',
     'layers',
-    'graphite2/src',
     'harfbuzz/src',
     'ots/src',
     'thebes',
@@ -23,6 +22,11 @@ DIRS += [
     'vr',
     'config',
 ]
+
+if CONFIG['MOZ_GRAPHITE2']:
+    CXXFLAGS += CONFIG['MOZ_GRAPHITE2_CFLAGS']
+else:
+    DIRS += ['graphite2/src']
 
 if CONFIG['MOZ_ENABLE_SKIA']:
     DIRS += ['skia']

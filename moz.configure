@@ -336,6 +336,9 @@ def nsis_binary_type(nsis):
 
     return 'yes'
 
+# linux configure
+option('--enable-system-linux', help="Use linux system packages (located with pkgconfig)")
+include('linux.configure', when='--enable-system-linux')
 
 # Fallthrough to autoconf-based configure
 include('build/moz.configure/old.configure')
