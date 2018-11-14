@@ -510,7 +510,8 @@ SandboxBroker::ThreadMain(void)
       // 0 immediately (we nulled the buffer before receiving).
       // We do not assume the second path is 0-terminated, this is
       // enforced below.
-      strncpy(pathBuf2, recvBuf + first_len + 1, kMaxPathLen + 1);
+      memcpy(pathBuf2, recvBuf + first_len + 1, kMaxPathLen + 1);
+      pathBuf2[kMaxPathLen] = '\0';
 
       // First string is guaranteed to be 0-terminated.
       pathLen = first_len;
