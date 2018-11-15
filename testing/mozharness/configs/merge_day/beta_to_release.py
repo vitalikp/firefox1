@@ -4,8 +4,6 @@ ABS_WORK_DIR = os.path.join(os.getcwd(), "build")
 
 config = {
     "log_name": "beta_to_release",
-    "copy_files": [
-    ],
     "replacements": [
         # File, from, to
         ("{}/{}".format(d, f),
