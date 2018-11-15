@@ -1,7 +1,6 @@
 config = {
     "log_name": "bump_release",
     "version_files": [
-        {"file": "browser/config/version.txt"},
         {"file": "version"},
     ],
     "repo": {

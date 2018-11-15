@@ -8,7 +8,6 @@ OLD_ESR_CHANGESET = "d2d75f526882"
 config = {
     "log_name": "relese_to_esr",
     "version_files": [
-        {"file": "browser/config/version.txt", "suffix": ""},
         {"file": "version", "suffix": ""},
     ],
     "replacements": [

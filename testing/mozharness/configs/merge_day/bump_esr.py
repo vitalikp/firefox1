@@ -5,7 +5,6 @@ config = {
     "vcs_share_base": os.path.join(ABS_WORK_DIR, 'hg-shared'),
     "log_name": "bump_esr",
     "version_files": [
-        {"file": "browser/config/version.txt", "suffix": ""},
         {"file": "version", "suffix": ""},
     ],
     "tools_repo_url": "https://hg.mozilla.org/build/tools",

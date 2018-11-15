@@ -5,7 +5,6 @@ ABS_WORK_DIR = os.path.join(os.getcwd(), "build")
 config = {
     "log_name": "aurora_to_beta",
     "version_files": [
-        {"file": "browser/config/version.txt", "suffix": ""},
         {"file": "version", "suffix": ""},
     ],
     "replacements": [

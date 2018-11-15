@@ -840,7 +840,7 @@ if test -z "$MOZILLA_VERSION"; then
 fi
 
 dnl Get version of various core apps from the version files.
-FIREFOX_VERSION=`cat $_topsrcdir/browser/config/version.txt`
+FIREFOX_VERSION=`cat $_topsrcdir/version`
 FIREFOX_VERSION_DISPLAY=`cat $_topsrcdir/version`
 
 if test -z "$FIREFOX_VERSION"; then

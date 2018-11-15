@@ -8,7 +8,7 @@ from mozharness.base.vcs.mercurial import MercurialVCS
 class MercurialRepoManipulationMixin(object):
 
     def get_version(self, repo_root,
-                    version_file="browser/config/version.txt"):
+                    version_file="version"):
         version_path = os.path.join(repo_root, version_file)
         contents = self.read_from_file(version_path, error_level=FATAL)
         lines = [l for l in contents.splitlines() if l and
