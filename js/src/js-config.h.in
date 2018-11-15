@@ -20,11 +20,11 @@
  * generate both debug and release bindings on a single objdir.
  */
 #ifdef JS_DEBUG
-#if !defined(DEBUG) && !defined(RUST_BINDGEN)
+#if !defined(DEBUG)
 #  error "SpiderMonkey was configured with --enable-debug, so DEBUG must be defined when including this header"
 # endif
 #else
-# if defined(DEBUG) && !defined(RUST_BINDGEN)
+# if defined(DEBUG)
 #  error "SpiderMonkey was configured with --disable-debug, so DEBUG must be not defined when including this header"
 # endif
 #endif
