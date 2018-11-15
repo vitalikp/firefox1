@@ -56,10 +56,10 @@ char *av_stristr(const char *s1, const char *s2)
     if (!*s2)
         return s1;
 
-    do
+    do {
         if (av_stristart(s1, s2, NULL))
             return s1;
-    while (*s1++);
+    } while (*s1++);
 
     return NULL;
 }
