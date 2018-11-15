@@ -841,7 +841,7 @@ fi
 
 dnl Get version of various core apps from the version files.
 FIREFOX_VERSION=`cat $_topsrcdir/browser/config/version.txt`
-FIREFOX_VERSION_DISPLAY=`cat $_topsrcdir/browser/config/version_display.txt`
+FIREFOX_VERSION_DISPLAY=`cat $_topsrcdir/version`
 
 if test -z "$FIREFOX_VERSION"; then
     AC_MSG_ERROR([FIREFOX_VERSION is unexpectedly blank.])

@@ -1,6 +1,6 @@
 config = {
     "log_name": "bump_beta",
-    "version_files": [{"file": "browser/config/version_display.txt"}],
+    "version_files": [{"file": "version"}],
     "repo": {
         "repo": "https://hg.mozilla.org/releases/mozilla-beta",
         "branch": "default",

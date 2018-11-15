@@ -5,7 +5,6 @@ config = {
     "log_name": "central_to_aurora",
     "version_files": [
         {"file": "browser/config/version.txt", "suffix": ""},
-        {"file": "browser/config/version_display.txt", "suffix": ""},
         {"file": "version", "suffix": ""},
     ],
     "replacements": [

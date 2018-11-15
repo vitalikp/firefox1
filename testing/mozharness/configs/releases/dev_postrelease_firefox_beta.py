@@ -1,7 +1,7 @@
 config = {
     # date is used for staging mozilla-beta
     "log_name": "bump_date",
-    "version_files": [{"file": "browser/config/version_display.txt"}],
+    "version_files": [{"file": "version"}],
     "repo": {
         # date is used for staging mozilla-beta
         "repo": "https://hg.mozilla.org/projects/date",

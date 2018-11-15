@@ -9,7 +9,6 @@ config = {
     "log_name": "relese_to_esr",
     "version_files": [
         {"file": "browser/config/version.txt", "suffix": ""},
-        {"file": "browser/config/version_display.txt", "suffix": ""},
         {"file": "version", "suffix": ""},
     ],
     "replacements": [

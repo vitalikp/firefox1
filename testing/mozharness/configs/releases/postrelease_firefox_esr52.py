@@ -2,7 +2,6 @@ config = {
     "log_name": "bump_esr52",
     "version_files": [
         {"file": "browser/config/version.txt"},
-        {"file": "browser/config/version_display.txt"},
         {"file": "version"},
     ],
     "repo": {

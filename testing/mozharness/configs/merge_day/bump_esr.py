@@ -6,7 +6,6 @@ config = {
     "log_name": "bump_esr",
     "version_files": [
         {"file": "browser/config/version.txt", "suffix": ""},
-        {"file": "browser/config/version_display.txt", "suffix": ""},
         {"file": "version", "suffix": ""},
     ],
     "tools_repo_url": "https://hg.mozilla.org/build/tools",

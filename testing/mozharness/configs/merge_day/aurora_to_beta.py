@@ -6,7 +6,6 @@ config = {
     "log_name": "aurora_to_beta",
     "version_files": [
         {"file": "browser/config/version.txt", "suffix": ""},
-        {"file": "browser/config/version_display.txt", "suffix": "b1"},
         {"file": "version", "suffix": ""},
     ],
     "replacements": [
