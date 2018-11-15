@@ -2001,9 +2001,6 @@ pref("network.proxy.autoconfig_url.include_path", false);
 pref("network.proxy.autoconfig_retry_interval_min", 5);    // 5 seconds
 pref("network.proxy.autoconfig_retry_interval_max", 300);  // 5 minutes
 
-// Use the HSTS preload list by default
-pref("network.stricttransportsecurity.preloadlist", true);
-
 // Use JS mDNS as a fallback
 pref("network.mdns.use_js_fallback", false);
 

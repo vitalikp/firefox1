@@ -110,8 +110,6 @@ public:
   void ToString(nsCString &aString);
 };
 
-struct nsSTSPreload;
-
 class nsSiteSecurityService : public nsISiteSecurityService
                             , public nsIObserver
 {
@@ -146,10 +144,7 @@ private:
   nsresult SetHPKPState(const char* aHost, SiteHPKPState& entry, uint32_t flags,
                         bool aIsPreload);
 
-  const nsSTSPreload *GetPreloadListEntry(const char *aHost);
-
   uint64_t mMaxMaxAge;
-  bool mUsePreloadList;
   int64_t mPreloadListTimeOffset;
   bool mProcessPKPHeadersFromNonBuiltInRoots;
   RefPtr<mozilla::DataStorage> mSiteStateStorage;

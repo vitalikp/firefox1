@@ -29,14 +29,6 @@
 #include "ScopedNSSTypes.h"
 #include "SharedCertVerifier.h"
 
-// A note about the preload list:
-// When a site specifically disables HSTS by sending a header with
-// 'max-age: 0', we keep a "knockout" value that means "we have no information
-// regarding the HSTS state of this host" (any ancestor of "this host" can still
-// influence its HSTS status via include subdomains, however).
-// This prevents the preload list from overriding the site's current
-// desired HSTS status.
-#include "nsSTSPreloadList.inc"
 
 using namespace mozilla;
 using namespace mozilla::psm;
@@ -209,7 +201,6 @@ const uint64_t kSixtyDaysInSeconds = 60 * 24 * 60 * 60;
 
 nsSiteSecurityService::nsSiteSecurityService()
   : mMaxMaxAge(kSixtyDaysInSeconds)
-  , mUsePreloadList(true)
   , mPreloadListTimeOffset(0)
 {
 }
@@ -235,10 +226,6 @@ nsSiteSecurityService::Init()
     "security.cert_pinning.max_max_age_seconds", kSixtyDaysInSeconds);
   mozilla::Preferences::AddStrongObserver(this,
     "security.cert_pinning.max_max_age_seconds");
-  mUsePreloadList = mozilla::Preferences::GetBool(
-    "network.stricttransportsecurity.preloadlist", true);
-  mozilla::Preferences::AddStrongObserver(this,
-    "network.stricttransportsecurity.preloadlist");
   mProcessPKPHeadersFromNonBuiltInRoots = mozilla::Preferences::GetBool(
     "security.cert_pinning.process_headers_from_non_builtin_roots", false);
   mozilla::Preferences::AddStrongObserver(this,
@@ -385,22 +372,11 @@ nsSiteSecurityService::RemoveState(uint32_t aType, nsIURI* aURI,
   mozilla::DataStorageType storageType = isPrivate
                                          ? mozilla::DataStorage_Private
                                          : mozilla::DataStorage_Persistent;
-  // If this host is in the preload list, we have to store a knockout entry.
-  if (GetPreloadListEntry(hostname.get())) {
-    SSSLOG(("SSS: storing knockout entry for %s", hostname.get()));
-    SiteHSTSState siteState(0, SecurityPropertyKnockout, false);
-    nsAutoCString stateString;
-    siteState.ToString(stateString);
-    nsAutoCString storageKey;
-    SetStorageKey(storageKey, hostname, aType);
-    rv = mSiteStateStorage->Put(storageKey, stateString, storageType);
-    NS_ENSURE_SUCCESS(rv, rv);
-  } else {
-    SSSLOG(("SSS: removing entry for %s", hostname.get()));
-    nsAutoCString storageKey;
-    SetStorageKey(storageKey, hostname, aType);
-    mSiteStateStorage->Remove(storageKey, storageType);
-  }
+
+  SSSLOG(("SSS: removing entry for %s", hostname.get()));
+  nsAutoCString storageKey;
+  SetStorageKey(storageKey, hostname, aType);
+  mSiteStateStorage->Remove(storageKey, storageType);
 
   return NS_OK;
 }
@@ -939,31 +915,6 @@ nsSiteSecurityService::IsSecureURI(uint32_t aType, nsIURI* aURI,
   return IsSecureHost(aType, hostname.get(), aFlags, aCached, aResult);
 }
 
-int STSPreloadCompare(const void *key, const void *entry)
-{
-  const char *keyStr = (const char *)key;
-  const nsSTSPreload *preloadEntry = (const nsSTSPreload *)entry;
-  return strcmp(keyStr, &kSTSHostTable[preloadEntry->mHostIndex]);
-}
-
-// Returns the preload list entry for the given host, if it exists.
-// Only does exact host matching - the user must decide how to use the returned
-// data. May return null.
-const nsSTSPreload *
-nsSiteSecurityService::GetPreloadListEntry(const char *aHost)
-{
-  PRTime currentTime = PR_Now() + (mPreloadListTimeOffset * PR_USEC_PER_SEC);
-  if (mUsePreloadList && currentTime < gPreloadListExpirationTime) {
-    return (const nsSTSPreload *) bsearch(aHost,
-                                          kSTSPreloadList,
-                                          mozilla::ArrayLength(kSTSPreloadList),
-                                          sizeof(nsSTSPreload),
-                                          STSPreloadCompare);
-  }
-
-  return nullptr;
-}
-
 NS_IMETHODIMP
 nsSiteSecurityService::IsSecureHost(uint32_t aType, const char* aHost,
                                     uint32_t aFlags, bool* aCached,
@@ -1018,8 +969,6 @@ nsSiteSecurityService::IsSecureHost(uint32_t aType, const char* aHost,
     return NS_OK;
   }
 
-  const nsSTSPreload *preload = nullptr;
-
   // First check the exact host. This involves first checking for an entry in
   // site security storage. If that entry exists, we don't want to check
   // in the preload list. We only want to use the stored value if it is not a
@@ -1051,23 +1000,12 @@ nsSiteSecurityService::IsSecureHost(uint32_t aType, const char* aHost,
       }
     }
 
-    // If the entry is expired and not in the preload list, we can remove it.
-    if (expired && !GetPreloadListEntry(host.get())) {
+    // If the entry is expired, we can remove it.
+    if (expired) {
       mSiteStateStorage->Remove(storageKey, storageType);
     }
   }
-  // Finally look in the preloaded list. This is the exact host,
-  // so if an entry exists at all, this host is HSTS.
-  else if (GetPreloadListEntry(host.get())) {
-    SSSLOG(("%s is a preloaded STS host", host.get()));
-    *aResult = true;
-    if (aCached) {
-      *aCached = true;
-    }
-    return NS_OK;
-  }
 
-  SSSLOG(("no HSTS data for %s found, walking up domain", host.get()));
   const char *subdomain;
 
   uint32_t offset = 0;
@@ -1109,25 +1047,11 @@ nsSiteSecurityService::IsSecureHost(uint32_t aType, const char* aHost,
         }
       }
 
-      // If the entry is expired and not in the preload list, we can remove it.
-      if (expired && !GetPreloadListEntry(subdomain)) {
+      // If the entry is expired, we can remove it.
+      if (expired) {
         mSiteStateStorage->Remove(storageKey, storageType);
       }
     }
-    // This is an ancestor, so if we get a match, we have to check if the
-    // preloaded entry includes subdomains.
-    else if ((preload = GetPreloadListEntry(subdomain)) != nullptr) {
-      if (preload->mIncludeSubdomains) {
-        SSSLOG(("%s is a preloaded STS host", subdomain));
-        *aResult = true;
-        if (aCached) {
-          *aCached = true;
-        }
-        break;
-      }
-    }
-
-    SSSLOG(("no HSTS data for %s found, walking up domain", subdomain));
   }
 
   // Use whatever we ended up with, which defaults to false.
@@ -1288,8 +1212,6 @@ nsSiteSecurityService::Observe(nsISupports *subject,
   }
 
   if (strcmp(topic, NS_PREFBRANCH_PREFCHANGE_TOPIC_ID) == 0) {
-    mUsePreloadList = mozilla::Preferences::GetBool(
-      "network.stricttransportsecurity.preloadlist", true);
     mPreloadListTimeOffset =
       mozilla::Preferences::GetInt("test.currentTimeOffsetSeconds", 0);
     mProcessPKPHeadersFromNonBuiltInRoots = mozilla::Preferences::GetBool(
