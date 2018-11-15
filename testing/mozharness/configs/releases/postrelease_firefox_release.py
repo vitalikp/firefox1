@@ -3,7 +3,7 @@ config = {
     "version_files": [
         {"file": "browser/config/version.txt"},
         {"file": "browser/config/version_display.txt"},
-        {"file": "config/milestone.txt"},
+        {"file": "version"},
     ],
     "repo": {
         "repo": "https://hg.mozilla.org/releases/mozilla-release",

@@ -314,7 +314,7 @@ CONFIG_STATUS_DEPS := \
   $(CONFIGURES) \
   $(TOPSRCDIR)/CLOBBER \
   $(TOPSRCDIR)/nsprpub/configure \
-  $(TOPSRCDIR)/config/milestone.txt \
+  $(TOPSRCDIR)/version \
   $(TOPSRCDIR)/browser/config/version.txt \
   $(TOPSRCDIR)/browser/config/version_display.txt \
   $(TOPSRCDIR)/build/virtualenv_packages.txt \

@@ -15,8 +15,8 @@ set -e
 # The place to put the resulting tarball.
 : ${DIST:=/tmp}
 
-if [[ -f "$SRCDIR/../../config/milestone.txt" ]]; then
-    MILESTONE="$(tail -1 $SRCDIR/../../config/milestone.txt)"
+if [[ -f "$SRCDIR/../../version" ]]; then
+    MILESTONE="$(tail -1 $SRCDIR/../../version)"
     IFS=. read -a VERSION < <(echo "$MILESTONE")
     MOZJS_MAJOR_VERSION=${MOZJS_MAJOR_VERSION:-${VERSION[0]}}
     MOZJS_MINOR_VERSION=${MOZJS_MINOR_VERSION:-${VERSION[1]}}

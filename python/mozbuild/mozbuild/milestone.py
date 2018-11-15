@@ -51,7 +51,7 @@ def main(args):
     parser.add_argument('--topsrcdir', metavar='TOPSRCDIR', required=True)
     options = parser.parse_args(args)
 
-    milestone_file = os.path.join(options.topsrcdir, 'config', 'milestone.txt')
+    milestone_file = os.path.join(options.topsrcdir, 'version')
 
     milestone = get_official_milestone(milestone_file)
 

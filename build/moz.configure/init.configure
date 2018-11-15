@@ -639,8 +639,7 @@ add_old_configure_assignment('MOZ_BUILD_APP', build_project)
 @imports(_from='__builtin__', _import='open')
 def milestone(build_env, _):
     milestone_path = os.path.join(build_env.topsrcdir,
-                                  'config',
-                                  'milestone.txt')
+                                  'version')
     with open(milestone_path, 'r') as fh:
         milestone = fh.read().splitlines()[-1]
 

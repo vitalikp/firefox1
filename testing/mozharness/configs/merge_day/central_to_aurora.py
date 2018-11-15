@@ -6,7 +6,7 @@ config = {
     "version_files": [
         {"file": "browser/config/version.txt", "suffix": ""},
         {"file": "browser/config/version_display.txt", "suffix": ""},
-        {"file": "config/milestone.txt", "suffix": ""},
+        {"file": "version", "suffix": ""},
     ],
     "replacements": [
         # File, from, to

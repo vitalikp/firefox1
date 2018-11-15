@@ -113,7 +113,7 @@ if (!defined($module))
 
 my $bufferstr="    ";
 
-my $MILESTONE_FILE = "$topsrcdir/config/milestone.txt";
+my $MILESTONE_FILE = "$topsrcdir/version";
 my $BUILDID_FILE = "$depth/buildid.h";
 
 #Read module.ver file

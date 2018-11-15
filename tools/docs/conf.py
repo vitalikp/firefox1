@@ -46,7 +46,7 @@ year = datetime.now().year
 
 # Grab the version from the source tree's milestone.
 # FUTURE Use Python API from bug 941299.
-with open(os.path.join(topsrcdir, 'config', 'milestone.txt'), 'rt') as fh:
+with open(os.path.join(topsrcdir, 'version'), 'rt') as fh:
     for line in fh:
         line = line.strip()
 
