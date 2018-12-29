@@ -3263,15 +3263,6 @@ var gDetailView = {
         errorLink.value = gStrings.ext.GetStringFromName("details.notification.blocked.link");
         errorLink.href = this._addon.blocklistURL;
         errorLink.hidden = false;
-      } else if (!isCorrectlySigned(this._addon) && SIGNING_REQUIRED) {
-        this.node.setAttribute("notification", "error");
-        document.getElementById("detail-error").textContent = gStrings.ext.formatStringFromName(
-          "details.notification.unsignedAndDisabled", [this._addon.name, gStrings.brandShortName], 2
-        );
-        let errorLink = document.getElementById("detail-error-link");
-        errorLink.value = gStrings.ext.GetStringFromName("details.notification.unsigned.link");
-        errorLink.href = Services.urlFormatter.formatURLPref("app.support.baseURL") + "unsigned-addons";
-        errorLink.hidden = false;
       } else if (!this._addon.isCompatible && (AddonManager.checkCompatibility ||
         (this._addon.blocklistState != Ci.nsIBlocklistService.STATE_SOFTBLOCKED))) {
         this.node.setAttribute("notification", "warning");
@@ -3280,15 +3271,6 @@ var gDetailView = {
           [this._addon.name, gStrings.brandShortName, gStrings.appVersion], 3
         );
         document.getElementById("detail-warning-link").hidden = true;
-      } else if (!isCorrectlySigned(this._addon)) {
-        this.node.setAttribute("notification", "warning");
-        document.getElementById("detail-warning").textContent = gStrings.ext.formatStringFromName(
-          "details.notification.unsigned", [this._addon.name, gStrings.brandShortName], 2
-        );
-        var warningLink = document.getElementById("detail-warning-link");
-        warningLink.value = gStrings.ext.GetStringFromName("details.notification.unsigned.link");
-        warningLink.href = Services.urlFormatter.formatURLPref("app.support.baseURL") + "unsigned-addons";
-        warningLink.hidden = false;
       } else if (this._addon.blocklistState == Ci.nsIBlocklistService.STATE_SOFTBLOCKED) {
         this.node.setAttribute("notification", "warning");
         document.getElementById("detail-warning").textContent = gStrings.ext.formatStringFromName(
