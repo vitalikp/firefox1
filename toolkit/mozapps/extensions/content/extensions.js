@@ -18,11 +18,6 @@ Cu.import("resource://gre/modules/DownloadUtils.jsm");
 Cu.import("resource://gre/modules/AddonManager.jsm");
 Cu.import("resource://gre/modules/addons/AddonRepository.jsm");
 
-const CONSTANTS = {};
-Cu.import("resource://gre/modules/addons/AddonConstants.jsm", CONSTANTS);
-const SIGNING_REQUIRED = CONSTANTS.REQUIRE_SIGNING ?
-                         true :
-                         Services.prefs.getBoolPref("xpinstall.signatures.required");
 
 XPCOMUtils.defineLazyModuleGetter(this, "PluralForm",
                                   "resource://gre/modules/PluralForm.jsm");
@@ -2806,19 +2801,8 @@ var gListView = {
   },
 
   filterDisabledUnsigned: function(aFilter = true) {
-    let foundDisabledUnsigned = false;
-
-    if (SIGNING_REQUIRED) {
-      for (let item of this._listBox.childNodes) {
-        if (!isCorrectlySigned(item.mAddon))
-          foundDisabledUnsigned = true;
-        else
-          item.hidden = aFilter;
-      }
-    }
-
     document.getElementById("show-disabled-unsigned-extensions").hidden =
-      aFilter || !foundDisabledUnsigned;
+      true;
 
     document.getElementById("show-all-extensions").hidden = !aFilter;
     document.getElementById("disabled-unsigned-addons-info").hidden = !aFilter;

@@ -24,7 +24,6 @@ const PREFIX_THEME          = "urn:mozilla:theme:";
 const TOOLKIT_ID            = "toolkit@mozilla.org"
 const XMLURI_PARSE_ERROR    = "http://www.mozilla.org/newlayout/xml/parsererror.xml"
 
-const PREF_UPDATE_REQUIREBUILTINCERTS = "extensions.update.requireBuiltInCerts";
 
 Components.utils.import("resource://gre/modules/Services.jsm");
 Components.utils.import("resource://gre/modules/XPCOMUtils.jsm");
@@ -572,18 +571,11 @@ function UpdateParser(aId, aUpdateKey, aUrl, aObserver) {
   this.observer = aObserver;
   this.url = aUrl;
 
-  let requireBuiltIn = true;
-  try {
-    requireBuiltIn = Services.prefs.getBoolPref(PREF_UPDATE_REQUIREBUILTINCERTS);
-  }
-  catch (e) {
-  }
-
   logger.debug("Requesting " + aUrl);
   try {
     this.request = new ServiceRequest();
     this.request.open("GET", this.url, true);
-    this.request.channel.notificationCallbacks = new CertUtils.BadCertHandler(!requireBuiltIn);
+    this.request.channel.notificationCallbacks = new CertUtils.BadCertHandler(true);
     this.request.channel.loadFlags |= Ci.nsIRequest.LOAD_BYPASS_CACHE;
     // Prevent the request from writing to cache.
     this.request.channel.loadFlags |= Ci.nsIRequest.INHIBIT_CACHING;
@@ -615,15 +607,8 @@ UpdateParser.prototype = {
     this.request = null;
     this._doneAt = new Error("place holder");
 
-    let requireBuiltIn = true;
     try {
-      requireBuiltIn = Services.prefs.getBoolPref(PREF_UPDATE_REQUIREBUILTINCERTS);
-    }
-    catch (e) {
-    }
-
-    try {
-      CertUtils.checkCert(request.channel, !requireBuiltIn);
+      CertUtils.checkCert(request.channel, true);
     }
     catch (e) {
       logger.warn("Request failed: " + this.url + " - " + e);

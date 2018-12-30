@@ -112,11 +112,9 @@ const PREF_XPI_WHITELIST_REQUIRED     = "xpinstall.whitelist.required";
 const PREF_XPI_DIRECT_WHITELISTED     = "xpinstall.whitelist.directRequest";
 const PREF_XPI_FILE_WHITELISTED       = "xpinstall.whitelist.fileRequest";
 // xpinstall.signatures.required only supported in dev builds
-const PREF_XPI_SIGNATURES_REQUIRED    = "xpinstall.signatures.required";
 const PREF_XPI_SIGNATURES_DEV_ROOT    = "xpinstall.signatures.dev-root";
 const PREF_XPI_PERMISSIONS_BRANCH     = "xpinstall.";
 const PREF_XPI_UNPACK                 = "extensions.alwaysUnpack";
-const PREF_INSTALL_REQUIREBUILTINCERTS = "extensions.install.requireBuiltInCerts";
 const PREF_INSTALL_REQUIRESECUREORIGIN = "extensions.install.requireSecureOrigin";
 const PREF_INSTALL_DISTRO_ADDONS      = "extensions.installDistroAddons";
 const PREF_BRANCH_INSTALLED_ADDON     = "extensions.installedDistroAddon.";
@@ -267,12 +265,6 @@ const SIGNED_TYPES = new Set([
 const TEMP_INSTALL_ID_GEN_SESSION =
   new Uint8Array(Float64Array.of(Math.random()).buffer);
 
-// Whether add-on signing is required.
-function mustSign(aType) {
-  if (!SIGNED_TYPES.has(aType))
-    return false;
-  return REQUIRE_SIGNING || Preferences.get(PREF_XPI_SIGNATURES_REQUIRED, false);
-}
 
 // Keep track of where we are in startup for telemetry
 // event happened during XPIDatabase.startup()
@@ -743,11 +735,6 @@ function isUsableAddon(aAddon) {
   // Hack to ensure the default theme is always usable
   if (aAddon.type == "theme" && aAddon.internalName == XPIProvider.defaultSkin)
     return true;
-
-  if (mustSign(aAddon.type) && !aAddon.isCorrectlySigned) {
-    logger.warn(`Add-on ${aAddon.id} is not correctly signed.`);
-    return false;
-  }
 
   if (aAddon.blocklistState == Blocklist.STATE_BLOCKED) {
     logger.warn(`Add-on ${aAddon.id} is blocklisted.`);
@@ -1799,7 +1786,7 @@ function shouldVerifySignedState(aAddon) {
 
   // Otherwise only check signatures if signing is enabled and the add-on is one
   // of the signed types.
-  return ADDON_SIGNING && SIGNED_TYPES.has(aAddon.type);
+  return false;
 }
 
 let gCertDB = Cc["@mozilla.org/security/x509certdb;1"]
@@ -1825,7 +1812,7 @@ function verifyZipSignedState(aFile, aAddon) {
     });
 
   let root = Ci.nsIX509CertDB.AddonsPublicRoot;
-  if (!REQUIRE_SIGNING && Preferences.get(PREF_XPI_SIGNATURES_DEV_ROOT, false))
+  if (Preferences.get(PREF_XPI_SIGNATURES_DEV_ROOT, false))
     root = Ci.nsIX509CertDB.AddonsStageRoot;
 
   return new Promise(resolve => {
@@ -1867,7 +1854,7 @@ function verifyDirSignedState(aDir, aAddon) {
     });
 
   let root = Ci.nsIX509CertDB.AddonsPublicRoot;
-  if (!REQUIRE_SIGNING && Preferences.get(PREF_XPI_SIGNATURES_DEV_ROOT, false))
+  if (Preferences.get(PREF_XPI_SIGNATURES_DEV_ROOT, false))
     root = Ci.nsIX509CertDB.AddonsStageRoot;
 
   return new Promise(resolve => {
@@ -2808,8 +2795,6 @@ this.XPIProvider = {
       Services.prefs.addObserver(PREF_EM_MIN_COMPAT_PLATFORM_VERSION, this, false);
       Services.prefs.addObserver(PREF_E10S_ADDON_BLOCKLIST, this, false);
       Services.prefs.addObserver(PREF_E10S_ADDON_POLICY, this, false);
-      if (!REQUIRE_SIGNING)
-        Services.prefs.addObserver(PREF_XPI_SIGNATURES_REQUIRED, this, false);
       Services.obs.addObserver(this, NOTIFICATION_FLUSH_PERMISSIONS, false);
 
       // Cu.isModuleLoaded can fail here for external XUL apps where there is
@@ -3444,14 +3429,6 @@ this.XPIProvider = {
         catch (e) {
           logger.error("Unable to read add-on manifest from " + stageDirEntry.path, e);
           // This add-on can't be installed so just remove it now
-          seenFiles.push(stageDirEntry.leafName);
-          seenFiles.push(jsonfile.leafName);
-          continue;
-        }
-
-        if (mustSign(addon.type) &&
-            addon.signedState <= AddonManager.SIGNEDSTATE_MISSING) {
-          logger.warn("Refusing to install staged add-on " + id + " with signed state " + addon.signedState);
           seenFiles.push(stageDirEntry.leafName);
           seenFiles.push(jsonfile.leafName);
           continue;
@@ -4473,9 +4450,6 @@ this.XPIProvider = {
       case PREF_EM_MIN_COMPAT_PLATFORM_VERSION:
         this.minCompatiblePlatformVersion = Preferences.get(PREF_EM_MIN_COMPAT_PLATFORM_VERSION,
                                                             null);
-        this.updateAddonAppDisabledStates();
-        break;
-      case PREF_XPI_SIGNATURES_REQUIRED:
         this.updateAddonAppDisabledStates();
         break;
 
@@ -5712,24 +5686,8 @@ class AddonInstall {
         }
       }
 
-      if (mustSign(this.addon.type)) {
-        if (this.addon.signedState <= AddonManager.SIGNEDSTATE_MISSING) {
-          // This add-on isn't properly signed by a signature that chains to the
-          // trusted root.
-          let state = this.addon.signedState;
-          this.addon = null;
-          zipreader.close();
-
-          if (state == AddonManager.SIGNEDSTATE_MISSING)
-            return Promise.reject([AddonManager.ERROR_SIGNEDSTATE_REQUIRED,
-                                   "signature is required but missing"])
-
-          return Promise.reject([AddonManager.ERROR_CORRUPT_FILE,
-                                 "signature verification failed"])
-        }
-      }
-      else if (this.addon.signedState == AddonManager.SIGNEDSTATE_UNKNOWN ||
-               this.addon.signedState == AddonManager.SIGNEDSTATE_NOT_REQUIRED) {
+      if (this.addon.signedState == AddonManager.SIGNEDSTATE_UNKNOWN ||
+          this.addon.signedState == AddonManager.SIGNEDSTATE_NOT_REQUIRED) {
         // Check object signing certificate, if any
         let x509 = zipreader.getSigningCert(null);
         if (x509) {
@@ -6321,8 +6279,7 @@ class DownloadAddonInstall extends AddonInstall {
                    createInstance(Ci.nsIStreamListenerTee);
     listener.init(this, this.stream);
     try {
-      let requireBuiltIn = Preferences.get(PREF_INSTALL_REQUIREBUILTINCERTS, true);
-      this.badCertHandler = new CertUtils.BadCertHandler(!requireBuiltIn);
+      this.badCertHandler = new CertUtils.BadCertHandler(true);
 
       this.channel = NetUtil.newChannel({
         uri: this.sourceURI,
@@ -6471,8 +6428,7 @@ class DownloadAddonInstall extends AddonInstall {
       if (!(aRequest instanceof Ci.nsIHttpChannel) || aRequest.requestSucceeded) {
         if (!this.hash && (aRequest instanceof Ci.nsIChannel)) {
           try {
-            CertUtils.checkCert(aRequest,
-                                !Preferences.get(PREF_INSTALL_REQUIREBUILTINCERTS, true));
+            CertUtils.checkCert(aRequest, true);
           }
           catch (e) {
             this.downloadFailed(AddonManager.ERROR_NETWORK_FAILURE, e);

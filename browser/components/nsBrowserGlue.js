@@ -1115,28 +1115,6 @@ BrowserGlue.prototype = {
       }
     });
 
-    let signingRequired;
-    if (AppConstants.MOZ_REQUIRE_SIGNING) {
-      signingRequired = true;
-    } else {
-      signingRequired = Services.prefs.getBoolPref("xpinstall.signatures.required");
-    }
-
-    if (signingRequired) {
-      let disabledAddons = AddonManager.getStartupChanges(AddonManager.STARTUP_CHANGE_DISABLED);
-      AddonManager.getAddonsByIDs(disabledAddons, (addons) => {
-        for (let addon of addons) {
-          if (addon.type == "experiment")
-            continue;
-
-          if (addon.signedState <= AddonManager.SIGNEDSTATE_MISSING) {
-            this._notifyUnsignedAddonsDisabled();
-            break;
-          }
-        }
-      });
-    }
-
     // Perform default browser checking.
     if (ShellService) {
       let shouldCheck = AppConstants.DEBUG ? false :
