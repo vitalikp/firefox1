@@ -55,8 +55,6 @@ class GeckoInstance(object):
         # Turn off extension updates so they don't bother tests
         "extensions.update.enabled": False,
         "extensions.update.notifyUser": False,
-        # Make sure opening about:addons won"t hit the network
-        "extensions.webservice.discoverURL": "http://%(server)s/dummy/discoveryURL",
 
         # Allow the application to have focus even it runs in the background
         "focusmanager.testmode": True,

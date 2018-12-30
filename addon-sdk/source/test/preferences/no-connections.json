@@ -27,7 +27,6 @@
   "extensions.update.url": "http://localhost/extensions-dummy/updateURL",
   "extensions.update.background.url": "http://localhost/extensions-dummy/updateBackgroundURL",
   "extensions.blocklist.url": "http://localhost/extensions-dummy/blocklistURL",
-  "extensions.webservice.discoverURL": "http://localhost/extensions-dummy/discoveryURL",
   "extensions.getAddons.maxResults": 0,
   "services.blocklist.base": "http://localhost/dummy-kinto/v1",
   "geo.wifi.uri": "http://localhost/location-dummy/locationURL",
