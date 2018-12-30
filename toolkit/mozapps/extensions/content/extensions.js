@@ -27,8 +27,6 @@ XPCOMUtils.defineLazyModuleGetter(this, "Preferences",
 XPCOMUtils.defineLazyModuleGetter(this, "Experiments",
   "resource:///modules/experiments/Experiments.jsm");
 
-const PREF_DISCOVERURL = "extensions.webservice.discoverURL";
-const PREF_DISCOVER_ENABLED = "extensions.getAddons.showPane";
 const PREF_XPI_ENABLED = "xpinstall.enabled";
 const PREF_MAXRESULTS = "extensions.getAddons.maxResults";
 const PREF_GETADDONS_CACHE_ENABLED = "extensions.getAddons.cache.enabled";
@@ -51,7 +49,7 @@ const UPDATES_RELEASENOTES_TRANSFORMFILE = "chrome://mozapps/content/extensions/
 
 const XMLURI_PARSE_ERROR = "http://www.mozilla.org/newlayout/xml/parsererror.xml"
 
-var gViewDefault = "addons://discover/";
+var gViewDefault = "addons://list/extension";
 
 var gStrings = {};
 XPCOMUtils.defineLazyServiceGetter(gStrings, "bundleSvc",
@@ -199,10 +197,6 @@ function initialize(event) {
     gHeader.onKeyPress(event);
   });
 
-  if (!isDiscoverEnabled()) {
-    gViewDefault = "addons://list/extension";
-  }
-
   gViewController.initialize();
   gCategories.initialize();
   gHeader.initialize();
@@ -273,23 +267,6 @@ function isCorrectlySigned(aAddon) {
   // Add-ons without an "isCorrectlySigned" property are correctly signed as
   // they aren't the correct type for signing.
   return aAddon.isCorrectlySigned !== false;
-}
-
-function isDiscoverEnabled() {
-  if (Services.prefs.getPrefType(PREF_DISCOVERURL) == Services.prefs.PREF_INVALID)
-    return false;
-
-  try {
-    if (!Services.prefs.getBoolPref(PREF_DISCOVER_ENABLED))
-      return false;
-  } catch (e) {}
-
-  try {
-    if (!Services.prefs.getBoolPref(PREF_XPI_ENABLED))
-      return false;
-  } catch (e) {}
-
-  return true;
 }
 
 function getExperimentEndDate(aAddon) {
@@ -694,7 +671,6 @@ var gViewController = {
     this.headeredViewsDeck = document.getElementById("headered-views-content");
 
     this.viewObjects["search"] = gSearchView;
-    this.viewObjects["discover"] = gDiscoverView;
     this.viewObjects["list"] = gListView;
     this.viewObjects["detail"] = gDetailView;
     this.viewObjects["updates"] = gUpdatesView;
@@ -976,15 +952,6 @@ var gViewController = {
               addon.applyBackgroundUpdates = AddonManager.AUTOUPDATE_DEFAULT;
           }
         });
-      }
-    },
-
-    cmd_goToDiscoverPane: {
-      isEnabled: function() {
-        return gDiscoverView.enabled;
-      },
-      doCommand: function() {
-        gViewController.loadView("addons://discover/");
       }
     },
 
@@ -2104,270 +2071,6 @@ var gHeader = {
   set searchQuery(aQuery) {
     this._search.value = aQuery;
   },
-};
-
-
-var gDiscoverView = {
-  node: null,
-  enabled: true,
-  // Set to true after the view is first shown. If initialization completes
-  // after this then it must also load the discover homepage
-  loaded: false,
-  _browser: null,
-  _loading: null,
-  _error: null,
-  homepageURL: null,
-  _loadListeners: [],
-  hideHeader: true,
-
-  initialize: function() {
-    this.enabled = isDiscoverEnabled();
-    if (!this.enabled) {
-      gCategories.get("addons://discover/").hidden = true;
-      return;
-    }
-
-    this.node = document.getElementById("discover-view");
-    this._loading = document.getElementById("discover-loading");
-    this._error = document.getElementById("discover-error");
-    this._browser = document.getElementById("discover-browser");
-
-    let compatMode = "normal";
-    if (!AddonManager.checkCompatibility)
-      compatMode = "ignore";
-    else if (AddonManager.strictCompatibility)
-      compatMode = "strict";
-
-    var url = Services.prefs.getCharPref(PREF_DISCOVERURL);
-    url = url.replace("%COMPATIBILITY_MODE%", compatMode);
-    url = Services.urlFormatter.formatURL(url);
-
-    let setURL = (aURL) => {
-      try {
-        this.homepageURL = Services.io.newURI(aURL, null, null);
-      } catch (e) {
-        this.showError();
-        notifyInitialized();
-        return;
-      }
-
-      this._browser.homePage = this.homepageURL.spec;
-      this._browser.addProgressListener(this);
-
-      if (this.loaded)
-        this._loadURL(this.homepageURL.spec, false, notifyInitialized);
-      else
-        notifyInitialized();
-    }
-
-    if (Services.prefs.getBoolPref(PREF_GETADDONS_CACHE_ENABLED) == false) {
-      setURL(url);
-      return;
-    }
-
-    gPendingInitializations++;
-    AddonManager.getAllAddons(function(aAddons) {
-      var list = {};
-      for (let addon of aAddons) {
-        var prefName = PREF_GETADDONS_CACHE_ID_ENABLED.replace("%ID%",
-                                                               addon.id);
-        try {
-          if (!Services.prefs.getBoolPref(prefName))
-            continue;
-        } catch (e) { }
-        list[addon.id] = {
-          name: addon.name,
-          version: addon.version,
-          type: addon.type,
-          userDisabled: addon.userDisabled,
-          isCompatible: addon.isCompatible,
-          isBlocklisted: addon.blocklistState == Ci.nsIBlocklistService.STATE_BLOCKED
-        }
-      }
-
-      setURL(url + "#" + JSON.stringify(list));
-    });
-  },
-
-  destroy: function() {
-    try {
-      this._browser.removeProgressListener(this);
-    }
-    catch (e) {
-      // Ignore the case when the listener wasn't already registered
-    }
-  },
-
-  show: function(aParam, aRequest, aState, aIsRefresh) {
-    gViewController.updateCommands();
-
-    // If we're being told to load a specific URL then just do that
-    if (aState && "url" in aState) {
-      this.loaded = true;
-      this._loadURL(aState.url);
-    }
-
-    // If the view has loaded before and still at the homepage (if refreshing),
-    // and the error page is not visible then there is nothing else to do
-    if (this.loaded && this.node.selectedPanel != this._error &&
-        (!aIsRefresh || (this._browser.currentURI &&
-         this._browser.currentURI.spec == this._browser.homePage))) {
-      gViewController.notifyViewChanged();
-      return;
-    }
-
-    this.loaded = true;
-
-    // No homepage means initialization isn't complete, the browser will get
-    // loaded once initialization is complete
-    if (!this.homepageURL) {
-      this._loadListeners.push(gViewController.notifyViewChanged.bind(gViewController));
-      return;
-    }
-
-    this._loadURL(this.homepageURL.spec, aIsRefresh,
-                  gViewController.notifyViewChanged.bind(gViewController));
-  },
-
-  canRefresh: function() {
-    if (this._browser.currentURI &&
-        this._browser.currentURI.spec == this._browser.homePage)
-      return false;
-    return true;
-  },
-
-  refresh: function(aParam, aRequest, aState) {
-    this.show(aParam, aRequest, aState, true);
-  },
-
-  hide: function() { },
-
-  showError: function() {
-    this.node.selectedPanel = this._error;
-  },
-
-  _loadURL: function(aURL, aKeepHistory, aCallback) {
-    if (this._browser.currentURI.spec == aURL) {
-      if (aCallback)
-        aCallback();
-      return;
-    }
-
-    if (aCallback)
-      this._loadListeners.push(aCallback);
-
-    var flags = 0;
-    if (!aKeepHistory)
-      flags |= Ci.nsIWebNavigation.LOAD_FLAGS_REPLACE_HISTORY;
-
-    this._browser.loadURIWithFlags(aURL, flags);
-  },
-
-  onLocationChange: function(aWebProgress, aRequest, aLocation, aFlags) {
-    // Ignore the about:blank load
-    if (aLocation.spec == "about:blank")
-      return;
-
-    // When using the real session history the inner-frame will update the
-    // session history automatically, if using the fake history though it must
-    // be manually updated
-    if (gHistory == FakeHistory) {
-      var docshell = aWebProgress.QueryInterface(Ci.nsIDocShell);
-
-      var state = {
-        view: "addons://discover/",
-        url: aLocation.spec
-      };
-
-      var replaceHistory = Ci.nsIWebNavigation.LOAD_FLAGS_REPLACE_HISTORY << 16;
-      if (docshell.loadType & replaceHistory)
-        gHistory.replaceState(state);
-      else
-        gHistory.pushState(state);
-      gViewController.lastHistoryIndex = gHistory.index;
-    }
-
-    gViewController.updateCommands();
-
-    // If the hostname is the same as the new location's host and either the
-    // default scheme is insecure or the new location is secure then continue
-    // with the load
-    if (aLocation.host == this.homepageURL.host &&
-        (!this.homepageURL.schemeIs("https") || aLocation.schemeIs("https")))
-      return;
-
-    // Canceling the request will send an error to onStateChange which will show
-    // the error page
-    aRequest.cancel(Components.results.NS_BINDING_ABORTED);
-  },
-
-  onSecurityChange: function(aWebProgress, aRequest, aState) {
-    // Don't care about security if the page is not https
-    if (!this.homepageURL.schemeIs("https"))
-      return;
-
-    // If the request was secure then it is ok
-    if (aState & Ci.nsIWebProgressListener.STATE_IS_SECURE)
-      return;
-
-    // Canceling the request will send an error to onStateChange which will show
-    // the error page
-    aRequest.cancel(Components.results.NS_BINDING_ABORTED);
-  },
-
-  onStateChange: function(aWebProgress, aRequest, aStateFlags, aStatus) {
-    let transferStart = Ci.nsIWebProgressListener.STATE_IS_DOCUMENT |
-                        Ci.nsIWebProgressListener.STATE_IS_REQUEST |
-                        Ci.nsIWebProgressListener.STATE_TRANSFERRING;
-    // Once transferring begins show the content
-    if ((aStateFlags & transferStart) === transferStart)
-      this.node.selectedPanel = this._browser;
-
-    // Only care about the network events
-    if (!(aStateFlags & (Ci.nsIWebProgressListener.STATE_IS_NETWORK)))
-      return;
-
-    // If this is the start of network activity then show the loading page
-    if (aStateFlags & (Ci.nsIWebProgressListener.STATE_START))
-      this.node.selectedPanel = this._loading;
-
-    // Ignore anything except stop events
-    if (!(aStateFlags & (Ci.nsIWebProgressListener.STATE_STOP)))
-      return;
-
-    // Consider the successful load of about:blank as still loading
-    if (aRequest instanceof Ci.nsIChannel && aRequest.URI.spec == "about:blank")
-      return;
-
-    // If there was an error loading the page or the new hostname is not the
-    // same as the default hostname or the default scheme is secure and the new
-    // scheme is insecure then show the error page
-    const NS_ERROR_PARSED_DATA_CACHED = 0x805D0021;
-    if (!(Components.isSuccessCode(aStatus) || aStatus == NS_ERROR_PARSED_DATA_CACHED) ||
-        (aRequest && aRequest instanceof Ci.nsIHttpChannel && !aRequest.requestSucceeded)) {
-      this.showError();
-    } else {
-      // Got a successful load, make sure the browser is visible
-      this.node.selectedPanel = this._browser;
-      gViewController.updateCommands();
-    }
-
-    var listeners = this._loadListeners;
-    this._loadListeners = [];
-
-    for (let listener of listeners)
-      listener();
-  },
-
-  onProgressChange: function() { },
-  onStatusChange: function() { },
-
-  QueryInterface: XPCOMUtils.generateQI([Ci.nsIWebProgressListener,
-                                         Ci.nsISupportsWeakReference]),
-
-  getSelectedAddon: function() {
-    return null;
-  }
 };
 
 
