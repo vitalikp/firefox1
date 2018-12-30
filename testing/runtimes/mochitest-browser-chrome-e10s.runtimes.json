@@ -769,7 +769,6 @@
     "toolkit/mozapps/extensions/test/browser/browser_cancelCompatCheck.js": 20610, 
     "toolkit/mozapps/extensions/test/browser/browser_details.js": 44528, 
     "toolkit/mozapps/extensions/test/browser/browser_discovery.js": 62860, 
-    "toolkit/mozapps/extensions/test/browser/browser_discovery_install.js": 16361, 
     "toolkit/mozapps/extensions/test/browser/browser_dragdrop.js": 6710, 
     "toolkit/mozapps/extensions/test/browser/browser_eula.js": 4062, 
     "toolkit/mozapps/extensions/test/browser/browser_experiments.js": 11973, 
