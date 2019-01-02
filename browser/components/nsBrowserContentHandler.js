@@ -497,9 +497,6 @@ nsBrowserContentHandler.prototype = {
       if (override != OVERRIDE_NONE) {
         switch (override) {
           case OVERRIDE_NEW_PROFILE:
-            // New profile.
-            overridePage = Services.urlFormatter.formatURLPref("startup.homepage_welcome_url");
-            additionalPage = Services.urlFormatter.formatURLPref("startup.homepage_welcome_url.additional");
             // Turn on 'later run' pages for new profiles.
             LaterRun.enabled = true;
             break;

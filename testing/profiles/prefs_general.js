@@ -343,8 +343,6 @@ user_pref("browser.urlbar.userMadeSearchSuggestionsChoice", true);
 user_pref("dom.audiochannel.mutedByDefault", false);
 
 user_pref("webextensions.tests", true);
-user_pref("startup.homepage_welcome_url", "about:blank");
-user_pref("startup.homepage_welcome_url.additional", "");
 
 // For Firefox 52 only, ESR will support non-Flash plugins while release will
 // not, so we keep testing the non-Flash pathways

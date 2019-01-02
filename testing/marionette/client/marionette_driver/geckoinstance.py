@@ -438,10 +438,6 @@ class DesktopInstance(GeckoInstance):
 
         # Disable the UI tour
         "browser.uitour.enabled": False,
-
-        # Disable first-run welcome page
-        "startup.homepage_welcome_url": "about:blank",
-        "startup.homepage_welcome_url.additional": "",
     }
 
     def __init__(self, *args, **kwargs):

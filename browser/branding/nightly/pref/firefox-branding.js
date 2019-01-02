@@ -3,8 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 pref("startup.homepage_override_url", "https://www.mozilla.org/projects/firefox/%VERSION%/whatsnew/?oldversion=%OLD_VERSION%");
-pref("startup.homepage_welcome_url", "https://www.mozilla.org/projects/firefox/firstrun/");
-pref("startup.homepage_welcome_url.additional", "");
 // The time interval between checks for a new version (in seconds)
 pref("app.update.interval", 7200); // 2 hours
 // The time interval between the downloading of mar file chunks in the
