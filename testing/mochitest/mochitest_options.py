@@ -597,8 +597,7 @@ class MochitestArguments(ArgumentContainer):
             # Need to fix the location of gmp_fake which might not be shipped in the binary
             gmp_modules = (
                 ('gmp-fake', '1.0'),
-                ('gmp-clearkey', '0.1'),
-                ('gmp-fakeopenh264', '1.0')
+                ('gmp-clearkey', '0.1')
             )
             options.gmp_path = os.pathsep.join(
                 os.path.join(build_obj.bindir, *p) for p in gmp_modules)

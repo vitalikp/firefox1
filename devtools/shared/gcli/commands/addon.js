@@ -303,9 +303,6 @@ var items = [
         args.addon.userDisabled = AddonManager.STATE_ASK_TO_ACTIVATE;
 
         if (args.addon.userDisabled !== AddonManager.STATE_ASK_TO_ACTIVATE) {
-          // Some plugins (e.g. OpenH264 shipped with Firefox) cannot be set to
-          // click-to-play. Handle this.
-
           return l10n.lookupFormat("addonNoCtp", [ name ]);
         }
 

@@ -350,7 +350,6 @@ class MacArtifactJob(ArtifactJob):
                 # 'firefox',
                 'gmp-clearkey/0.1/libclearkey.dylib',
                 # 'gmp-fake/1.0/libfake.dylib',
-                # 'gmp-fakeopenh264/1.0/libfakeopenh264.dylib',
                 '**/interfaces.xpt',
             ])
 

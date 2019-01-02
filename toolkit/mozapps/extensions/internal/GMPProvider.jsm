@@ -20,7 +20,7 @@ Cu.import("resource://gre/modules/osfile.jsm");
 Cu.import("resource://gre/modules/Log.jsm");
 Cu.import("resource://gre/modules/Task.jsm");
 Cu.import("resource://gre/modules/GMPUtils.jsm");
-/* globals EME_ADOBE_ID, GMP_PLUGIN_IDS, GMPPrefs, GMPUtils, OPEN_H264_ID, WIDEVINE_ID */
+/* globals EME_ADOBE_ID, GMP_PLUGIN_IDS, GMPPrefs, GMPUtils, WIDEVINE_ID */
 Cu.import("resource://gre/modules/AppConstants.jsm");
 Cu.import("resource://gre/modules/UpdateUtils.jsm");
 
@@ -45,17 +45,6 @@ const GMP_PRIVACY_INFO       = "gmp_privacy_info";
 const GMP_LEARN_MORE         = "learn_more_label";
 
 const GMP_PLUGINS = [
-  {
-    id:              OPEN_H264_ID,
-    name:            "openH264_name",
-    description:     "openH264_description2",
-    // The following licenseURL is part of an awful hack to include the OpenH264
-    // license without having bug 624602 fixed yet, and intentionally ignores
-    // localisation.
-    licenseURL:      "chrome://mozapps/content/extensions/OpenH264-license.txt",
-    homepageURL:     "http://www.openh264.org/",
-    optionsURL:      "chrome://mozapps/content/extensions/gmpPrefs.xul",
-  },
   {
     id:              EME_ADOBE_ID,
     name:            "eme-adobe_name",

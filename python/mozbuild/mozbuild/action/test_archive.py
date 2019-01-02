@@ -68,12 +68,6 @@ TEST_PLUGIN_DIRS = [
     'npswftest.plugin/**',
 ]
 
-GMP_TEST_PLUGIN_DIRS = [
-    'gmp-clearkey/**',
-    'gmp-fake/**',
-    'gmp-fakeopenh264/**',
-]
-
 
 ARCHIVE_FILES = {
     'common': [
@@ -213,12 +207,6 @@ ARCHIVE_FILES = {
             'source': buildconfig.topobjdir,
             'base': 'dist/plugins',
             'patterns': TEST_PLUGIN_DIRS,
-            'dest': 'bin/plugins',
-        },
-        {
-            'source': buildconfig.topobjdir,
-            'base': 'dist/bin',
-            'patterns': GMP_TEST_PLUGIN_DIRS,
             'dest': 'bin/plugins',
         },
         {

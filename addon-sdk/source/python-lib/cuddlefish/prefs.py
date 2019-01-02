@@ -44,8 +44,6 @@ DEFAULT_NO_CONNECTIONS_PREFS = {
     'toolkit.telemetry.server': 'https://localhost/telemetry-dummy/',
     'app.update.auto' : False,
     'app.update.url': 'http://localhost/app-dummy/update',
-    # Make sure GMPInstallManager won't hit the network.
-    'media.gmp-gmpopenh264.autoupdate' : False,
     'media.gmp-manager.cert.checkAttributes' : False,
     'media.gmp-manager.cert.requireBuiltIn' : False,
     'media.gmp-manager.url' : 'http://localhost/media-dummy/gmpmanager',

@@ -149,26 +149,6 @@ function* spawnTest() {
       }
     },
     {
-      setup:  "addon ctp OpenH264_Video_Codec_provided_by_Cisco_Systems,_Inc._null",
-      check: {
-        input: "addon ctp OpenH264_Video_Codec_provided_by_Cisco_Systems,_Inc._null",
-        hints:                                                                    "",
-        status: "VALID",
-        args: {
-          command: { name: "addon ctp" },
-          addon: {
-            value: function (addon) {
-              is(addon.name, "OpenH264 Video Codec provided by Cisco Systems, Inc.", "openh264");
-            },
-            status: "VALID"
-          }
-	                                                                                }
-      },
-      exec: {
-        output: "OpenH264 Video Codec provided by Cisco Systems, Inc. null cannot be set to click-to-play."
-      }
-    },
-    {
       setup:  "addon ctp Mochitest_1.0",
       check: {
         input: "addon ctp Mochitest_1.0",

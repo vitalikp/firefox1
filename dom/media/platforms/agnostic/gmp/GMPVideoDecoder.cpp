@@ -285,15 +285,7 @@ GMPVideoDecoder::GMPInitDone(GMPVideoDecoderProxy* aGMP, GMPVideoHost* aHost)
   mGMP = aGMP;
   mHost = aHost;
 
-  // GMP implementations have interpreted the meaning of GMP_BufferLength32
-  // differently.  The OpenH264 GMP expects GMP_BufferLength32 to behave as
-  // specified in the GMP API, where each buffer is prefixed by a 32-bit
-  // host-endian buffer length that includes the size of the buffer length
-  // field.  Other existing GMPs currently expect GMP_BufferLength32 (when
-  // combined with kGMPVideoCodecH264) to mean "like AVCC but restricted to
-  // 4-byte NAL lengths" (i.e. buffer lengths are specified in big-endian
-  // and do not include the length of the buffer length field.
-  mConvertNALUnitLengths = mGMP->GetDisplayName().EqualsLiteral("gmpopenh264");
+  mConvertNALUnitLengths = false;
 
   mInitPromise.Resolve(TrackInfo::kVideoTrack, __func__);
 }

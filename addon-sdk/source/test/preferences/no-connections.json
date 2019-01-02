@@ -5,7 +5,6 @@
   "app.update.url": "http://localhost/app-dummy/update",
   "app.update.enabled": false,
   "app.update.staging.enabled": false,
-  "media.gmp-gmpopenh264.autoupdate": false,
   "media.gmp-manager.cert.checkAttributes": false,
   "media.gmp-manager.cert.requireBuiltIn": false,
   "media.gmp-manager.url": "http://localhost/media-dummy/gmpmanager",

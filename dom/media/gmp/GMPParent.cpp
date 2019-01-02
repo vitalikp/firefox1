@@ -116,7 +116,6 @@ GMPParent::Init(GeckoMediaPluginServiceParent* aService, nsIFile* aPluginDir)
   mDirectory = aPluginDir;
 
   // aPluginDir is <profile-dir>/<gmp-plugin-id>/<version>
-  // where <gmp-plugin-id> should be gmp-gmpopenh264
   nsCOMPtr<nsIFile> parent;
   nsresult rv = aPluginDir->GetParent(getter_AddRefs(parent));
   if (NS_FAILED(rv)) {
@@ -986,7 +985,6 @@ GMPParent::CanBeSharedCrossNodeIds() const
 {
   return !mAsyncShutdownInProgress &&
          mNodeId.IsEmpty() &&
-         // XXX bug 1159300 hack -- maybe remove after openh264 1.4
          // We don't want to use CDM decoders for non-encrypted playback
          // just yet; especially not for WebRTC. Don't allow CDMs to be used
          // without a node ID.

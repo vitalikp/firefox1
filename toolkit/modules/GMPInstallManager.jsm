@@ -183,7 +183,7 @@ GMPInstallManager.prototype = {
   /**
    * Wrapper for checkForAddons and installAddon.
    * Will only install if not already installed and will log the results.
-   * This will only install/update the OpenH264 and EME plugins
+   * This will only install/update the EME plugins
    * @return a promise which will be resolved if all addons could be installed
    *         successfully, rejected otherwise.
    */
@@ -248,7 +248,7 @@ GMPInstallManager.prototype = {
             addonUpdateEnabled = true;
           }
         } else {
-          // Currently, we only support installs of OpenH264 and EME plugins.
+          // Currently, we only support installs of EME plugins.
           log.info("Auto-update is off for unknown plugin '" + gmpAddon.id +
                    "', skipping check.");
         }
