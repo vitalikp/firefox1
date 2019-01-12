@@ -54,6 +54,9 @@
 #include "mozilla/Compression.h"
 
 // Protocol buffer (generated automatically)
+#  ifdef Status
+#    undef Status
+#  endif
 #include "protobuf/LayerScopePacket.pb.h"
 
 namespace mozilla {
