@@ -1,4 +1,4 @@
-// Copied from /dom/plugins/test/mochitest/utils.js
+
 function getTestPlugin(pluginName) {
   var ph = SpecialPowers.Cc["@mozilla.org/plugin/host;1"]
                                  .getService(SpecialPowers.Ci.nsIPluginHost);

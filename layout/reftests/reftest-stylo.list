@@ -280,9 +280,6 @@ include percent-overflow-sizing/reftest-stylo.list
 # pixel-rounding/
 include pixel-rounding/reftest-stylo.list
 
-# plugin/
-# include ../../dom/plugins/test/reftest/reftest-stylo.list
-
 # position-dynamic-changes/
 include position-dynamic-changes/reftest-stylo.list
 

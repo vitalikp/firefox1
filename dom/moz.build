@@ -122,6 +122,3 @@ if CONFIG['MOZ_B2G']:
 
 DIRS += ['presentation']
 
-if CONFIG['MOZ_WIDGET_TOOLKIT'] in ('gtk2', 'gtk3', 'cocoa', 'windows', 'android'):
-    TEST_DIRS += ['plugins/test']
-
