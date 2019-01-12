@@ -1,7 +1,5 @@
 /*
  * This test checks that focus is adjusted properly in a browser when pressing F6 and Shift+F6.
- * There are additional tests in dom/tests/mochitest/chrome/test_focus_docnav.xul which test
- * non-browser cases.
  */
 
 var testPage1 = "data:text/html,<html id='html1'><body id='body1'><button id='button1'>Tab 1</button></body></html>";

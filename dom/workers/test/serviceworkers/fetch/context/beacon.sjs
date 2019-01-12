@@ -1,6 +1,3 @@
-/*
- * This is based on dom/tests/mochitest/beacon/beacon-originheader-handler.sjs.
- */
 
 function handleRequest(request, response)
 {

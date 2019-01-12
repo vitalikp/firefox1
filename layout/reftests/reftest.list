@@ -150,9 +150,6 @@ include cssom/reftest.list
 # columns/
 include columns/reftest.list
 
-# content/
-include ../../dom/tests/reftest/reftest.list
-
 # counters/
 include counters/reftest.list
 
@@ -374,9 +371,6 @@ include webcomponents/reftest.list
 
 # widget/
 include ../../widget/reftests/reftest.list
-
-# xml-stylesheet/
-include ../../dom/tests/reftest/xml-stylesheet/reftest.list
 
 # xul-document-load/ (no XUL theme on Android)
 skip-if(Android) include xul-document-load/reftest.list

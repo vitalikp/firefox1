@@ -5580,7 +5580,6 @@ var Debugger =
 	  return value;
 	}
 	
-	// Taken from dom/tests/mochitest/ajax/mochikit/MochiKit/Color.js
 	function _hslValue(n1, n2, hue) {
 	  if (hue > 6.0) {
 	    hue -= 6.0;
@@ -5600,8 +5599,6 @@ var Debugger =
 	  return val;
 	}
 	
-	// Taken from dom/tests/mochitest/ajax/mochikit/MochiKit/Color.js
-	// and then modified.
 	function hslToRGB(_ref) {
 	  var _ref2 = _slicedToArray(_ref, 3);
 	
