@@ -100,8 +100,6 @@ if CONFIG['OS_TARGET'] != 'Android':
 
 if CONFIG['MOZ_PROTOBUF']:
     CXXFLAGS += CONFIG['MOZ_PROTOBUF_CFLAGS']
-else:
-    DIRS += ['protobuf']
 
 DIRS += ['build']
 
