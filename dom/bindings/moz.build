@@ -83,6 +83,9 @@ LOCAL_INCLUDES += [
     '/media/webrtc/signaling/src/peerconnection',
 ]
 
+DEFINES['GOOGLE_PROTOBUF_NO_RTTI'] = True
+DEFINES['GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER'] = True
+
 UNIFIED_SOURCES += [
     'BindingUtils.cpp',
     'CallbackInterface.cpp',
