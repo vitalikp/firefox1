@@ -22,12 +22,16 @@ LOCAL_INCLUDES += [
     '../find',
     '../jsdownloads/src',
     '../perfmonitoring',
-    '../protobuf',
     '../startup',
     '../statusfilter',
     '../typeaheadfind',
     '../url-classifier',
 ]
+
+if CONFIG['MOZ_PROTOBUF']:
+    CXXFLAGS += CONFIG['MOZ_PROTOBUF_CFLAGS']
+else:
+    LOCAL_INCLUDES += ['../protobuf']
 
 if not CONFIG['MOZ_DISABLE_PARENTAL_CONTROLS']:
     LOCAL_INCLUDES += [

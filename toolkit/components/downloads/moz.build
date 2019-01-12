@@ -60,10 +60,14 @@ if not CONFIG['MOZ_SUITE']:
 FINAL_LIBRARY = 'xul'
 
 LOCAL_INCLUDES += [
-    '../protobuf',
     '/ipc/chromium/src',
     'chromium'
 ]
+
+if CONFIG['MOZ_PROTOBUF']:
+    CXXFLAGS += CONFIG['MOZ_PROTOBUF_CFLAGS']
+else:
+    LOCAL_INCLUDES += ['../protobuf']
 
 DEFINES['GOOGLE_PROTOBUF_NO_RTTI'] = True
 DEFINES['GOOGLE_PROTOBUF_NO_STATIC_INITIALIZER'] = True

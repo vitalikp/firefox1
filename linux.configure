@@ -7,3 +7,8 @@ def notjs_project(build_project):
 # ==============================================================
 system_graphite2 = pkg_check_modules('MOZ_GRAPHITE2', 'graphite2 >= 3.0.1', when=notjs_project)
 set_config('MOZ_GRAPHITE2', depends_if(system_graphite2)(lambda _: True))
+
+# Protocol Buffers
+# ==============================================================
+system_protobuf = pkg_check_modules('MOZ_PROTOBUF', 'protobuf >= 3.5.0', when=notjs_project)
+set_config('MOZ_PROTOBUF', depends_if(system_protobuf)(lambda _: True))
