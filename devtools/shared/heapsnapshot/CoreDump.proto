@@ -57,6 +57,7 @@
 // inline a messsage within another message and the child message must be
 // referenced by pointer. This leads to extra mallocs that we wish to avoid.
 
+syntax = "proto2";
 
 package mozilla.devtools.protobuf;
 
