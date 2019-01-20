@@ -23,19 +23,6 @@ from mozbuild.testing import (
 
 
 ALL_TESTS = {
-    "accessible/tests/mochitest/actions/test_anchors.html": [
-        {
-            "dir_relpath": "accessible/tests/mochitest/actions",
-            "expected": "pass",
-            "file_relpath": "accessible/tests/mochitest/actions/test_anchors.html",
-            "flavor": "a11y",
-            "here": "/Users/gps/src/firefox/accessible/tests/mochitest/actions",
-            "manifest": "/Users/gps/src/firefox/accessible/tests/mochitest/actions/a11y.ini",
-            "name": "test_anchors.html",
-            "path": "/Users/gps/src/firefox/accessible/tests/mochitest/actions/test_anchors.html",
-            "relpath": "test_anchors.html"
-        }
-    ],
     "services/common/tests/unit/test_async_chain.js": [
         {
             "dir_relpath": "services/common/tests/unit",
