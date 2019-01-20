@@ -162,7 +162,6 @@ stage-all: \
   stage-mochitest \
   stage-jstests \
   stage-jetpack \
-  test-packages-manifest \
   $(NULL)
 ifdef MOZ_WEBRTC
 stage-all: stage-steeplechase
@@ -186,15 +185,6 @@ TEST_PKGS += gtest
 endif
 
 PKG_ARG = --$(1) '$(PKG_BASENAME).$(1).tests.zip'
-
-test-packages-manifest:
-	@rm -f $(MOZ_TEST_PACKAGES_FILE)
-	$(NSINSTALL) -D $(dir $(MOZ_TEST_PACKAGES_FILE))
-	$(PYTHON) $(topsrcdir)/build/gen_test_packages_manifest.py \
-      --jsshell $(JSSHELL_NAME) \
-      --dest-file '$(MOZ_TEST_PACKAGES_FILE)' \
-      $(call PKG_ARG,common) \
-      $(foreach pkg,$(TEST_PKGS),$(call PKG_ARG,$(pkg)))
 
 package-tests-prepare-dest:
 	@rm -f '$(DIST)/$(PKG_PATH)$(TEST_PACKAGE)'
@@ -332,6 +322,5 @@ check::
   stage-jetpack \
   stage-steeplechase \
   stage-instrumentation-tests \
-  test-packages-manifest \
   check \
   $(NULL)
