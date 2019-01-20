@@ -14,19 +14,6 @@ are termed "single-locale language repacks".  There is another concept of a
 "multi-locale language build", which is more like a regular build and less
 like a re-packaging post-processing step.
 
-There are scripts in-tree in mozharness to orchestrate these re-packaging
-steps for `Desktop
-<https://dxr.mozilla.org/mozilla-central/source/testing/mozharness/scripts/desktop_l10n.py>`_
-and `Android
-<https://dxr.mozilla.org/mozilla-central/source/testing/mozharness/scripts/mobile_l10n.py>`_
-but they rely heavily on buildbot information so they are almost impossible to
-run locally.
-
-The following instructions are extracted from the `Android script with hg hash
-494289c7
-<https://dxr.mozilla.org/mozilla-central/rev/494289c72ba3997183e7b5beaca3e0447ecaf96d/testing/mozharness/scripts/mobile_l10n.py>`_,
-and may need to be updated and slightly modified for Desktop.
-
 Step by step instructions for Android
 -------------------------------------
 

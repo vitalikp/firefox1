@@ -709,8 +709,6 @@ class MinifiedJavaScript(BaseFile):
             except subprocess.CalledProcessError as e:
                 errors.warn('JS minification verification failed for %s:' %
                     (getattr(self._file, 'path', '<unknown>')))
-                # Prefix each line with "Warning:" so mozharness doesn't
-                # think these error messages are real errors.
                 for line in e.output.splitlines():
                     errors.warn(line)
 

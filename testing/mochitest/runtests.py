@@ -1339,7 +1339,6 @@ toolbar#nav-bar {
                                          runtime_file)
                         options.chunkByRuntime = None
                         if options.flavor == 'browser':
-                            # these values match current mozharness configs
                             options.chunkbyDir = 5
                         else:
                             options.chunkByDir = 4

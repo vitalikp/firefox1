@@ -301,13 +301,6 @@ ARCHIVE_FILES = {
             'dest': 'mochitest'
         }
     ],
-    'mozharness': [
-        {
-            'source': buildconfig.topsrcdir,
-            'base': 'testing',
-            'pattern': 'mozharness/**',
-        },
-    ],
     'reftest': [
         {
             'source': buildconfig.topobjdir,
@@ -379,8 +372,7 @@ ARCHIVE_FILES = {
 # Verify nothing sneaks into ARCHIVE_FILES without a corresponding exclusion
 # rule in the "common" archive.
 for k, v in ARCHIVE_FILES.items():
-    # Skip mozharness because it isn't staged.
-    if k in ('common', 'mozharness'):
+    if k in ('common'):
         continue
 
     ignores = set(itertools.chain(*(e.get('ignore', [])

@@ -49,8 +49,7 @@ class AvdInfo(object):
 """
    A dictionary to map an AVD type to a description of that type of AVD.
 
-   There is one entry for each type of AVD used in Mozilla automated tests
-   and the parameters for each reflect those used in mozharness.
+   There is one entry for each type of AVD used in Mozilla automated tests.
 """
 AVD_DICT = {
     '4.3': AvdInfo('Android 4.3',

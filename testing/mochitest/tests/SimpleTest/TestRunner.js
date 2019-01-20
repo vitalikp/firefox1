@@ -219,9 +219,6 @@ var LOG_DELIMITER = String.fromCharCode(0xe175) + String.fromCharCode(0xee31) + 
 TestRunner._dumpMessage = function(message) {
   var str;
 
-  // This is a directive to python to format these messages
-  // for compatibility with mozharness. This can be removed
-  // with the MochitestFormatter (see bug 1045525).
   message.js_source = 'TestRunner.js'
   if (TestRunner.interactiveDebugger && message.action in TestRunner._structuredFormatter) {
     str = TestRunner._structuredFormatter[message.action](message);

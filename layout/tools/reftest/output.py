@@ -14,15 +14,13 @@ class ReftestFormatter(TbplFormatter):
     """
     Formatter designed to preserve the legacy "tbpl" format in reftest.
 
-    This is needed for both the reftest-analyzer and mozharness log parsing.
-    We can change this format when both reftest-analyzer and mozharness have
+    This is needed for both the reftest-analyzer log parsing.
+    We can change this format when both reftest-analyzer have
     been changed to read structured logs.
     """
 
     def __call__(self, data):
         if 'component' in data and data['component'] == 'mozleak':
-            # Output from mozleak requires that no prefix be added
-            # so that mozharness will pick up these failures.
             return "%s\n" % data['message']
 
         formatted = TbplFormatter.__call__(self, data)

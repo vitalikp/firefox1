@@ -427,7 +427,6 @@ int main(int argc, char** argv)
   bool exists;
   manifest->Exists(&exists);
   if (!exists) {
-    // Workaround for bug 1080338 in mozharness.
     manifest = tempManifest.forget();
     manifest->SetNativeLeafName(NS_LITERAL_CSTRING("MacOS"));
     manifest->AppendNative(

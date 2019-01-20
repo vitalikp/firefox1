@@ -20,7 +20,6 @@ def run_reftest(context, **kwargs):
     import mozinfo
 
     args = Namespace(**kwargs)
-    args.e10s = context.mozharness_config.get('e10s', args.e10s)
 
     if not args.tests:
         args.tests = [os.path.join('layout', 'reftests', 'reftest.list')]
@@ -54,13 +53,6 @@ def run_reftest_android(context, args):
     args.dm_trans = 'adb'
     args.ignoreWindowSize = True
     args.printDeviceInfo = False
-
-    config = context.mozharness_config
-    if config:
-        args.remoteWebServer = config['remote_webserver']
-        args.httpPort = config['emulator']['http_port']
-        args.sslPort = config['emulator']['ssl_port']
-        args.adb_path = config['exes']['adb'] % {'abs_work_dir': context.mozharness_workdir}
 
     return run_test_harness(parser, args)
 

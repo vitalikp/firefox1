@@ -19,7 +19,6 @@ parser = None
 
 def run_mochitest(context, **kwargs):
     args = Namespace(**kwargs)
-    args.e10s = context.mozharness_config.get('e10s', args.e10s)
     args.certPath = context.certs_dir
 
     if args.test_paths:
@@ -47,13 +46,6 @@ def run_mochitest_android(context, args):
     args.extraProfileFiles.append(os.path.join(context.package_root, 'mochitest', 'fonts'))
     args.utilityPath = context.hostutils
     args.xrePath = context.hostutils
-
-    config = context.mozharness_config
-    if config:
-        args.remoteWebServer = config['remote_webserver']
-        args.httpPort = config['emulator']['http_port']
-        args.sslPort = config['emulator']['ssl_port']
-        args.adbPath = config['exes']['adb'] % {'abs_work_dir': context.mozharness_workdir}
 
     from runtestsremote import run_test_harness
     return run_test_harness(parser, args)
