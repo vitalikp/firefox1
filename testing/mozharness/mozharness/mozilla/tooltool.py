@@ -47,13 +47,7 @@ class TooltoolMixin(object):
                        output_dir=None, privileged=False, cache=None):
         """docstring for tooltool_fetch"""
         # Use vendored tooltool.py if available.
-        if self.topsrcdir:
-            cmd = [
-                sys.executable,
-                os.path.join(self.topsrcdir, 'testing', 'docker', 'recipes',
-                                'tooltool.py')
-            ]
-        elif self.config.get("download_tooltool"):
+        if self.config.get("download_tooltool"):
             cmd = [sys.executable, self._fetch_tooltool_py()]
         else:
             cmd = self.query_exe('tooltool.py', return_type='list')
