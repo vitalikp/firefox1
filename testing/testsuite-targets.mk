@@ -237,7 +237,6 @@ ifeq ($(MOZ_BUILD_APP),mobile/android)
 endif
 
 stage-jstests: make-stage-dir
-	$(MAKE) -C $(DEPTH)/js/src/tests stage-package
 
 stage-gtest: make-stage-dir
 # FIXME: (bug 1200311) We should be generating the gtest xul as part of the build.

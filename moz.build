@@ -76,8 +76,6 @@ if CONFIG['COMPILE_ENVIRONMENT']:
         DIRS += ['config/external/ffi']
 
     DIRS += ['js/src']
-else:
-    TEST_DIRS += ['js/src/tests']
 
 if not CONFIG['JS_STANDALONE'] and CONFIG['MOZ_BUILD_APP']:
     # Bring in the configuration for the configured application.

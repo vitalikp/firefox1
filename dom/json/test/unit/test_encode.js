@@ -33,9 +33,6 @@ function testStringEncode()
   do_check_eq(nativeJSON.encode(5), null);
   do_check_eq(nativeJSON.encode(function(){}), null);
   do_check_eq(nativeJSON.encode(dump), null);
-
-  // All other testing should occur in js/src/tests/ecma_5/JSON/ using
-  // the otherwise-exactly-identical JSON.stringify.
 }
 
 function testToJSON() {
