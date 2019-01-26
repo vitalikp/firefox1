@@ -4,11 +4,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-/*
- * This file declares data structures used to communicate data logged by
- * various components for the purpose of APZ testing (see bug 961289 and 
- * gfx/layers/apz/test/APZTestData.h) to JS test code.
- */
 
 // A single key-value pair in the data.
 dictionary ScrollFrameDataEntry {

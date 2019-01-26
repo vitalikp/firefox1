@@ -201,9 +201,6 @@ include font-matching/reftest.list
 # forms
 include forms/reftest.list
 
-# gfx
-include ../../gfx/tests/reftest/reftest.list
-
 # block-inside-inline splits
 include ib-split/reftest.list
 
@@ -395,6 +392,3 @@ include box-sizing/reftest.list
 
 # invalidation
 include invalidation/reftest.list
-
-# APZ/async positioning tests
-include ../../gfx/layers/apz/test/reftest/reftest.list
