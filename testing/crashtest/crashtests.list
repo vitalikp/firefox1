@@ -6,7 +6,6 @@ include ../../testing/crashtest/sanity/crashtests.list
 include ../../docshell/base/crashtests/crashtests.list
 
 include ../../dom/audiochannel/crashtests/crashtests.list
-include ../../dom/base/crashtests/crashtests.list
 include ../../dom/bindings/crashtests/crashtests.list
 include ../../dom/canvas/crashtests/crashtests.list
 include ../../dom/events/crashtests/crashtests.list
@@ -31,7 +30,6 @@ include ../../image/test/crashtests/crashtests.list
 include ../../intl/lwbrk/crashtests/crashtests.list
 include ../../intl/uconv/crashtests/crashtests.list
 
-include ../../layout/style/crashtests/crashtests.list
 include ../../layout/xul/grid/crashtests/crashtests.list
 
 include ../../media/libpng/crashtests/crashtests.list
