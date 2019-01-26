@@ -819,10 +819,6 @@
     "devtools/client/webconsole/test/browser_webconsole_split_escape_key.js": 7203, 
     "devtools/client/webconsole/test/browser_webconsole_split_focus.js": 6380, 
     "devtools/client/webconsole/test/browser_webconsole_split_persist.js": 15081, 
-    "devtools/client/webconsole/test/browser_webconsole_view_source.js": 10583, 
-    "devtools/server/tests/browser/browser_markers-cycle-collection.js": 6404, 
-    "devtools/server/tests/browser/browser_storage_dynamic_windows.js": 5272, 
-    "devtools/server/tests/browser/browser_storage_listings.js": 5790, 
-    "devtools/server/tests/browser/browser_webextension_inspected_window.js": 10352
+    "devtools/client/webconsole/test/browser_webconsole_view_source.js": 10583
   }
 }

@@ -119,7 +119,6 @@
   /**
    * Takes a function and returns a Worker-wrapped version of the same function.
    * Returns a promise upon resolution.
-   * @see `./devtools/shared/shared/tests/browser/browser_devtools-worker-03.js
    *
    * ⚠ This should only be used for tests or A/B testing performance ⚠
    *

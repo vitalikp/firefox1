@@ -120,7 +120,6 @@ devtools/server/actors/**
 !devtools/server/actors/webbrowser.js
 !devtools/server/actors/webextension.js
 devtools/server/performance/**
-devtools/server/tests/**
 devtools/shared/*.js
 !devtools/shared/async-storage.js
 !devtools/shared/async-utils.js
@@ -142,8 +141,6 @@ devtools/shared/performance/**
 devtools/shared/qrcode/**
 devtools/shared/security/**
 devtools/shared/shims/**
-devtools/shared/tests/**
-!devtools/shared/tests/unit/test_csslexer.js
 devtools/shared/touch/**
 devtools/shared/transport/**
 !devtools/shared/transport/transport.js
@@ -184,8 +181,6 @@ devtools/client/debugger/test/mochitest/code_math_bogus_map.js
 devtools/client/debugger/test/mochitest/code_ugly*
 devtools/client/debugger/test/mochitest/code_worker-source-map.js
 devtools/client/framework/test/code_ugly*
-devtools/server/tests/unit/babel_and_browserify_script_with_source_map.js
-devtools/server/tests/unit/setBreakpoint*
 
 # mobile/android/ exclusions
 mobile/android/tests/

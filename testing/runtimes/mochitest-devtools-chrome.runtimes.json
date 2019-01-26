@@ -1089,10 +1089,6 @@
     "devtools/client/webconsole/test/browser_webconsole_split_focus.js": 7356, 
     "devtools/client/webconsole/test/browser_webconsole_split_persist.js": 17739, 
     "devtools/client/webconsole/test/browser_webconsole_view_source.js": 12130, 
-    "devtools/client/webide/test/browser_tabs.js": 10262, 
-    "devtools/server/tests/browser/browser_markers-cycle-collection.js": 7846, 
-    "devtools/server/tests/browser/browser_storage_dynamic_windows.js": 6285, 
-    "devtools/server/tests/browser/browser_storage_listings.js": 6592, 
-    "devtools/server/tests/browser/browser_webextension_inspected_window.js": 10884
+    "devtools/client/webide/test/browser_tabs.js": 10262
   }
 }
