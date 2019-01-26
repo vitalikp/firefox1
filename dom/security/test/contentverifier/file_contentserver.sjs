@@ -33,12 +33,6 @@ const sriSignature = path + "file_about_newtab_sri_signature";
 const badCspFile = path + "file_about_newtab_bad_csp.html";
 const badCspSignature = path + "file_about_newtab_bad_csp_signature";
 
-// This cert chain is copied from
-// security/manager/ssl/tests/unit/test_content_signing/
-// using the certificates
-// * content_signing_remote_newtab_ee.pem
-// * content_signing_int.pem
-// * content_signing_root.pem
 const goodCertChainPath = path + "goodChain.pem";
 
 const tempFileNames = [goodFileName, scriptFileName, cssFileName];

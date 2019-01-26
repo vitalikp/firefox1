@@ -120,4 +120,3 @@ def HostLibrary(name):
 
 
 include('gecko_templates.mozbuild')
-include('test_templates.mozbuild')

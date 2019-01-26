@@ -54,7 +54,6 @@ function test_nullSecurityInfo() {
 function test_insecureSecurityInfoWithNSSError() {
   MockSecurityInfo.securityState = wpl.STATE_IS_INSECURE;
 
-  // Taken from security/manager/ssl/tests/unit/head_psm.js.
   MockSecurityInfo.errorCode = -8180;
 
   let result = NetworkHelper.parseSecurityInfo(MockSecurityInfo, {});

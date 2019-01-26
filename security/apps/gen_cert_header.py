@@ -33,8 +33,6 @@ array_names = [
   'marketplaceDevReviewersRoot',
   'marketplaceStageRoot',
   'trustedAppPublicRoot',
-  'trustedAppTestRoot',
-  'xpcshellRoot',
   'addonsPublicRoot',
   'addonsStageRoot',
   'privilegedPackageRoot',
