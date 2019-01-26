@@ -250,9 +250,6 @@ include marquee/reftest.list
 # (no XUL theme on Android)
 skip-if(Android) include native-theme/reftest.list
 
-# netwerk/
-include ../../netwerk/test/reftest/reftest.list
-
 include outline/reftest.list
 
 # object/

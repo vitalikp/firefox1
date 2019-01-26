@@ -240,10 +240,6 @@ must be one of the following:
         // ...anything else you want to do, synchronously...
       }
 
-      For more details on exactly which functions and properties are available
-      on request/response in handleRequest, see the nsIHttpRe(quest|sponse)
-      definitions in <netwerk/test/httpserver/nsIHttpServer.idl>.
-
    d. <type> is one of the following:
 
       ==     The test passes if the images of the two renderings are the

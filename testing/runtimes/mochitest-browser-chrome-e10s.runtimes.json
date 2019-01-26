@@ -614,8 +614,6 @@
     "embedding/components/windowwatcher/test/browser_new_sized_window.js": 6044, 
     "embedding/test/browser_bug1204626.js": 6998, 
     "netwerk/cookie/test/browser/browser_originattributes.js": 6540, 
-    "netwerk/test/browser/browser_child_resource.js": 12411, 
-    "netwerk/test/browser/browser_post_file.js": 4241, 
     "testing/mochitest/tests/browser/browser_async.js": 10091, 
     "testing/mochitest/tests/browser/browser_browserLoaded_content_loaded.js": 3364, 
     "toolkit/components/aboutperformance/tests/browser/browser_aboutperformance.js": 8789, 

@@ -40,7 +40,6 @@ TEST_HARNESS_FILES.testing.mochitest += [
     '/build/valgrind/cross-architecture.sup',
     '/build/valgrind/i386-redhat-linux-gnu.sup',
     '/build/valgrind/x86_64-redhat-linux-gnu.sup',
-    '/netwerk/test/httpserver/httpd.js',
     'bisection.py',
     'browser-harness.xul',
     'browser-test-overlay.xul',

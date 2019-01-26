@@ -26,8 +26,6 @@
  * Buffer size. This many bytes will be buffered. If a line is longer than this,
  * the partial line will be appended to the out parameter of NS_ReadLine and the
  * buffer will be emptied.
- * Note: if you change this constant, please update the regression test in
- * netwerk/test/unit/test_readline.js accordingly (bug 397850).
  */
 #define kLineBufferSize 4096
 

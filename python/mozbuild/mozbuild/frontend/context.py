@@ -721,9 +721,6 @@ class Files(SubContext):
                    '/testing/mochitest/tests/Harness_sanity/**',
                ]
 
-            in netwerk/test/httpserver/moz.build will suggest that any change to httpd.js
-            will be relevant to the mochitest sanity tests.
-
             Tags and flavors are sorted string lists (flavors are limited to valid
             values).
 

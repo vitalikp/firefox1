@@ -254,9 +254,6 @@ include marquee/reftest-stylo.list
 skip-if(B2G||Android||Mulet) include native-theme/reftest-stylo.list
 # Initial mulet triage: parity with B2G/B2G Desktop
 
-# netwerk/
-include ../../netwerk/test/reftest/reftest-stylo.list
-
 include outline/reftest-stylo.list
 
 # object/

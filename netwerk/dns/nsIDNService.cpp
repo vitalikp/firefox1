@@ -20,9 +20,6 @@
 #ifdef IDNA2008
 // Currently we use the non-transitional processing option -- see
 // http://unicode.org/reports/tr46/
-// To switch to transitional processing, change the value of this flag
-// and kTransitionalProcessing in netwerk/test/unit/test_idna2008.js to true
-// (revert bug 1218179).
 const bool kIDNA2008_TransitionalProcessing = false;
 
 #include "ICUUtils.h"
