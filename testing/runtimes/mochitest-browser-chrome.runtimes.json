@@ -579,7 +579,6 @@
     "dom/media/webaudio/test/browser_bug1181073.js": 4083, 
     "dom/notification/test/browser/browser_permission_dismiss.js": 2250, 
     "dom/power/test/browser_wakelocks.js": 4354, 
-    "editor/libeditor/tests/browser_bug527935.js": 2560, 
     "embedding/components/windowwatcher/test/browser_new_content_window_chromeflags.js": 3909, 
     "embedding/components/windowwatcher/test/browser_new_content_window_from_chrome_principal.js": 2168, 
     "embedding/components/windowwatcher/test/browser_new_sized_window.js": 4285, 
