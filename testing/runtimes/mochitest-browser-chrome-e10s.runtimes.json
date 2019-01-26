@@ -597,8 +597,6 @@
     "browser/modules/test/browser_UsageTelemetry_searchbar.js": 5439, 
     "browser/modules/test/browser_UsageTelemetry_urlbar.js": 8094, 
     "dom/broadcastchannel/tests/browser_private_browsing.js": 5734, 
-    "dom/html/test/browser_bug1108547.js": 17434, 
-    "dom/html/test/browser_fullscreen-contextmenu-esc.js": 2742, 
     "dom/indexedDB/test/browser_forgetThisSite.js": 5385, 
     "dom/indexedDB/test/browser_permissionsPromptDeny.js": 4758, 
     "dom/indexedDB/test/browser_permissionsPromptWorker.js": 2634, 
