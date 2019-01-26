@@ -9,9 +9,6 @@
 # verify the tests work
 include reftest-sanity/reftest-stylo.list
 
-# images (if ImageLib is busted, could result in weird failures in other tests)
-include ../../image/test/reftest/reftest-stylo.list
-
 # CSSWG tests
 include w3c-css/submitted/reftest-stylo.list
 include w3c-css/received/reftest-stylo.list
