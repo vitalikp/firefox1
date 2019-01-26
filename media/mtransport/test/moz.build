@@ -90,8 +90,7 @@ LOCAL_INCLUDES += [
     '/media/mtransport/third_party/nrappkit/src/stats',
     '/media/mtransport/third_party/nrappkit/src/util/',
     '/media/mtransport/third_party/nrappkit/src/util/libekr',
-    '/netwerk/sctp/src/',
-    '/xpcom/tests/'
+    '/netwerk/sctp/src/'
 ]
 
 FINAL_LIBRARY = 'xul-gtest'

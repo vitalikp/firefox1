@@ -29,10 +29,6 @@ DIRS += [
 if CONFIG['OS_ARCH'] == 'WINNT' and CONFIG['MOZ_DEBUG']:
     DIRS += ['windbgdlg']
 
-TEST_DIRS += [
-    'tests',
-]
-
 #  Can't build internal xptcall tests that use symbols which are not exported.
 #TEST_DIRS += [
 #    'reflect/xptinfo/tests',

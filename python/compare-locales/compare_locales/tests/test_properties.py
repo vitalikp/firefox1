@@ -39,7 +39,6 @@ and still has another line coming
             self.assertEqual(e.val, r)
 
     def test_bug121341(self):
-        # port of xpcom/tests/unit/test_bug121341.js
         self.parser.readContents(self.resource('bug121341.properties'))
         ref = ['abc', 'xy', u"\u1234\t\r\n\u00AB\u0001\n",
                "this is multiline property",
