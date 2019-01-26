@@ -596,7 +596,6 @@
     "dom/security/test/hsts/browser_hsts-priming_hsts_after_mixed.js": 2328, 
     "dom/security/test/hsts/browser_hsts-priming_no-duplicates.js": 2831, 
     "dom/security/test/hsts/browser_hsts-priming_timeout.js": 3798, 
-    "dom/workers/test/serviceworkers/browser_download.js": 2556, 
     "editor/libeditor/tests/browser_bug527935.js": 2560, 
     "embedding/components/windowwatcher/test/browser_new_content_window_chromeflags.js": 3909, 
     "embedding/components/windowwatcher/test/browser_new_content_window_from_chrome_principal.js": 2168, 

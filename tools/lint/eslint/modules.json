@@ -220,7 +220,6 @@
   "telemetry.js": ["SyncTelemetry"],
   "test.jsm": ["Foo"],
   "test2.jsm": ["Bar"],
-  "test_bug883784.jsm": ["Test"],
   "Timer.jsm": ["setTimeout", "clearTimeout", "setInterval", "clearInterval"],
   "tokenserverclient.js": ["TokenServerClient", "TokenServerClientError", "TokenServerClientNetworkError", "TokenServerClientServerError"],
   "ToolboxProcess.jsm": ["BrowserToolboxProcess"],
