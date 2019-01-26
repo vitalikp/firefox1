@@ -313,8 +313,6 @@ include table-overflow/reftest-stylo.list
 # table-width/
 include table-width/reftest-stylo.list
 
-include ../tables/reftests/reftest-stylo.list
-
 # text/
 include text/reftest-stylo.list
 
