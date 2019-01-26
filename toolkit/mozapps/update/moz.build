@@ -15,8 +15,6 @@ XPIDL_SOURCES += [
     'nsIUpdateService.idl',
 ]
 
-TEST_DIRS += ['tests']
-
 EXTRA_COMPONENTS += [
     'nsUpdateService.js',
     'nsUpdateService.manifest',
