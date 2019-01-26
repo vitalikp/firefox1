@@ -13,10 +13,8 @@ include ../../dom/indexedDB/crashtests/crashtests.list
 include ../../dom/jsurl/crashtests/crashtests.list
 include ../../dom/media/webspeech/synth/crashtests/crashtests.list
 include ../../dom/offline/crashtests/crashtests.list
-include ../../dom/svg/crashtests/crashtests.list
 include ../../dom/xml/crashtests/crashtests.list
 include ../../dom/xslt/crashtests/crashtests.list
-include ../../dom/xul/crashtests/crashtests.list
 include ../../dom/xul/templates/crashtests/crashtests.list
 
 include ../../editor/txmgr/tests/crashtests/crashtests.list
