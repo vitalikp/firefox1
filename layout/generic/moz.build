@@ -215,9 +215,6 @@ RESOURCE_FILES.html = [
     'folder.png',
 ]
 
-MOCHITEST_MANIFESTS += ['test/mochitest.ini']
-MOCHITEST_CHROME_MANIFESTS += ['test/chrome.ini']
-
 CXXFLAGS += CONFIG['MOZ_CAIRO_CFLAGS']
 
 if 'gtk' in CONFIG['MOZ_WIDGET_TOOLKIT']:
