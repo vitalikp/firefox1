@@ -4191,8 +4191,7 @@ MToInt32::foldsTo(TempAllocator& alloc)
     }
 
     // Do not fold the TruncateToInt32 node when the input is uint32 (e.g. ursh
-    // with a zero constant. Consider the test jit-test/tests/ion/bug1247880.js,
-    // where the relevant code is: |(imul(1, x >>> 0) % 2)|. The imul operator
+    // with a zero constant. The imul operator
     // is folded to a MTruncateToInt32 node, which will result in this MIR:
     // MMod(MTruncateToInt32(MUrsh(x, MConstant(0))), MConstant(2)). Note that
     // the MUrsh node's type is int32 (since uint32 is not implemented), and
@@ -4219,8 +4218,7 @@ MTruncateToInt32::foldsTo(TempAllocator& alloc)
         input = input->getOperand(0);
 
     // Do not fold the TruncateToInt32 node when the input is uint32 (e.g. ursh
-    // with a zero constant. Consider the test jit-test/tests/ion/bug1247880.js,
-    // where the relevant code is: |(imul(1, x >>> 0) % 2)|. The imul operator
+    // with a zero constant. The imul operator
     // is folded to a MTruncateToInt32 node, which will result in this MIR:
     // MMod(MTruncateToInt32(MUrsh(x, MConstant(0))), MConstant(2)). Note that
     // the MUrsh node's type is int32 (since uint32 is not implemented), and

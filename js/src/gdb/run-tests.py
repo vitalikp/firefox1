@@ -232,9 +232,6 @@ def main(argv):
 
     # OBJDIR is a standalone SpiderMonkey build directory. This is where we
     # find the SpiderMonkey shared library to link against.
-    #
-    # The [TESTS] optional arguments are paths of test files relative
-    # to the jit-test/tests directory.
     from optparse import OptionParser
     op = OptionParser(usage='%prog [options] OBJDIR [TESTS...]')
     op.add_option('-s', '--show-cmd', dest='show_cmd', action='store_true',

@@ -348,8 +348,6 @@ if 'checks' in test_suites:
 elif 'check-style' in test_suites:
     results.append(run_test_command([MAKE, 'check-style']))
 
-if 'jittest' in test_suites:
-    results.append(run_test_command([MAKE, 'check-jit-test']))
 if 'jsapitests' in test_suites:
     jsapi_test_binary = os.path.join(OBJDIR, 'dist', 'bin', 'jsapi-tests')
     results.append(run_test_command([jsapi_test_binary]))

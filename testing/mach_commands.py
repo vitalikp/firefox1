@@ -419,21 +419,12 @@ def executable_name(name):
 @CommandProvider
 class CheckSpiderMonkeyCommand(MachCommandBase):
     @Command('check-spidermonkey', category='testing', description='Run SpiderMonkey tests (JavaScript engine).')
-    @CommandArgument('--valgrind', action='store_true', help='Run jit-test suite with valgrind flag')
 
     def run_checkspidermonkey(self, **params):
         import subprocess
         import sys
 
         js = os.path.join(self.bindir, executable_name('js'))
-
-        print('Running jit-tests')
-        jittest_cmd = [os.path.join(self.topsrcdir, 'js', 'src', 'jit-test', 'jit_test.py'),
-              js, '--no-slow', '--jitflags=all']
-        if params['valgrind']:
-            jittest_cmd.append('--valgrind')
-
-        jittest_result = subprocess.call(jittest_cmd)
 
         print('running jstests')
         jstest_cmd = [os.path.join(self.topsrcdir, 'js', 'src', 'tests', 'jstests.py'),
@@ -456,7 +447,7 @@ class CheckSpiderMonkeyCommand(MachCommandBase):
         check_js_msg_cmd = [sys.executable, os.path.join(self.topsrcdir, 'config', 'check_js_msg_encoding.py')]
         check_js_msg_result = subprocess.call(check_js_msg_cmd, cwd=self.topsrcdir)
 
-        all_passed = jittest_result and jstest_result and jsapi_tests_result and check_style_result and check_masm_result and check_js_msg_result
+        all_passed = jstest_result and jsapi_tests_result and check_style_result and check_masm_result and check_js_msg_result
 
         return all_passed
 

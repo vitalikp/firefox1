@@ -140,12 +140,6 @@ tests to make sure we can read and save snapshots in various environments, such
 as xpcshell or workers. These can be run with the usual `mach test $PATH`
 commands.
 
-There are also `JS::ubi::Node` related unit tests in
-`js/src/jit-test/tests/heap-analysis/*`, `js/src/jit-test/tests/debug/Memory-*`,
-and `js/src/jsapi-tests/testUbiNode.cpp`. See
-https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Running_Automated_JavaScript_Tests#Running_jit-tests
-for running the JIT tests.
-
 ## `HeapAnalysesWorker`
 
 The `HeapAnalysesWorker` orchestrates running specific analyses on snapshots and

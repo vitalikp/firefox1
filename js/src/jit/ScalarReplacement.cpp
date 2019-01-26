@@ -244,8 +244,6 @@ IsObjectEscaped(MInstruction* ins, JSObject* objDefault)
             break;
           }
 
-          // This instruction is a no-op used to verify that scalar replacement
-          // is working as expected in jit-test.
           case MDefinition::Op_AssertRecoveredOnBailout:
             break;
 
@@ -944,8 +942,6 @@ IsArrayEscaped(MInstruction* ins)
             break;
           }
 
-          // This instruction is a no-op used to verify that scalar replacement
-          // is working as expected in jit-test.
           case MDefinition::Op_AssertRecoveredOnBailout:
             break;
 

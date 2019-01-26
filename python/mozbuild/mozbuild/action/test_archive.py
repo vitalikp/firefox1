@@ -133,18 +133,6 @@ ARCHIVE_FILES = {
         },
         {
             'source': buildconfig.topsrcdir,
-            'base': 'js/src',
-            'pattern': 'jit-test/**',
-            'dest': 'jit-test',
-        },
-        {
-            'source': buildconfig.topsrcdir,
-            'base': 'js/src',
-            'pattern': 'jsapi.h',
-            'dest': 'jit-test',
-        },
-        {
-            'source': buildconfig.topsrcdir,
             'base': 'testing',
             'pattern': 'tps/**',
         },
