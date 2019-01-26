@@ -5,7 +5,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 TEST_HARNESS_FILES.testing.mochitest.tests.SimpleTest += [
-    '/docshell/test/chrome/docshell_helpers.js',
     '/testing/specialpowers/content/MozillaLogger.js',
     'EventUtils.js',
     'ExtensionTestUtils.js',
