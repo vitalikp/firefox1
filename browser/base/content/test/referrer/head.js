@@ -18,14 +18,6 @@ SpecialPowers.pushPrefEnv({"set": [['network.http.enablePerElementReferrer', tru
 var gTestWindow = null;
 var rounds = 0;
 
-// We test that the UI code propagates three pieces of state - the referrer URI
-// itself, the referrer policy, and the triggering principal. After that, we
-// trust nsIWebNavigation to do the right thing with the info it's given, which
-// is covered more exhaustively by dom/base/test/test_bug704320.html (which is
-// a faster content-only test). So, here, we limit ourselves to cases that
-// would break when the UI code drops either of these pieces; we don't try to
-// duplicate the entire cross-product test in bug 704320 - that would be slow,
-// especially when we're opening a new window for each case.
 var _referrerTests = [
   // 1. Normal cases - no referrer policy, no special attributes.
   //    We expect a full referrer normally, and no referrer on downgrade.

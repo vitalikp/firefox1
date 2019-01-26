@@ -35,10 +35,6 @@ STEPS TO UPDATE MOZILLA TO NEWER PYWEBSOCKET VERSION
 - We need to apply the patch to hybi.py that makes HSTS work: (attached at end
   of this README)
 
-- Test and make sure the code works:
-
-    make mochitest-plain TEST_PATH=dom/base/test/test_websocket.html
-
 - If this doesn't take a look at the pywebsocket server log,
   $OBJDIR/_tests/testing/mochitest/websock.log
 
