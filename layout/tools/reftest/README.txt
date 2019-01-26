@@ -332,10 +332,6 @@ At some point in the future there will hopefully be a cleaner way to do
 this.  For now, go to your object directory, and run (perhaps using
 MOZ_NO_REMOTE=1 or the -profile <directory> option)
 
-./firefox -reftest /path/to/srcdir/mozilla/layout/reftests/reftest.list > reftest.out
-
-and then search/grep reftest.out for "UNEXPECTED".
-
 There are two scripts provided to convert the reftest.out to HTML.
 clean-reftest-output.pl converts reftest.out into simple HTML, stripping
 lines from the log that aren't relevant.  reftest-to-html.pl converts
@@ -563,10 +559,6 @@ create reftests that run in a paginated context.
 The page size used is 5in wide and 3in tall (with the default half-inch
 margins).  This is to allow tests to have less text and to make the
 entire test fit on the screen.
-
-There is a layout/reftests/printing directory for printing reftests; however,
-there is nothing special about this directory.  You can put printing reftests
-anywhere that is appropriate.
 
 The suggested first lines for any printing test is
 <!DOCTYPE html><html class="reftest-print">

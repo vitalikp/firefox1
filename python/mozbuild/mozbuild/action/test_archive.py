@@ -317,7 +317,6 @@ ARCHIVE_FILES = {
             'source': buildconfig.topsrcdir,
             'base': '',
             'manifests': [
-                'layout/reftests/reftest.list',
                 'testing/crashtest/crashtests.list',
             ],
             'dest': 'reftest/tests',

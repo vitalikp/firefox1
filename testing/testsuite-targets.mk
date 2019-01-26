@@ -71,12 +71,10 @@ OOP_CONTENT = --setpref=layers.async-pan-zoom.enabled=true --setpref=browser.tab
 GPU_RENDERING = --setpref=layers.acceleration.force-enabled=true
 endif #}
 
-reftest: TEST_PATH?=layout/reftests/reftest.list
 reftest:
 	$(call RUN_REFTEST,'$(topsrcdir)/$(TEST_PATH)')
 	$(CHECK_TEST_ERROR)
 
-reftest-remote: TEST_PATH?=layout/reftests/reftest.list
 reftest-remote: DM_TRANS?=adb
 reftest-remote:
 	@if [ '${MOZ_HOST_BIN}' = '' ]; then \
@@ -93,7 +91,6 @@ reftest-remote:
         $(CHECK_TEST_ERROR); \
     fi
 
-reftest-b2g: TEST_PATH?=layout/reftests/reftest.list
 reftest-b2g:
 	@if [ '${MOZ_HOST_BIN}' = '' ]; then \
 		echo 'environment variable MOZ_HOST_BIN must be set to a directory containing host xpcshell'; \

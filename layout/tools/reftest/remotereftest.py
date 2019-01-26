@@ -387,8 +387,6 @@ def run_test_harness(parser, options):
     if options.printDeviceInfo:
         reftest.printDeviceInfo()
 
-#an example manifest name to use on the cli
-#    manifest = "http://" + options.remoteWebServer + "/reftests/layout/reftests/reftest-sanity/reftest.list"
     retVal = 0
     try:
         dm.recordLogcat()

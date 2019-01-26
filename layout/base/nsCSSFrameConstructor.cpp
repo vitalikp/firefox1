@@ -6368,12 +6368,6 @@ AdjustAppendParentForAfterContent(nsFrameManager* aFrameManager,
             if (!nsContentUtils::ContentIsDescendantOf(aChild, p) &&
                 p != aContainer &&
                 nsContentUtils::PositionIsBefore(p, aChild)) {
-              // ::after generated content for content earlier in the doc and not
-              // for an ancestor.  "p != aContainer" may seem redundant but it
-              // checks if the ::after belongs to the XBL insertion point we're
-              // inserting aChild into (in which case ContentIsDescendantOf is
-              // false even though p == aContainer).
-              // See layout/reftests/bugs/482592-1a.xhtml for an example of that.
               done = true;
               break;
             }

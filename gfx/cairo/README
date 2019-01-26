@@ -142,8 +142,6 @@ quartz-refactor-surface-setup.patch: Extract the surface-source setup chunk of _
 
 quartz-fix-PAD.patch: Treat PAD like NONE instead of REPEAT
 
-quartz-mask-non-OVER.patch: Don't use CGContextSetAlpha to optimize alpha masking for non-OVER operators
-
 quartz-layers-content.patch: Store cairo content type in CGLayer surfaces
 
 quartz-optimize-OVER.patch: Optimize OVER to SOURCE for opaque patterns
