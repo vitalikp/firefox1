@@ -1049,7 +1049,6 @@ function _getDOMWindowUtils(aWindow = window)
   }
 
   // we need parent.SpecialPowers for:
-  //  layout/base/tests/test_reftests_with_caret.html
   //  chrome: toolkit/content/tests/chrome/test_findbar.xul
   //  chrome: toolkit/content/tests/chrome/test_popup_anchor.xul
   if ("SpecialPowers" in window && window.SpecialPowers != undefined) {
