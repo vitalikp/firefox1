@@ -3,8 +3,6 @@
 
 include ../../testing/crashtest/sanity/crashtests.list
 
-include ../../docshell/base/crashtests/crashtests.list
-
 include ../../dom/audiochannel/crashtests/crashtests.list
 include ../../dom/bindings/crashtests/crashtests.list
 include ../../dom/canvas/crashtests/crashtests.list
