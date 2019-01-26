@@ -375,9 +375,6 @@ include writing-mode/reftest.list
 # z-index/
 include z-index/reftest.list
 
-# reftest(s) to verify content bugfixes
-include ../../dom/html/reftests/reftest.list
-
 # box-sizing
 include box-sizing/reftest.list
 

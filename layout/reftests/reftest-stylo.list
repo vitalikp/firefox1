@@ -379,9 +379,6 @@ include writing-mode/reftest-stylo.list
 # z-index/
 include z-index/reftest-stylo.list
 
-# reftest(s) to verify content bugfixes
-include ../../dom/html/reftests/reftest-stylo.list
-
 # box-sizing
 include box-sizing/reftest-stylo.list
 
