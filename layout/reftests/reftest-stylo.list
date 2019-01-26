@@ -271,9 +271,6 @@ skip-if(!B2G&&browserIsRemote) include ogg-video/reftest-stylo.list
 # mp4-video/
 skip-if(!B2G&&browserIsRemote) include mp4-video/reftest-stylo.list
 
-# parser/
-include ../../parser/htmlparser/tests/reftest/reftest-stylo.list
-
 # percent-overflow-sizing/
 include percent-overflow-sizing/reftest-stylo.list
 

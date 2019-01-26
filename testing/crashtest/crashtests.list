@@ -54,8 +54,6 @@ include ../../media/libpng/crashtests/crashtests.list
 
 include ../../netwerk/test/crashtests/crashtests.list
 
-include ../../parser/htmlparser/tests/crashtests/crashtests.list
-
 include ../../security/manager/ssl/crashtests/crashtests.list
 
 include ../../view/crashtests/crashtests.list

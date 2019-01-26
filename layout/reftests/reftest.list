@@ -267,9 +267,6 @@ skip-if(browserIsRemote) include webm-video/reftest.list
 # mp4-video/
 skip-if(browserIsRemote) include mp4-video/reftest.list
 
-# parser/
-include ../../parser/htmlparser/tests/reftest/reftest.list
-
 # percent-overflow-sizing/
 include percent-overflow-sizing/reftest.list
 
