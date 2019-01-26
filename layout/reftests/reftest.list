@@ -352,9 +352,6 @@ include webcomponents/reftest.list
 # xul-document-load/ (no XUL theme on Android)
 skip-if(Android) include xul-document-load/reftest.list
 
-# xul grid (no XUL theme on Android)
-skip-if(Android) include ../xul/grid/reftests/reftest.list
-
 # -webkit-box & associated properties (mapped to modern flexbox)
 include webkit-box/reftest.list
 

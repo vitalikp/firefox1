@@ -356,9 +356,6 @@ include webcomponents/reftest-stylo.list
 # xul-document-load/ (no XUL theme on Android)
 skip-if(Android) include xul-document-load/reftest-stylo.list
 
-# xul grid (no XUL theme on Android)
-skip-if(Android) include ../xul/grid/reftests/reftest-stylo.list
-
 # -webkit-box & associated properties (mapped to modern flexbox)
 include webkit-box/reftest-stylo.list
 
