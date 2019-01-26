@@ -16,7 +16,6 @@ include ../../dom/jsurl/crashtests/crashtests.list
 include ../../dom/mathml/crashtests/crashtests.list
 include ../../dom/media/webspeech/synth/crashtests/crashtests.list
 include ../../dom/offline/crashtests/crashtests.list
-include ../../dom/smil/crashtests/crashtests.list
 include ../../dom/svg/crashtests/crashtests.list
 include ../../dom/xbl/crashtests/crashtests.list
 include ../../dom/xml/crashtests/crashtests.list
