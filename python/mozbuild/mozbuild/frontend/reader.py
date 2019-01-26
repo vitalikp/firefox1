@@ -910,9 +910,6 @@ class BuildReader(object):
         # for DIRS references in the AST, even if a directory is added behind
         # a conditional. For now, just walk the filesystem.
         ignore = {
-            # Ignore fake moz.build files used for testing moz.build.
-            'python/mozbuild/mozbuild/test',
-
             # Ignore object directories.
             'obj*',
         }

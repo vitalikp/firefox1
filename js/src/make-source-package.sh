@@ -70,7 +70,6 @@ case $cmd in
 
     cp -pPR ${TOPSRCDIR}/configure.py \
        ${TOPSRCDIR}/moz.configure \
-       ${TOPSRCDIR}/test.mozbuild \
        ${tgtpath}
 
     cp -pPR ${TOPSRCDIR}/js/moz.configure ${tgtpath}/js

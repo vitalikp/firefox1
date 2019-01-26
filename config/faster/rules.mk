@@ -44,7 +44,7 @@ endif
 
 # Mac builds require to copy things in dist/bin/*.app
 # TODO: remove the MOZ_WIDGET_TOOLKIT and MOZ_BUILD_APP variables from
-# faster/Makefile and python/mozbuild/mozbuild/test/backend/test_build.py
+# faster/Makefile
 # when this is not required anymore.
 # We however don't need to do this when using the hybrid
 # FasterMake/RecursiveMake backend (FASTER_RECURSIVE_MAKE is set when
