@@ -364,12 +364,6 @@ include ../../widget/reftests/reftest-stylo.list
 # xul-document-load/ (no XUL theme on Android)
 skip-if(Android) include xul-document-load/reftest-stylo.list
 
-# xul/ (no XUL theme on Android)
-skip-if(Android) include xul/reftest-stylo.list
-
-# xul (no XUL theme on Android)
-skip-if(Android) include ../xul/reftest/reftest-stylo.list
-
 # xul grid (no XUL theme on Android)
 skip-if(Android) include ../xul/grid/reftests/reftest-stylo.list
 
