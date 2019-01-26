@@ -39,9 +39,3 @@ for prefix in prefixes:
     props = GENERATED_FILES[header]
     props.script = props2arrays
     props.inputs = [input_file]
-
-MOCHITEST_MANIFESTS += [
-    'test/mochitest.ini',
-]
-MOCHITEST_CHROME_MANIFESTS += ['test/chrome.ini']
-XPCSHELL_TESTS_MANIFESTS += ['test/unit/xpcshell.ini']

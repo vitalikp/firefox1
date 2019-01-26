@@ -403,8 +403,5 @@ include box-sizing/reftest-stylo.list
 # invalidation
 include invalidation/reftest-stylo.list
 
-# encodings
-include ../../dom/encoding/test/reftest/reftest-stylo.list
-
 # APZ/async positioning tests
 include ../../gfx/layers/apz/test/reftest/reftest-stylo.list
