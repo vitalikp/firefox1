@@ -11,13 +11,6 @@ var Cu = Components.utils;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/LoadContextInfo.jsm");
 
-// Import common head.
-var commonFile = do_get_file("../../../../../toolkit/components/places/tests/head_common.js", false);
-if (commonFile) {
-  let uri = Services.io.newFileURI(commonFile);
-  Services.scriptloader.loadSubScript(uri.spec, this);
-}
-
 // Put any other stuff relative to this test folder below.
 
 XPCOMUtils.defineLazyGetter(this, "PlacesUIUtils", function() {

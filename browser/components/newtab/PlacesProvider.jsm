@@ -80,7 +80,6 @@ Links.prototype = {
 
     onManyFrecenciesChanged: function historyObserver_onManyFrecenciesChanged() {
       // Called when frecencies are invalidated and also when clearHistory is called
-      // See toolkit/components/places/tests/unit/test_frecency_observers.js
       gLinks.emit("manyLinksChanged");
     },
 
