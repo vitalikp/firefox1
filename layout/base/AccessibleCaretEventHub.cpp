@@ -416,8 +416,6 @@ AccessibleCaretEventHub::Init()
   // the whole frame tree. Therefore we'll fail to construct mSecondCaret
   // because we cannot get root frame or canvas frame from mPresShell to inject
   // anonymous content. To avoid that, we protect Init() by nsAutoScriptBlocker.
-  // To reproduce, run "./mach crashtest layout/base/crashtests/897852.html"
-  // without the following scriptBlocker.
   nsAutoScriptBlocker scriptBlocker;
 
   nsPresContext* presContext = mPresShell->GetPresContext();
