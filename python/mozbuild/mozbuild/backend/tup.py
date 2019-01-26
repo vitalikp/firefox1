@@ -209,7 +209,6 @@ class TupOnly(CommonBackend, PartialBackend):
         # TODO: These are directories that don't work in the tup backend
         # yet, because things they depend on aren't built yet.
         skip_directories = (
-            'layout/style/test', # HostSimplePrograms
             'toolkit/library', # libxul.so
         )
         if obj.script and obj.method and obj.relobjdir not in skip_directories:
