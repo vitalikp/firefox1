@@ -334,9 +334,6 @@ include text-svgglyphs/reftest-stylo.list
 # text-transform/
 include text-transform/reftest-stylo.list
 
-# theme (osx)
-include ../../toolkit/themes/osx/reftests/reftest-stylo.list
-
 include ../../toolkit/content/tests/reftests/reftest-stylo.list
 
 # -moz-transform/
