@@ -34,7 +34,6 @@ include ../../intl/uconv/crashtests/crashtests.list
 include ../../layout/style/crashtests/crashtests.list
 include ../../layout/xul/crashtests/crashtests.list
 include ../../layout/xul/grid/crashtests/crashtests.list
-include ../../layout/xul/tree/crashtests/crashtests.list
 
 include ../../media/libpng/crashtests/crashtests.list
 
