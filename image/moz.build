@@ -5,19 +5,9 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 DIRS += ['build', 'decoders', 'encoders']
-if CONFIG['ENABLE_TESTS']:
-    DIRS += ['test/gtest']
 
 with Files('**'):
     BUG_COMPONENT = ('Core', 'ImageLib')
-
-BROWSER_CHROME_MANIFESTS += ['test/browser/browser.ini']
-
-MOCHITEST_MANIFESTS += ['test/mochitest/mochitest.ini']
-
-MOCHITEST_CHROME_MANIFESTS += ['test/mochitest/chrome.ini']
-
-XPCSHELL_TESTS_MANIFESTS += ['test/unit/xpcshell.ini']
 
 XPIDL_SOURCES += [
     'imgICache.idl',

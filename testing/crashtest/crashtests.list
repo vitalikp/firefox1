@@ -15,8 +15,6 @@ include ../../dom/xul/templates/crashtests/crashtests.list
 
 include ../../editor/txmgr/tests/crashtests/crashtests.list
 
-include ../../image/test/crashtests/crashtests.list
-
 include ../../intl/lwbrk/crashtests/crashtests.list
 include ../../intl/uconv/crashtests/crashtests.list
 
