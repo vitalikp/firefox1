@@ -394,8 +394,6 @@
     "toolkit/components/social/test/browser/browser_frameworker.js": 5888, 
     "toolkit/components/social/test/browser/browser_frameworker_sandbox.js": 5738, 
     "toolkit/components/social/test/browser/browser_workerAPI.js": 2483, 
-    "toolkit/components/startup/tests/browser/browser_bug511456.js": 2803, 
-    "toolkit/components/startup/tests/browser/browser_crash_detection.js": 35076, 
     "toolkit/components/tooltiptext/tests/browser_input_file_tooltips.js": 4764, 
     "toolkit/components/viewsource/test/browser/browser_bug464222.js": 2589, 
     "toolkit/components/viewsource/test/browser/browser_bug713810.js": 2305, 

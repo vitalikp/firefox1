@@ -442,8 +442,6 @@
     "toolkit/components/reader/test/browser_readerMode_readingTime.js": 3200, 
     "toolkit/components/remotebrowserutils/tests/browser/browser_RemoteWebNavigation.js": 4608, 
     "toolkit/components/satchel/test/browser/browser_privbrowsing_perwindowpb.js": 5319, 
-    "toolkit/components/startup/tests/browser/browser_bug511456.js": 3606, 
-    "toolkit/components/startup/tests/browser/browser_crash_detection.js": 35078, 
     "toolkit/components/tooltiptext/tests/browser_input_file_tooltips.js": 6114, 
     "toolkit/components/viewsource/test/browser/browser_bug464222.js": 3341, 
     "toolkit/components/viewsource/test/browser/browser_bug713810.js": 3131, 
