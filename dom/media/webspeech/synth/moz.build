@@ -4,11 +4,6 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 if CONFIG['MOZ_WEBSPEECH']:
-    MOCHITEST_MANIFESTS += [
-        'test/mochitest.ini',
-        'test/startup/mochitest.ini',
-    ]
-
     XPIDL_MODULE = 'dom_webspeechsynth'
 
     XPIDL_SOURCES += [
@@ -35,12 +30,6 @@ if CONFIG['MOZ_WEBSPEECH']:
         'SpeechSynthesisUtterance.cpp',
         'SpeechSynthesisVoice.cpp',
     ]
-
-    if CONFIG['MOZ_WEBSPEECH_TEST_BACKEND']:
-        UNIFIED_SOURCES += [
-            'test/FakeSynthModule.cpp',
-            'test/nsFakeSynthServices.cpp'
-        ]
 
     if CONFIG['MOZ_WIDGET_TOOLKIT'] == 'windows':
         DIRS += ['windows']

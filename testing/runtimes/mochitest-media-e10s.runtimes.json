@@ -306,13 +306,6 @@
     "dom/media/webspeech/recognition/test/test_call_start_from_end_handler.html": 1730, 
     "dom/media/webspeech/recognition/test/test_recognition_service_error.html": 1702, 
     "dom/media/webspeech/recognition/test/test_success_without_recognition_service.html": 1743, 
-    "dom/media/webspeech/recognition/test/test_timeout.html": 10217, 
-    "dom/media/webspeech/synth/test/startup/test_voiceschanged.html": 1589, 
-    "dom/media/webspeech/synth/test/test_bfcache.html": 2814, 
-    "dom/media/webspeech/synth/test/test_global_queue.html": 1841, 
-    "dom/media/webspeech/synth/test/test_global_queue_pause.html": 2030, 
-    "dom/media/webspeech/synth/test/test_indirect_service_events.html": 2536, 
-    "dom/media/webspeech/synth/test/test_speech_cancel.html": 1566, 
-    "dom/media/webspeech/synth/test/test_speech_queue.html": 6645
+    "dom/media/webspeech/recognition/test/test_timeout.html": 10217
   }
 }

@@ -304,16 +304,6 @@
     "dom/media/webspeech/recognition/test/test_audio_capture_error.html": 2299, 
     "dom/media/webspeech/recognition/test/test_recognition_service_error.html": 2541, 
     "dom/media/webspeech/recognition/test/test_success_without_recognition_service.html": 2324, 
-    "dom/media/webspeech/recognition/test/test_timeout.html": 10821, 
-    "dom/media/webspeech/synth/test/startup/test_voiceschanged.html": 2275, 
-    "dom/media/webspeech/synth/test/test_bfcache.html": 4391, 
-    "dom/media/webspeech/synth/test/test_global_queue.html": 4323, 
-    "dom/media/webspeech/synth/test/test_global_queue_cancel.html": 3166, 
-    "dom/media/webspeech/synth/test/test_global_queue_pause.html": 4655, 
-    "dom/media/webspeech/synth/test/test_indirect_service_events.html": 4333, 
-    "dom/media/webspeech/synth/test/test_speech_cancel.html": 3720, 
-    "dom/media/webspeech/synth/test/test_speech_error.html": 2155, 
-    "dom/media/webspeech/synth/test/test_speech_queue.html": 8880, 
-    "dom/media/webspeech/synth/test/test_speech_simple.html": 2453
+    "dom/media/webspeech/recognition/test/test_timeout.html": 10821
   }
 }
