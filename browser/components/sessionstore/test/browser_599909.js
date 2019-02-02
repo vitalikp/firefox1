@@ -61,8 +61,6 @@ function test() {
   ss.setBrowserState(JSON.stringify(state));
 }
 
-// The following was taken from browser/base/content/test/general/browser_tabMatchesInAwesomebar.js
-// so that we could do the same sort of checking.
 var gController = Cc["@mozilla.org/autocomplete/controller;1"].
                   getService(Ci.nsIAutoCompleteController);
 

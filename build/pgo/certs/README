@@ -19,13 +19,3 @@ files need to be copied into this folder for Mochitests' runtests.py to import.
 
 These commands will modify cert9.db and key4.db. The changes to these should be
 committed.
-
-Specific notes for certs:
-
-  dynamicPinningGood: Changing this keyspec will require changing
-  browser/base/content/test/general/pinning_headers.sjs . You can obtain a new
-  valid pin via:
-
-  certutil -L -d . -n dynamicPinningGood -r | openssl x509 -inform der -pubkey \
-  -noout | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary \
-  | openssl enc -base64
