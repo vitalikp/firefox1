@@ -333,8 +333,6 @@
     "toolkit/content/tests/browser/browser_mediaPlayback_suspended_multipleAudio.js": 8178, 
     "toolkit/content/tests/browser/browser_quickfind_editable.js": 3343, 
     "toolkit/forgetaboutsite/test/browser/browser_clearplugindata.js": 2527, 
-    "toolkit/modules/tests/browser/browser_RemotePageManager.js": 7969, 
-    "toolkit/modules/tests/browser/browser_WebRequest.js": 4238, 
     "toolkit/mozapps/extensions/test/browser/browser_CTP_plugins.js": 11117, 
     "toolkit/mozapps/extensions/test/browser/browser_bug557943.js": 2060, 
     "toolkit/mozapps/extensions/test/browser/browser_bug557956.js": 30339, 
