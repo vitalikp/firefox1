@@ -751,10 +751,6 @@
     "devtools/client/styleeditor/test/browser_styleeditor_transition_rule.js": 5104, 
     "devtools/client/webaudioeditor/test/browser_audionode-actor-connectnode-disconnect.js": 5981, 
     "devtools/client/webaudioeditor/test/browser_wa_properties-view-params.js": 5201, 
-    "devtools/client/webconsole/net/test/mochitest/browser_net_basic.js": 7960, 
-    "devtools/client/webconsole/net/test/mochitest/browser_net_params.js": 6302, 
-    "devtools/client/webconsole/net/test/mochitest/browser_net_post.js": 10882, 
-    "devtools/client/webconsole/net/test/mochitest/browser_net_response.js": 10161, 
     "devtools/client/webconsole/new-console-output/test/mochitest/browser_webconsole_batching.js": 13127, 
     "devtools/client/webconsole/new-console-output/test/mochitest/browser_webconsole_filters.js": 7241, 
     "devtools/client/webconsole/new-console-output/test/mochitest/browser_webconsole_keyboard_accessibility.js": 5548
