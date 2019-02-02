@@ -355,7 +355,6 @@
     "toolkit/components/perfmonitoring/tests/browser/browser_webpagePerformanceAlerts.js": 32808, 
     "toolkit/components/reader/test/browser_readerMode.js": 6766, 
     "toolkit/components/reader/test/browser_readerMode_readingTime.js": 3200, 
-    "toolkit/components/remotebrowserutils/tests/browser/browser_RemoteWebNavigation.js": 4608, 
     "toolkit/components/satchel/test/browser/browser_privbrowsing_perwindowpb.js": 5319, 
     "toolkit/components/tooltiptext/tests/browser_input_file_tooltips.js": 6114, 
     "toolkit/components/viewsource/test/browser/browser_bug464222.js": 3341, 
