@@ -8,7 +8,6 @@ include ../../dom/bindings/crashtests/crashtests.list
 include ../../dom/canvas/crashtests/crashtests.list
 include ../../dom/events/crashtests/crashtests.list
 include ../../dom/indexedDB/crashtests/crashtests.list
-include ../../dom/media/webspeech/synth/crashtests/crashtests.list
 include ../../dom/offline/crashtests/crashtests.list
 include ../../dom/xml/crashtests/crashtests.list
 include ../../dom/xul/templates/crashtests/crashtests.list
