@@ -22,7 +22,3 @@ EXTRA_JS_MODULES += [
     'SettingsDB.jsm',
     'SettingsRequestManager.jsm'
 ]
-
-MOCHITEST_CHROME_MANIFESTS += ['tests/chrome.ini']
-
-XPCSHELL_TESTS_MANIFESTS += ['tests/unit/xpcshell.ini']
