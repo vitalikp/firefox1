@@ -322,9 +322,6 @@ interface nsIMemoryReporterManager : nsISupports
    * Access to these attributes can fail.  In particular, some of them are not
    * available on all platforms.
    *
-   * If you add a new distinguished amount, please update
-   * toolkit/components/aboutmemory/tests/test_memoryReporters.xul.
-   *
    * |vsize| (UNITS_BYTES)  The virtual size, i.e. the amount of address space
    * taken up.
    *
