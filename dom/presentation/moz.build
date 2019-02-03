@@ -6,10 +6,6 @@
 
 DIRS += ['interfaces', 'provider']
 
-XPCSHELL_TESTS_MANIFESTS += ['tests/xpcshell/xpcshell.ini']
-MOCHITEST_MANIFESTS += ['tests/mochitest/mochitest.ini']
-MOCHITEST_CHROME_MANIFESTS += ['tests/mochitest/chrome.ini']
-
 EXPORTS.mozilla.dom += [
     'DCPresentationChannelDescription.h',
     'ipc/PresentationBuilderChild.h',
