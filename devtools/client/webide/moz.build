@@ -11,13 +11,6 @@ DIRS += [
     'themes',
 ]
 
-BROWSER_CHROME_MANIFESTS += [
-    'test/browser.ini'
-]
-MOCHITEST_CHROME_MANIFESTS += [
-    'test/chrome.ini'
-]
-
 JS_PREFERENCE_PP_FILES += [
     'webide-prefs.js',
 ]
