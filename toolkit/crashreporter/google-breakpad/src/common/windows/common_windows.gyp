@@ -96,8 +96,6 @@
         'omap_unittest.cc',
       ],
       'dependencies': [
-        '<(DEPTH)/client/windows/unittests/testing.gyp:gmock',
-        '<(DEPTH)/client/windows/unittests/testing.gyp:gtest',
         'common_windows_lib',
       ],
     },

@@ -48,8 +48,6 @@
         'dump_syms_unittest.cc',
       ],
       'dependencies': [
-        '<(DEPTH)/client/windows/unittests/testing.gyp:gmock',
-        '<(DEPTH)/client/windows/unittests/testing.gyp:gtest',
         'dump_syms',
       ],
       'msvs_settings': {
