@@ -6,8 +6,6 @@
 
 DIRS += ['components', 'browser']
 
-TEST_DIRS += ['test']
-
 if CONFIG['ENABLE_TESTS']:
     XPCSHELL_TESTS_MANIFESTS += ['tests/unit/xpcshell.ini']
 

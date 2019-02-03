@@ -260,7 +260,6 @@
     "embedding/components/windowwatcher/test/browser_new_content_window_chromeflags.js": 3909, 
     "embedding/components/windowwatcher/test/browser_new_content_window_from_chrome_principal.js": 2168, 
     "embedding/components/windowwatcher/test/browser_new_sized_window.js": 4285, 
-    "embedding/test/browser_bug1204626.js": 5652, 
     "netwerk/cookie/test/browser/browser_originattributes.js": 5489, 
     "testing/mochitest/tests/browser/browser_async.js": 10083, 
     "testing/mochitest/tests/browser/browser_browserLoaded_content_loaded.js": 2864, 
