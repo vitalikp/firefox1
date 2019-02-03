@@ -40,10 +40,6 @@ def run_marionette(tests, binary=None, topsrcdir=None, **kwargs):
 
     parser = setup_marionette_argument_parser()
 
-    if not tests:
-        tests = [os.path.join(topsrcdir,
-                 'testing/marionette/harness/marionette_harness/tests/unit-tests.ini')]
-
     args = argparse.Namespace(tests=tests)
 
     args.binary = binary

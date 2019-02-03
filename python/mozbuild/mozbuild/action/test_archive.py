@@ -100,20 +100,8 @@ ARCHIVE_FILES = {
             'dest': 'marionette',
             'ignore': [
                 'client/docs',
-                'harness/marionette_harness/tests',
                 'puppeteer/firefox/docs',
             ],
-        },
-        {
-            'source': buildconfig.topsrcdir,
-            'base': '',
-            'manifests': [
-                'testing/marionette/harness/marionette_harness/tests/unit-tests.ini',
-                'testing/marionette/harness/marionette_harness/tests/webapi-tests.ini',
-            ],
-            # We also need the manifests and harness_unit tests
-            'pattern': 'testing/marionette/harness/marionette_harness/tests/**',
-            'dest': 'marionette/tests',
         },
         {
             'source': buildconfig.topobjdir,
