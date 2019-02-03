@@ -31,7 +31,6 @@ function runTests(testFile, order) {
     });
   }
 
-  // adapted from dom/indexedDB/test/helpers.js
   function clearStorage() {
     return new Promise(function(resolve, reject) {
       var qms = SpecialPowers.Services.qms;
