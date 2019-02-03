@@ -6,9 +6,6 @@
 
 DIRS += ['components', 'browser']
 
-if CONFIG['ENABLE_TESTS']:
-    XPCSHELL_TESTS_MANIFESTS += ['tests/unit/xpcshell.ini']
-
 XPIDL_SOURCES += [
     'nsIWindowCreator.idl',
     'nsIWindowCreator2.idl',
