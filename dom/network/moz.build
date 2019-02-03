@@ -6,9 +6,6 @@
 
 DIRS += ['interfaces']
 
-MOCHITEST_CHROME_MANIFESTS += ['tests/chrome.ini']
-MOCHITEST_MANIFESTS += ['tests/mochitest.ini']
-
 EXPORTS.mozilla.dom += [
     'TCPServerSocket.h',
     'TCPSocket.h',
