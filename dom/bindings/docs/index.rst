@@ -77,10 +77,6 @@ Parser unit tests
 
    The current mechanism for this is ``mach webidl-parser-test``.
 
-Mochitests
-   There are various mochitests under ``dom/bindings/test``. They should
-   be runnable through the standard mechanisms.
-
 Working with test interfaces
    ``TestExampleGenBinding.cpp`` calls into methods from the
    ``TestExampleInterface``, ``TestExampleProxyInterface``,
