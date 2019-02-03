@@ -23,7 +23,3 @@ DevToolsModules(
     'telemetry.js',
     'utils.js',
 )
-
-BROWSER_CHROME_MANIFESTS += ['test/browser/browser.ini']
-XPCSHELL_TESTS_MANIFESTS += ['test/unit/xpcshell.ini']
-MOCHITEST_CHROME_MANIFESTS += ['test/chrome/chrome.ini']

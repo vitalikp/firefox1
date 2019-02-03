@@ -209,12 +209,4 @@ are updated in the UI.
 
 ### Testing the Frontend
 
-Unit tests for React components are in `devtools/client/memory/test/chrome/*`.
-
-Unit tests for actions, reducers, and state changes are in
-`devtools/client/memory/test/unit/*`.
-
-Holistic integration tests for the frontend and the whole memory tool are in
-`devtools/client/memory/test/browser/*`.
-
 All tests can be run with the usual `mach test $PATH` command.
