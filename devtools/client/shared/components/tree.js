@@ -23,9 +23,7 @@ const NUMBER_OF_OFFSCREEN_ITEMS = 1;
  * implementation of `getChildren`, `getRoots`, `getParent`, and `isExpanded`
  * functions.
  *
- * This tree component is well tested and reliable. See
- * devtools/client/shared/components/test/mochitest/test_tree_* and its usage in
- * the performance and memory panels.
+ * This tree component is well tested and reliable.
  *
  * This tree component doesn't make any assumptions about how to render items in
  * the tree. You provide a `renderItem` function, and this component will ensure

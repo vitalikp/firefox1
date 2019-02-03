@@ -875,7 +875,6 @@
     "devtools/client/scratchpad/test/browser_scratchpad_restore.js": 7220, 
     "devtools/client/scratchpad/test/browser_scratchpad_unsaved.js": 5477, 
     "devtools/client/scratchpad/test/browser_scratchpad_wrong_window_focus.js": 6448, 
-    "devtools/client/shared/components/test/browser/browser_notification_box_basic.js": 6780, 
     "devtools/client/shared/test/browser_telemetry_button_eyedropper.js": 9253, 
     "devtools/client/shared/test/browser_telemetry_button_paintflashing.js": 6708, 
     "devtools/client/shared/test/browser_telemetry_button_responsive.js": 7615, 

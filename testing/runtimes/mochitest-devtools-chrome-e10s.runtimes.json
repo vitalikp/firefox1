@@ -699,7 +699,6 @@
     "devtools/client/scratchpad/test/browser_scratchpad_disable_view_menu_items.js": 8310, 
     "devtools/client/scratchpad/test/browser_scratchpad_restore.js": 6143, 
     "devtools/client/scratchpad/test/browser_scratchpad_wrong_window_focus.js": 5481, 
-    "devtools/client/shared/components/test/browser/browser_notification_box_basic.js": 6354, 
     "devtools/client/shared/test/browser_telemetry_button_eyedropper.js": 8019, 
     "devtools/client/shared/test/browser_telemetry_button_scratchpad.js": 9308, 
     "devtools/client/shared/test/browser_telemetry_sidebar.js": 8463, 
