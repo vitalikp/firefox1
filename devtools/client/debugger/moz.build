@@ -12,7 +12,3 @@ DevToolsModules(
     'debugger-commands.js',
     'panel.js'
 )
-
-BROWSER_CHROME_MANIFESTS += [
-  'new/test/mochitest/browser.ini',
-]
