@@ -861,10 +861,6 @@
     "devtools/client/styleinspector/test/browser_styleinspector_tooltip-background-image.js": 5766, 
     "devtools/client/webaudioeditor/test/browser_audionode-actor-connectnode-disconnect.js": 6276, 
     "devtools/client/webaudioeditor/test/browser_wa_destroy-node-01.js": 5473, 
-    "devtools/client/webaudioeditor/test/browser_wa_properties-view-params.js": 5999, 
-    "devtools/client/webconsole/new-console-output/test/mochitest/browser_webconsole_batching.js": 12498, 
-    "devtools/client/webconsole/new-console-output/test/mochitest/browser_webconsole_filters.js": 8292, 
-    "devtools/client/webconsole/new-console-output/test/mochitest/browser_webconsole_keyboard_accessibility.js": 6584, 
-    "devtools/client/webconsole/new-console-output/test/mochitest/browser_webconsole_observer_notifications.js": 5927
+    "devtools/client/webaudioeditor/test/browser_wa_properties-view-params.js": 5999
   }
 }
