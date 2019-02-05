@@ -15,5 +15,3 @@ DevToolsModules(
     'waterfall-tree.js',
     'waterfall.js',
 )
-
-MOCHITEST_CHROME_MANIFESTS += ['test/chrome.ini']
