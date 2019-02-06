@@ -64,11 +64,6 @@ TPSCmdLineHandler.prototype = {
     ios.manageOfflineStatus = false;
     ios.offline = false;
 
-    Components.utils.import("resource://tps/tps.jsm");
-    Components.utils.import("resource://tps/quit.js", TPS);
-    let uri = cmdLine.resolveURI(uristr).spec;
-    TPS.RunTestPhase(uri, phase, logfile, options);
-
     //cmdLine.preventDefault = true;
   },
 

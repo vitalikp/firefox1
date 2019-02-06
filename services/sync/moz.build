@@ -9,8 +9,6 @@ with Files('**'):
 
 DIRS += ['locales']
 
-XPCSHELL_TESTS_MANIFESTS += ['tests/unit/xpcshell.ini']
-
 EXTRA_COMPONENTS += [
     'SyncComponents.manifest',
     'Weave.js',

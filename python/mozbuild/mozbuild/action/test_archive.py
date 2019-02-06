@@ -130,12 +130,6 @@ ARCHIVE_FILES = {
             'pattern': 'tps/**',
         },
         {
-            'source': buildconfig.topsrcdir,
-            'base': 'services/sync/tests/tps',
-            'pattern': '**',
-            'dest': 'tps/tests',
-        },
-        {
             'source': buildconfig.topobjdir,
             'base': '',
             'pattern': 'mozinfo.json',
