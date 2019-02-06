@@ -70,11 +70,6 @@ def main(argv):
 
   topsrcdir = argv[0]
   for d in argv[1:]:
-    # xpcshell-unpack is a copy of xpcshell sibling directory and in the Makefile
-    # we copy all files (including xpcshell.ini from the sibling directory.
-    if d.endswith('toolkit/mozapps/extensions/test/xpcshell-unpack'):
-      continue
-
     initests = getIniTests(d)
     verifyDirectory(initests, d)
     verifyIniFile(initests, d)
