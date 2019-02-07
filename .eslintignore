@@ -206,9 +206,6 @@ services/sync/modules/constants.js
 # Not part of the default build
 toolkit/components/help/**
 
-# Intentionally invalid JS
-toolkit/components/workerloader/tests/moduleF-syntax-error.js
-
 # Not yet updated
 toolkit/components/osfile/**
 
