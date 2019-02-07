@@ -2227,7 +2227,7 @@ toolbar#nav-bar {
             # they get fixed.
 
             skip_leak_conditions = [
-                (options.flavor in ('browser', 'chrome', 'plain') and d.startswith('toolkit/components/extensions/test/mochitest'), 'bug 1325158'),  # noqa
+                (options.flavor in ('browser', 'chrome', 'plain'), 'bug 1325158'),  # noqa
             ]
 
             for condition, reason in skip_leak_conditions:
