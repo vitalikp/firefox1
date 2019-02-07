@@ -11,7 +11,6 @@ const TEST_URL = "http://mochi.test:8888/browser/dom/notification/test/browser/n
  *
  * @param {Number} aButtonIndex Number indicating which button to click.
  *                              See the constants in this file.
- * @note modified from toolkit/components/passwordmgr/test/browser/head.js
  */
 function clickDoorhangerButton(aButtonIndex) {
   ok(true, "Looking for action at index " + aButtonIndex);

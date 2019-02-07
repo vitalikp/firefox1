@@ -5,7 +5,6 @@ var gContentAPI;
 var gContentWindow;
 var handleDialog;
 
-// Modified from toolkit/components/passwordmgr/test/prompt_common.js
 var didDialog;
 
 var timer; // keep in outer scope so it's not GC'd before firing
