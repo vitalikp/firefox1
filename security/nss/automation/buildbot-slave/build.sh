@@ -16,9 +16,6 @@ proc_args()
             "--build-nss")
                 BUILD_NSS=1
                 ;;
-            "--test-nss")
-                TEST_NSS=1
-                ;;
             "--build-jss")
                 BUILD_JSS=1
                 ;;
@@ -185,36 +182,6 @@ build_jss()
     return 0
 }
 
-test_nss()
-{
-    print_log "######## NSS - tests - ${BITS} bits - ${OPT} ########"
-
-    if [ "${OS_TARGET}" = "Android" ]; then
-	print_log "$ cd ${HGDIR}/nss/tests/remote"
-	cd ${HGDIR}/nss/tests/remote
-	print_log "$ make test_android"
-	make test_android 2>&1 | tee ${LOG_TMP} | grep ${GREP_BUFFER} ": #"
-	OUTPUTFILE=${HGDIR}/tests_results/security/*.1/output.log
-    else
-	print_log "$ cd ${HGDIR}/nss/tests"
-	cd ${HGDIR}/nss/tests
-	print_log "$ ./all.sh"
-	./all.sh 2>&1 | tee ${LOG_TMP} | egrep ${GREP_BUFFER} ": #|^\[.{10}\] "
-	OUTPUTFILE=${LOG_TMP}
-    fi
-
-    cat ${LOG_TMP} >> ${LOG_ALL}
-    tail -n2 ${HGDIR}/tests_results/security/*.1/results.html | grep END_OF_TEST >> ${LOG_ALL}
-    RET=$?
-
-    print_log "######## details of detected failures (if any) ########"
-    grep -B50 FAILED ${OUTPUTFILE}
-    [ $? -eq 1 ] || RET=1
-
-    print_result "NSS - tests - ${BITS} bits - ${OPT}" ${RET} 0
-    return ${RET}
-}
-
 test_jss()
 {
     print_log "######## JSS - tests - ${BITS} bits - ${OPT} ########"
@@ -247,11 +214,6 @@ build_and_test()
 {
     if [ -n "${BUILD_NSS}" ]; then
         build_nss
-        [ $? -eq 0 ] || return 1
-    fi
-
-    if [ -n "${TEST_NSS}" ]; then
-        test_nss
         [ $? -eq 0 ] || return 1
     fi
 
@@ -304,9 +266,6 @@ prepare()
 move_results()
 {
     cd ${HGDIR}
-    if [ -n "${TEST_NSS}" ]; then
-	mv -f tests_results ${OUTPUTDIR}
-    fi
     tar -c -z --dereference -f ${OUTPUTDIR}/dist.tgz dist
     rm -rf dist
 }

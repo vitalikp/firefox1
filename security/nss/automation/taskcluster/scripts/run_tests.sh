@@ -12,6 +12,3 @@ fi
 
 # Fetch artifact if needed.
 fetch_dist
-
-# Run tests.
-cd nss/tests && ./all.sh
