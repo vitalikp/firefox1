@@ -19,5 +19,3 @@ DevToolsModules(
     'panel.js',
     'toolsidebar.js',
 )
-
-BROWSER_CHROME_MANIFESTS += ['test/browser.ini']
