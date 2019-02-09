@@ -37574,7 +37574,6 @@ var Debugger =
 	/**
 	 * A generic tree component. See propTypes for the public API.
 	 *
-	 * @see `devtools/client/memory/components/test/mochitest/head.js` for usage
 	 * @see `devtools/client/memory/components/heap.js` for usage
 	 */
 	const Tree = module.exports = createClass({
