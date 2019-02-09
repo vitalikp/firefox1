@@ -12,5 +12,3 @@ DevToolsModules(
     'tooltips-overlay.js',
     'utils.js'
 )
-
-BROWSER_CHROME_MANIFESTS += ['test/browser.ini']
