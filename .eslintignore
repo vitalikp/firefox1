@@ -167,7 +167,6 @@ devtools/client/shared/vendor/*
 devtools/client/sourceeditor/codemirror/*.js
 devtools/client/sourceeditor/codemirror/**/*.js
 devtools/client/sourceeditor/test/codemirror/*
-devtools/client/inspector/markup/test/lib_*
 devtools/client/jsonview/lib/require.js
 devtools/server/actors/utils/automation-timeline.js
 
