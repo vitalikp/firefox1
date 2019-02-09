@@ -9,5 +9,3 @@ DEFINES['PACKAGE'] = 'b2g'
 DEFINES['MOZ_APP_VERSION'] = CONFIG['MOZ_APP_VERSION']
 
 JAR_MANIFESTS += ['jar.mn']
-
-TEST_DIRS += ['content/test/mochitest']
