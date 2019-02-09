@@ -43,7 +43,7 @@ nsXBLProtoImpl::InstallImplementation(nsXBLPrototypeBinding* aPrototypeBinding,
   nsIDocument* document = aBinding->GetBoundElement()->OwnerDoc();
 
   // This sometimes gets called when we have no outer window and if we don't
-  // catch this, we get leaks during crashtests and reftests.
+  // catch this, we get leaks during reftests.
   if (NS_WARN_IF(!document->GetWindow())) {
     return NS_OK;
   }

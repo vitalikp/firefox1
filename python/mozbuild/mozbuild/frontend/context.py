@@ -1545,12 +1545,6 @@ VARIABLES = {
         These are commonly named reftest.list.
         """),
 
-    'CRASHTEST_MANIFESTS': (ReftestManifestList, list,
-        """List of manifest files defining crashtests.
-
-        These are commonly named crashtests.list.
-        """),
-
     'WEBRTC_SIGNALLING_TEST_MANIFESTS': (ManifestparserManifestList, list,
         """List of manifest files defining WebRTC signalling tests.
         """),

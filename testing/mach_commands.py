@@ -51,11 +51,6 @@ TEST_SUITES = {
         'mach_command': 'cppunittest',
         'kwargs': {'test_file': None},
     },
-    'crashtest': {
-        'aliases': ('C', 'Rc', 'RC', 'rc'),
-        'mach_command': 'crashtest',
-        'kwargs': {'test_file': None},
-    },
     'firefox-ui-functional': {
         'aliases': ('Fxfn',),
         'mach_command': 'firefox-ui-functional',
@@ -129,7 +124,6 @@ TEST_FLAVORS = {
         'mach_command': 'mochitest',
         'kwargs': {'flavor': 'browser-chrome', 'test_paths': []},
     },
-    'crashtest': {},
     'chrome': {
         'mach_command': 'mochitest',
         'kwargs': {'flavor': 'chrome', 'test_paths': []},

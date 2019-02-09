@@ -295,7 +295,7 @@ TEST_MANIFESTS = dict(
 )
 
 # Reftests have their own manifest format and are processed separately.
-REFTEST_FLAVORS = ('crashtest', 'reftest')
+REFTEST_FLAVORS = ('reftest')
 
 def all_test_flavors():
     return ([v[0] for v in TEST_MANIFESTS.values()] +

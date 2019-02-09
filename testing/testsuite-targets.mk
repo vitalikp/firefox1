@@ -110,11 +110,6 @@ reftest-b2g:
         $(CHECK_TEST_ERROR); \
 	fi
 
-crashtest: TEST_PATH?=testing/crashtest/crashtests.list
-crashtest:
-	$(call RUN_REFTEST,'$(topsrcdir)/$(TEST_PATH)')
-	$(CHECK_TEST_ERROR)
-
 jstestbrowser: TESTS_PATH?=test-stage/jsreftest/tests/
 jstestbrowser:
 	$(MAKE) -C $(DEPTH)/config
@@ -122,7 +117,7 @@ jstestbrowser:
 	$(call RUN_REFTEST,'$(DIST)/$(TESTS_PATH)/jstests.list' --extra-profile-file=$(DIST)/test-stage/jsreftest/tests/user.js)
 	$(CHECK_TEST_ERROR)
 
-GARBAGE += $(addsuffix .log,$(MOCHITESTS) reftest crashtest jstestbrowser)
+GARBAGE += $(addsuffix .log,$(MOCHITESTS) reftest jstestbrowser)
 
 REMOTE_CPPUNITTESTS = \
 	$(PYTHON) -u $(topsrcdir)/testing/remotecppunittests.py \
@@ -302,7 +297,6 @@ check::
 
 .PHONY: \
   reftest \
-  crashtest \
   xpcshell-tests \
   jstestbrowser \
   package-tests \

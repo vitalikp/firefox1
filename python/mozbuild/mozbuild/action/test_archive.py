@@ -264,14 +264,6 @@ ARCHIVE_FILES = {
             'base': '',
             'pattern': 'mozinfo.json',
             'dest': 'reftest',
-        },
-        {
-            'source': buildconfig.topsrcdir,
-            'base': '',
-            'manifests': [
-                'testing/crashtest/crashtests.list',
-            ],
-            'dest': 'reftest/tests',
         }
     ],
     'xpcshell': [

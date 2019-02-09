@@ -153,7 +153,6 @@ class AutoTry(object):
                            'mochitest-e10s-browser-chrome-1'],
         'devtools-chrome': ['mochitest-devtools-chrome-1',
                             'mochitest-e10s-devtools-chrome-1'],
-        'crashtest': ['crashtest', 'crashtest-e10s'],
         'reftest': ['reftest', 'reftest-e10s'],
     }
 
@@ -163,7 +162,6 @@ class AutoTry(object):
         "chrome": "mochitest-o",
         "browser-chrome": "mochitest-bc",
         "devtools-chrome": "mochitest-dt",
-        "crashtest": "crashtest",
         "reftest": "reftest",
     }
 
@@ -175,7 +173,6 @@ class AutoTry(object):
 
     common_suites = [
         "cppunit",
-        "crashtest",
         "firefox-ui-functional",
         "gtest",
         "jittest",
@@ -331,7 +328,7 @@ class AutoTry(object):
                 if 'subsuite' in t and t['subsuite'] == 'devtools':
                     flavor = 'devtools-chrome'
 
-                if flavor in ['crashtest', 'reftest']:
+                if flavor in ['reftest']:
                     manifest_relpath = os.path.relpath(t['manifest'], self.topsrcdir)
                     paths_by_flavor[flavor].add(os.path.dirname(manifest_relpath))
                 elif 'dir_relpath' in t:
