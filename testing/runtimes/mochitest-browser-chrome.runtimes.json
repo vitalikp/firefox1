@@ -160,17 +160,6 @@
     "toolkit/components/social/test/browser/browser_frameworker_sandbox.js": 5738, 
     "toolkit/components/social/test/browser/browser_workerAPI.js": 2483, 
     "toolkit/components/tooltiptext/tests/browser_input_file_tooltips.js": 4764, 
-    "toolkit/content/tests/browser/browser_audioCompeting.js": 3484, 
-    "toolkit/content/tests/browser/browser_bug1170531.js": 2083, 
-    "toolkit/content/tests/browser/browser_bug295977_autoscroll_overflow.js": 7223, 
-    "toolkit/content/tests/browser/browser_f7_caret_browsing.js": 4806, 
-    "toolkit/content/tests/browser/browser_findbar.js": 9522, 
-    "toolkit/content/tests/browser/browser_label_textlink.js": 2560, 
-    "toolkit/content/tests/browser/browser_mediaPlayback.js": 6217, 
-    "toolkit/content/tests/browser/browser_mediaPlayback_mute.js": 9273, 
-    "toolkit/content/tests/browser/browser_mediaPlayback_suspended.js": 4139, 
-    "toolkit/content/tests/browser/browser_mediaPlayback_suspended_multipleAudio.js": 8178, 
-    "toolkit/content/tests/browser/browser_quickfind_editable.js": 3343, 
     "toolkit/forgetaboutsite/test/browser/browser_clearplugindata.js": 2527, 
     "uriloader/exthandler/tests/mochitest/browser_web_protocol_handlers.js": 4136
   }
