@@ -40,7 +40,6 @@ from mozbuild.util import (
 from ..testing import (
     all_test_flavors,
     read_manifestparser_manifest,
-    read_reftest_manifest,
 )
 
 import mozpack.path as mozpath
@@ -616,7 +615,6 @@ WebPlatformTestManifest = TypedNamedTuple("WebPlatformTestManifest",
                                           [("manifest_path", unicode),
                                            ("test_root", unicode)])
 ManifestparserManifestList = OrderedListWithAction(read_manifestparser_manifest)
-ReftestManifestList = OrderedListWithAction(read_reftest_manifest)
 
 OrderedSourceList = ContextDerivedTypedList(SourcePath, StrictOrderingOnAppendList)
 OrderedTestFlavorList = TypedList(Enum(*all_test_flavors()),
@@ -1537,12 +1535,6 @@ VARIABLES = {
 
     'MOCHITEST_MANIFESTS': (ManifestparserManifestList, list,
         """List of manifest files defining mochitest tests.
-        """),
-
-    'REFTEST_MANIFESTS': (ReftestManifestList, list,
-        """List of manifest files defining reftests.
-
-        These are commonly named reftest.list.
         """),
 
     'WEBRTC_SIGNALLING_TEST_MANIFESTS': (ManifestparserManifestList, list,

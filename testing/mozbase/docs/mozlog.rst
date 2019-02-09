@@ -64,8 +64,7 @@ emitted:
 
   ``tests``
     A list of test ids. Test ids can either be strings or lists of
-    strings (an example of the latter is reftests where the id has the
-    form [test_url, ref_type, ref_url]) and are assumed to be unique
+    strings and are assumed to be unique
     within a given testsuite. In cases where the test list is not
     known upfront an empty list may be passed (list).
 

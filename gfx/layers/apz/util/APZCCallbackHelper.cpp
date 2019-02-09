@@ -845,10 +845,7 @@ APZCCallbackHelper::NotifyFlushComplete(nsIPresShell* aShell)
   MOZ_ASSERT(NS_IsMainThread());
   // In some cases, flushing the APZ state to the main thread doesn't actually
   // trigger a flush and repaint (this is an intentional optimization - the stuff
-  // visible to the user is still correct). However, reftests update their
-  // snapshot based on invalidation events that are emitted during paints,
-  // so we ensure that we kick off a paint when an APZ flush is done. Note that
-  // only chrome/testing code can trigger this behaviour.
+  // visible to the user is still correct).
   if (aShell && aShell->GetRootFrame()) {
     aShell->GetRootFrame()->SchedulePaint();
   }

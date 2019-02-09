@@ -748,7 +748,6 @@ def generateTzDataLinkTestContent(testDir, version, fileName, description, links
     with io.open(os.path.join(testDir, fileName), mode="w", encoding="utf-8", newline="") as f:
         println = partial(print, file=f)
 
-        println(u'// |reftest| skip-if(!this.hasOwnProperty("Intl"))')
         println(u"")
         println(generatedFileWarning)
         println(tzdataVersionComment.format(version))

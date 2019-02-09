@@ -747,8 +747,6 @@ pref("browser.chrome.dynamictoolbar", true);
 pref("browser.urlbar.trimURLs", true);
 
 #ifdef MOZ_PKG_SPECIAL
-// Disable webgl on ARMv6 because running the reftests takes
-// too long for some reason (bug 843738)
 pref("webgl.disabled", true);
 #endif
 

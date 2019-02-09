@@ -897,8 +897,6 @@ nsStyleContext::ApplyStyleFixups(bool aSkipParentDisplayBasedStyleFixup)
     }
   }
 
-  // Note: This must come after the blockification above, otherwise we fail
-  // the grid-item-blockifying-001.html reftest.
   if (mParent && ::ShouldSuppressLineBreak(this, disp, mParent,
                                            mParent->StyleDisplay())) {
     mBits |= NS_STYLE_SUPPRESS_LINEBREAK;

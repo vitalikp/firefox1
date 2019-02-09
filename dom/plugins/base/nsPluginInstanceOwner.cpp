@@ -154,7 +154,6 @@ private:
 void
 nsPluginInstanceOwner::NotifyPaintWaiter(nsDisplayListBuilder* aBuilder)
 {
-  // This is notification for reftests about async plugin paint start
   if (!mWaitingForPaint && !IsUpToDate() && aBuilder->ShouldSyncDecodeImages()) {
     nsCOMPtr<nsIContent> content = do_QueryReferent(mContent);
     nsCOMPtr<nsIRunnable> event = new AsyncPaintWaitEvent(content, false);

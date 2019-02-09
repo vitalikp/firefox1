@@ -3135,9 +3135,7 @@ nsCSSRendering::PaintBackgroundWithSC(const PaintBGParams& aParams,
   // The 'bgClipArea' (used only by the image tiling logic, far below)
   // is the caller-provided aParams.bgClipRect if any, or else the area
   // determined by the value of 'background-clip' in
-  // SetupCurrentBackgroundClip.  (Arguably it should be the
-  // intersection, but that breaks the table painter -- in particular,
-  // taking the intersection breaks reftests/bugs/403249-1[ab].)
+  // SetupCurrentBackgroundClip.
   gfxContext* ctx = aParams.renderingCtx.ThebesContext();
   nscoord appUnitsPerPixel = aParams.presCtx.AppUnitsPerDevPixel();
   ImageLayerClipState clipState;

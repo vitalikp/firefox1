@@ -17,7 +17,6 @@ import sys
 import time
 
 from manifestparser import TestManifest
-from reftest import ReftestManifest
 
 from mozbuild.util import ensureParentDir
 from mozpack.files import FileFinder
@@ -79,7 +78,6 @@ ARCHIVE_FILES = {
                 'cppunittest/**',
                 'gtest/**',
                 'mochitest/**',
-                'reftest/**',
                 'xpcshell/**',
             ],
         },
@@ -253,19 +251,6 @@ ARCHIVE_FILES = {
             'dest': 'mochitest'
         }
     ],
-    'reftest': [
-        {
-            'source': buildconfig.topobjdir,
-            'base': '_tests',
-            'pattern': 'reftest/**',
-        },
-        {
-            'source': buildconfig.topobjdir,
-            'base': '',
-            'pattern': 'mozinfo.json',
-            'dest': 'reftest',
-        }
-    ],
     'xpcshell': [
         {
             'source': buildconfig.topobjdir,
@@ -380,11 +365,6 @@ def find_manifest_dirs(topsrcdir, manifests):
             test_manifest = TestManifest()
             test_manifest.read(p)
             dirs |= set([os.path.dirname(m) for m in test_manifest.manifests()])
-
-        elif p.endswith('.list'):
-            m = ReftestManifest()
-            m.load(p)
-            dirs |= m.dirs
 
         else:
             raise Exception('"{}" is not a supported manifest format.'.format(

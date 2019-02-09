@@ -1807,10 +1807,7 @@ void
 gfxPlatform::CreateCMSOutputProfile()
 {
     if (!gCMSOutputProfile) {
-        /* Determine if we're using the internal override to force sRGB as
-           an output profile for reftests. See Bug 452125.
-
-           Note that we don't normally (outside of tests) set a
+        /* Note that we don't normally (outside of tests) set a
            default value of this preference, which means nsIPrefBranch::GetBoolPref
            will typically throw (and leave its out-param untouched).
          */

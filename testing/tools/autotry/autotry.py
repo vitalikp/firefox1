@@ -153,7 +153,6 @@ class AutoTry(object):
                            'mochitest-e10s-browser-chrome-1'],
         'devtools-chrome': ['mochitest-devtools-chrome-1',
                             'mochitest-e10s-devtools-chrome-1'],
-        'reftest': ['reftest', 'reftest-e10s'],
     }
 
     flavor_suites = {
@@ -162,7 +161,6 @@ class AutoTry(object):
         "chrome": "mochitest-o",
         "browser-chrome": "mochitest-bc",
         "devtools-chrome": "mochitest-dt",
-        "reftest": "reftest",
     }
 
     compiled_suites = [
@@ -176,12 +174,10 @@ class AutoTry(object):
         "firefox-ui-functional",
         "gtest",
         "jittest",
-        "jsreftest",
         "marionette",
         "marionette-e10s",
         "media-tests",
         "mochitests",
-        "reftest",
         "xpcshell",
     ]
 
@@ -328,10 +324,7 @@ class AutoTry(object):
                 if 'subsuite' in t and t['subsuite'] == 'devtools':
                     flavor = 'devtools-chrome'
 
-                if flavor in ['reftest']:
-                    manifest_relpath = os.path.relpath(t['manifest'], self.topsrcdir)
-                    paths_by_flavor[flavor].add(os.path.dirname(manifest_relpath))
-                elif 'dir_relpath' in t:
+                if 'dir_relpath' in t:
                     paths_by_flavor[flavor].add(t['dir_relpath'])
                 else:
                     file_relpath = os.path.relpath(t['path'], self.topsrcdir)
@@ -347,8 +340,7 @@ class AutoTry(object):
         # Removes paths redundant to test selection in the given path set.
         # If a path was passed on the commandline that is the prefix of a
         # path in our set, we only need to include the specified prefix to
-        # run the intended tests (every test in "layout/base" will run if
-        # "layout" is passed to the reftest harness).
+        # run the intended tests.
         removals = set()
         additions = set()
 

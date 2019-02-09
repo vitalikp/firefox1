@@ -44,24 +44,6 @@ CHECK_TEST_ERROR = $(call check_test_error_internal)
 CHECK_TEST_ERROR_RERUN = $(call check_test_error_internal,'To rerun your failures please run "make $@-rerun-failures"')
 endif
 
-# Usage: |make [EXTRA_TEST_ARGS=...] *test|.
-RUN_REFTEST = rm -f ./$@.log && $(PYTHON) _tests/reftest/runreftest.py \
-  --extra-profile-file=$(DIST)/plugins \
-  $(SYMBOLS_PATH) $(EXTRA_TEST_ARGS) $(1) | tee ./$@.log
-
-REMOTE_REFTEST = rm -f ./$@.log && $(PYTHON) _tests/reftest/remotereftest.py \
-  --dm_trans=$(DM_TRANS) --ignore-window-size \
-  --app=$(TEST_PACKAGE_NAME) --deviceIP=${TEST_DEVICE} --xre-path=${MOZ_HOST_BIN} \
-  --httpd-path=_tests/modules --suite reftest \
-  --extra-profile-file=$(topsrcdir)/mobile/android/fonts \
-  $(SYMBOLS_PATH) $(EXTRA_TEST_ARGS) $(1) | tee ./$@.log
-
-RUN_REFTEST_B2G = rm -f ./$@.log && $(PYTHON) _tests/reftest/runreftestb2g.py \
-  --remote-webserver=10.0.2.2 --b2gpath=${B2G_PATH} --adbpath=${ADB_PATH} \
-  --xre-path=${MOZ_HOST_BIN} $(SYMBOLS_PATH) --ignore-window-size \
-  --httpd-path=_tests/modules \
-  $(EXTRA_TEST_ARGS) '$(1)' | tee ./$@.log
-
 ifeq ($(OS_ARCH),WINNT) #{
 # GPU-rendered shadow layers are unsupported here
 OOP_CONTENT = --setpref=layers.async-pan-zoom.enabled=true --setpref=browser.tabs.remote.autostart=true --setpref=layers.acceleration.disabled=true
@@ -71,53 +53,12 @@ OOP_CONTENT = --setpref=layers.async-pan-zoom.enabled=true --setpref=browser.tab
 GPU_RENDERING = --setpref=layers.acceleration.force-enabled=true
 endif #}
 
-reftest:
-	$(call RUN_REFTEST,'$(topsrcdir)/$(TEST_PATH)')
-	$(CHECK_TEST_ERROR)
-
-reftest-remote: DM_TRANS?=adb
-reftest-remote:
-	@if [ '${MOZ_HOST_BIN}' = '' ]; then \
-        echo 'environment variable MOZ_HOST_BIN must be set to a directory containing host xpcshell'; \
-    elif [ ! -d ${MOZ_HOST_BIN} ]; then \
-        echo 'MOZ_HOST_BIN does not specify a directory'; \
-    elif [ ! -f ${MOZ_HOST_BIN}/xpcshell ]; then \
-        echo 'xpcshell not found in MOZ_HOST_BIN'; \
-    elif [ '${TEST_DEVICE}' = '' -a '$(DM_TRANS)' != 'adb' ]; then \
-        echo 'please prepare your host with the environment variable TEST_DEVICE'; \
-    else \
-        ln -s $(abspath $(topsrcdir)) _tests/reftest/tests; \
-        $(call REMOTE_REFTEST,'tests/$(TEST_PATH)'); \
-        $(CHECK_TEST_ERROR); \
-    fi
-
-reftest-b2g:
-	@if [ '${MOZ_HOST_BIN}' = '' ]; then \
-		echo 'environment variable MOZ_HOST_BIN must be set to a directory containing host xpcshell'; \
-	elif [ ! -d ${MOZ_HOST_BIN} ]; then \
-		echo 'MOZ_HOST_BIN does not specify a directory'; \
-	elif [ ! -f ${MOZ_HOST_BIN}/xpcshell ]; then \
-		echo 'xpcshell not found in MOZ_HOST_BIN'; \
-	elif [ '${B2G_PATH}' = '' -o '${ADB_PATH}' = '' ]; then \
-		echo 'please set the B2G_PATH and ADB_PATH environment variables'; \
-	else \
-        ln -s $(abspath $(topsrcdir)) _tests/reftest/tests; \
-		if [ '${REFTEST_PATH}' != '' ]; then \
-			$(call RUN_REFTEST_B2G,tests/${REFTEST_PATH}); \
-		else \
-			$(call RUN_REFTEST_B2G,tests/$(TEST_PATH)); \
-		fi; \
-        $(CHECK_TEST_ERROR); \
-	fi
-
-jstestbrowser: TESTS_PATH?=test-stage/jsreftest/tests/
 jstestbrowser:
 	$(MAKE) -C $(DEPTH)/config
 	$(MAKE) stage-jstests
-	$(call RUN_REFTEST,'$(DIST)/$(TESTS_PATH)/jstests.list' --extra-profile-file=$(DIST)/test-stage/jsreftest/tests/user.js)
 	$(CHECK_TEST_ERROR)
 
-GARBAGE += $(addsuffix .log,$(MOCHITESTS) reftest jstestbrowser)
+GARBAGE += $(addsuffix .log,$(MOCHITESTS) jstestbrowser)
 
 REMOTE_CPPUNITTESTS = \
 	$(PYTHON) -u $(topsrcdir)/testing/remotecppunittests.py \
@@ -167,7 +108,6 @@ TEST_PKGS := \
   common \
   cppunittest \
   mochitest \
-  reftest \
   xpcshell \
   $(NULL)
 
@@ -244,7 +184,6 @@ stage-gtest: make-stage-dir
 	cp $(DEPTH)/mozinfo.json $(PKG_STAGE)/gtest
 
 stage-android: make-stage-dir
-	$(NSINSTALL) $(topsrcdir)/mobile/android/fonts $(DEPTH)/_tests/reftest
 	$(NSINSTALL) $(topsrcdir)/mobile/android/fonts $(DEPTH)/_tests/testing/mochitest
 
 stage-jetpack: make-stage-dir
@@ -296,7 +235,6 @@ check::
 
 
 .PHONY: \
-  reftest \
   xpcshell-tests \
   jstestbrowser \
   package-tests \

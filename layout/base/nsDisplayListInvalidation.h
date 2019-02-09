@@ -133,11 +133,6 @@ public:
   bool ShouldInvalidateToSyncDecodeImages() const
   {
     if (mWaitingForPaint) {
-      // We previously invalidated for sync decoding and haven't gotten painted
-      // since them. This suggests that our display item is completely occluded
-      // and there's no point in invalidating again - and because the reftest
-      // harness takes a new snapshot every time we invalidate, doing so might
-      // lead to an invalidation loop if we're in a reftest.
       return false;
     }
 

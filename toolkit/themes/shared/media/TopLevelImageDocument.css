@@ -3,8 +3,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 @media not print {
-  /* N.B.: Remember to update ImageDocument.css in the tree or reftests may fail! */
-
   body {
     color: #eee;
     background-image: url("chrome://global/skin/media/imagedoc-darknoise.png");

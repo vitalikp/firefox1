@@ -15,7 +15,6 @@ OUR_DIR = os.path.dirname(__file__)
 topsrcdir = os.path.normpath(os.path.join(OUR_DIR, '..', '..'))
 
 EXTRA_PATHS = (
-    'layout/tools/reftest',
     'python/futures',
     'python/jsmin',
     'python/mach',

@@ -223,8 +223,6 @@ void
 HTMLCanvasPrintState::Done()
 {
   if (!mPendingNotify && !mIsDone) {
-    // The canvas needs to be invalidated for printing reftests on linux to
-    // work.
     if (mCanvas) {
       mCanvas->InvalidateCanvas();
     }
@@ -499,8 +497,6 @@ HTMLCanvasElement::HandlePrintCallback(nsPresContext::nsPresContextType aType)
 nsresult
 HTMLCanvasElement::DispatchPrintCallback(nsITimerCallback* aCallback)
 {
-  // For print reftests the context may not be initialized yet, so get a context
-  // so mCurrentContext is set.
   if (!mCurrentContext) {
     nsresult rv;
     nsCOMPtr<nsISupports> context;

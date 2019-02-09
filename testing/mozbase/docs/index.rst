@@ -9,14 +9,12 @@ mozbase
 Mozbase is a set of easy-to-use Python packages forming a supplemental standard
 library for Mozilla. It provides consistency and reduces redundancy in
 automation and other system-level software. All of Mozilla's test harnesses use
-mozbase to some degree, including Talos_, mochitest_, reftest_, Autophone_, and
+mozbase to some degree, including Talos_, mochitest_, Autophone_, and
 Eideticker_.
 
 .. _Talos: https://wiki.mozilla.org/Talos
 
 .. _mochitest: https://developer.mozilla.org/en-US/docs/Mochitest
-
-.. _reftest: https://developer.mozilla.org/en-US/docs/Creating_reftest-based_unit_tests
 
 .. _Autophone: https://wiki.mozilla.org/Auto-tools/Projects/AutoPhone
 

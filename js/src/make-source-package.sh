@@ -130,10 +130,6 @@ case $cmd in
     cp -pPR \
         ${TOPSRCDIR}/modules/zlib/src/ \
         ${tgtpath}/modules/zlib
-    ${MKDIR} -p ${tgtpath}/layout/tools/reftest
-    cp -pPR \
-        ${TOPSRCDIR}/layout/tools/reftest/reftest \
-        ${tgtpath}/layout/tools/reftest
     ${MKDIR} -p ${tgtpath}/toolkit/mozapps/installer
     cp -pPR \
         ${TOPSRCDIR}/toolkit/mozapps/installer/package-name.mk \

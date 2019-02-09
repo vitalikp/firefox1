@@ -83,7 +83,6 @@ from .reader import SandboxValidationError
 
 from ..testing import (
     TEST_MANIFESTS,
-    REFTEST_FLAVORS,
     SupportFilesConverter,
 )
 
@@ -1109,11 +1108,6 @@ class TreeMetadataEmitter(LoggingMixin):
                 for obj in self._process_test_manifest(context, info, path, manifest):
                     yield obj
 
-        for flavor in REFTEST_FLAVORS:
-            for path, manifest in context.get('%s_MANIFESTS' % flavor.upper(), []):
-                for obj in self._process_reftest_manifest(context, flavor, path, manifest):
-                    yield obj
-
         python_tests = context.get('PYTHON_UNIT_TESTS')
         if python_tests:
             for obj in self._process_python_tests(context, python_tests):
@@ -1220,34 +1214,6 @@ class TreeMetadataEmitter(LoggingMixin):
                 'manifest file %s: %s' % (path,
                     '\n'.join(traceback.format_exception(*sys.exc_info()))),
                 context)
-
-    def _process_reftest_manifest(self, context, flavor, manifest_path, manifest):
-        manifest_full_path = mozpath.normpath(mozpath.join(
-            context.srcdir, manifest_path))
-        manifest_reldir = mozpath.dirname(mozpath.relpath(manifest_full_path,
-            context.config.topsrcdir))
-
-        # reftest manifests don't come from manifest parser. But they are
-        # similar enough that we can use the same emitted objects. Note
-        # that we don't perform any installs for reftests.
-        obj = TestManifest(context, manifest_full_path, manifest,
-                flavor=flavor, install_prefix='%s/' % flavor,
-                relpath=mozpath.join(manifest_reldir,
-                    mozpath.basename(manifest_path)))
-
-        for test, source_manifest in sorted(manifest.tests):
-            obj.tests.append({
-                'path': test,
-                'here': mozpath.dirname(test),
-                'manifest': source_manifest,
-                'name': mozpath.basename(test),
-                'head': '',
-                'tail': '',
-                'support-files': '',
-                'subsuite': '',
-            })
-
-        yield obj
 
     def _process_python_tests(self, context, python_tests):
         manifest_full_path = context.main_path

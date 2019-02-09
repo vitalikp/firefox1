@@ -30,8 +30,7 @@ public:
 
   // In addition to setting the paper width and height, these
   // overrides set the adjusted width and height returned from
-  // GetEffectivePageSize. This is needed when a paper size is
-  // set manually without using a print dialog a la reftest-print.
+  // GetEffectivePageSize.
   virtual nsresult SetPaperWidth(double aPaperWidth) override;
   virtual nsresult SetPaperHeight(double aPaperWidth) override;
 

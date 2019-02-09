@@ -83,7 +83,7 @@ def _raw_log():
 def test_environment(xrePath, env=None, crashreporter=True, debugger=False,
                      dmdPath=None, lsanPath=None, log=None):
     """
-    populate OS environment variables for mochitest and reftests.
+    populate OS environment variables for mochitest.
 
     Originally comes from automationutils.py. Don't use that for new code.
     """

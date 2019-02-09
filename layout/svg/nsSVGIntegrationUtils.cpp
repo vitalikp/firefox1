@@ -100,12 +100,6 @@ private:
     // GetVisualOverflowRect() on the children will return their pre-effects
     // visual overflow rects, just as we need.
     //
-    // A couple of tests that demonstrate the IB split and cause us to get here
-    // are:
-    //
-    //  * reftests/svg/svg-integration/clipPath-html-06.xhtml
-    //  * reftests/svg/svg-integration/clipPath-html-06-extref.xhtml
-    //
     // If we ever got passed a frame with the PreTransformOverflowAreasProperty
     // property set, that would be bad, since then our GetVisualOverflowRect()
     // call would give us the post-effects, and post-transform, overflow rect.

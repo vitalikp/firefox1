@@ -294,12 +294,8 @@ TEST_MANIFESTS = dict(
     XPCSHELL_TESTS=('xpcshell', 'xpcshell', '.', True),
 )
 
-# Reftests have their own manifest format and are processed separately.
-REFTEST_FLAVORS = ('reftest')
-
 def all_test_flavors():
     return ([v[0] for v in TEST_MANIFESTS.values()] +
-            list(REFTEST_FLAVORS) +
             ['python'])
 
 class TestInstallInfo(object):
@@ -500,10 +496,3 @@ def read_manifestparser_manifest(context, manifest_path):
                                        rootdir=context.config.topsrcdir,
                                        finder=context._finder,
                                        handle_defaults=False)
-
-def read_reftest_manifest(context, manifest_path):
-    import reftest
-    path = mozpath.normpath(mozpath.join(context.srcdir, manifest_path))
-    manifest = reftest.ReftestManifest(finder=context._finder)
-    manifest.load(path)
-    return manifest

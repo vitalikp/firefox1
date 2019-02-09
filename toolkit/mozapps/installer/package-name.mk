@@ -137,7 +137,6 @@ TEST_PACKAGE = $(PKG_BASENAME).common.tests.zip
 CPP_TEST_PACKAGE = $(PKG_BASENAME).cppunittest.tests.zip
 XPC_TEST_PACKAGE = $(PKG_BASENAME).xpcshell.tests.zip
 MOCHITEST_PACKAGE = $(PKG_BASENAME).mochitest.tests.zip
-REFTEST_PACKAGE = $(PKG_BASENAME).reftest.tests.zip
 WP_TEST_PACKAGE = $(PKG_BASENAME).web-platform.tests.zip
 GTEST_PACKAGE = $(PKG_BASENAME).gtest.tests.zip
 

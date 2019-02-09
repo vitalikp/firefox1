@@ -811,7 +811,7 @@ nsScriptSecurityManager::CheckLoadURIWithPrincipal(nsIPrincipal* aPrincipal,
 
     // When comparing schemes, if the relevant pref is set, view-source URIs
     // are reachable from same-protocol (so e.g. file: can link to
-    // view-source:file). This is required for reftests.
+    // view-source:file).
     static bool sViewSourceReachableFromInner = false;
     static bool sCachedViewSourcePref = false;
     if (!sCachedViewSourcePref) {
@@ -833,7 +833,6 @@ nsScriptSecurityManager::CheckLoadURIWithPrincipal(nsIPrincipal* aPrincipal,
              NS_SUCCEEDED(aTargetURI->SchemeIs("view-source", &targetIsViewSource)) &&
              targetIsViewSource)
     {
-        // exception for foo: linking to view-source:foo for reftests...
         return NS_OK;
     }
 

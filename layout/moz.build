@@ -29,10 +29,6 @@ IPDL_SOURCES = [
 if CONFIG['NS_PRINTING']:
     DIRS += ['printing']
 
-TEST_DIRS += [
-    'tools/reftest',
-]
-
 DIRS += ['build', 'media']
 
 if CONFIG['MOZ_DEBUG']:

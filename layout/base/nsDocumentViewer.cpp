@@ -888,8 +888,7 @@ nsDocumentViewer::InitInternal(nsIWidget* aParentWidget,
       if (mIsPageMode) {
         // I'm leaving this in a broken state for the moment; we should
         // be measuring/scaling with the print device context, not the
-        // screen device context, but this is good enough to allow
-        // printing reftests to work.
+        // screen device context.
         double pageWidth = 0, pageHeight = 0;
         mPresContext->GetPrintSettings()->GetEffectivePageSize(&pageWidth,
                                                                &pageHeight);
@@ -4533,8 +4532,7 @@ nsDocumentViewer::OnDonePrinting()
 
 NS_IMETHODIMP nsDocumentViewer::SetPageMode(bool aPageMode, nsIPrintSettings* aPrintSettings)
 {
-  // XXX Page mode is only partially working; it's currently used for
-  // reftests that require a paginated context
+  // XXX Page mode is only partially working;
   mIsPageMode = aPageMode;
 
   // The DestroyPresShell call requires a script blocker, since the

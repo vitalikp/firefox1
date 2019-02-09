@@ -43,7 +43,6 @@ from mozbuild.util import (
 
 from mozbuild.testing import (
     TEST_MANIFESTS,
-    REFTEST_FLAVORS,
 )
 
 from mozbuild.backend.configenvironment import ConfigEnvironment
@@ -1376,8 +1375,7 @@ class BuildReader(object):
         # This names the context keys that will end up emitting a test
         # manifest.
         test_manifest_contexts = set(
-            ['%s_MANIFESTS' % key for key in TEST_MANIFESTS] +
-            ['%s_MANIFESTS' % flavor.upper() for flavor in REFTEST_FLAVORS]
+            ['%s_MANIFESTS' % key for key in TEST_MANIFESTS]
         )
 
         result_context = Files(Context())

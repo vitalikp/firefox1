@@ -90,8 +90,5 @@ embedding/ios/GeckoEmbed/GeckoEmbed.xcodeproj/xcuserdata
 # Ignore node_modules
 tools/lint/eslint/node_modules/
 
-# Ignore files created when running a reftest.
-lextab.py
-
 # tup database
 /.tup

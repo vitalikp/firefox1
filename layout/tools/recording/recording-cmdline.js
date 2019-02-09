@@ -42,10 +42,6 @@ RecordingCmdLineHandler.prototype =
          * Manipulate preferences by adding to the *default* branch.  Adding
          * to the default branch means the changes we make won't get written
          * back to user preferences.
-         *
-         * We want to do this here rather than in reftest.js because it's
-         * important to set the recording pref before the platform Init gets
-         * called.
          */
         var prefs = Components.classes["@mozilla.org/preferences-service;1"].
                     getService(Components.interfaces.nsIPrefService);

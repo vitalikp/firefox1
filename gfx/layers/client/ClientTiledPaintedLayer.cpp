@@ -259,9 +259,6 @@ ClientTiledPaintedLayer::UseProgressiveDraw() {
   }
 
   if (ClientManager()->HasShadowTarget()) {
-    // This condition is true when we are in a reftest scenario. We don't want
-    // to draw progressively here because it can cause intermittent reftest
-    // failures because the harness won't wait for all the tiles to be drawn.
     return false;
   }
 

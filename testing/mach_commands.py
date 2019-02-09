@@ -97,11 +97,6 @@ TEST_SUITES = {
         'mach_command': 'python-test',
         'kwargs': {'tests': None},
     },
-    'reftest': {
-        'aliases': ('RR', 'rr', 'Rr'),
-        'mach_command': 'reftest',
-        'kwargs': {'tests': None},
-    },
     'valgrind': {
         'aliases': ('V', 'v'),
         'mach_command': 'valgrind-test',
@@ -147,10 +142,6 @@ TEST_FLAVORS = {
     'python': {
         'mach_command': 'python-test',
         'kwargs': {},
-    },
-    'reftest': {
-        'mach_command': 'reftest',
-        'kwargs': {'tests': []}
     },
     'steeplechase': {},
     'xpcshell': {
@@ -564,7 +555,7 @@ class PushToTry(MachCommandBase):
         tests under dom/.
 
         Test selection using positional arguments is available for
-        mochitests, reftests, xpcshell tests.
+        mochitests, xpcshell tests.
 
         Tests may be also filtered by passing --tag to the command,
         which will run only tests marked as having the specified

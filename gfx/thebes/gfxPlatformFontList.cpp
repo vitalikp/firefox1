@@ -51,8 +51,6 @@ const gfxFontEntry::ScriptRange gfxPlatformFontList::sComplexScriptRanges[] = {
     // Actually, now that harfbuzz supports presentation-forms shaping for
     // Arabic, we can render it without layout tables. So maybe we don't
     // want to mask the basic Arabic block here?
-    // This affects the arabic-fallback-*.html reftests, which rely on
-    // loading a font that *doesn't* have any GSUB table.
     { 0x0600, 0x06FF, { TRUETYPE_TAG('a','r','a','b'), 0, 0 } },
     { 0x0700, 0x074F, { TRUETYPE_TAG('s','y','r','c'), 0, 0 } },
     { 0x0750, 0x077F, { TRUETYPE_TAG('a','r','a','b'), 0, 0 } },

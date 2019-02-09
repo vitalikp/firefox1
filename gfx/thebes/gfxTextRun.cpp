@@ -1208,7 +1208,7 @@ gfxTextRun::SanitizeGlyphRuns()
 
     // If any glyph run starts with ligature-continuation characters, we need to advance it
     // to the first "real" character to avoid drawing partial ligature glyphs from wrong font
-    // (seen with U+FEFF in reftest 474417-1, as Core Text eliminates the glyph, which makes
+    // (seen with U+FEFF, as Core Text eliminates the glyph, which makes
     // it appear as if a ligature has been formed)
     int32_t i, lastRunIndex = mGlyphRuns.Length() - 1;
     const CompressedGlyph *charGlyphs = mCharacterGlyphs;
@@ -2261,7 +2261,7 @@ gfxFontGroup::InitTextRun(DrawTarget* aDrawTarget,
     }
 
     // It's possible for CoreText to omit glyph runs if it decides they contain
-    // only invisibles (e.g., U+FEFF, see reftest 474417-1). In this case, we
+    // only invisibles (e.g., U+FEFF). In this case, we
     // need to eliminate them from the glyph run array to avoid drawing "partial
     // ligatures" with the wrong font.
     // We don't do this during InitScriptRun (or gfxFont::InitTextRun) because

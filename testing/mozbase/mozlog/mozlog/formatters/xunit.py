@@ -8,7 +8,6 @@ def format_test_id(test_id):
     """Take a test id and return something that looks a bit like
     a class path"""
     if type(test_id) not in types.StringTypes:
-        # Not sure how to deal with reftests yet
         raise NotImplementedError
 
     # Turn a path into something like a class heirachy
@@ -27,7 +26,7 @@ class XUnitFormatter(base.BaseFormatter):
     implementation currently replaces path names with something that
     looks like class names, but this doesn't work for test types that
     actually produce class names, or for test types that have multiple
-    components in their test id (e.g. reftests)."""
+    components in their test id."""
 
     def __init__(self):
         self.tree = ElementTree.ElementTree()
