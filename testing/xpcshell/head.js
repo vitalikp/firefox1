@@ -95,23 +95,6 @@ try {
 }
 catch (e) { }
 
-// Configure crash reporting, if possible
-// We rely on the Python harness to set MOZ_CRASHREPORTER,
-// MOZ_CRASHREPORTER_NO_REPORT, and handle checking for minidumps.
-// Note that if we're in a child process, we don't want to init the
-// crashreporter component.
-try {
-  if (runningInParent &&
-      "@mozilla.org/toolkit/crash-reporter;1" in Components.classes) {
-    let crashReporter =
-          Components.classes["@mozilla.org/toolkit/crash-reporter;1"]
-          .getService(Components.interfaces.nsICrashReporter);
-    crashReporter.UpdateCrashEventsDir();
-    crashReporter.minidumpPath = do_get_minidumpdir();
-  }
-}
-catch (e) { }
-
 // Configure a console listener so messages sent to it are logged as part
 // of the test.
 try {
@@ -1146,26 +1129,6 @@ function do_get_tempdir() {
 }
 
 /**
- * Returns the directory for crashreporter minidumps.
- *
- * @return nsILocalFile of the minidump directory
- */
-function do_get_minidumpdir() {
-  let env = Components.classes["@mozilla.org/process/environment;1"]
-                      .getService(Components.interfaces.nsIEnvironment);
-  // the python harness may set this in the environment for us
-  let path = env.get("XPCSHELL_MINIDUMP_DIR");
-  if (path) {
-    let file = Components.classes["@mozilla.org/file/local;1"]
-                         .createInstance(Components.interfaces.nsILocalFile);
-    file.initWithPath(path);
-    return file;
-  } else {
-    return do_get_tempdir();
-  }
-}
-
-/**
  * Registers a directory with the profile service,
  * and return the directory as an nsILocalFile.
  *
@@ -1210,15 +1173,6 @@ function do_get_profile(notifyProfileAfterChange = false) {
 
   let obsSvc = Components.classes["@mozilla.org/observer-service;1"].
         getService(Components.interfaces.nsIObserverService);
-
-  // We need to update the crash events directory when the profile changes.
-  if (runningInParent &&
-      "@mozilla.org/toolkit/crash-reporter;1" in Components.classes) {
-    let crashReporter =
-        Components.classes["@mozilla.org/toolkit/crash-reporter;1"]
-                          .getService(Components.interfaces.nsICrashReporter);
-    crashReporter.UpdateCrashEventsDir();
-  }
 
   if (!_profileInitialized) {
     obsSvc.notifyObservers(null, "profile-do-change", "xpcshell-do-get-profile");

@@ -26,9 +26,6 @@
 #include "nsWindowsHelpers.h"
 #endif
 
-#ifdef MOZ_CRASHREPORTER
-#include "nsExceptionHandler.h"
-#endif
 
 class nsIProfileSaveEvent;
 class nsPluginTag;
@@ -37,10 +34,6 @@ namespace mozilla {
 #ifdef MOZ_ENABLE_PROFILER_SPS
 class ProfileGatherer;
 #endif
-namespace dom {
-class PCrashReporterParent;
-class CrashReporterParent;
-} // namespace dom
 
 namespace layers {
 class TextureClientRecycleAllocator;
@@ -55,9 +48,6 @@ class PluginInstanceParent;
 
 #ifdef XP_WIN
 class PluginHangUIParent;
-#endif
-#ifdef MOZ_CRASHREPORTER_INJECTOR
-class FinishInjectorInitTask;
 #endif
 
 /**
@@ -80,14 +70,9 @@ class FinishInjectorInitTask;
 class PluginModuleParent
     : public PPluginModuleParent
     , public PluginLibrary
-#ifdef MOZ_CRASHREPORTER_INJECTOR
-    , public CrashReporter::InjectorCrashCallback
-#endif
 {
 protected:
     typedef mozilla::PluginLibrary PluginLibrary;
-    typedef mozilla::dom::PCrashReporterParent PCrashReporterParent;
-    typedef mozilla::dom::CrashReporterParent CrashReporterParent;
 
     PPluginInstanceParent*
     AllocPPluginInstanceParent(const nsCString& aMimeType,
@@ -167,12 +152,6 @@ protected:
 
     virtual bool
     RecvPluginHideWindow(const uint32_t& aWindowId) override;
-
-    virtual PCrashReporterParent*
-    AllocPCrashReporterParent(mozilla::dom::NativeThreadId* id,
-                              uint32_t* processType) override;
-    virtual bool
-    DeallocPCrashReporterParent(PCrashReporterParent* actor) override;
 
     virtual bool
     RecvSetCursor(const NSCursorInfo& aCursorInfo) override;
@@ -358,7 +337,6 @@ protected:
     bool
     GetPluginDetails();
 
-    friend class mozilla::dom::CrashReporterParent;
     friend class mozilla::plugins::PluginAsyncSurrogate;
 
     bool              mIsStartingAsync;
@@ -394,10 +372,6 @@ class PluginModuleContentParent : public PluginModuleParent
   private:
     virtual bool ShouldContinueFromReplyTimeout() override;
     virtual void OnExitedSyncSend() override;
-
-#ifdef MOZ_CRASHREPORTER_INJECTOR
-    void OnCrash(DWORD processID) override {}
-#endif
 
     static PluginModuleContentParent* sSavedModuleParent;
 
@@ -522,17 +496,6 @@ private:
 
     virtual bool ShouldContinueFromReplyTimeout() override;
 
-#ifdef MOZ_CRASHREPORTER
-    void ProcessFirstMinidump();
-    void WriteExtraDataForMinidump(CrashReporter::AnnotationTable& notes);
-#endif
-
-    virtual PCrashReporterParent*
-    AllocPCrashReporterParent(mozilla::dom::NativeThreadId* id,
-                              uint32_t* processType) override;
-    virtual bool
-    DeallocPCrashReporterParent(PCrashReporterParent* actor) override;
-
     PluginProcessParent* Process() const { return mSubprocess; }
     base::ProcessHandle ChildProcessHandle() { return mSubprocess->GetChildProcessHandle(); }
 
@@ -552,8 +515,6 @@ private:
     explicit PluginModuleChromeParent(const char* aFilePath, uint32_t aPluginId,
                                       int32_t aSandboxLevel,
                                       bool aAllowAsyncInit);
-
-    CrashReporterParent* CrashReporter();
 
     void CleanupFromTimeout(const bool aByHangUI);
 
@@ -594,17 +555,6 @@ private:
     PluginHangUIParent *mHangUIParent;
     bool mHangUIEnabled;
     bool mIsTimerReset;
-#ifdef MOZ_CRASHREPORTER
-    /**
-     * This mutex protects the crash reporter when the Plugin Hang UI event
-     * handler is executing off main thread. It is intended to protect both
-     * the mCrashReporter variable in addition to the CrashReporterParent object
-     * that mCrashReporter refers to.
-     */
-    mozilla::Mutex mCrashReporterMutex;
-    CrashReporterParent* mCrashReporter;
-#endif // MOZ_CRASHREPORTER
-
 
     /**
      * Launches the Plugin Hang UI.
@@ -623,22 +573,7 @@ private:
     FinishHangUI();
 #endif
 
-    friend class mozilla::dom::CrashReporterParent;
     friend class mozilla::plugins::PluginAsyncSurrogate;
-
-#ifdef MOZ_CRASHREPORTER_INJECTOR
-    friend class mozilla::plugins::FinishInjectorInitTask;
-
-    void InitializeInjector();
-    void DoInjection(const nsAutoHandle& aSnapshot);
-    static DWORD WINAPI GetToolhelpSnapshot(LPVOID aContext);
-
-    void OnCrash(DWORD processID) override;
-
-    DWORD mFlashProcess1;
-    DWORD mFlashProcess2;
-    RefPtr<mozilla::plugins::FinishInjectorInitTask> mFinishInitTask;
-#endif
 
     void OnProcessLaunched(const bool aSucceeded);
 

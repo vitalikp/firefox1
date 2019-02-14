@@ -118,8 +118,6 @@ chrome/en-US/locale/en-US/browser/overrides/aboutReader.properties
 chrome/en-US/locale/en-US/browser/overrides/aboutRights.dtd
 chrome/en-US/locale/en-US/browser/overrides/charsetMenu.properties
 chrome/en-US/locale/en-US/browser/overrides/commonDialogs.properties
-chrome/en-US/locale/en-US/browser/overrides/crashreporter/crashes.dtd
-chrome/en-US/locale/en-US/browser/overrides/crashreporter/crashes.properties
 chrome/en-US/locale/en-US/browser/overrides/dom/dom.properties
 chrome/en-US/locale/en-US/browser/overrides/global.dtd
 chrome/en-US/locale/en-US/browser/overrides/global/aboutSupport.dtd
@@ -206,8 +204,6 @@ chrome/toolkit/skin/classic/mozapps/update/buttons.png
 chrome/toolkit/skin/classic/mozapps/update/downloadButtons-XP.png
 chrome/toolkit/skin/classic/mozapps/update/downloadButtons.png
 components/FxAccountsPush.js
-crashreporter.app/Contents/Resources/English.lproj/MainMenu.nib/classes.nib
-crashreporter.app/Contents/Resources/English.lproj/MainMenuRTL.nib/classes.nib
 # firefox/firefox-bin is bug 658850
 @MOZ_APP_NAME@
 @MOZ_APP_NAME@-bin

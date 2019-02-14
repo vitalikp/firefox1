@@ -24,8 +24,6 @@ EXPORTS.mozilla = [
 ]
 
 SOURCES += [
-    # Compile this separately since nsExceptionHandler.h conflicts
-    # with something from nsNullPrincipal.cpp.
     'BasePrincipal.cpp',
 ]
 

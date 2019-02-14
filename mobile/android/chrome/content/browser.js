@@ -1804,16 +1804,6 @@ var BrowserApp = {
             aSubject.setAsAString(this.getTrackingProtectionState());
             break;
           }
-
-          // Crash reporter submit pref must be fetched from nsICrashReporter
-          // service.
-          case "datareporting.crashreporter.submitEnabled":
-            let crashReporterBuilt = "nsICrashReporter" in Ci &&
-                Services.appinfo instanceof Ci.nsICrashReporter;
-            if (crashReporterBuilt) {
-              aSubject.setAsBool(Services.appinfo.submitReports);
-            }
-            break;
         }
         break;
       }
@@ -1867,16 +1857,6 @@ var BrowserApp = {
             aSubject.setAsEmpty();
             break;
           }
-
-          // Crash reporter preference is in a service; set and return.
-          case "datareporting.crashreporter.submitEnabled":
-            let crashReporterBuilt = "nsICrashReporter" in Ci &&
-                Services.appinfo instanceof Ci.nsICrashReporter;
-            if (crashReporterBuilt) {
-              Services.appinfo.submitReports = value;
-              aSubject.setAsEmpty();
-            }
-            break;
         }
         break;
       }

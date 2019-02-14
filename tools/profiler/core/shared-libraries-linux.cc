@@ -15,27 +15,9 @@
 #include "platform.h"
 #include "shared-libraries.h"
 
-#include "common/linux/file_id.h"
 #include <algorithm>
 
 #define ARRAY_SIZE(a) (sizeof(a)/sizeof(a[0]))
-
-// Get the breakpad Id for the binary file pointed by bin_name
-static std::string getId(const char *bin_name)
-{
-  using namespace google_breakpad;
-  using namespace std;
-
-  PageAllocator allocator;
-  auto_wasteful_vector<uint8_t, sizeof(MDGUID)> identifier(&allocator);
-
-  FileID file_id(bin_name);
-  if (file_id.ElfFileIdentifier(identifier)) {
-    return FileID::ConvertIdentifierToUUIDString(identifier) + "0";
-  }
-
-  return "";
-}
 
 #if !defined(MOZ_WIDGET_GONK)
 // TODO fix me with proper include
@@ -60,8 +42,6 @@ int dl_iterate_phdr(
 static int
 dl_iterate_callback(struct dl_phdr_info *dl_info, size_t size, void *data)
 {
-  SharedLibraryInfo& info = *reinterpret_cast<SharedLibraryInfo*>(data);
-
   if (dl_info->dlpi_phnum <= 0)
     return 0;
 
@@ -79,9 +59,6 @@ dl_iterate_callback(struct dl_phdr_info *dl_info, size_t size, void *data)
     if (end > libEnd)
       libEnd = end;
   }
-  const char *name = dl_info->dlpi_name;
-  SharedLibrary shlib(libStart, libEnd, 0, getId(name), name);
-  info.AddSharedLibrary(shlib);
 
   return 0;
 }
@@ -145,8 +122,6 @@ SharedLibraryInfo SharedLibraryInfo::GetInfoForSelf()
       continue;
     }
 #endif
-    SharedLibrary shlib(start, end, offset, getId(name), name);
-    info.AddSharedLibrary(shlib);
     if (count > 10000) {
       LOG("Get maps failed");
       break;

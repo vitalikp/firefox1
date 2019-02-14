@@ -4,7 +4,6 @@ TOOLTOOL_DIR=${TOOLTOOL_DIR:-$topsrcdir}
 
 ac_add_options --disable-install-strip
 ac_add_options --disable-jemalloc
-ac_add_options --disable-crashreporter
 ac_add_options --disable-elf-hack
 
 MOZ_CODE_COVERAGE=1

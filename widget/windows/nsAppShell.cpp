@@ -178,14 +178,6 @@ UINT nsAppShell::GetTaskbarButtonCreatedMessage() {
 	return sTaskbarButtonCreatedMsg;
 }
 
-namespace mozilla {
-namespace crashreporter {
-void LSPAnnotate();
-} // namespace crashreporter
-} // namespace mozilla
-
-using mozilla::crashreporter::LSPAnnotate;
-
 //-------------------------------------------------------------------------
 
 /*static*/ LRESULT CALLBACK
@@ -213,10 +205,6 @@ nsAppShell::~nsAppShell()
 nsresult
 nsAppShell::Init()
 {
-#ifdef MOZ_CRASHREPORTER
-  LSPAnnotate();
-#endif
-
   mLastNativeEventScheduled = TimeStamp::NowLoRes();
 
   mozilla::ipc::windows::InitUIThread();

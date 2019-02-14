@@ -35,14 +35,6 @@ computer is asleep or too busy to do anything are not counted). This
 mechanism helps ensure that we do not leave the process in a state in
 which it can neither proceed with shutdown nor be relaunched.
 
-If the CrashReporter is enabled, this crash will report:
-
-- the name of the barrier that failed;
-- for each blocker that has not been released yet:
-
-  - the name of the blocker;
-  - the state of the blocker, if a state function has been provided (see :ref:`AsyncShutdown.Barrier.state`).
-
 Example 1: Simple Barrier client
 --------------------------------
 

@@ -10,8 +10,7 @@
 
 // Definitions and declarations of stuff used by us from the CoreSymbolication
 // framework.  This is an undocumented, private framework available on OS X
-// 10.6 and up.  It's used by Apple utilities like dtrace, atos, ReportCrash
-// and crashreporterd.
+// 10.6 and up.  It's used by Apple utilities like dtrace, atos, ReportCrash.
 
 typedef struct _CSTypeRef {
   unsigned long type;

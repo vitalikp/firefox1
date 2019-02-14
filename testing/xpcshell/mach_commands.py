@@ -85,9 +85,6 @@ class XPCShellRunner(MozbuildObject):
         if kwargs["mozInfo"] is None:
             kwargs["mozInfo"] = os.path.join(self.topobjdir, 'mozinfo.json')
 
-        if kwargs["symbolsPath"] is None:
-            kwargs["symbolsPath"] = os.path.join(self.distdir, 'crashreporter-symbols')
-
         if kwargs["logfiles"] is None:
             kwargs["logfiles"] = False
 
@@ -195,9 +192,6 @@ class AndroidXPCShellRunner(MozbuildObject):
 
         if not kwargs["manifest"]:
             kwargs["manifest"] = os.path.join(self.topobjdir, '_tests/xpcshell/xpcshell.ini')
-
-        if not kwargs["symbolsPath"]:
-            kwargs["symbolsPath"] = os.path.join(self.distdir, 'crashreporter-symbols')
 
         if not kwargs["localAPK"]:
             for file_name in os.listdir(os.path.join(kwargs["objdir"], "dist")):

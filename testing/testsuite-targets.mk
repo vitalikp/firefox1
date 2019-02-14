@@ -6,8 +6,6 @@
 TARGET_DEPTH = $(DEPTH)
 include $(topsrcdir)/build/binary-location.mk
 
-SYMBOLS_PATH := --symbols-path=$(DIST)/crashreporter-symbols
-
 ifndef TEST_PACKAGE_NAME
 TEST_PACKAGE_NAME := $(ANDROID_PACKAGE_NAME)
 endif

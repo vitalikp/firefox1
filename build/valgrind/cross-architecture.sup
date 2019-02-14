@@ -19,22 +19,6 @@
    ...
 }
 {
-   PR_SetEnv requires its argument to be leaked, but does not appear on stacks. (See bug 944133.)
-   Memcheck:Leak
-   ...
-   fun:_ZN13CrashReporter14SetRestartArgsEiPPc
-   ...
-}
-{
-   PR_SetEnv requires its argument to be leaked, but does not appear on stacks. (See bug 793548.)
-   Memcheck:Leak
-   fun:malloc
-   ...
-   fun:_Z12ToNewCStringRK19nsACString_internal
-   fun:_ZN13CrashReporter14SetupExtraDataEP7nsIFileRK19nsACString_internal
-   ...
-}
-{
    We purposely leak the StatisticsReporter object
    Memcheck:Leak
    fun:malloc

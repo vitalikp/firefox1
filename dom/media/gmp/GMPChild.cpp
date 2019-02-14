@@ -18,7 +18,6 @@
 #include "gmp-video-decode.h"
 #include "gmp-video-encode.h"
 #include "GMPPlatform.h"
-#include "mozilla/dom/CrashReporterChild.h"
 #include "mozilla/ipc/ProcessChild.h"
 #include "GMPUtils.h"
 #include "prio.h"
@@ -26,7 +25,6 @@
 #include "widevine-adapter/WidevineAdapter.h"
 
 using namespace mozilla::ipc;
-using mozilla::dom::CrashReporterChild;
 
 static const int MAX_VOUCHER_LENGTH = 500000;
 
@@ -257,10 +255,6 @@ GMPChild::Init(const nsAString& aPluginPath,
     return false;
   }
 
-#ifdef MOZ_CRASHREPORTER
-  SendPCrashReporterConstructor(CrashReporter::CurrentThreadId());
-#endif
-
   mPluginPath = aPluginPath;
   mSandboxVoucherPath = aVoucherPath;
 
@@ -464,19 +458,6 @@ GMPChild::ProcessingError(Result aCode, const char* aReason)
     default:
       MOZ_CRASH("not reached");
   }
-}
-
-mozilla::dom::PCrashReporterChild*
-GMPChild::AllocPCrashReporterChild(const NativeThreadId& aThread)
-{
-  return new CrashReporterChild();
-}
-
-bool
-GMPChild::DeallocPCrashReporterChild(PCrashReporterChild* aCrashReporter)
-{
-  delete aCrashReporter;
-  return true;
 }
 
 PGMPTimerChild*

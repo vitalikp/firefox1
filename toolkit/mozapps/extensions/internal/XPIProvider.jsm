@@ -2841,19 +2841,6 @@ this.XPIProvider = {
 
       this.enabledAddons = Preferences.get(PREF_EM_ENABLED_ADDONS, "");
 
-      if ("nsICrashReporter" in Ci &&
-          Services.appinfo instanceof Ci.nsICrashReporter) {
-        // Annotate the crash report with relevant add-on information.
-        try {
-          Services.appinfo.annotateCrashReport("Theme", this.currentSkin);
-        } catch (e) { }
-        try {
-          Services.appinfo.annotateCrashReport("EMCheckCompatibility",
-                                               AddonManager.checkCompatibility);
-        } catch (e) { }
-        this.addAddonsToCrashReporter();
-      }
-
       try {
         AddonManagerPrivate.recordTimestamp("XPI_bootstrap_addons_begin");
 
@@ -3276,35 +3263,6 @@ this.XPIProvider = {
 
     Services.prefs.setCharPref(PREF_BOOTSTRAP_ADDONS,
                                JSON.stringify(filtered));
-  },
-
-  /**
-   * Adds a list of currently active add-ons to the next crash report.
-   */
-  addAddonsToCrashReporter: function() {
-    if (!("nsICrashReporter" in Ci) ||
-        !(Services.appinfo instanceof Ci.nsICrashReporter))
-      return;
-
-    // In safe mode no add-ons are loaded so we should not include them in the
-    // crash report
-    if (Services.appinfo.inSafeMode)
-      return;
-
-    let data = this.enabledAddons;
-    for (let id in this.bootstrappedAddons) {
-      data += (data ? "," : "") + encodeURIComponent(id) + ":" +
-              encodeURIComponent(this.bootstrappedAddons[id].version);
-    }
-
-    try {
-      Services.appinfo.annotateCrashReport("Add-ons", data);
-    }
-    catch (e) { }
-
-    let TelemetrySession =
-      Cu.import("resource://gre/modules/TelemetrySession.jsm", {}).TelemetrySession;
-    TelemetrySession.setAddOns(data);
   },
 
   /**
@@ -4718,7 +4676,6 @@ this.XPIProvider = {
       hasEmbeddedWebExtension,
     };
     this.persistBootstrappedAddons();
-    this.addAddonsToCrashReporter();
 
     this.activeAddons.set(aId, {
       debugGlobal: null,
@@ -4826,7 +4783,6 @@ this.XPIProvider = {
     this.activeAddons.delete(aId);
     delete this.bootstrappedAddons[aId];
     this.persistBootstrappedAddons();
-    this.addAddonsToCrashReporter();
 
     // Only access BrowserToolboxProcess if ToolboxProcess.jsm has been
     // initialized as otherwise, there won't be any addon globals added to it

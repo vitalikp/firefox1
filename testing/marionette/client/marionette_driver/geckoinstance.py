@@ -222,13 +222,6 @@ class GeckoInstance(object):
 
         env = os.environ.copy()
 
-        # environment variables needed for crashreporting
-        # https://developer.mozilla.org/docs/Environment_variables_affecting_crash_reporting
-        env.update({"MOZ_CRASHREPORTER": "1",
-                    "MOZ_CRASHREPORTER_NO_REPORT": "1",
-                    "MOZ_CRASHREPORTER_SHUTDOWN": "1",
-                    })
-
         return {
             "binary": self.binary,
             "profile": self.profile,

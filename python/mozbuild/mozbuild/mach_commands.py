@@ -1182,7 +1182,7 @@ class RunProgram(MachCommandBase):
                 args.append('-profile')
                 args.append(path)
 
-        extra_env = {'MOZ_CRASHREPORTER_DISABLE': '1'}
+        extra_env = {}
         if disable_e10s:
             extra_env['MOZ_FORCE_DISABLE_E10S'] = '1'
 

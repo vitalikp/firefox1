@@ -35,11 +35,6 @@
 // Implementation of dwarf2reader::LineInfo, dwarf2reader::CompilationUnit,
 // and dwarf2reader::CallFrameInfo. See dwarf2reader.h for details.
 
-// This file is derived from the following files in
-// toolkit/crashreporter/google-breakpad:
-//   src/common/dwarf/bytereader.cc
-//   src/common/dwarf/dwarf2reader.cc
-//   src/common/dwarf_cfi_to_module.cc
 
 #include <stdint.h>
 #include <stdio.h>

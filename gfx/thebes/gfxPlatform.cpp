@@ -18,7 +18,6 @@
 #include "mozilla/Logging.h"
 #include "mozilla/Services.h"
 
-#include "gfxCrashReporterUtils.h"
 #include "gfxPlatform.h"
 #include "gfxPrefs.h"
 #include "gfxEnv.h"
@@ -71,9 +70,6 @@
 #include "nsIScreenManager.h"
 #include "FrameMetrics.h"
 #include "MainThreadUtils.h"
-#ifdef MOZ_CRASHREPORTER
-#include "nsExceptionHandler.h"
-#endif
 
 #include "nsWeakReference.h"
 
@@ -294,12 +290,7 @@ void CrashStatsLogForwarder::UpdateCrashReport()
     message << logAnnotation << Get<0>(*it) << "]" << Get<1>(*it) << " (t=" << Get<2>(*it) << ") ";
   }
 
-#ifdef MOZ_CRASHREPORTER
-  nsCString reportString(message.str().c_str());
-  nsresult annotated = CrashReporter::AnnotateCrashReport(mCrashCriticalKey, reportString);
-#else
   nsresult annotated = NS_ERROR_NOT_IMPLEMENTED;
-#endif
   if (annotated != NS_OK) {
     printf("Crash Annotation %s: %s",
            mCrashCriticalKey.get(), message.str().c_str());
@@ -625,41 +616,6 @@ gfxPlatform::Init()
         gfxVars::SetPDMWMFDisableD3D11Dlls(Preferences::GetCString("media.wmf.disable-d3d11-for-dlls"));
         gfxVars::SetPDMWMFDisableD3D9Dlls(Preferences::GetCString("media.wmf.disable-d3d9-for-dlls"));
       }
-    }
-
-    // Drop a note in the crash report if we end up forcing an option that could
-    // destabilize things.  New items should be appended at the end (of an existing
-    // or in a new section), so that we don't have to know the version to interpret
-    // these cryptic strings.
-    {
-      nsAutoCString forcedPrefs;
-      // D2D prefs
-      forcedPrefs.AppendPrintf("FP(D%d%d",
-                               gfxPrefs::Direct2DDisabled(),
-                               gfxPrefs::Direct2DForceEnabled());
-      // Layers prefs
-      forcedPrefs.AppendPrintf("-L%d%d%d%d",
-                               gfxPrefs::LayersAMDSwitchableGfxEnabled(),
-                               gfxPrefs::LayersAccelerationDisabledDoNotUseDirectly(),
-                               gfxPrefs::LayersAccelerationForceEnabledDoNotUseDirectly(),
-                               gfxPrefs::LayersD3D11ForceWARP());
-      // WebGL prefs
-      forcedPrefs.AppendPrintf("-W%d%d%d%d%d%d%d%d",
-                               gfxPrefs::WebGLANGLEForceD3D11(),
-                               gfxPrefs::WebGLANGLEForceWARP(),
-                               gfxPrefs::WebGLDisabled(),
-                               gfxPrefs::WebGLDisableANGLE(),
-                               gfxPrefs::WebGLDXGLEnabled(),
-                               gfxPrefs::WebGLForceEnabled(),
-                               gfxPrefs::WebGLForceLayersReadback(),
-                               gfxPrefs::WebGLForceMSAA());
-      // Prefs that don't fit into any of the other sections
-      forcedPrefs.AppendPrintf("-T%d%d%d%d) ",
-                               gfxPrefs::AndroidRGB16Force(),
-                               gfxPrefs::CanvasAzureAccelerated(),
-                               gfxPrefs::DisableGralloc(),
-                               gfxPrefs::ForceShmemTiles());
-      ScopedGfxFeatureReporter::AppNote(forcedPrefs);
     }
 
     InitMoz2DLogging();

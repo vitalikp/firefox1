@@ -419,10 +419,6 @@ class XPCShellTestsTests(unittest.TestCase):
                                                       {"tbpl": self.log})
         self.x = XPCShellTests(logger)
         self.x.harness_timeout = 15
-        self.symbols_path = None
-        candidate_path = os.path.join(build_obj.distdir, 'crashreporter-symbols')
-        if (os.path.isdir(candidate_path)):
-          self.symbols_path = candidate_path
 
     def tearDown(self):
         shutil.rmtree(self.tempdir)
@@ -465,7 +461,6 @@ tail =
         """
         self.assertEquals(expected,
                           self.x.runTests(xpcshellBin,
-                                          symbolsPath=self.symbols_path,
                                           manifest=self.manifest,
                                           mozInfo=mozinfo.info,
                                           shuffle=shuffle,

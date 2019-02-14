@@ -86,7 +86,7 @@ Properties
     Used from JavaScript and C++. When used from js, also comes with
     `plural support <https://developer.mozilla.org/docs/Mozilla/Localization/Localization_and_Plurals>`_.
 ini
-    Used by the crashreporter and updater, avoid if possible.
+    Used by the updater, avoid if possible.
 foo.defines
     Used during builds, for example to create file:`install.rdf` for
     language packs.

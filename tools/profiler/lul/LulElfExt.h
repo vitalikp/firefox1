@@ -30,9 +30,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// This file is derived from the following files in
-// toolkit/crashreporter/google-breakpad:
-//   src/common/linux/dump_symbols.h
 
 #ifndef LulElfExt_h
 #define LulElfExt_h

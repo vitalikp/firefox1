@@ -40,9 +40,6 @@ var gAdvancedPane = {
       this.updateReadPrefs();
     }
     this.updateOfflineApps();
-    if (AppConstants.MOZ_CRASHREPORTER) {
-      this.initSubmitCrashes();
-    }
     this.initTelemetry();
     if (AppConstants.MOZ_TELEMETRY_REPORTING) {
       this.initSubmitHealthReport();
@@ -241,15 +238,6 @@ var gAdvancedPane = {
     } else {
       el.setAttribute("hidden", "true");
     }
-  },
-
-  /**
-   *
-   */
-  initSubmitCrashes: function ()
-  {
-    this._setupLearnMoreLink("toolkit.crashreporter.infoURL",
-                             "crashReporterLearnMore");
   },
 
   /**

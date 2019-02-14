@@ -42,7 +42,7 @@
   "ContactDB.jsm": ["ContactDB", "DB_NAME", "STORE_NAME", "SAVED_GETALL_STORE_NAME", "REVISION_STORE", "DB_VERSION"],
   "content-server.jsm": ["init"],
   "content.jsm": ["registerContentFrame"],
-  "ContentCrashHandlers.jsm": ["TabCrashHandler", "PluginCrashReporter", "UnsubmittedCrashHandler"],
+  "ContentCrashHandlers.jsm": ["TabCrashHandler", "UnsubmittedCrashHandler"],
   "ContentObservers.jsm": [],
   "ContentPrefUtils.jsm": ["ContentPref", "cbHandleResult", "cbHandleError", "cbHandleCompletion", "safeCallback"],
   "controller.js": ["MozMillController", "globalEventRegistry", "sleep", "windowMap"],

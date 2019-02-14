@@ -369,7 +369,6 @@ var AddonTestUtils = {
   createAppInfo(ID, name, version, platformVersion = "1.0") {
     AppInfo.updateAppInfo({
       ID, name, version, platformVersion,
-      crashReporter: true,
       extraProps: {
         browserTabsRemoteAutostart: false,
       },

@@ -39,11 +39,6 @@
 // dump_symbols.h: Read debugging information from an ELF file, and write
 // it out as a Breakpad symbol file.
 
-// This file is derived from the following files in
-// toolkit/crashreporter/google-breakpad:
-//   src/common/linux/dump_symbols.cc
-//   src/common/linux/elfutils.cc
-//   src/common/linux/file_id.cc
 
 #include <errno.h>
 #include <fcntl.h>

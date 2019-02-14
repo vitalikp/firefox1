@@ -30,12 +30,6 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// This file is derived from the following files in
-// toolkit/crashreporter/google-breakpad:
-//   src/common/android/include/elf.h
-//   src/common/linux/elfutils.h
-//   src/common/linux/file_id.h
-//   src/common/linux/elfutils-inl.h
 
 #ifndef LulElfInt_h
 #define LulElfInt_h
@@ -57,7 +51,6 @@
 
 #if defined(LUL_OS_android)
 
-// From toolkit/crashreporter/google-breakpad/src/common/android/include/elf.h
 // The Android headers don't always define this constant.
 #ifndef EM_X86_64
 #define EM_X86_64  62

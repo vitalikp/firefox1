@@ -177,8 +177,6 @@ def GetUrlProperties(output, package):
     # rather than a long if/else with duplicate code
     property_conditions = [
         # key: property name, value: condition
-        ('symbolsUrl', lambda m: m.endswith('crashreporter-symbols.zip') or
-                       m.endswith('crashreporter-symbols-full.zip')),
         ('testsUrl', lambda m: m.endswith(('tests.tar.bz2', 'tests.zip'))),
         ('robocopApkUrl', lambda m: m.endswith('apk') and 'robocop' in m),
         ('jsshellUrl', lambda m: 'jsshell-' in m and m.endswith('.zip')),

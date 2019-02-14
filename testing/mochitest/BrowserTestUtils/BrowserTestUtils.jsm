@@ -851,9 +851,6 @@ this.BrowserTestUtils = {
   crashBrowser: Task.async(function*(browser, shouldShowTabCrashPage=true) {
     let extra = {};
     let KeyValueParser = {};
-    if (AppConstants.MOZ_CRASHREPORTER) {
-      Cu.import("resource://gre/modules/KeyValueParser.jsm", KeyValueParser);
-    }
 
     if (!browser.isRemoteBrowser) {
       throw new Error("<xul:browser> needs to be remote in order to crash");
@@ -921,32 +918,6 @@ this.BrowserTestUtils = {
         if (!subject.hasKey("abnormal")) {
           dump("\nThis is a normal termination and isn't the one we are looking for...\n");
           return;
-        }
-
-        let dumpID;
-        if ('nsICrashReporter' in Ci) {
-          dumpID = subject.getPropertyAsAString('dumpID');
-          if (!dumpID) {
-            return reject("dumpID was not present despite crash reporting " +
-                          "being enabled");
-          }
-        }
-
-        if (dumpID) {
-          let minidumpDirectory = getMinidumpDirectory();
-          let extrafile = minidumpDirectory.clone();
-          extrafile.append(dumpID + '.extra');
-          if (extrafile.exists()) {
-            dump(`\nNo .extra file for dumpID: ${dumpID}\n`);
-            if (AppConstants.MOZ_CRASHREPORTER) {
-              extra = KeyValueParser.parseKeyValuePairsFromFile(extrafile);
-            } else {
-              dump('\nCrashReporter not enabled - will not return any extra data\n');
-            }
-          }
-
-          removeFile(minidumpDirectory, dumpID + '.dmp');
-          removeFile(minidumpDirectory, dumpID + '.extra');
         }
 
         Services.obs.removeObserver(observer, 'ipc:content-shutdown');

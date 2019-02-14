@@ -656,8 +656,6 @@ class MochitestArguments(ArgumentContainer):
 
         if options.symbolsPath and len(urlparse(options.symbolsPath).scheme) < 2:
             options.symbolsPath = self.get_full_path(options.symbolsPath, parser.oldcwd)
-        elif not options.symbolsPath and build_obj:
-            options.symbolsPath = os.path.join(build_obj.distdir, 'crashreporter-symbols')
 
         if options.jsdebugger:
             options.extraPrefs += [

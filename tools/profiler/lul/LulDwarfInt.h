@@ -31,9 +31,6 @@
 
 // CFI reader author: Jim Blandy <jimb@mozilla.com> <jimb@red-bean.com>
 
-// This file is derived from the following file in
-// toolkit/crashreporter/google-breakpad:
-//   src/common/dwarf/dwarf2enums.h
 
 #ifndef LulDwarfInt_h
 #define LulDwarfInt_h

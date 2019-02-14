@@ -37,9 +37,6 @@
 #include "gfxConfig.h"
 #include "DriverCrashGuard.h"
 
-#if defined(MOZ_CRASHREPORTER)
-#include "nsExceptionHandler.h"
-#endif
 
 using namespace mozilla::widget;
 using namespace mozilla;

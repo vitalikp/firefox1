@@ -49,12 +49,6 @@
 //
 
 
-// This file is derived from the following files in
-// toolkit/crashreporter/google-breakpad:
-//   src/common/unique_string.h
-//   src/common/scoped_ptr.h
-//   src/common/module.h
-
 // External interface for the "Common" component of LUL.
 
 #ifndef LulCommonExt_h

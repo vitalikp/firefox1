@@ -244,15 +244,13 @@ void InstallSignalHandlers(const char *aProgname)
   }
 
 #if defined(CRAWL_STACK_ON_SIGSEGV)
-  if (!getenv("XRE_NO_WINDOWS_CRASH_DIALOG")) {
-    void (*crap_handler)(int) =
-      GeckoProcessType_Default != XRE_GetProcessType() ?
-          child_ah_crap_handler :
-          ah_crap_handler;
-    signal(SIGSEGV, crap_handler);
-    signal(SIGILL, crap_handler);
-    signal(SIGABRT, crap_handler);
-  }
+  void (*crap_handler)(int) =
+    GeckoProcessType_Default != XRE_GetProcessType() ?
+        child_ah_crap_handler :
+        ah_crap_handler;
+  signal(SIGSEGV, crap_handler);
+  signal(SIGILL, crap_handler);
+  signal(SIGABRT, crap_handler);
 #endif // CRAWL_STACK_ON_SIGSEGV
 
 #ifdef SA_SIGINFO

@@ -27,23 +27,6 @@ TelemetryStartup.prototype.observe = function(aSubject, aTopic, aData) {
   if (aTopic == "profile-after-change" || aTopic == "app-startup") {
     TelemetryController.observe(null, aTopic, null);
   }
-  if (aTopic == "profile-after-change") {
-    annotateEnvironment();
-    TelemetryEnvironment.registerChangeListener("CrashAnnotator", annotateEnvironment);
-    TelemetryEnvironment.onInitialized().then(() => annotateEnvironment());
-  }
-}
-
-function annotateEnvironment() {
-  try {
-    let cr = Cc["@mozilla.org/toolkit/crash-reporter;1"];
-    if (cr) {
-      let env = JSON.stringify(TelemetryEnvironment.currentEnvironment);
-      cr.getService(Ci.nsICrashReporter).annotateCrashReport("TelemetryEnvironment", env);
-    }
-  } catch (e) {
-    // crash reporting not built or disabled? Ignore errors
-  }
 }
 
 this.NSGetFactory = XPCOMUtils.generateNSGetFactory([TelemetryStartup]);

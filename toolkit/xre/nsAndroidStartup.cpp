@@ -17,7 +17,6 @@
 #include "nsIFile.h"
 #include "nsAppRunner.h"
 #include "APKOpen.h"
-#include "nsExceptionHandler.h"
 
 #define LOG(args...) __android_log_print(ANDROID_LOG_INFO, MOZ_APP_NAME, args)
 
@@ -25,15 +24,6 @@ extern "C" NS_EXPORT void
 GeckoStart(JNIEnv* env, char* data, const nsXREAppData* appData)
 {
     mozilla::jni::SetGeckoThreadEnv(env);
-
-#ifdef MOZ_CRASHREPORTER
-    const struct mapping_info *info = getLibraryMapping();
-    while (info->name) {
-      CrashReporter::AddLibraryMapping(info->name, info->base,
-                                       info->len, info->offset);
-      info++;
-    }
-#endif
 
     if (!data) {
         LOG("Failed to get arguments for GeckoStart\n");

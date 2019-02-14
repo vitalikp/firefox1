@@ -34,10 +34,6 @@ XPCOMUtils.defineLazyModuleGetter(this, "TelemetryUtils",
 XPCOMUtils.defineLazyModuleGetter(this, "CommonUtils",
                                   "resource://services-common/utils.js");
 
-XPCOMUtils.defineLazyServiceGetter(this, "gCrashReporter",
-                                   "@mozilla.org/xre/app-info;1",
-                                   "nsICrashReporter");
-
 const FILE_CACHE                = "experiments.json";
 const EXPERIMENTS_CHANGED_TOPIC = "experiments-changed";
 const MANIFEST_VERSION          = 1;
@@ -1307,15 +1303,6 @@ Experiments.Experiments.prototype = {
     if (activeChanged || this._firstEvaluate) {
       Services.obs.notifyObservers(null, EXPERIMENTS_CHANGED_TOPIC, null);
       this._firstEvaluate = false;
-    }
-
-    if ("@mozilla.org/toolkit/crash-reporter;1" in Cc && activeExperiment) {
-      try {
-        gCrashReporter.annotateCrashReport("ActiveExperiment", activeExperiment.id);
-        gCrashReporter.annotateCrashReport("ActiveExperimentBranch", activeExperiment.branch);
-      } catch (e) {
-        // It's ok if crash reporting is disabled.
-      }
     }
   },
 

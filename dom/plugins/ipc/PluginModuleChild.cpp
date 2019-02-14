@@ -32,7 +32,6 @@
 #include "mozilla/plugins/StreamNotifyChild.h"
 #include "mozilla/plugins/BrowserStreamChild.h"
 #include "mozilla/plugins/PluginStreamChild.h"
-#include "mozilla/dom/CrashReporterChild.h"
 #include "mozilla/Sprintf.h"
 #include "mozilla/Unused.h"
 
@@ -56,8 +55,6 @@ using namespace mozilla;
 using namespace mozilla::ipc;
 using namespace mozilla::plugins;
 using namespace mozilla::widget;
-using mozilla::dom::CrashReporterChild;
-using mozilla::dom::PCrashReporterChild;
 
 #if defined(XP_WIN)
 const wchar_t * kFlashFullscreenClass = L"ShockwaveFlashFullScreen";
@@ -731,33 +728,6 @@ PluginModuleChild::AllocPPluginModuleChild(mozilla::ipc::Transport* aTransport,
                                            base::ProcessId aOtherPid)
 {
     return PluginModuleChild::CreateForContentProcess(aTransport, aOtherPid);
-}
-
-PCrashReporterChild*
-PluginModuleChild::AllocPCrashReporterChild(mozilla::dom::NativeThreadId* id,
-                                            uint32_t* processType)
-{
-    return new CrashReporterChild();
-}
-
-bool
-PluginModuleChild::DeallocPCrashReporterChild(PCrashReporterChild* actor)
-{
-    delete actor;
-    return true;
-}
-
-bool
-PluginModuleChild::AnswerPCrashReporterConstructor(
-        PCrashReporterChild* actor,
-        mozilla::dom::NativeThreadId* id,
-        uint32_t* processType)
-{
-#ifdef MOZ_CRASHREPORTER
-    *id = CrashReporter::CurrentThreadId();
-    *processType = XRE_GetProcessType();
-#endif
-    return true;
 }
 
 void

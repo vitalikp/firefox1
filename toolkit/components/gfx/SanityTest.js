@@ -70,16 +70,6 @@ function reportTestReason(val) {
   histogram.add(val);
 }
 
-function annotateCrashReport(value) {
-  try {
-    // "1" if we're annotating the crash report, "" to remove the annotation.
-    var crashReporter = Cc['@mozilla.org/toolkit/crash-reporter;1'].
-                          getService(Ci.nsICrashReporter);
-    crashReporter.annotateCrashReport("GraphicsSanityTest", value ? "1" : "");
-  } catch (e) {
-  }
-}
-
 function setTimeout(aMs, aCallback) {
   var timer = Cc['@mozilla.org/timer;1'].
                 createInstance(Ci.nsITimer);
@@ -227,10 +217,6 @@ var listener = {
 
       this.mm = null;
     }
-
-    // Remove the annotation after we've cleaned everything up, to catch any
-    // incidental crashes from having performed the sanity test.
-    annotateCrashReport(false);
   }
 };
 
@@ -295,8 +281,6 @@ SanityTest.prototype = {
     listener = null;
 
     if (!this.shouldRunTest()) return;
-
-    annotateCrashReport(true);
 
     // Open a tiny window to render our test page, and notify us when it's loaded
     var sanityTest = Services.ww.openWindow(null,

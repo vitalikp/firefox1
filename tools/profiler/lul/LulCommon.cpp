@@ -33,11 +33,6 @@
 // Original author: Jim Blandy <jimb@mozilla.com> <jimb@red-bean.com>
 
 
-// This file is derived from the following files in
-// toolkit/crashreporter/google-breakpad:
-//   src/common/module.cc
-//   src/common/unique_string.cc
-
 // There's no internal-only interface for LulCommon.  Hence include
 // the external interface directly.
 #include "LulCommonExt.h"

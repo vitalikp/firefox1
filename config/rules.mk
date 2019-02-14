@@ -78,7 +78,7 @@ INSTALL_TARGETS += CPP_UNIT_TESTS
 endif
 
 run-cppunittests::
-	@$(PYTHON) $(MOZILLA_DIR)/testing/runcppunittests.py --xre-path=$(DIST)/bin --symbols-path=$(DIST)/crashreporter-symbols $(CPP_UNIT_TESTS)
+	@$(PYTHON) $(MOZILLA_DIR)/testing/runcppunittests.py --xre-path=$(DIST)/bin $(CPP_UNIT_TESTS)
 
 cppunittests-remote: DM_TRANS?=adb
 cppunittests-remote:

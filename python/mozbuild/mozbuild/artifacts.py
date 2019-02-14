@@ -140,9 +140,6 @@ class ArtifactJob(object):
         if tests_re:
             self._tests_re = re.compile(tests_re)
         self._log = log
-        self._symbols_archive_suffix = None
-        if download_symbols:
-            self._symbols_archive_suffix = 'crashreporter-symbols.zip'
 
     def log(self, *args, **kwargs):
         if self._log:
@@ -158,8 +155,6 @@ class ArtifactJob(object):
             elif self._tests_re and self._tests_re.match(name):
                 tests_artifact = name
                 yield name
-            elif self._symbols_archive_suffix and name.endswith(self._symbols_archive_suffix):
-                yield name
             else:
                 self.log(logging.DEBUG, 'artifact',
                          {'name': name},
@@ -171,8 +166,6 @@ class ArtifactJob(object):
     def process_artifact(self, filename, processed_filename):
         if filename.endswith(ArtifactJob._test_archive_suffix) and self._tests_re:
             return self.process_tests_artifact(filename, processed_filename)
-        if self._symbols_archive_suffix and filename.endswith(self._symbols_archive_suffix):
-            return self.process_symbols_archive(filename, processed_filename)
         return self.process_package_artifact(filename, processed_filename)
 
     def process_package_artifact(self, filename, processed_filename):
@@ -200,16 +193,6 @@ class ArtifactJob(object):
             raise ValueError('Archive format changed! No pattern from "{patterns}"'
                              'matched an archive path.'.format(
                                  patterns=LinuxArtifactJob.test_artifact_patterns))
-
-    def process_symbols_archive(self, filename, processed_filename):
-        with JarWriter(file=processed_filename, optimize=False, compress_level=5) as writer:
-            reader = JarReader(filename)
-            for filename in reader.entries:
-                destpath = mozpath.join('crashreporter-symbols', filename)
-                self.log(logging.INFO, 'artifact',
-                         {'destpath': destpath},
-                         'Adding {destpath} to processed archive')
-                writer.add(destpath.encode('utf-8'), reader[filename])
 
 class AndroidArtifactJob(ArtifactJob):
 
@@ -247,7 +230,6 @@ class LinuxArtifactJob(ArtifactJob):
 
     package_artifact_patterns = {
         'firefox/application.ini',
-        'firefox/crashreporter',
         'firefox/dependentlibs.list',
         'firefox/firefox',
         'firefox/firefox-bin',
@@ -320,8 +302,6 @@ class MacArtifactJob(ArtifactJob):
 
             # These get copied into dist/bin without the path, so "root/a/b/c" -> "dist/bin/c".
             paths_no_keep_path = ('Contents/MacOS', [
-                'crashreporter.app/Contents/MacOS/crashreporter',
-                'crashreporter.app/Contents/MacOS/minidump-analyzer',
                 'firefox',
                 'firefox-bin',
                 'libfreebl3.dylib',

@@ -32,8 +32,7 @@ if CONFIG['MOZ_BUILD_APP'] == 'browser':
 if CONFIG['MOZ_APP_PROFILE']:
     DEFINES['MOZ_APP_PROFILE'] = CONFIG['MOZ_APP_PROFILE']
 
-for var in ('MOZ_CRASHREPORTER', 'MOZ_PROFILE_MIGRATOR',
-            'MOZ_APP_STATIC_INI'):
+for var in ('MOZ_PROFILE_MIGRATOR', 'MOZ_APP_STATIC_INI'):
     if CONFIG[var]:
         DEFINES[var] = True
 

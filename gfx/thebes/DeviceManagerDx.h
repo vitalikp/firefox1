@@ -34,7 +34,6 @@ struct ID3D11Device;
 struct IDirectDraw7;
 
 namespace mozilla {
-class ScopedGfxFeatureReporter;
 
 namespace gfx {
 class FeatureState;

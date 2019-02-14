@@ -284,61 +284,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     /**
-     * Launch the crash reporter activity that sends the crash report to the server.
-     *
-     * @param dumpFile Path for the minidump file
-     * @param extraFile Path for the crash extra file
-     * @return Whether the crash reporter was successfully launched
-     */
-    protected boolean launchCrashReporter(final String dumpFile, final String extraFile) {
-        try {
-            final Context context = getAppContext();
-            final String javaPkg = getJavaPackageName();
-            final String pkg = getAppPackageName();
-            final String component = javaPkg + ".CrashReporter";
-            final String action = javaPkg + ".reportCrash";
-            final ProcessBuilder pb;
-
-            if (context != null) {
-                final Intent intent = new Intent(action);
-                intent.setComponent(new ComponentName(pkg, component));
-                intent.putExtra("minidumpPath", dumpFile);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-                return true;
-            }
-
-            // Avoid AppConstants dependency for SDK version constants,
-            // because CrashHandler could be used outside of Fennec code.
-            if (Build.VERSION.SDK_INT < 17) {
-                pb = new ProcessBuilder(
-                    "/system/bin/am", "start",
-                    "-a", action,
-                    "-n", pkg + '/' + component,
-                    "--es", "minidumpPath", dumpFile);
-            } else {
-                pb = new ProcessBuilder(
-                    "/system/bin/am", "start",
-                    "--user", /* USER_CURRENT_OR_SELF */ "-3",
-                    "-a", action,
-                    "-n", pkg + '/' + component,
-                    "--es", "minidumpPath", dumpFile);
-            }
-
-            pb.start().waitFor();
-
-        } catch (final IOException e) {
-            Log.e(LOGTAG, "Error launching crash reporter", e);
-            return false;
-
-        } catch (final InterruptedException e) {
-            Log.i(LOGTAG, "Interrupted while waiting to launch crash reporter", e);
-            // Fall-through
-        }
-        return true;
-    }
-
-    /**
      * Report an exception to Socorro.
      *
      * @param thread The exception thread
@@ -406,7 +351,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             return false;
         }
 
-        return launchCrashReporter(dmpFile.getAbsolutePath(), extraFile.getAbsolutePath());
+        return false;
     }
 
     /**
@@ -467,10 +412,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
             @Override
             public boolean reportException(final Thread thread, final Throwable exc) {
-                if (AppConstants.MOZ_CRASHREPORTER && AppConstants.MOZILLA_OFFICIAL) {
-                    // Only use Java crash reporter if enabled on official build.
-                    return super.reportException(thread, exc);
-                }
                 return false;
             }
         };

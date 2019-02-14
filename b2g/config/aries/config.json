@@ -9,13 +9,11 @@
     ],
     "build_targets": ["", "blobfree"],
     "upload_files": [
-        "{objdir}/dist/b2g-*.crashreporter-symbols.zip",
         "{objdir}/dist/b2g-*.tar.gz",
         "{workdir}/sources.xml",
         "{workdir}/out/target/product/aries/fota-*-update-*.mar"
     ],
     "public_upload_files": [
-        "{objdir}/dist/b2g-*.crashreporter-symbols.zip",
         "{objdir}/dist/b2g-*.tar.gz",
         "{workdir}/sources.xml",
         "{objdir}/dist/b2g-update/*.mar",

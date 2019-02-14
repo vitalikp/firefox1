@@ -354,8 +354,6 @@ bool isIgnoredPathForSprintfLiteral(const CallExpr *Call, const SourceManager &S
   for (; Begin != End; ++Begin) {
     if (Begin->compare_lower(StringRef("angle")) == 0 ||
         Begin->compare_lower(StringRef("chromium")) == 0 ||
-        Begin->compare_lower(StringRef("crashreporter")) == 0 ||
-        Begin->compare_lower(StringRef("google-breakpad")) == 0 ||
         Begin->compare_lower(StringRef("harfbuzz")) == 0 ||
         Begin->compare_lower(StringRef("libstagefright")) == 0 ||
         Begin->compare_lower(StringRef("mtransport")) == 0 ||

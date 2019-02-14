@@ -10,11 +10,6 @@ namespace switches {
 // Disables the crash reporting.
 const char kDisableBreakpad[]               = "disable-breakpad";
 
-// Indicates that crash reporting should be enabled. On platforms where helper
-// processes cannot access to files needed to make this decision, this flag is
-// generated internally.
-const char kEnableCrashReporter[]           = "enable-crash-reporter";
-
 // Makes memory allocators keep track of their allocations and context, so a
 // detailed breakdown of memory usage can be presented in chrome://tracing when
 // the memory-infra category is enabled.
@@ -83,13 +78,6 @@ const char kProfilerTimingDisabledValue[]   = "0";
 #if defined(OS_WIN)
 // Disables the USB keyboard detection for blocking the OSK on Win8+.
 const char kDisableUsbKeyboardDetect[]      = "disable-usb-keyboard-detect";
-#endif
-
-#if defined(OS_POSIX)
-// Used for turning on Breakpad crash reporting in a debug environment where
-// crash reporting is typically compiled but disabled.
-const char kEnableCrashReporterForTesting[] =
-    "enable-crash-reporter-for-testing";
 #endif
 
 }  // namespace switches

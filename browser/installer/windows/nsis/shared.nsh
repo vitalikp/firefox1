@@ -1177,7 +1177,6 @@
   Push "nssdbm3.dll"
   Push "mozsqlite3.dll"
   Push "xpcom.dll"
-  Push "crashreporter.exe"
   Push "minidump-analyzer.exe"
   Push "updater.exe"
   Push "${FileMainEXE}"

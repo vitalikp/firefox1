@@ -25,8 +25,6 @@ import android.util.Log;
  *
  * forApp()
  *     Use it for app-wide, cross-profile pref keys.
- * forCrashReporter()
- *     For the crash reporter, which runs in its own process.
  * forProfile()
  *     Use it to fetch and store keys for the current profile.
  * forProfileName()
@@ -49,9 +47,6 @@ public final class GeckoSharedPrefs {
 
     // Name for app-scoped prefs
     public static final String APP_PREFS_NAME = "GeckoApp";
-
-    // Name for crash reporter prefs
-    public static final String CRASH_PREFS_NAME = "CrashReporter";
 
     // Used when fetching profile-scoped prefs.
     public static final String PROFILE_PREFS_NAME_PREFIX = "GeckoProfile-";
@@ -99,22 +94,6 @@ public final class GeckoSharedPrefs {
         }
 
         return context.getSharedPreferences(APP_PREFS_NAME, 0);
-    }
-
-    public static SharedPreferences forCrashReporter(Context context) {
-        return forCrashReporter(context, EnumSet.noneOf(Flags.class));
-    }
-
-    /**
-     * Returns a crash-reporter-scoped SharedPreferences instance. You can disable
-     * migrations by using the DISABLE_MIGRATIONS flag.
-     */
-    public static SharedPreferences forCrashReporter(Context context, EnumSet<Flags> flags) {
-        if (flags != null && !flags.contains(Flags.DISABLE_MIGRATIONS)) {
-            migrateIfNecessary(context);
-        }
-
-        return context.getSharedPreferences(CRASH_PREFS_NAME, 0);
     }
 
     public static SharedPreferences forProfile(Context context) {
@@ -217,7 +196,6 @@ public final class GeckoSharedPrefs {
         }
 
         final Editor profileEditor = forProfileName(context, defaultProfileName, disableMigrations).edit();
-        final Editor crashEditor = forCrashReporter(context, disableMigrations).edit();
 
         List<String> profileKeys;
         Editor pmEditor = null;
@@ -230,10 +208,6 @@ public final class GeckoSharedPrefs {
                     profileKeys = Arrays.asList(PROFILE_MIGRATIONS_0_TO_1);
                     pmEditor = migrateFromPreferenceManager(context, appEditor, profileEditor, profileKeys);
                     break;
-                case 2:
-                    profileKeys = Arrays.asList(PROFILE_MIGRATIONS_1_TO_2);
-                    migrateCrashReporterSettings(appPrefs, appEditor, crashEditor, profileKeys);
-                    break;
             }
         }
 
@@ -242,7 +216,6 @@ public final class GeckoSharedPrefs {
 
         appEditor.apply();
         profileEditor.apply();
-        crashEditor.apply();
         if (pmEditor != null) {
             pmEditor.apply();
         }
@@ -278,24 +251,6 @@ public final class GeckoSharedPrefs {
         // Clear PreferenceManager's prefs once we're done
         // and return the Editor to be committed.
         return pmPrefs.edit().clear();
-    }
-
-    /**
-     * Moves the crash reporter's preferences from the app-wide prefs
-     * into its own shared prefs to avoid cross-process pref accesses.
-     */
-    public static void migrateCrashReporterSettings(SharedPreferences appPrefs, Editor appEditor,
-                                                    Editor crashEditor, List<String> profileKeys) {
-        Log.d(LOGTAG, "Migrating crash reporter settings");
-
-        for (Map.Entry<String, ?> entry : appPrefs.getAll().entrySet()) {
-            final String key = entry.getKey();
-
-            if (profileKeys.contains(key)) {
-                putEntry(crashEditor, key, entry.getValue());
-                appEditor.remove(key);
-            }
-        }
     }
 
     private static void putEntry(Editor to, String key, Object value) {

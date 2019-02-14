@@ -60,4 +60,3 @@ security/sandbox/chromium/
 testing/gtest/gmock/
 testing/gtest/gtest/
 toolkit/components/protobuf/
-toolkit/crashreporter/google-breakpad/

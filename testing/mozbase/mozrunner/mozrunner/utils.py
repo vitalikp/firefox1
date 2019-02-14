@@ -80,7 +80,7 @@ def _raw_log():
     return logging.getLogger(__name__)
 
 
-def test_environment(xrePath, env=None, crashreporter=True, debugger=False,
+def test_environment(xrePath, env=None, debugger=False,
                      dmdPath=None, lsanPath=None, log=None):
     """
     populate OS environment variables for mochitest.
@@ -125,16 +125,6 @@ def test_environment(xrePath, env=None, crashreporter=True, debugger=False,
 
     if dmdPath and dmdLibrary and preloadEnvVar:
         env[preloadEnvVar] = os.path.join(dmdPath, dmdLibrary)
-
-    # crashreporter
-    env['GNOME_DISABLE_CRASH_DIALOG'] = '1'
-    env['XRE_NO_WINDOWS_CRASH_DIALOG'] = '1'
-
-    if crashreporter and not debugger:
-        env['MOZ_CRASHREPORTER_NO_REPORT'] = '1'
-        env['MOZ_CRASHREPORTER'] = '1'
-    else:
-        env['MOZ_CRASHREPORTER_DISABLE'] = '1'
 
     # Crash on non-local network connections by default.
     # MOZ_DISABLE_NONLOCAL_CONNECTIONS can be set to "0" to temporarily

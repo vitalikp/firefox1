@@ -31,13 +31,6 @@
 
 // Original author: Jim Blandy <jimb@mozilla.com> <jimb@red-bean.com>
 
-// This file is derived from the following files in
-// toolkit/crashreporter/google-breakpad:
-//   src/common/dwarf/types.h
-//   src/common/dwarf/dwarf2enums.h
-//   src/common/dwarf/bytereader.h
-//   src/common/dwarf_cfi_to_module.h
-//   src/common/dwarf/dwarf2reader.h
 
 #ifndef LulDwarfExt_h
 #define LulDwarfExt_h

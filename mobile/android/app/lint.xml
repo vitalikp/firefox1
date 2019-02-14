@@ -42,8 +42,8 @@
     <issue id="WrongConstant" severity="warning" />
 
     <!-- We fixed all "Registered" lint errors. However the current gradle plugin has a bug where
-         it ignores @SuppressLint annotations for this check. See CrashReporter class and
-         https://code.google.com/p/android/issues/detail?id=204846 -->
+         it ignores @SuppressLint annotations for this check.
+         See https://code.google.com/p/android/issues/detail?id=204846 -->
     <issue id="Registered" severity="warning" />
 
     <!-- WHEN YOU FIX A LINT WARNING, ADD IT TO THIS LIST.

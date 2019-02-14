@@ -28,7 +28,6 @@ let origPlatformInfo = Cc["@mozilla.org/xre/app-info;1"]
  *   platformVersion: nsIXULAppInfo.platformVersion
  *   OS:              nsIXULRuntime.OS
  *
- *   crashReporter:   nsICrashReporter interface is implemented if true
  *   extraProps:      extra properties added to XULAppInfo
  */
 this.newAppInfo = function (options={}) {
@@ -70,15 +69,6 @@ this.newAppInfo = function (options={}) {
                     Ci.nsIXULRuntime];
   if ("nsIWinAppHelper" in Ci) {
     interfaces.push(Ci.nsIWinAppHelper);
-  }
-
-  if ("crashReporter" in options && options.crashReporter) {
-    // nsICrashReporter
-    appInfo.annotations = {};
-    appInfo.annotateCrashReport = function(key, data) {
-      this.annotations[key] = data;
-    };
-    interfaces.push(Ci.nsICrashReporter);
   }
 
   for (let key of Object.keys(extraProps)) {

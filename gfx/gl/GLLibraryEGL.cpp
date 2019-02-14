@@ -6,7 +6,6 @@
 
 #include "angle/Platform.h"
 #include "gfxConfig.h"
-#include "gfxCrashReporterUtils.h"
 #include "gfxUtils.h"
 #include "mozilla/Preferences.h"
 #include "mozilla/Assertions.h"
@@ -302,8 +301,6 @@ GLLibraryEGL::EnsureInitialized(bool forceAccel, nsACString* const out_failureId
     if (mInitialized) {
         return true;
     }
-
-    mozilla::ScopedGfxFeatureReporter reporter("EGL");
 
 #ifdef MOZ_B2G
     if (!sCurrentContext.init())
@@ -632,7 +629,6 @@ GLLibraryEGL::EnsureInitialized(bool forceAccel, nsACString* const out_failureId
     }
 
     mInitialized = true;
-    reporter.SetSuccessful();
     return true;
 }
 

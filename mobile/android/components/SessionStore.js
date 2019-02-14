@@ -576,7 +576,6 @@ SessionStore.prototype = {
     if (!aNoNotification) {
       this.saveStateDelayed();
     }
-    this._updateCrashReportURL(aWindow);
   },
 
   onTabRemove: function ss_onTabRemove(aWindow, aBrowser, aNoNotification) {
@@ -688,8 +687,6 @@ SessionStore.prototype = {
     let evt = new Event("SSTabDataUpdated", {"bubbles":true, "cancelable":false});
     aBrowser.dispatchEvent(evt);
     this.saveStateDelayed();
-
-    this._updateCrashReportURL(aWindow);
   },
 
   onTabSelect: function ss_onTabSelect(aWindow, aBrowser) {
@@ -716,7 +713,6 @@ SessionStore.prototype = {
 
     log("onTabSelect() ran for tab " + tabId);
     this.saveStateDelayed();
-    this._updateCrashReportURL(aWindow);
 
     // If the selected tab has changed while listening for closed tab
     // notifications, we may have switched between different private browsing
@@ -1116,32 +1112,6 @@ SessionStore.prototype = {
 
     // Return a resolved promise to make the caller happy
     return Promise.resolve();
-  },
-
-  _updateCrashReportURL: function ss_updateCrashReportURL(aWindow) {
-    let crashReporterBuilt = "nsICrashReporter" in Ci && Services.appinfo instanceof Ci.nsICrashReporter;
-    if (!crashReporterBuilt) {
-      return;
-    }
-
-    if (!aWindow.BrowserApp.selectedBrowser) {
-      return;
-    }
-
-    try {
-      let currentURI = aWindow.BrowserApp.selectedBrowser.currentURI.clone();
-      // if the current URI contains a username/password, remove it
-      try {
-        currentURI.userPass = "";
-      } catch (ex) { } // ignore failures on about: URIs
-
-      Services.appinfo.annotateCrashReport("URL", currentURI.spec);
-    } catch (ex) {
-      // don't make noise when crashreporter is built but not enabled
-      if (ex.result != Cr.NS_ERROR_NOT_INITIALIZED) {
-        Cu.reportError("SessionStore:" + ex);
-      }
-    }
   },
 
   /**

@@ -329,10 +329,7 @@ class MachCommands(MachCommandBase):
                                         {},
                                         {"tbpl": sys.stdout})
 
-        # See if we have crash symbols
-        symbols_path = os.path.join(self.distdir, 'crashreporter-symbols')
-        if not os.path.isdir(symbols_path):
-            symbols_path = None
+        symbols_path = None
 
         # If no tests specified, run all tests in main manifest
         tests = params['test_files']

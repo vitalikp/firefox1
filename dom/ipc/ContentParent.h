@@ -377,15 +377,6 @@ public:
 
   virtual void OnChannelError() override;
 
-  virtual PCrashReporterParent*
-  AllocPCrashReporterParent(const NativeThreadId& tid,
-                            const uint32_t& processType) override;
-
-  virtual bool
-  RecvPCrashReporterConstructor(PCrashReporterParent* actor,
-                                const NativeThreadId& tid,
-                                const uint32_t& processType) override;
-
   virtual PNeckoParent* AllocPNeckoParent() override;
 
   virtual bool RecvPNeckoConstructor(PNeckoParent* aActor) override
@@ -739,9 +730,6 @@ private:
   virtual bool
   RecvPBlobConstructor(PBlobParent* aActor,
                        const BlobConstructorParams& params) override;
-
-  virtual bool
-  DeallocPCrashReporterParent(PCrashReporterParent* crashreporter) override;
 
   virtual bool RecvNSSU2FTokenIsCompatibleVersion(const nsString& aVersion,
                                                   bool* aIsCompatible) override;
@@ -1129,8 +1117,6 @@ private:
   bool mCreatedPairedMinidumps;
   bool mShutdownPending;
   bool mIPCOpen;
-
-  friend class CrashReporterParent;
 
   RefPtr<nsConsoleService>  mConsoleService;
   nsConsoleService* GetConsoleService();
