@@ -44,12 +44,33 @@ def check_cmd(cmd, vercmd=cmd_ver, when=always):
 
 pkgconf = check_cmd('pkgconf')
 
+@template
+@imports('sys')
+def check_pkg(var, pkg, minver, when=always):
+    @depends_when(pkgconf, when=when)
+    def check_pkg_conf(pkgconf):
+        ver = Version(run_cmd(pkgconf, pkg, '--modversion'))
+        if ver < minver:
+            log.error("*** Package '%s' has version '%s', required version is '>= %s" % (pkg, ver, minver))
+            sys.exit(1)
+        log.info('-- Found %s %s' % (pkg, ver))
+
+        flags = str(run_cmd(pkgconf, pkg, '--cflags'))
+        log.info('    %s_CFLAGS: %s' % (var, flags))
+        conf('%s_CFLAGS' % var, flags.split())
+
+        libs = str(run_cmd(pkgconf, pkg, '--libs'))
+        log.info('    %s_LIBS: %s' % (var, libs))
+        conf('%s_LIBS' % var, libs.split())
+
+        conf(var, True)
+
+    depends(check_pkg_conf)
+
 # Graphite2
 # ==============================================================
-system_graphite2 = pkg_check_modules('MOZ_GRAPHITE2', 'graphite2 >= 3.0.1', when=notjs_project)
-set_config('MOZ_GRAPHITE2', depends_if(system_graphite2)(lambda _: True))
+check_pkg('MOZ_GRAPHITE2', 'graphite2', '3.0.1', when=notjs_project)
 
 # Protocol Buffers
 # ==============================================================
-system_protobuf = pkg_check_modules('MOZ_PROTOBUF', 'protobuf >= 3.5.0', when=notjs_project)
-set_config('MOZ_PROTOBUF', depends_if(system_protobuf)(lambda _: True))
+check_pkg('MOZ_PROTOBUF', 'protobuf', '3.5.0', when=notjs_project)
