@@ -13,6 +13,35 @@ def run_cmd(cmd, *args):
 def cmd_ver(cmd):
     return run_cmd(cmd, '--version')
 
+@template
+@imports('sys')
+@imports('re')
+def check_cmd(cmd, vercmd=cmd_ver, when=always):
+    @depends_if(when)
+    def check_func(when):
+        if not when:
+            return None
+        res = find_program(cmd)
+        if not res:
+            log.error('*** %s command not found!' % cmd)
+            sys.exit(1)
+        info = cmd
+        if vercmd:
+            ver = vercmd(res)
+            if ver:
+                info += ' '
+                info += str(ver)
+
+        log.info('-- Found %s: %s' % (info, res))
+
+        return res
+
+    var = cmd.replace('-', '_').upper()
+    var = re.sub('[^A-Z_]', '', var)
+    conf(var, check_func)
+
+    return check_func
+
 # Graphite2
 # ==============================================================
 system_graphite2 = pkg_check_modules('MOZ_GRAPHITE2', 'graphite2 >= 3.0.1', when=notjs_project)
