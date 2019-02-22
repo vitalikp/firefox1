@@ -10,6 +10,9 @@ def conf(name, value):
 def run_cmd(cmd, *args):
     return check_cmd_output(cmd, *args).rstrip()
 
+def cmd_ver(cmd):
+    return run_cmd(cmd, '--version')
+
 # Graphite2
 # ==============================================================
 system_graphite2 = pkg_check_modules('MOZ_GRAPHITE2', 'graphite2 >= 3.0.1', when=notjs_project)
