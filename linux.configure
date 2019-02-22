@@ -42,6 +42,8 @@ def check_cmd(cmd, vercmd=cmd_ver, when=always):
 
     return check_func
 
+pkgconf = check_cmd('pkgconf')
+
 # Graphite2
 # ==============================================================
 system_graphite2 = pkg_check_modules('MOZ_GRAPHITE2', 'graphite2 >= 3.0.1', when=notjs_project)
