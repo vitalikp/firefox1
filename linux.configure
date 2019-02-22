@@ -3,6 +3,10 @@
 def notjs_project(build_project):
     return build_project != 'js'
 
+@imports('__sandbox__')
+def conf(name, value):
+    __sandbox__.set_config_impl(name, value)
+
 # Graphite2
 # ==============================================================
 system_graphite2 = pkg_check_modules('MOZ_GRAPHITE2', 'graphite2 >= 3.0.1', when=notjs_project)
