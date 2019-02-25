@@ -32,7 +32,6 @@ mfbt/**
 modules/**
 mozglue/**
 netwerk/**
-nsprpub/**
 other-licenses/**
 parser/**
 probes/**

@@ -16,9 +16,7 @@ SOURCES += [
     'DMD.cpp',
 ]
 
-SOURCES += [
-    '../../../nsprpub/lib/libc/src/strcpy.c',
-]
+OS_LIBS += CONFIG['NSPR_LIBS']
 
 SharedLibrary('dmd')
 

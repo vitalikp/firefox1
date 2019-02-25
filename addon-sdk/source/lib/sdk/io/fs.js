@@ -43,8 +43,6 @@ const { NS_SEEK_SET, NS_SEEK_CUR, NS_SEEK_END } = Ci.nsISeekableStream;
 
 const FILE_PERMISSION = 0o666;
 const PR_UINT32_MAX = 0xfffffff;
-// Values taken from:
-// http://mxr.mozilla.org/mozilla-central/source/nsprpub/pr/include/prio.h#615
 const PR_RDONLY =       0x01;
 const PR_WRONLY =       0x02;
 const PR_RDWR =         0x04;

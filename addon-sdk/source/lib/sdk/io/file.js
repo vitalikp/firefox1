@@ -12,7 +12,7 @@ const {Cc,Ci,Cr} = require("chrome");
 const byteStreams = require("./byte-streams");
 const textStreams = require("./text-streams");
 
-// Flags passed when opening a file.  See nsprpub/pr/include/prio.h.
+// Flags passed when opening a file.
 const OPEN_FLAGS = {
   RDONLY: parseInt("0x01"),
   WRONLY: parseInt("0x02"),

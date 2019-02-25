@@ -313,7 +313,6 @@ CONFIG_STATUS_DEPS := \
   $(wildcard $(TOPSRCDIR)/*/confvars.sh) \
   $(CONFIGURES) \
   $(TOPSRCDIR)/CLOBBER \
-  $(TOPSRCDIR)/nsprpub/configure \
   $(TOPSRCDIR)/version \
   $(TOPSRCDIR)/build/virtualenv_packages.txt \
   $(TOPSRCDIR)/python/mozbuild/mozbuild/virtualenv.py \

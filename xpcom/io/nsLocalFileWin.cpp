@@ -509,7 +509,6 @@ IsShortcutPath(const nsAString& aPath)
 // |PR_ImportFile|, we define it here. Currently, |_PR_HAVE_PEEK_BUFFER|
 // and |PR_STRICT_ADDR_LEN| are not defined for the 'w95'-dependent portion
 // of NSPR so that fields of |PRFilePrivate| #ifdef'd by them are not copied.
-// Similarly, |_MDFileDesc| is taken from nsprpub/pr/include/md/_win95.h.
 // In an unlikely case we switch to 'NT'-dependent NSPR AND this temporary
 // workaround last beyond the switch, |PRFilePrivate| and |_MDFileDesc|
 // need to be changed to match the definitions for WinNT.
@@ -547,7 +546,6 @@ struct PRFilePrivate
 // Windows NT4 or later. (bug 330665)
 //-----------------------------------------------------------------------------
 
-// copied from nsprpub/pr/src/{io/prfile.c | md/windows/w95io.c} :
 // PR_Open and _PR_MD_OPEN
 nsresult
 OpenFile(const nsAFlatString& aName,
@@ -619,7 +617,7 @@ OpenFile(const nsAFlatString& aName,
   *aFd = PR_ImportFile((PROsfd) file);
   if (*aFd) {
     // On Windows, _PR_HAVE_O_APPEND is not defined so that we have to
-    // add it manually. (see |PR_Open| in nsprpub/pr/src/io/prfile.c)
+    // add it manually.
     (*aFd)->secret->appendMode = (PR_APPEND & aOsflags) ? true : false;
     return NS_OK;
   }
@@ -631,7 +629,6 @@ OpenFile(const nsAFlatString& aName,
   return rv;
 }
 
-// copied from nsprpub/pr/src/{io/prfile.c | md/windows/w95io.c} :
 // PR_FileTimeToPRTime and _PR_FileTimeToPRTime
 static void
 FileTimeToPRTime(const FILETIME* aFiletime, PRTime* aPrtm)
@@ -651,7 +648,6 @@ FileTimeToPRTime(const FILETIME* aFiletime, PRTime* aPrtm)
 #endif
 }
 
-// copied from nsprpub/pr/src/{io/prfile.c | md/windows/w95io.c} with some
 // changes : PR_GetFileInfo64, _PR_MD_GETFILEINFO64
 static nsresult
 GetFileInfo(const nsAFlatString& aName, PRFileInfo64* aInfo)

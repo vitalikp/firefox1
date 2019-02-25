@@ -141,12 +141,6 @@ except IndexError:
 if action in ('checkout', 'co'):
     print >>sys.stderr, "Warning: client.py checkout is obsolete."
     pass
-elif action in ('update_nspr'):
-    tag, = args[1:]
-    depfile = "nsprpub/config/prdepend.h"
-    if not options.repo:
-        options.repo = 'https://hg.mozilla.org/projects/nspr'
-    update_nspr_or_nss(tag, depfile, 'nsprpub', options.repo)
 elif action in ('update_libffi'):
     tag, = args[1:]
     if not options.cvsroot:

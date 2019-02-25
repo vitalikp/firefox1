@@ -75,8 +75,6 @@ static LazyLogModule gLog("nsRDFService");
 
 class BlobImpl;
 
-// These functions are copied from nsprpub/lib/ds/plhash.c, with one
-// change to free the key in DataSourceFreeEntry.
 // XXX sigh, why were DefaultAllocTable et. al. declared static, anyway?
 
 static void *

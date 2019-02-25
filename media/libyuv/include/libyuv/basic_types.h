@@ -20,7 +20,6 @@
 typedef uint64_t uint64;
 typedef int64_t  int64;
 #if defined(_MSC_VER)
-// nsprpub/pr/include/obsolete/protypes.h defines these weirdly
 typedef long int32;
 typedef unsigned long uint32;
 #else

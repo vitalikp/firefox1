@@ -54,7 +54,6 @@ modules/libmar/
 modules/zlib/
 netwerk/sctp/src/
 netwerk/srtp/src/
-nsprpub/
 other-licenses/
 security/sandbox/chromium/
 testing/gtest/gmock/

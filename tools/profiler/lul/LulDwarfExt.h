@@ -36,20 +36,12 @@
 #define LulDwarfExt_h
 
 #include <stdint.h>
+#include <obsolete/protypes.h>
 
 #include "mozilla/Assertions.h"
 
 #include "LulDwarfSummariser.h"
 
-typedef signed char         int8;
-typedef short               int16;
-typedef int                 int32;
-typedef long long           int64;
-
-typedef unsigned char      uint8;
-typedef unsigned short     uint16;
-typedef unsigned int       uint32;
-typedef unsigned long long uint64;
 
 #ifdef __PTRDIFF_TYPE__
 typedef          __PTRDIFF_TYPE__ intptr;

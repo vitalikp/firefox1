@@ -9,12 +9,12 @@
 #include <limits>
 #include <ostream>
 #include <sstream>
+#include <prtime.h>
 
 #include "base/lazy_instance.h"
 #include "base/logging.h"
 #include "base/macros.h"
 #include "base/strings/stringprintf.h"
-#include "base/third_party/nspr/prtime.h"
 #include "build/build_config.h"
 
 namespace base {

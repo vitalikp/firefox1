@@ -181,10 +181,6 @@ AssertActivityIsLegal()
 #  define ASSERT_ACTIVITY_IS_LEGAL PR_BEGIN_MACRO PR_END_MACRO
 #endif // DEBUG
 
-// These functions are copied from nsprpub/lib/ds/plhash.c, with changes
-// to the functions not called Default* to free the SerialNumberRecord or
-// the BloatEntry.
-
 static void*
 DefaultAllocTable(void* aPool, size_t aSize)
 {

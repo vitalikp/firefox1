@@ -32,9 +32,6 @@ LOCAL_INCLUDES += [
     '../linker',
     '/db/sqlite3/src',
     '/ipc/chromium/src',
-    '/nsprpub/lib/ds',
-    '/nsprpub/lib/libc/include',
-    '/nsprpub/pr/include',
     '/toolkit/components/startup',
     '/xpcom/build',
 ]

@@ -7,8 +7,6 @@
 /*
  * Portable safe sprintf code.
  *
- * Code based on mozilla/nsprpub/src/io/prprf.c rev 3.7
- *
  * Contributor(s):
  *   Kipp E.B. Hickman  <kipp@netscape.com>  (original author)
  *   Frank Yung-Fong Tang  <ftang@netscape.com>
