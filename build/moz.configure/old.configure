@@ -196,7 +196,6 @@ def old_configure_options(*options):
     '--enable-necko-wifi',
     '--enable-negotiateauth',
     '--enable-nfc',
-    '--enable-nspr-build',
     '--enable-official-branding',
     '--enable-omx-plugin',
     '--enable-oom-breakpoint',

@@ -31,13 +31,6 @@ MOZ_ARG_WITH_STRING(nspr-libs,
                           See --with-nspr-cflags for more details.],
     NSPR_LIBS=$withval)
 
-ifdef([CONFIGURING_JS],[
-    MOZ_ARG_ENABLE_BOOL(nspr-build,
-[  --enable-nspr-build     Build NSPR from source tree],
-        MOZ_BUILD_NSPR=1,
-        MOZ_BUILD_NSPR=)
-])
-
 if test "$MOZ_BUILD_APP" != js || test -n "$JS_STANDALONE"; then
   _IS_OUTER_CONFIGURE=1
 fi
@@ -54,7 +47,6 @@ MOZ_ARG_WITH_BOOL(system-nspr,
 dnl Pass at most one of
 dnl   --with-system-nspr
 dnl   --with-nspr-cflags/libs
-dnl   --enable-nspr-build
 
 AC_MSG_CHECKING([NSPR selection])
 nspr_opts=
@@ -67,20 +59,14 @@ if test -n "$NSPR_CFLAGS" -o -n "$NSPR_LIBS"; then
     nspr_opts="x$nspr_opts"
     which_nspr="command-line"
 fi
-if test -n "$MOZ_BUILD_NSPR"; then
-    nspr_opts="x$nspr_opts"
-    which_nspr="source-tree"
-fi
 
 if test -z "$nspr_opts"; then
     if test "$MOZ_BUILD_APP" != js; then
       dnl Toplevel configure defaults to using nsprpub from the source tree
-      MOZ_BUILD_NSPR=1
       which_nspr="source-tree"
     else
       dnl JS configure defaults to emulated NSPR if available, falling back
       dnl to nsprpub.
-      MOZ_BUILD_NSPR=1
       which_nspr="source-tree"
    fi
 fi
@@ -90,8 +76,6 @@ if test -z "$nspr_opts" || test "$nspr_opts" = x; then
 else
     AC_MSG_ERROR([only one way of using NSPR may be selected. See 'configure --help'.])
 fi
-
-AC_SUBST(MOZ_BUILD_NSPR)
 
 # A (sub)configure invoked by the toplevel configure will always receive
 # --with-nspr-libs on the command line. It will never need to figure out
