@@ -107,7 +107,7 @@ export:: $(TARGETS)
 ifdef WRAP_SYSTEM_INCLUDES
 export::
 	if test ! -d system_wrappers; then mkdir system_wrappers; fi
-	$(PERL) $(srcdir)/make-system-wrappers.pl system_wrappers < $(srcdir)/system-headers
+	$(PERL) $(topsrcdir)/config/make-system-wrappers.pl system_wrappers < $(srcdir)/system-headers
 	$(INSTALL) system_wrappers $(dist_includedir)
 endif
 
