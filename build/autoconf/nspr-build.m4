@@ -17,10 +17,6 @@ dnl     JS_STANDALONE=1 MOZ_BUILD_APP=js
 dnl ========================================================
 dnl = Find the right NSPR to use.
 dnl ========================================================
-MOZ_ARG_WITH_STRING(nspr-libs,
-[  --with-nspr-libs=LIBS   Pass LIBS to LD when linking code that uses NSPR.
-                          See --with-nspr-cflags for more details.],
-    NSPR_LIBS=$withval)
 
 if test "$MOZ_BUILD_APP" != js || test -n "$JS_STANDALONE"; then
   _IS_OUTER_CONFIGURE=1
@@ -37,7 +33,6 @@ MOZ_ARG_WITH_BOOL(system-nspr,
 
 dnl Pass at most one of
 dnl   --with-system-nspr
-dnl   --with-nspr-libs
 
 AC_MSG_CHECKING([NSPR selection])
 nspr_opts=
@@ -45,10 +40,6 @@ which_nspr=default
 if test -n "$_USE_SYSTEM_NSPR"; then
     nspr_opts="x$nspr_opts"
     which_nspr="system"
-fi
-if test -n "$NSPR_LIBS"; then
-    nspr_opts="x$nspr_opts"
-    which_nspr="command-line"
 fi
 
 if test -z "$nspr_opts"; then
@@ -77,7 +68,7 @@ if test -n "$_USE_SYSTEM_NSPR"; then
     AM_PATH_NSPR($NSPR_MINVER, [MOZ_SYSTEM_NSPR=1], [AC_MSG_ERROR([you do not have NSPR installed or your version is older than $NSPR_MINVER.])])
 fi
 
-if test -n "$MOZ_SYSTEM_NSPR" -o -n "$NSPR_LIBS"; then
+if test -n "$MOZ_SYSTEM_NSPR"; then
     _SAVE_CFLAGS=$CFLAGS
     CFLAGS="$CFLAGS $NSPR_CFLAGS"
     AC_TRY_COMPILE([#include "prtypes.h"],

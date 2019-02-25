@@ -265,7 +265,6 @@ def old_configure_options(*options):
     '--with-macos-private-frameworks',
     '--with-macos-sdk',
     '--with-nspr-exec-prefix',
-    '--with-nspr-libs',
     '--with-nspr-prefix',
     '--with-nss-exec-prefix',
     '--with-nss-prefix',
