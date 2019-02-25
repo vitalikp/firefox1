@@ -25,18 +25,6 @@ AC_ARG_WITH(nspr-prefix,
 	nspr_config_prefix="$withval",
 	nspr_config_prefix="")
 
-AC_ARG_WITH(nspr-exec-prefix,
-	[  --with-nspr-exec-prefix=PFX
-                          Exec prefix where NSPR is installed],
-	nspr_config_exec_prefix="$withval",
-	nspr_config_exec_prefix="")
-
-	if test -n "$nspr_config_exec_prefix"; then
-		nspr_config_args="$nspr_config_args --exec-prefix=$nspr_config_exec_prefix"
-		if test -z "$NSPR_CONFIG"; then
-			NSPR_CONFIG=$nspr_config_exec_prefix/bin/nspr-config
-		fi
-	fi
 	if test -n "$nspr_config_prefix"; then
 		nspr_config_args="$nspr_config_args --prefix=$nspr_config_prefix"
 		if test -z "$NSPR_CONFIG"; then
