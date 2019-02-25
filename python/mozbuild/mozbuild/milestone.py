@@ -56,9 +56,8 @@ def main(args):
     milestone = get_official_milestone(milestone_file)
 
     if options.uaversion:
-        # Only expose the major milestone in the UA string, hide the patch
-        # level (bugs 572659 and 870868).
-        uaversion = "%s.0" % (get_milestone_major(milestone),)
+        ver = milestone.split('.')
+        uaversion = "%s.%s" % (ver[0], ver[1])
         print(uaversion)
 
     elif options.symbolversion:
