@@ -14,7 +14,7 @@
 namespace lul {
 
 // Do |s64|'s lowest 32 bits sign extend back to |s64| itself?
-static inline bool fitsIn32Bits(int64 s64) {
+static inline bool fitsIn32Bits(PRInt64 s64) {
   return s64 == ((s64 & 0xffffffff) ^ 0x80000000) - 0x80000000;
 }
 

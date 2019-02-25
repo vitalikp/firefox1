@@ -69,7 +69,7 @@ ByteReader::ByteReader(enum Endianness endian)
 
 ByteReader::~ByteReader() { }
 
-void ByteReader::SetOffsetSize(uint8 size) {
+void ByteReader::SetOffsetSize(PRUint8 size) {
   offset_size_ = size;
   MOZ_ASSERT(size == 4 || size == 8);
   if (size == 4) {
@@ -79,7 +79,7 @@ void ByteReader::SetOffsetSize(uint8 size) {
   }
 }
 
-void ByteReader::SetAddressSize(uint8 size) {
+void ByteReader::SetAddressSize(PRUint8 size) {
   address_size_ = size;
   MOZ_ASSERT(size == 4 || size == 8);
   if (size == 4) {
@@ -89,8 +89,8 @@ void ByteReader::SetAddressSize(uint8 size) {
   }
 }
 
-uint64 ByteReader::ReadInitialLength(const char* start, size_t* len) {
-  const uint64 initial_length = ReadFourBytes(start);
+PRUint64 ByteReader::ReadInitialLength(const char* start, size_t* len) {
+  const PRUint64 initial_length = ReadFourBytes(start);
   start += 4;
 
   // In DWARF2/3, if the initial length is all 1 bits, then the offset
@@ -127,7 +127,7 @@ bool ByteReader::UsableEncoding(DwarfPointerEncoding encoding) const {
   }
 }
 
-uint64 ByteReader::ReadEncodedPointer(const char *buffer,
+PRUint64 ByteReader::ReadEncodedPointer(const char *buffer,
                                       DwarfPointerEncoding encoding,
                                       size_t *len) const {
   // UsableEncoding doesn't approve of DW_EH_PE_omit, so we shouldn't
@@ -150,11 +150,11 @@ uint64 ByteReader::ReadEncodedPointer(const char *buffer,
 
     // First, find the offset to START from the closest prior aligned
     // address.
-    uint64 skew = section_base_ & (AddressSize() - 1);
+    PRUint64 skew = section_base_ & (AddressSize() - 1);
     // Now find the offset from that aligned address to buffer.
-    uint64 offset = skew + (buffer - buffer_base_);
+    PRUint64 offset = skew + (buffer - buffer_base_);
     // Round up to the next boundary.
-    uint64 aligned = (offset + AddressSize() - 1) & -AddressSize();
+    PRUint64 aligned = (offset + AddressSize() - 1) & -AddressSize();
     // Convert back to a pointer.
     const char *aligned_buffer = buffer_base_ + (aligned - skew);
     // Finally, store the length and actually fetch the pointer.
@@ -164,7 +164,7 @@ uint64 ByteReader::ReadEncodedPointer(const char *buffer,
 
   // Extract the value first, ignoring whether it's a pointer or an
   // offset relative to some base.
-  uint64 offset;
+  PRUint64 offset;
   switch (encoding & 0x0f) {
     case DW_EH_PE_absptr:
       // DW_EH_PE_absptr is weird, as it is used as a meaningful value for
@@ -228,7 +228,7 @@ uint64 ByteReader::ReadEncodedPointer(const char *buffer,
   }
 
   // Find the appropriate base address.
-  uint64 base;
+  PRUint64 base;
   switch (encoding & 0x70) {
     case DW_EH_PE_absptr:
       base = 0;
@@ -258,13 +258,13 @@ uint64 ByteReader::ReadEncodedPointer(const char *buffer,
       abort();
   }
 
-  uint64 pointer = base + offset;
+  PRUint64 pointer = base + offset;
 
   // Remove inappropriate upper bits.
   if (AddressSize() == 4)
     pointer = pointer & 0xffffffff;
   else
-    MOZ_ASSERT(AddressSize() == sizeof(uint64));
+    MOZ_ASSERT(AddressSize() == sizeof(PRUint64));
 
   return pointer;
 }
@@ -292,7 +292,7 @@ class CallFrameInfo::Rule {
   // recovered using this rule. If REGISTER is kCFARegister, then this rule
   // describes how to compute the canonical frame address. Return what the
   // HANDLER member function returned.
-  virtual bool Handle(Handler *handler, uint64 address, int register) const = 0;
+  virtual bool Handle(Handler *handler, PRUint64 address, int register) const = 0;
 
   // Equality on rules. We use these to decide which rules we need
   // to report after a DW_CFA_restore_state instruction.
@@ -333,7 +333,7 @@ class CallFrameInfo::UndefinedRule: public CallFrameInfo::Rule {
   UndefinedRule() { }
   ~UndefinedRule() { }
   CFIRTag getTag() const { return CFIR_UNDEFINED_RULE; }
-  bool Handle(Handler *handler, uint64 address, int reg) const {
+  bool Handle(Handler *handler, PRUint64 address, int reg) const {
     return handler->UndefinedRule(address, reg);
   }
   bool operator==(const Rule &rhs) const {
@@ -349,7 +349,7 @@ class CallFrameInfo::SameValueRule: public CallFrameInfo::Rule {
   SameValueRule() { }
   ~SameValueRule() { }
   CFIRTag getTag() const { return CFIR_SAME_VALUE_RULE; }
-  bool Handle(Handler *handler, uint64 address, int reg) const {
+  bool Handle(Handler *handler, PRUint64 address, int reg) const {
     return handler->SameValueRule(address, reg);
   }
   bool operator==(const Rule &rhs) const {
@@ -367,7 +367,7 @@ class CallFrameInfo::OffsetRule: public CallFrameInfo::Rule {
       : base_register_(base_register), offset_(offset) { }
   ~OffsetRule() { }
   CFIRTag getTag() const { return CFIR_OFFSET_RULE; }
-  bool Handle(Handler *handler, uint64 address, int reg) const {
+  bool Handle(Handler *handler, PRUint64 address, int reg) const {
     return handler->OffsetRule(address, reg, base_register_, offset_);
   }
   bool operator==(const Rule &rhs) const {
@@ -395,7 +395,7 @@ class CallFrameInfo::ValOffsetRule: public CallFrameInfo::Rule {
       : base_register_(base_register), offset_(offset) { }
   ~ValOffsetRule() { }
   CFIRTag getTag() const { return CFIR_VAL_OFFSET_RULE; }
-  bool Handle(Handler *handler, uint64 address, int reg) const {
+  bool Handle(Handler *handler, PRUint64 address, int reg) const {
     return handler->ValOffsetRule(address, reg, base_register_, offset_);
   }
   bool operator==(const Rule &rhs) const {
@@ -419,7 +419,7 @@ class CallFrameInfo::RegisterRule: public CallFrameInfo::Rule {
       : register_number_(register_number) { }
   ~RegisterRule() { }
   CFIRTag getTag() const { return CFIR_REGISTER_RULE; }
-  bool Handle(Handler *handler, uint64 address, int reg) const {
+  bool Handle(Handler *handler, PRUint64 address, int reg) const {
     return handler->RegisterRule(address, reg, register_number_);
   }
   bool operator==(const Rule &rhs) const {
@@ -439,7 +439,7 @@ class CallFrameInfo::ExpressionRule: public CallFrameInfo::Rule {
       : expression_(expression) { }
   ~ExpressionRule() { }
   CFIRTag getTag() const { return CFIR_EXPRESSION_RULE; }
-  bool Handle(Handler *handler, uint64 address, int reg) const {
+  bool Handle(Handler *handler, PRUint64 address, int reg) const {
     return handler->ExpressionRule(address, reg, expression_);
   }
   bool operator==(const Rule &rhs) const {
@@ -459,7 +459,7 @@ class CallFrameInfo::ValExpressionRule: public CallFrameInfo::Rule {
       : expression_(expression) { }
   ~ValExpressionRule() { }
   CFIRTag getTag() const { return CFIR_VAL_EXPRESSION_RULE; }
-  bool Handle(Handler *handler, uint64 address, int reg) const {
+  bool Handle(Handler *handler, PRUint64 address, int reg) const {
     return handler->ValExpressionRule(address, reg, expression_);
   }
   bool operator==(const Rule &rhs) const {
@@ -502,7 +502,7 @@ class CallFrameInfo::RuleMap {
   // this RuleMap to NEW_RULES at ADDRESS. We use this to implement
   // DW_CFA_restore_state, where lots of rules can change simultaneously.
   // Return true if all handlers returned true; otherwise, return false.
-  bool HandleTransitionTo(Handler *handler, uint64 address,
+  bool HandleTransitionTo(Handler *handler, PRUint64 address,
                           const RuleMap &new_rules) const;
 
  private:
@@ -550,7 +550,7 @@ void CallFrameInfo::RuleMap::SetRegisterRule(int reg, Rule *rule) {
 
 bool CallFrameInfo::RuleMap::HandleTransitionTo(
     Handler *handler,
-    uint64 address,
+    PRUint64 address,
     const RuleMap &new_rules) const {
   // Transition from cfa_rule_ to new_rules.cfa_rule_.
   if (cfa_rule_ && new_rules.cfa_rule_) {
@@ -631,7 +631,7 @@ class CallFrameInfo::State {
   // Create a call frame information interpreter state with the given
   // reporter, reader, handler, and initial call frame info address.
   State(ByteReader *reader, Handler *handler, Reporter *reporter,
-        uint64 address)
+        PRUint64 address)
       : reader_(reader), handler_(handler), reporter_(reporter),
         address_(address), entry_(NULL), cursor_(NULL),
         saved_rules_(NULL) { }
@@ -654,7 +654,7 @@ class CallFrameInfo::State {
   // The operands of a CFI instruction, for ParseOperands.
   struct Operands {
     unsigned register_number;  // A register number.
-    uint64 offset;             // An offset or address.
+    PRUint64 offset;             // An offset or address.
     long signed_offset;        // A signed offset.
     string expression;         // A DWARF expression.
   };
@@ -720,7 +720,7 @@ class CallFrameInfo::State {
 
   // Return the section offset of the instruction at cursor. For use
   // in error messages.
-  uint64 CursorOffset() { return entry_->offset + (cursor_ - entry_->start); }
+  PRUint64 CursorOffset() { return entry_->offset + (cursor_ - entry_->start); }
 
   // Report that entry_ is incomplete, and return false. For brevity.
   bool ReportIncomplete() {
@@ -738,7 +738,7 @@ class CallFrameInfo::State {
   Reporter *reporter_;
 
   // The code address to which the next instruction in the stream applies.
-  uint64 address_;
+  PRUint64 address_;
 
   // The entry whose instructions we are currently processing. This is
   // first a CIE, and then an FDE.
@@ -1203,7 +1203,7 @@ bool CallFrameInfo::ReadEntryPrologue(const char *cursor, Entry *entry) {
 
   // Read the initial length. This sets reader_'s offset size.
   size_t length_size;
-  uint64 length = reader_->ReadInitialLength(cursor, &length_size);
+  PRUint64 length = reader_->ReadInitialLength(cursor, &length_size);
   if (length_size > size_t(buffer_end - cursor))
     return ReportIncomplete(entry);
   cursor += length_size;
@@ -1340,7 +1340,7 @@ bool CallFrameInfo::ReadCIEFields(CIE *cie) {
   // a ULEB128 in version 3.
   if (cie->version == 1) {
     if (cursor >= cie->end) return ReportIncomplete(cie);
-    cie->return_address_register = uint8(*cursor++);
+    cie->return_address_register = PRUint8(*cursor++);
   } else {
     cie->return_address_register = reader_->ReadUnsignedLEB128(cursor, &len);
     if (size_t(cie->end - cursor) < len) return ReportIncomplete(cie);
@@ -1657,7 +1657,7 @@ bool CallFrameInfo::ReportIncomplete(Entry *entry) {
   return false;
 }
 
-void CallFrameInfo::Reporter::Incomplete(uint64 offset,
+void CallFrameInfo::Reporter::Incomplete(PRUint64 offset,
                                          CallFrameInfo::EntryKind kind) {
   char buf[300];
   SprintfLiteral(buf,
@@ -1667,7 +1667,7 @@ void CallFrameInfo::Reporter::Incomplete(uint64 offset,
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::EarlyEHTerminator(uint64 offset) {
+void CallFrameInfo::Reporter::EarlyEHTerminator(PRUint64 offset) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI at offset 0x%" PRIx64 " in '%s': saw end-of-data marker"
@@ -1676,8 +1676,8 @@ void CallFrameInfo::Reporter::EarlyEHTerminator(uint64 offset) {
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::CIEPointerOutOfRange(uint64 offset,
-                                                   uint64 cie_offset) {
+void CallFrameInfo::Reporter::CIEPointerOutOfRange(PRUint64 offset,
+                                                   PRUint64 cie_offset) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI frame description entry at offset 0x%" PRIx64 " in '%s':"
@@ -1686,7 +1686,7 @@ void CallFrameInfo::Reporter::CIEPointerOutOfRange(uint64 offset,
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::BadCIEId(uint64 offset, uint64 cie_offset) {
+void CallFrameInfo::Reporter::BadCIEId(PRUint64 offset, PRUint64 cie_offset) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI frame description entry at offset 0x%" PRIx64 " in '%s':"
@@ -1695,7 +1695,7 @@ void CallFrameInfo::Reporter::BadCIEId(uint64 offset, uint64 cie_offset) {
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::UnrecognizedVersion(uint64 offset, int version) {
+void CallFrameInfo::Reporter::UnrecognizedVersion(PRUint64 offset, int version) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI frame description entry at offset 0x%" PRIx64 " in '%s':"
@@ -1704,7 +1704,7 @@ void CallFrameInfo::Reporter::UnrecognizedVersion(uint64 offset, int version) {
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::UnrecognizedAugmentation(uint64 offset,
+void CallFrameInfo::Reporter::UnrecognizedAugmentation(PRUint64 offset,
                                                        const string &aug) {
   char buf[300];
   SprintfLiteral(buf,
@@ -1714,8 +1714,8 @@ void CallFrameInfo::Reporter::UnrecognizedAugmentation(uint64 offset,
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::InvalidPointerEncoding(uint64 offset,
-                                                     uint8 encoding) {
+void CallFrameInfo::Reporter::InvalidPointerEncoding(PRUint64 offset,
+                                                     PRUint8 encoding) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI common information entry at offset 0x%" PRIx64 " in '%s':"
@@ -1725,8 +1725,8 @@ void CallFrameInfo::Reporter::InvalidPointerEncoding(uint64 offset,
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::UnusablePointerEncoding(uint64 offset,
-                                                      uint8 encoding) {
+void CallFrameInfo::Reporter::UnusablePointerEncoding(PRUint64 offset,
+                                                      PRUint8 encoding) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI common information entry at offset 0x%" PRIx64 " in '%s':"
@@ -1736,7 +1736,7 @@ void CallFrameInfo::Reporter::UnusablePointerEncoding(uint64 offset,
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::RestoreInCIE(uint64 offset, uint64 insn_offset) {
+void CallFrameInfo::Reporter::RestoreInCIE(PRUint64 offset, PRUint64 insn_offset) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI common information entry at offset 0x%" PRIx64 " in '%s':"
@@ -1746,9 +1746,9 @@ void CallFrameInfo::Reporter::RestoreInCIE(uint64 offset, uint64 insn_offset) {
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::BadInstruction(uint64 offset,
+void CallFrameInfo::Reporter::BadInstruction(PRUint64 offset,
                                              CallFrameInfo::EntryKind kind,
-                                             uint64 insn_offset) {
+                                             PRUint64 insn_offset) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI %s at offset 0x%" PRIx64 " in section '%s':"
@@ -1758,9 +1758,9 @@ void CallFrameInfo::Reporter::BadInstruction(uint64 offset,
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::NoCFARule(uint64 offset,
+void CallFrameInfo::Reporter::NoCFARule(PRUint64 offset,
                                         CallFrameInfo::EntryKind kind,
-                                        uint64 insn_offset) {
+                                        PRUint64 insn_offset) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI %s at offset 0x%" PRIx64 " in section '%s':"
@@ -1771,9 +1771,9 @@ void CallFrameInfo::Reporter::NoCFARule(uint64 offset,
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::EmptyStateStack(uint64 offset,
+void CallFrameInfo::Reporter::EmptyStateStack(PRUint64 offset,
                                               CallFrameInfo::EntryKind kind,
-                                              uint64 insn_offset) {
+                                              PRUint64 insn_offset) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI %s at offset 0x%" PRIx64 " in section '%s':"
@@ -1785,9 +1785,9 @@ void CallFrameInfo::Reporter::EmptyStateStack(uint64 offset,
   log_(buf);
 }
 
-void CallFrameInfo::Reporter::ClearingCFARule(uint64 offset,
+void CallFrameInfo::Reporter::ClearingCFARule(PRUint64 offset,
                                               CallFrameInfo::EntryKind kind,
-                                              uint64 insn_offset) {
+                                              PRUint64 insn_offset) {
   char buf[300];
   SprintfLiteral(buf,
                  "%s: CFI %s at offset 0x%" PRIx64 " in section '%s':"
@@ -1876,7 +1876,7 @@ int32_t parseDwarfExpr(Summariser* summ, const ByteReader* reader,
 
   while (cursor < end1) {
 
-    uint8 opc = reader->ReadOneByte(cursor);
+    PRUint8 opc = reader->ReadOneByte(cursor);
     cursor++;
 
     const char* nm   = nullptr;
@@ -1989,8 +1989,8 @@ int32_t parseDwarfExpr(Summariser* summ, const ByteReader* reader,
 }
 
 
-bool DwarfCFIToModule::Entry(size_t offset, uint64 address, uint64 length,
-                             uint8 version, const string &augmentation,
+bool DwarfCFIToModule::Entry(size_t offset, PRUint64 address, PRUint64 length,
+                             PRUint8 version, const string &augmentation,
                              unsigned return_address) {
   if (DEBUG_DWARF) {
     char buf[100];
@@ -2034,13 +2034,13 @@ const UniqueString* DwarfCFIToModule::RegisterName(int i) {
   return usu_->ToUniqueString(buf);
 }
 
-bool DwarfCFIToModule::UndefinedRule(uint64 address, int reg) {
+bool DwarfCFIToModule::UndefinedRule(PRUint64 address, int reg) {
   reporter_->UndefinedNotSupported(entry_offset_, RegisterName(reg));
   // Treat this as a non-fatal error.
   return true;
 }
 
-bool DwarfCFIToModule::SameValueRule(uint64 address, int reg) {
+bool DwarfCFIToModule::SameValueRule(PRUint64 address, int reg) {
   if (DEBUG_DWARF) {
     char buf[100];
     SprintfLiteral(buf, "LUL.DW  0x%" PRIx64 ": old r%d = Same\n", address, reg);
@@ -2051,7 +2051,7 @@ bool DwarfCFIToModule::SameValueRule(uint64 address, int reg) {
   return true;
 }
 
-bool DwarfCFIToModule::OffsetRule(uint64 address, int reg,
+bool DwarfCFIToModule::OffsetRule(PRUint64 address, int reg,
                                   int base_register, long offset) {
   if (DEBUG_DWARF) {
     char buf[100];
@@ -2064,7 +2064,7 @@ bool DwarfCFIToModule::OffsetRule(uint64 address, int reg,
   return true;
 }
 
-bool DwarfCFIToModule::ValOffsetRule(uint64 address, int reg,
+bool DwarfCFIToModule::ValOffsetRule(PRUint64 address, int reg,
                                      int base_register, long offset) {
   if (DEBUG_DWARF) {
     char buf[100];
@@ -2077,7 +2077,7 @@ bool DwarfCFIToModule::ValOffsetRule(uint64 address, int reg,
   return true;
 }
 
-bool DwarfCFIToModule::RegisterRule(uint64 address, int reg,
+bool DwarfCFIToModule::RegisterRule(PRUint64 address, int reg,
                                     int base_register) {
   if (DEBUG_DWARF) {
     char buf[100];
@@ -2090,7 +2090,7 @@ bool DwarfCFIToModule::RegisterRule(uint64 address, int reg,
   return true;
 }
 
-bool DwarfCFIToModule::ExpressionRule(uint64 address, int reg,
+bool DwarfCFIToModule::ExpressionRule(PRUint64 address, int reg,
                                       const string &expression)
 {
   bool debug = !!DEBUG_DWARF;
@@ -2107,7 +2107,7 @@ bool DwarfCFIToModule::ExpressionRule(uint64 address, int reg,
   return true;
 }
 
-bool DwarfCFIToModule::ValExpressionRule(uint64 address, int reg,
+bool DwarfCFIToModule::ValExpressionRule(PRUint64 address, int reg,
                                          const string &expression)
 {
   bool debug = !!DEBUG_DWARF;

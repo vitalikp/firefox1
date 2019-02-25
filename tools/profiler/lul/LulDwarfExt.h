@@ -36,7 +36,7 @@
 #define LulDwarfExt_h
 
 #include <stdint.h>
-#include <obsolete/protypes.h>
+#include <prtypes.h>
 
 #include "mozilla/Assertions.h"
 
@@ -110,22 +110,22 @@ class ByteReader {
 
   // Read a single byte from BUFFER and return it as an unsigned 8 bit
   // number.
-  uint8 ReadOneByte(const char* buffer) const;
+  PRUint8 ReadOneByte(const char* buffer) const;
 
   // Read two bytes from BUFFER and return them as an unsigned 16 bit
   // number, using this ByteReader's endianness.
-  uint16 ReadTwoBytes(const char* buffer) const;
+  PRUint16 ReadTwoBytes(const char* buffer) const;
 
   // Read four bytes from BUFFER and return them as an unsigned 32 bit
   // number, using this ByteReader's endianness. This function returns
-  // a uint64 so that it is compatible with ReadAddress and
+  // a PRUint64 so that it is compatible with ReadAddress and
   // ReadOffset. The number it returns will never be outside the range
   // of an unsigned 32 bit integer.
-  uint64 ReadFourBytes(const char* buffer) const;
+  PRUint64 ReadFourBytes(const char* buffer) const;
 
   // Read eight bytes from BUFFER and return them as an unsigned 64
   // bit number, using this ByteReader's endianness.
-  uint64 ReadEightBytes(const char* buffer) const;
+  PRUint64 ReadEightBytes(const char* buffer) const;
 
   // Read an unsigned LEB128 (Little Endian Base 128) number from
   // BUFFER and return it as an unsigned 64 bit integer. Set LEN to
@@ -144,7 +144,7 @@ class ByteReader {
   // In other words, we break VALUE into groups of seven bits, put
   // them in little-endian order, and then write them as eight-bit
   // bytes with the high bit on all but the last.
-  uint64 ReadUnsignedLEB128(const char* buffer, size_t* len) const;
+  PRUint64 ReadUnsignedLEB128(const char* buffer, size_t* len) const;
 
   // Read a signed LEB128 number from BUFFER and return it as an
   // signed 64 bit integer. Set LEN to the number of bytes read.
@@ -163,7 +163,7 @@ class ByteReader {
   // In other words, we break VALUE into groups of seven bits, put
   // them in little-endian order, and then write them as eight-bit
   // bytes with the high bit on all but the last.
-  int64 ReadSignedLEB128(const char* buffer, size_t* len) const;
+  PRInt64 ReadSignedLEB128(const char* buffer, size_t* len) const;
 
   // Indicate that addresses on this architecture are SIZE bytes long. SIZE
   // must be either 4 or 8. (DWARF allows addresses to be any number of
@@ -177,16 +177,16 @@ class ByteReader {
   // frame information doesn't indicate its address size (a shortcoming of
   // the spec); you must supply the appropriate size based on the
   // architecture of the target machine.
-  void SetAddressSize(uint8 size);
+  void SetAddressSize(PRUint8 size);
 
   // Return the current address size, in bytes. This is either 4,
   // indicating 32-bit addresses, or 8, indicating 64-bit addresses.
-  uint8 AddressSize() const { return address_size_; }
+  PRUint8 AddressSize() const { return address_size_; }
 
   // Read an address from BUFFER and return it as an unsigned 64 bit
   // integer, respecting this ByteReader's endianness and address size. You
   // must call SetAddressSize before calling this function.
-  uint64 ReadAddress(const char* buffer) const;
+  PRUint64 ReadAddress(const char* buffer) const;
 
   // DWARF actually defines two slightly different formats: 32-bit DWARF
   // and 64-bit DWARF. This is *not* related to the size of registers or
@@ -223,26 +223,26 @@ class ByteReader {
   // - The 32-bit value 0xffffffff, followed by a 64-bit byte count,
   //   indicating that the data whose length is being measured uses
   //   the 64-bit DWARF format.
-  uint64 ReadInitialLength(const char* start, size_t* len);
+  PRUint64 ReadInitialLength(const char* start, size_t* len);
 
   // Read an offset from BUFFER and return it as an unsigned 64 bit
   // integer, respecting the ByteReader's endianness. In 32-bit DWARF, the
   // offset is 4 bytes long; in 64-bit DWARF, the offset is eight bytes
   // long. You must call ReadInitialLength or SetOffsetSize before calling
   // this function; see the comments above for details.
-  uint64 ReadOffset(const char* buffer) const;
+  PRUint64 ReadOffset(const char* buffer) const;
 
   // Return the current offset size, in bytes.
   // A return value of 4 indicates that we are reading 32-bit DWARF.
   // A return value of 8 indicates that we are reading 64-bit DWARF.
-  uint8 OffsetSize() const { return offset_size_; }
+  PRUint8 OffsetSize() const { return offset_size_; }
 
   // Indicate that section offsets and lengths are SIZE bytes long. SIZE
   // must be either 4 (meaning 32-bit DWARF) or 8 (meaning 64-bit DWARF).
   // Usually, you should not call this function yourself; instead, let a
   // call to ReadInitialLength establish the data's offset size
   // automatically.
-  void SetOffsetSize(uint8 size);
+  void SetOffsetSize(PRUint8 size);
 
   // The Linux C++ ABI uses a variant of DWARF call frame information
   // for exception handling. This data is included in the program's
@@ -285,24 +285,24 @@ class ByteReader {
   // is BUFFER_BASE. This allows us to find the address that a given
   // byte in our buffer would have when loaded into the program the
   // data describes. We need this to resolve DW_EH_PE_pcrel pointers.
-  void SetCFIDataBase(uint64 section_base, const char *buffer_base);
+  void SetCFIDataBase(PRUint64 section_base, const char *buffer_base);
 
   // Indicate that the base address of the program's ".text" section
   // is TEXT_BASE. We need this to resolve DW_EH_PE_textrel pointers.
-  void SetTextBase(uint64 text_base);
+  void SetTextBase(PRUint64 text_base);
 
   // Indicate that the base address for DW_EH_PE_datarel pointers is
   // DATA_BASE. The proper value depends on the ABI; it is usually the
   // address of the global offset table, held in a designated register in
   // position-independent code. You will need to look at the startup code
   // for the target system to be sure. I tried; my eyes bled.
-  void SetDataBase(uint64 data_base);
+  void SetDataBase(PRUint64 data_base);
 
   // Indicate that the base address for the FDE we are processing is
   // FUNCTION_BASE. This is the start address of DW_EH_PE_funcrel
   // pointers. (This encoding does not seem to be used by the GNU
   // toolchain.)
-  void SetFunctionBase(uint64 function_base);
+  void SetFunctionBase(PRUint64 function_base);
 
   // Indicate that we are no longer processing any FDE, so any use of
   // a DW_EH_PE_funcrel encoding is an error.
@@ -324,13 +324,13 @@ class ByteReader {
   // base address this reader hasn't been given, so you should check
   // with ValidEncoding and UsableEncoding first if you would rather
   // die in a more helpful way.
-  uint64 ReadEncodedPointer(const char *buffer, DwarfPointerEncoding encoding,
+  PRUint64 ReadEncodedPointer(const char *buffer, DwarfPointerEncoding encoding,
                             size_t *len) const;
 
  private:
 
   // Function pointer type for our address and offset readers.
-  typedef uint64 (ByteReader::*AddressReader)(const char*) const;
+  typedef PRUint64 (ByteReader::*AddressReader)(const char*) const;
 
   // Read an offset from BUFFER and return it as an unsigned 64 bit
   // integer.  DWARF2/3 define offsets as either 4 or 8 bytes,
@@ -346,27 +346,27 @@ class ByteReader {
   AddressReader address_reader_;
 
   Endianness endian_;
-  uint8 address_size_;
-  uint8 offset_size_;
+  PRUint8 address_size_;
+  PRUint8 offset_size_;
 
   // Base addresses for Linux C++ exception handling data's encoded pointers.
   bool have_section_base_, have_text_base_, have_data_base_;
   bool have_function_base_;
-  uint64 section_base_;
-  uint64 text_base_, data_base_, function_base_;
+  PRUint64 section_base_;
+  PRUint64 text_base_, data_base_, function_base_;
   const char *buffer_base_;
 };
 
 
-inline uint8 ByteReader::ReadOneByte(const char* buffer) const {
+inline PRUint8 ByteReader::ReadOneByte(const char* buffer) const {
   return buffer[0];
 }
 
-inline uint16 ByteReader::ReadTwoBytes(const char* signed_buffer) const {
+inline PRUint16 ByteReader::ReadTwoBytes(const char* signed_buffer) const {
   const unsigned char *buffer
     = reinterpret_cast<const unsigned char *>(signed_buffer);
-  const uint16 buffer0 = buffer[0];
-  const uint16 buffer1 = buffer[1];
+  const PRUint16 buffer0 = buffer[0];
+  const PRUint16 buffer1 = buffer[1];
   if (endian_ == ENDIANNESS_LITTLE) {
     return buffer0 | buffer1 << 8;
   } else {
@@ -374,13 +374,13 @@ inline uint16 ByteReader::ReadTwoBytes(const char* signed_buffer) const {
   }
 }
 
-inline uint64 ByteReader::ReadFourBytes(const char* signed_buffer) const {
+inline PRUint64 ByteReader::ReadFourBytes(const char* signed_buffer) const {
   const unsigned char *buffer
     = reinterpret_cast<const unsigned char *>(signed_buffer);
-  const uint32 buffer0 = buffer[0];
-  const uint32 buffer1 = buffer[1];
-  const uint32 buffer2 = buffer[2];
-  const uint32 buffer3 = buffer[3];
+  const PRUint32 buffer0 = buffer[0];
+  const PRUint32 buffer1 = buffer[1];
+  const PRUint32 buffer2 = buffer[2];
+  const PRUint32 buffer3 = buffer[3];
   if (endian_ == ENDIANNESS_LITTLE) {
     return buffer0 | buffer1 << 8 | buffer2 << 16 | buffer3 << 24;
   } else {
@@ -388,17 +388,17 @@ inline uint64 ByteReader::ReadFourBytes(const char* signed_buffer) const {
   }
 }
 
-inline uint64 ByteReader::ReadEightBytes(const char* signed_buffer) const {
+inline PRUint64 ByteReader::ReadEightBytes(const char* signed_buffer) const {
   const unsigned char *buffer
     = reinterpret_cast<const unsigned char *>(signed_buffer);
-  const uint64 buffer0 = buffer[0];
-  const uint64 buffer1 = buffer[1];
-  const uint64 buffer2 = buffer[2];
-  const uint64 buffer3 = buffer[3];
-  const uint64 buffer4 = buffer[4];
-  const uint64 buffer5 = buffer[5];
-  const uint64 buffer6 = buffer[6];
-  const uint64 buffer7 = buffer[7];
+  const PRUint64 buffer0 = buffer[0];
+  const PRUint64 buffer1 = buffer[1];
+  const PRUint64 buffer2 = buffer[2];
+  const PRUint64 buffer3 = buffer[3];
+  const PRUint64 buffer4 = buffer[4];
+  const PRUint64 buffer5 = buffer[5];
+  const PRUint64 buffer6 = buffer[6];
+  const PRUint64 buffer7 = buffer[7];
   if (endian_ == ENDIANNESS_LITTLE) {
     return buffer0 | buffer1 << 8 | buffer2 << 16 | buffer3 << 24 |
       buffer4 << 32 | buffer5 << 40 | buffer6 << 48 | buffer7 << 56;
@@ -412,9 +412,9 @@ inline uint64 ByteReader::ReadEightBytes(const char* signed_buffer) const {
 // information, plus one bit saying whether the number continues or
 // not.
 
-inline uint64 ByteReader::ReadUnsignedLEB128(const char* buffer,
+inline PRUint64 ByteReader::ReadUnsignedLEB128(const char* buffer,
                                              size_t* len) const {
-  uint64 result = 0;
+  PRUint64 result = 0;
   size_t num_read = 0;
   unsigned int shift = 0;
   unsigned char byte;
@@ -423,7 +423,7 @@ inline uint64 ByteReader::ReadUnsignedLEB128(const char* buffer,
     byte = *buffer++;
     num_read++;
 
-    result |= (static_cast<uint64>(byte & 0x7f)) << shift;
+    result |= (static_cast<PRUint64>(byte & 0x7f)) << shift;
 
     shift += 7;
 
@@ -437,9 +437,9 @@ inline uint64 ByteReader::ReadUnsignedLEB128(const char* buffer,
 // Read a signed LEB128 number.  These are like regular LEB128
 // numbers, except the last byte may have a sign bit set.
 
-inline int64 ByteReader::ReadSignedLEB128(const char* buffer,
+inline PRInt64 ByteReader::ReadSignedLEB128(const char* buffer,
                                           size_t* len) const {
-  int64 result = 0;
+  PRInt64 result = 0;
   unsigned int shift = 0;
   size_t num_read = 0;
   unsigned char byte;
@@ -447,44 +447,44 @@ inline int64 ByteReader::ReadSignedLEB128(const char* buffer,
   do {
       byte = *buffer++;
       num_read++;
-      result |= (static_cast<uint64>(byte & 0x7f) << shift);
+      result |= (static_cast<PRUint64>(byte & 0x7f) << shift);
       shift += 7;
   } while (byte & 0x80);
 
   if ((shift < 8 * sizeof (result)) && (byte & 0x40))
-    result |= -((static_cast<int64>(1)) << shift);
+    result |= -((static_cast<PRInt64>(1)) << shift);
   *len = num_read;
   return result;
 }
 
-inline uint64 ByteReader::ReadOffset(const char* buffer) const {
+inline PRUint64 ByteReader::ReadOffset(const char* buffer) const {
   MOZ_ASSERT(this->offset_reader_);
   return (this->*offset_reader_)(buffer);
 }
 
-inline uint64 ByteReader::ReadAddress(const char* buffer) const {
+inline PRUint64 ByteReader::ReadAddress(const char* buffer) const {
   MOZ_ASSERT(this->address_reader_);
   return (this->*address_reader_)(buffer);
 }
 
-inline void ByteReader::SetCFIDataBase(uint64 section_base,
+inline void ByteReader::SetCFIDataBase(PRUint64 section_base,
                                        const char *buffer_base) {
   section_base_ = section_base;
   buffer_base_ = buffer_base;
   have_section_base_ = true;
 }
 
-inline void ByteReader::SetTextBase(uint64 text_base) {
+inline void ByteReader::SetTextBase(PRUint64 text_base) {
   text_base_ = text_base;
   have_text_base_ = true;
 }
 
-inline void ByteReader::SetDataBase(uint64 data_base) {
+inline void ByteReader::SetDataBase(PRUint64 data_base) {
   data_base_ = data_base;
   have_data_base_ = true;
 }
 
-inline void ByteReader::SetFunctionBase(uint64 function_base) {
+inline void ByteReader::SetFunctionBase(PRUint64 function_base) {
   function_base_ = function_base;
   have_function_base_ = true;
 }
@@ -778,7 +778,7 @@ class CallFrameInfo {
 
     // For both DWARF CFI and .eh_frame sections, this is the CIE id in a
     // CIE, and the offset of the associated CIE in an FDE.
-    uint64 id;
+    PRUint64 id;
 
     // The CIE that applies to this entry, if we've parsed it. If this is a
     // CIE, then this field points to this structure.
@@ -787,9 +787,9 @@ class CallFrameInfo {
 
   // A common information entry (CIE).
   struct CIE: public Entry {
-    uint8 version;                      // CFI data version number
+    PRUint8 version;                      // CFI data version number
     std::string augmentation;           // vendor format extension markers
-    uint64 code_alignment_factor;       // scale for code address adjustments
+    PRUint64 code_alignment_factor;       // scale for code address adjustments
     int data_alignment_factor;          // scale for stack pointer adjustments
     unsigned return_address_register;   // which register holds the return addr
 
@@ -813,7 +813,7 @@ class CallFrameInfo {
     // If has_z_personality is true, this is the address of the personality
     // routine --- or, if personality_encoding & DW_EH_PE_indirect, the
     // address where the personality routine's address is stored.
-    uint64 personality_address;
+    PRUint64 personality_address;
 
     // This is the encoding used for addresses in the FDE header and
     // in DW_CFA_set_loc instructions. This is always valid, whether
@@ -824,13 +824,13 @@ class CallFrameInfo {
 
   // A frame description entry (FDE).
   struct FDE: public Entry {
-    uint64 address;                     // start address of described code
-    uint64 size;                        // size of described code, in bytes
+    PRUint64 address;                     // start address of described code
+    PRUint64 size;                        // size of described code, in bytes
 
     // If cie->has_z_lsda is true, then this is the language-specific data
     // area's address --- or its address's address, if cie->lsda_encoding
     // has the DW_EH_PE_indirect bit set.
-    uint64 lsda_address;
+    PRUint64 lsda_address;
   };
 
   // Internal use.
@@ -922,8 +922,8 @@ class CallFrameInfo::Handler {
   // to the handler explicitly; instead, if the handler elects to
   // process a given FDE, the parser reiterates the appropriate CIE's
   // contents at the beginning of the FDE's rules.
-  virtual bool Entry(size_t offset, uint64 address, uint64 length,
-                     uint8 version, const std::string &augmentation,
+  virtual bool Entry(size_t offset, PRUint64 address, PRUint64 length,
+                     PRUint8 version, const std::string &augmentation,
                      unsigned return_address) = 0;
 
   // When the Entry function returns true, the parser calls these
@@ -945,21 +945,21 @@ class CallFrameInfo::Handler {
   // computation. All other REG values will be positive.
 
   // At ADDRESS, register REG's value is not recoverable.
-  virtual bool UndefinedRule(uint64 address, int reg) = 0;
+  virtual bool UndefinedRule(PRUint64 address, int reg) = 0;
 
   // At ADDRESS, register REG's value is the same as that it had in
   // the caller.
-  virtual bool SameValueRule(uint64 address, int reg) = 0;
+  virtual bool SameValueRule(PRUint64 address, int reg) = 0;
 
   // At ADDRESS, register REG has been saved at offset OFFSET from
   // BASE_REGISTER.
-  virtual bool OffsetRule(uint64 address, int reg,
+  virtual bool OffsetRule(PRUint64 address, int reg,
                           int base_register, long offset) = 0;
 
   // At ADDRESS, the caller's value of register REG is the current
   // value of BASE_REGISTER plus OFFSET. (This rule doesn't provide an
   // address at which the register's value is saved.)
-  virtual bool ValOffsetRule(uint64 address, int reg,
+  virtual bool ValOffsetRule(PRUint64 address, int reg,
                              int base_register, long offset) = 0;
 
   // At ADDRESS, register REG has been saved in BASE_REGISTER. This differs
@@ -967,17 +967,17 @@ class CallFrameInfo::Handler {
   // BASE_REGISTER is the "home" for REG's saved value: if you want to
   // assign to a variable whose home is REG in the calling frame, you
   // should put the value in BASE_REGISTER.
-  virtual bool RegisterRule(uint64 address, int reg, int base_register) = 0;
+  virtual bool RegisterRule(PRUint64 address, int reg, int base_register) = 0;
 
   // At ADDRESS, the DWARF expression EXPRESSION yields the address at
   // which REG was saved.
-  virtual bool ExpressionRule(uint64 address, int reg,
+  virtual bool ExpressionRule(PRUint64 address, int reg,
                               const std::string &expression) = 0;
 
   // At ADDRESS, the DWARF expression EXPRESSION yields the caller's
   // value for REG. (This rule doesn't provide an address at which the
   // register's value is saved.)
-  virtual bool ValExpressionRule(uint64 address, int reg,
+  virtual bool ValExpressionRule(PRUint64 address, int reg,
                                  const std::string &expression) = 0;
 
   // Indicate that the rules for the address range reported by the
@@ -1018,7 +1018,7 @@ class CallFrameInfo::Handler {
   // which the routine's address is stored. The default definition for
   // this handler function simply returns true, allowing parsing of
   // the entry to continue.
-  virtual bool PersonalityRoutine(uint64 address, bool indirect) {
+  virtual bool PersonalityRoutine(PRUint64 address, bool indirect) {
     return true;
   }
 
@@ -1027,7 +1027,7 @@ class CallFrameInfo::Handler {
   // which the area's address is stored. The default definition for
   // this handler function simply returns true, allowing parsing of
   // the entry to continue.
-  virtual bool LanguageSpecificDataArea(uint64 address, bool indirect) {
+  virtual bool LanguageSpecificDataArea(PRUint64 address, bool indirect) {
     return true;
   }
 
@@ -1065,69 +1065,69 @@ class CallFrameInfo::Reporter {
   // The CFI entry at OFFSET ends too early to be well-formed. KIND
   // indicates what kind of entry it is; KIND can be kUnknown if we
   // haven't parsed enough of the entry to tell yet.
-  virtual void Incomplete(uint64 offset, CallFrameInfo::EntryKind kind);
+  virtual void Incomplete(PRUint64 offset, CallFrameInfo::EntryKind kind);
 
   // The .eh_frame data has a four-byte zero at OFFSET where the next
   // entry's length would be; this is a terminator. However, the buffer
   // length as given to the CallFrameInfo constructor says there should be
   // more data.
-  virtual void EarlyEHTerminator(uint64 offset);
+  virtual void EarlyEHTerminator(PRUint64 offset);
 
   // The FDE at OFFSET refers to the CIE at CIE_OFFSET, but the
   // section is not that large.
-  virtual void CIEPointerOutOfRange(uint64 offset, uint64 cie_offset);
+  virtual void CIEPointerOutOfRange(PRUint64 offset, PRUint64 cie_offset);
 
   // The FDE at OFFSET refers to the CIE at CIE_OFFSET, but the entry
   // there is not a CIE.
-  virtual void BadCIEId(uint64 offset, uint64 cie_offset);
+  virtual void BadCIEId(PRUint64 offset, PRUint64 cie_offset);
 
   // The FDE at OFFSET refers to a CIE with version number VERSION,
   // which we don't recognize. We cannot parse DWARF CFI if it uses
   // a version number we don't recognize.
-  virtual void UnrecognizedVersion(uint64 offset, int version);
+  virtual void UnrecognizedVersion(PRUint64 offset, int version);
 
   // The FDE at OFFSET refers to a CIE with augmentation AUGMENTATION,
   // which we don't recognize. We cannot parse DWARF CFI if it uses
   // augmentations we don't recognize.
-  virtual void UnrecognizedAugmentation(uint64 offset,
+  virtual void UnrecognizedAugmentation(PRUint64 offset,
                                         const std::string &augmentation);
 
   // The pointer encoding ENCODING, specified by the CIE at OFFSET, is not
   // a valid encoding.
-  virtual void InvalidPointerEncoding(uint64 offset, uint8 encoding);
+  virtual void InvalidPointerEncoding(PRUint64 offset, PRUint8 encoding);
 
   // The pointer encoding ENCODING, specified by the CIE at OFFSET, depends
   // on a base address which has not been supplied.
-  virtual void UnusablePointerEncoding(uint64 offset, uint8 encoding);
+  virtual void UnusablePointerEncoding(PRUint64 offset, PRUint8 encoding);
 
   // The CIE at OFFSET contains a DW_CFA_restore instruction at
   // INSN_OFFSET, which may not appear in a CIE.
-  virtual void RestoreInCIE(uint64 offset, uint64 insn_offset);
+  virtual void RestoreInCIE(PRUint64 offset, PRUint64 insn_offset);
 
   // The entry at OFFSET, of kind KIND, has an unrecognized
   // instruction at INSN_OFFSET.
-  virtual void BadInstruction(uint64 offset, CallFrameInfo::EntryKind kind,
-                              uint64 insn_offset);
+  virtual void BadInstruction(PRUint64 offset, CallFrameInfo::EntryKind kind,
+                              PRUint64 insn_offset);
 
   // The instruction at INSN_OFFSET in the entry at OFFSET, of kind
   // KIND, establishes a rule that cites the CFA, but we have not
   // established a CFA rule yet.
-  virtual void NoCFARule(uint64 offset, CallFrameInfo::EntryKind kind,
-                         uint64 insn_offset);
+  virtual void NoCFARule(PRUint64 offset, CallFrameInfo::EntryKind kind,
+                         PRUint64 insn_offset);
 
   // The instruction at INSN_OFFSET in the entry at OFFSET, of kind
   // KIND, is a DW_CFA_restore_state instruction, but the stack of
   // saved states is empty.
-  virtual void EmptyStateStack(uint64 offset, CallFrameInfo::EntryKind kind,
-                               uint64 insn_offset);
+  virtual void EmptyStateStack(PRUint64 offset, CallFrameInfo::EntryKind kind,
+                               PRUint64 insn_offset);
 
   // The DW_CFA_remember_state instruction at INSN_OFFSET in the entry
   // at OFFSET, of kind KIND, would restore a state that has no CFA
   // rule, whereas the current state does have a CFA rule. This is
   // bogus input, which the CallFrameInfo::Handler interface doesn't
   // (and shouldn't) have any way to report.
-  virtual void ClearingCFARule(uint64 offset, CallFrameInfo::EntryKind kind,
-                               uint64 insn_offset);
+  virtual void ClearingCFARule(PRUint64 offset, CallFrameInfo::EntryKind kind,
+                               PRUint64 insn_offset);
 
  private:
   // A logging sink function, as supplied by LUL's user.
@@ -1216,19 +1216,19 @@ class DwarfCFIToModule: public CallFrameInfo::Handler {
   }
   virtual ~DwarfCFIToModule() {}
 
-  virtual bool Entry(size_t offset, uint64 address, uint64 length,
-                     uint8 version, const std::string &augmentation,
+  virtual bool Entry(size_t offset, PRUint64 address, PRUint64 length,
+                     PRUint8 version, const std::string &augmentation,
                      unsigned return_address);
-  virtual bool UndefinedRule(uint64 address, int reg);
-  virtual bool SameValueRule(uint64 address, int reg);
-  virtual bool OffsetRule(uint64 address, int reg,
+  virtual bool UndefinedRule(PRUint64 address, int reg);
+  virtual bool SameValueRule(PRUint64 address, int reg);
+  virtual bool OffsetRule(PRUint64 address, int reg,
                           int base_register, long offset);
-  virtual bool ValOffsetRule(uint64 address, int reg,
+  virtual bool ValOffsetRule(PRUint64 address, int reg,
                              int base_register, long offset);
-  virtual bool RegisterRule(uint64 address, int reg, int base_register);
-  virtual bool ExpressionRule(uint64 address, int reg,
+  virtual bool RegisterRule(PRUint64 address, int reg, int base_register);
+  virtual bool ExpressionRule(PRUint64 address, int reg,
                               const std::string &expression);
-  virtual bool ValExpressionRule(uint64 address, int reg,
+  virtual bool ValExpressionRule(PRUint64 address, int reg,
                                  const std::string &expression);
   virtual bool End();
 

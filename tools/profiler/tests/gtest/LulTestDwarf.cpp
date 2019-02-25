@@ -50,23 +50,23 @@ namespace lul {
 
 class MockCallFrameInfoHandler : public CallFrameInfo::Handler {
  public:
-  MOCK_METHOD6(Entry, bool(size_t offset, uint64 address, uint64 length,
-                           uint8 version, const std::string &augmentation,
+  MOCK_METHOD6(Entry, bool(size_t offset, PRUint64 address, PRUint64 length,
+                           PRUint8 version, const std::string &augmentation,
                            unsigned return_address));
-  MOCK_METHOD2(UndefinedRule, bool(uint64 address, int reg));
-  MOCK_METHOD2(SameValueRule, bool(uint64 address, int reg));
-  MOCK_METHOD4(OffsetRule, bool(uint64 address, int reg, int base_register,
+  MOCK_METHOD2(UndefinedRule, bool(PRUint64 address, int reg));
+  MOCK_METHOD2(SameValueRule, bool(PRUint64 address, int reg));
+  MOCK_METHOD4(OffsetRule, bool(PRUint64 address, int reg, int base_register,
                                 long offset));
-  MOCK_METHOD4(ValOffsetRule, bool(uint64 address, int reg, int base_register,
+  MOCK_METHOD4(ValOffsetRule, bool(PRUint64 address, int reg, int base_register,
                                    long offset));
-  MOCK_METHOD3(RegisterRule, bool(uint64 address, int reg, int base_register));
-  MOCK_METHOD3(ExpressionRule, bool(uint64 address, int reg,
+  MOCK_METHOD3(RegisterRule, bool(PRUint64 address, int reg, int base_register));
+  MOCK_METHOD3(ExpressionRule, bool(PRUint64 address, int reg,
                                     const std::string &expression));
-  MOCK_METHOD3(ValExpressionRule, bool(uint64 address, int reg,
+  MOCK_METHOD3(ValExpressionRule, bool(PRUint64 address, int reg,
                                        const std::string &expression));
   MOCK_METHOD0(End, bool());
-  MOCK_METHOD2(PersonalityRoutine, bool(uint64 address, bool indirect));
-  MOCK_METHOD2(LanguageSpecificDataArea, bool(uint64 address, bool indirect));
+  MOCK_METHOD2(PersonalityRoutine, bool(PRUint64 address, bool indirect));
+  MOCK_METHOD2(LanguageSpecificDataArea, bool(PRUint64 address, bool indirect));
   MOCK_METHOD0(SignalHandler, bool());
 };
 
@@ -76,19 +76,19 @@ class MockCallFrameErrorReporter : public CallFrameInfo::Reporter {
      : Reporter(gtest_logging_sink_for_LulTestDwarf,
                 "mock filename", "mock section")
   { }
-  MOCK_METHOD2(Incomplete, void(uint64, CallFrameInfo::EntryKind));
-  MOCK_METHOD1(EarlyEHTerminator, void(uint64));
-  MOCK_METHOD2(CIEPointerOutOfRange, void(uint64, uint64));
-  MOCK_METHOD2(BadCIEId, void(uint64, uint64));
-  MOCK_METHOD2(UnrecognizedVersion, void(uint64, int version));
-  MOCK_METHOD2(UnrecognizedAugmentation, void(uint64, const string &));
-  MOCK_METHOD2(InvalidPointerEncoding, void(uint64, uint8));
-  MOCK_METHOD2(UnusablePointerEncoding, void(uint64, uint8));
-  MOCK_METHOD2(RestoreInCIE, void(uint64, uint64));
-  MOCK_METHOD3(BadInstruction, void(uint64, CallFrameInfo::EntryKind, uint64));
-  MOCK_METHOD3(NoCFARule, void(uint64, CallFrameInfo::EntryKind, uint64));
-  MOCK_METHOD3(EmptyStateStack, void(uint64, CallFrameInfo::EntryKind, uint64));
-  MOCK_METHOD3(ClearingCFARule, void(uint64, CallFrameInfo::EntryKind, uint64));
+  MOCK_METHOD2(Incomplete, void(PRUint64, CallFrameInfo::EntryKind));
+  MOCK_METHOD1(EarlyEHTerminator, void(PRUint64));
+  MOCK_METHOD2(CIEPointerOutOfRange, void(PRUint64, PRUint64));
+  MOCK_METHOD2(BadCIEId, void(PRUint64, PRUint64));
+  MOCK_METHOD2(UnrecognizedVersion, void(PRUint64, int version));
+  MOCK_METHOD2(UnrecognizedAugmentation, void(PRUint64, const string &));
+  MOCK_METHOD2(InvalidPointerEncoding, void(PRUint64, PRUint8));
+  MOCK_METHOD2(UnusablePointerEncoding, void(PRUint64, PRUint8));
+  MOCK_METHOD2(RestoreInCIE, void(PRUint64, PRUint64));
+  MOCK_METHOD3(BadInstruction, void(PRUint64, CallFrameInfo::EntryKind, PRUint64));
+  MOCK_METHOD3(NoCFARule, void(PRUint64, CallFrameInfo::EntryKind, PRUint64));
+  MOCK_METHOD3(EmptyStateStack, void(PRUint64, CallFrameInfo::EntryKind, PRUint64));
+  MOCK_METHOD3(ClearingCFARule, void(PRUint64, CallFrameInfo::EntryKind, PRUint64));
 };
 
 struct CFIFixture {
@@ -639,13 +639,13 @@ struct CFIInsnFixture: public CFIFixture {
 
   Label cie_label;
   Sequence s;
-  uint64 code_factor;
+  PRUint64 code_factor;
   int data_factor;
   unsigned return_register;
   unsigned version;
   unsigned cfa_base_register;
   int cfa_offset;
-  uint64 fde_start, fde_size;
+  PRUint64 fde_start, fde_size;
 };
 
 class LulDwarfCFIInsn: public CFIInsnFixture, public Test { };
@@ -1292,7 +1292,7 @@ TEST_F(LulDwarfCFIInsn, DW_CFA_remember_and_restore_state) {
       .D8(lul::DW_CFA_restore_state)
       .FinishEntry();
 
-  uint64 addr = fde_start;
+  PRUint64 addr = fde_start;
 
   // Expect the incoming rules to be reported.
   EXPECT_CALL(handler, OffsetRule(addr, 2, kCFARegister, 0x9806 * data_factor))
