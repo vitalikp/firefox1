@@ -4,10 +4,6 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-TEST_DIRS += [
-    'gtest'
-]
-
 # Change the following line(s) to avoid bug 1081323 (clobber after changing a manifest):
 # * Adjust failure errata for webgl-conf.
 
