@@ -1782,7 +1782,7 @@ TrackBuffersManager::RemoveFrames(const TimeIntervals& aIntervals,
                                   uint32_t aStartIndex)
 {
   TrackBuffer& data = aTrackData.GetTrackBuffer();
-  Maybe<uint32_t> firstRemovedIndex = Some(0u);
+  Maybe<uint32_t> firstRemovedIndex;
   uint32_t lastRemovedIndex = 0;
 
   // We loop from aStartIndex to avoid removing frames that we inserted earlier

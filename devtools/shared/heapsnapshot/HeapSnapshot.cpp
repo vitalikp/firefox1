@@ -259,7 +259,7 @@ HeapSnapshot::saveNode(const protobuf::Node& node, NodeIdSet& edgeReferents)
     edges.infallibleAppend(DeserializedEdge(referent, edgeName));
   }
 
-  Maybe<StackFrameId> allocationStack = Some(0ul);
+  Maybe<StackFrameId> allocationStack;
   if (node.has_allocationstack()) {
     StackFrameId id = 0;
     if (NS_WARN_IF(!saveStackFrame(node.allocationstack(), id)))

@@ -9826,7 +9826,7 @@ CSSParserImpl::ParseGridLine(nsCSSValue& aValue)
 
   bool hasSpan = false;
   bool hasIdent = false;
-  Maybe<int32_t> integer = Some(0);
+  Maybe<int32_t> integer;
   nsCSSValue ident;
 
 #ifdef MOZ_VALGRIND

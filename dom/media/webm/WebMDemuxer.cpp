@@ -1015,7 +1015,7 @@ WebMTrackDemuxer::SetNextKeyFrameTime()
     }
     skipSamplesQueue.Push(sample.forget());
   }
-  Maybe<int64_t> startTime = Some(0l);
+  Maybe<int64_t> startTime;
   if (skipSamplesQueue.GetSize()) {
     const RefPtr<MediaRawData>& sample = skipSamplesQueue.First();
     startTime.emplace(sample->mTimecode);
