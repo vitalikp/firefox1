@@ -7,16 +7,8 @@
 #ifndef jsnspr_h
 #define jsnspr_h
 
-#ifdef JS_POSIX_NSPR
-
-# include "vm/PosixNSPR.h"
-
-#else /* JS_POSIX_NSPR */
-
 # include "prinit.h"
 # include "prio.h"
 # include "private/pprio.h"
-
-#endif /* JS_POSIX_NSPR */
 
 #endif /* jsnspr_h */

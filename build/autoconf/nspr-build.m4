@@ -51,30 +51,10 @@ MOZ_ARG_WITH_BOOL(system-nspr,
                           --with-system-nspr.)],
     _USE_SYSTEM_NSPR=1 )
 
-JS_POSIX_NSPR=unset
-ifdef([CONFIGURING_JS],[
-    if test -n "$JS_STANDALONE"; then
-      case "$target" in
-        *linux*|*darwin*|*dragonfly*|*freebsd*|*netbsd*|*openbsd*)
-          if test -z "$_HAS_NSPR"; then
-            JS_POSIX_NSPR_DEFAULT=1
-          fi
-          ;;
-      esac
-    fi
-
-    MOZ_ARG_ENABLE_BOOL(posix-nspr-emulation,
-[  --enable-posix-nspr-emulation
-                          Enable emulation of NSPR for POSIX systems],
-    JS_POSIX_NSPR=1,
-    JS_POSIX_NSPR=)
-])
-
 dnl Pass at most one of
 dnl   --with-system-nspr
 dnl   --with-nspr-cflags/libs
 dnl   --enable-nspr-build
-dnl   --enable-posix-nspr-emulation
 
 AC_MSG_CHECKING([NSPR selection])
 nspr_opts=
@@ -91,12 +71,6 @@ if test -n "$MOZ_BUILD_NSPR"; then
     nspr_opts="x$nspr_opts"
     which_nspr="source-tree"
 fi
-if test "$JS_POSIX_NSPR" = unset; then
-    JS_POSIX_NSPR=
-else
-    nspr_opts="x$nspr_opts"
-    which_nspr="posix-wrapper"
-fi
 
 if test -z "$nspr_opts"; then
     if test "$MOZ_BUILD_APP" != js; then
@@ -106,13 +80,8 @@ if test -z "$nspr_opts"; then
     else
       dnl JS configure defaults to emulated NSPR if available, falling back
       dnl to nsprpub.
-      JS_POSIX_NSPR="$JS_POSIX_NSPR_DEFAULT"
-      if test -z "$JS_POSIX_NSPR"; then
-        MOZ_BUILD_NSPR=1
-        which_nspr="source-tree"
-      else
-        which_nspr="posix-wrapper"
-      fi
+      MOZ_BUILD_NSPR=1
+      which_nspr="source-tree"
    fi
 fi
 
@@ -123,13 +92,6 @@ else
 fi
 
 AC_SUBST(MOZ_BUILD_NSPR)
-
-if test "$MOZ_BUILD_APP" = js; then
-  if test "$JS_POSIX_NSPR" = 1; then
-    AC_DEFINE(JS_POSIX_NSPR)
-  fi
-  AC_SUBST(JS_POSIX_NSPR)
-fi
 
 # A (sub)configure invoked by the toplevel configure will always receive
 # --with-nspr-libs on the command line. It will never need to figure out
@@ -156,26 +118,9 @@ if test -n "$MOZ_SYSTEM_NSPR" -o -n "$NSPR_CFLAGS" -o -n "$NSPR_LIBS"; then
                 ,
                 AC_MSG_ERROR([system NSPR does not support PR_UINT64 or including prtypes.h does not provide it]))
     CFLAGS=$_SAVE_CFLAGS
-elif test -z "$JS_POSIX_NSPR"; then
-    NSPR_INCLUDE_DIR="${DIST}/include/nspr"
-    NSPR_CFLAGS="-I${NSPR_INCLUDE_DIR}"
-    if test -n "$GNU_CC"; then
-        if test -n "$MOZ_FOLD_LIBS"; then
-           NSPR_LIB_DIR=${DIST}/lib
-        else
-           NSPR_LIB_DIR=${DIST}/bin
-        fi
-        NSPR_LIBS="-L${NSPR_LIB_DIR} -lnspr${NSPR_VERSION} -lplc${NSPR_VERSION} -lplds${NSPR_VERSION}"
-    else
-        # NSS needs actual static libs to link to, and this is where they are.
-        NSPR_LIBS="${DIST}/lib/nspr${NSPR_VERSION}.lib ${DIST}/lib/plc${NSPR_VERSION}.lib ${DIST}/lib/plds${NSPR_VERSION}.lib "
-        NSPR_LIB_DIR="${DIST}/lib"
-    fi
 fi
 
 AC_SUBST_LIST(NSPR_CFLAGS)
-AC_SUBST(NSPR_INCLUDE_DIR)
-AC_SUBST(NSPR_LIB_DIR)
 
 fi # _IS_OUTER_CONFIGURE
 

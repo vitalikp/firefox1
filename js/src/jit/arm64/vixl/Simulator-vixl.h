@@ -44,7 +44,6 @@
 #include "jit/arm64/vixl/Utils-vixl.h"
 #include "jit/IonTypes.h"
 #include "vm/MutexIDs.h"
-#include "vm/PosixNSPR.h"
 
 #define JS_CHECK_SIMULATOR_RECURSION_WITH_EXTRA(cx, extra, onerror)             \
     JS_BEGIN_MACRO                                                              \
