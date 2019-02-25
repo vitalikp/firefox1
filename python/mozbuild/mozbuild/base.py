@@ -481,29 +481,11 @@ class MozbuildObject(ProcessExecutionMixin):
             flags = iter(self.mozconfig['make_flags'])
             for flag in flags:
                 if flag == '-j':
-                    try:
-                        flag = flags.next()
-                    except StopIteration:
-                        break
-                    try:
-                        num_jobs = int(flag)
-                    except ValueError:
-                        args.append(flag)
+                    break
                 elif flag.startswith('-j'):
-                    try:
-                        num_jobs = int(flag[2:])
-                    except (ValueError, IndexError):
-                        break
+                    break
                 else:
                     args.append(flag)
-
-        if allow_parallel:
-            if num_jobs > 0:
-                args.append('-j%d' % num_jobs)
-            else:
-                args.append('-j%d' % multiprocessing.cpu_count())
-        elif num_jobs > 0:
-            args.append('MOZ_PARALLEL_BUILD=%d' % num_jobs)
 
         if ignore_errors:
             args.append('-k')
