@@ -20,18 +20,6 @@ dnl Otherwise, run ACTION-IF-NOT-FOUND.
 AC_DEFUN([AM_PATH_NSPR],
 [dnl
 
-AC_ARG_WITH(nspr-prefix,
-	[  --with-nspr-prefix=PFX  Prefix where NSPR is installed],
-	nspr_config_prefix="$withval",
-	nspr_config_prefix="")
-
-	if test -n "$nspr_config_prefix"; then
-		nspr_config_args="$nspr_config_args --prefix=$nspr_config_prefix"
-		if test -z "$NSPR_CONFIG"; then
-			NSPR_CONFIG=$nspr_config_prefix/bin/nspr-config
-		fi
-	fi
-
 	unset ac_cv_path_NSPR_CONFIG
 	AC_PATH_PROG(NSPR_CONFIG, nspr-config, no)
 	min_nspr_version=ifelse([$1], ,4.0.0,$1)
