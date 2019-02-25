@@ -6,4 +6,4 @@
 
 Library('nspr')
 
-OS_LIBS += CONFIG['NSPR_LIBS']
+OS_LIBS += CONFIG['MOZ_NSPR4_LIBS']

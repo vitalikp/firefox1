@@ -124,7 +124,7 @@ class CompileDBBackend(CommonBackend):
             local_extra = list(self._extra_includes[directory])
             if directory not in self._gyp_dirs:
                 for var in (
-                    'NSPR_CFLAGS',
+                    'MOZ_NSPR4_CFLAGS',
                     'MOZ_NSS3_CFLAGS',
                     'MOZ_JPEG_CFLAGS',
                     'MOZ_PNG_CFLAGS',

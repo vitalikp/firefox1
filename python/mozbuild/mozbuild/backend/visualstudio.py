@@ -201,7 +201,7 @@ class VisualStudioBackend(CommonBackend):
             includes.append('$(TopObjDir)\\dist\\include\\nss')
             includes.append('$(TopObjDir)\\dist\\include')
 
-            for v in ('NSPR_CFLAGS', 'MOZ_JPEG_CFLAGS',
+            for v in ('MOZ_JPEG_CFLAGS',
                     'MOZ_PNG_CFLAGS', 'MOZ_ZLIB_CFLAGS', 'MOZ_PIXMAN_CFLAGS'):
                 if not config:
                     break

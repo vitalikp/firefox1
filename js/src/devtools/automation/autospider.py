@@ -283,7 +283,6 @@ for k, v in variant.get('env', {}).items():
     )
 
 if not args.nobuild:
-    CONFIGURE_ARGS += ' --enable-nspr-build'
     CONFIGURE_ARGS += ' --prefix={OBJDIR}/dist'.format(OBJDIR=POBJDIR)
 
     # Generate a configure script from configure.in.

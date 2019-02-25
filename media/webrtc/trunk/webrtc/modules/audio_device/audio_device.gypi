@@ -53,7 +53,7 @@
       'conditions': [
         ['build_with_mozilla==1', {
           'cflags_mozilla': [
-            '$(NSPR_CFLAGS)',
+            '$(MOZ_NSPR4_CFLAGS)',
           ],
         }],
         ['hardware_aec_ns==1', {

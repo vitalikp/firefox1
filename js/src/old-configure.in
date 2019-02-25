@@ -43,11 +43,6 @@ _SUBDIR_HOST_CXXFLAGS="$HOST_CXXFLAGS"
 _SUBDIR_HOST_LDFLAGS="$HOST_LDFLAGS"
 _SUBDIR_CONFIG_ARGS="$ac_configure_args"
 
-dnl Set the version number of the libs included with mozilla
-dnl ========================================================
-NSPR_VERSION=4
-NSPR_MINVER=4.9.2
-
 dnl Set the minimum version of toolkit libs used by mozilla
 dnl ========================================================
 WINDRES_VERSION=2.14.90
@@ -1498,8 +1493,6 @@ dnl =
 dnl ========================================================
 MOZ_ARG_HEADER(External Packages)
 
-MOZ_CONFIG_NSPR(js)
-
 dnl ========================================================
 dnl system zlib Support
 dnl ========================================================
@@ -2157,7 +2150,6 @@ HOST_CXXFLAGS=`echo \
     $HOST_CXXFLAGS`
 
 AC_SUBST(_DEPEND_CFLAGS)
-AC_SUBST(MOZ_SYSTEM_NSPR)
 
 OS_CFLAGS="$CFLAGS"
 OS_CXXFLAGS="$CXXFLAGS"
@@ -2250,7 +2242,7 @@ JS_LIBRARY_NAME="mozjs-$MOZILLA_SYMBOLVERSION"
 else
 JS_LIBRARY_NAME="mozjs"
 fi
-JS_CONFIG_LIBS="$NSPR_LIBS $LIBS"
+JS_CONFIG_LIBS="$MOZ_NSPR4_LIBS $LIBS"
 if test -n "$GNU_CC"; then
 JS_CONFIG_MOZ_JS_LIBS='-L${libdir} -l${JS_LIBRARY_NAME}'
 else
@@ -2261,9 +2253,6 @@ AC_SUBST(JS_CONFIG_MOZ_JS_LIBS)
 AC_SUBST(JS_CONFIG_LIBS)
 
 MOZ_SUBCONFIGURE_JEMALLOC()
-
-# Avoid using obsolete NSPR features
-AC_DEFINE(NO_NSPR_10_SUPPORT)
 
 dnl Spit out some output
 dnl ========================================================

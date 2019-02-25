@@ -102,3 +102,31 @@ def check_nss(var, minver, when=notjs_project):
     depends(check_nss_conf)
 
 check_nss('MOZ_NSS3', '3.28.6')
+
+# NSPR
+# ==============================================================
+nspr_config = check_cmd('nspr-config')
+
+@template
+@imports('sys')
+def check_nspr(var, minver, when=always):
+    @depends_when(nspr_config, when=when)
+    def check_nspr_conf(nspr_config):
+        ver = Version(run_cmd(nspr_config, '--version'))
+        if ver < minver:
+            log.error("*** Package 'nspr' has version '%s', required version is '>= %s" % (ver, minver))
+            sys.exit(1)
+        log.info('-- Found nspr %s' % ver)
+
+        flags = str(run_cmd(nspr_config, '--cflags'))
+        log.info('    %s_CFLAGS: %s' % (var, flags))
+        conf('%s_CFLAGS' % var, flags.split())
+
+        libs = str(run_cmd(nspr_config, '--libs'))
+        log.info('    %s_LIBS: %s' % (var, libs))
+        conf('%s_LIBS' % var, libs.split())
+
+        conf(var, True)
+    depends(check_nspr_conf)
+
+check_nspr('MOZ_NSPR4', '4.13.1')

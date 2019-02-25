@@ -22,7 +22,7 @@
         '<(webrtc_root)/system_wrappers/system_wrappers.gyp:system_wrappers',
       ],
       'cflags_mozilla': [
-        '$(NSPR_CFLAGS)',
+        '$(MOZ_NSPR4_CFLAGS)',
       ],
       'sources': [
         'device_info_impl.cc',
@@ -46,7 +46,7 @@
         'video_capture_module',
       ],
       'cflags_mozilla': [
-        '$(NSPR_CFLAGS)',
+        '$(MOZ_NSPR4_CFLAGS)',
       ],
       'sources': [
         'external/device_info_external.cc',
@@ -65,7 +65,7 @@
             '<(webrtc_root)/common.gyp:webrtc_common',
           ],
 	  'cflags_mozilla': [
-	    '$(NSPR_CFLAGS)',
+	    '$(MOZ_NSPR4_CFLAGS)',
           ],
           'conditions': [
            ['include_v4l2_video_capture==1', {

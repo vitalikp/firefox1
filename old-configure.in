@@ -47,9 +47,6 @@ dnl Set the version number of the libs included with mozilla
 dnl ========================================================
 MOZJPEG=62
 MOZPNG=10625
-NSPR_VERSION=4
-NSPR_MINVER=4.13.1
-NSS_VERSION=3
 
 dnl Set the minimum version of toolkit libs used by mozilla
 dnl ========================================================
@@ -2065,8 +2062,6 @@ WINNT|Darwin|Android)
   MOZ_FOLD_LIBS=
   ;;
 esac
-
-MOZ_CONFIG_NSPR()
 
 dnl ========================================================
 dnl system libevent Support
@@ -5383,8 +5378,6 @@ AC_SUBST_LIST(MOZ_BZ2_LIBS)
 AC_SUBST_LIST(MOZ_PNG_CFLAGS)
 AC_SUBST_LIST(MOZ_PNG_LIBS)
 
-AC_SUBST(MOZ_SYSTEM_NSPR)
-
 HOST_CMFLAGS=-fobjc-exceptions
 HOST_CMMFLAGS=-fobjc-exceptions
 OS_COMPILE_CMFLAGS=-fobjc-exceptions
@@ -5610,9 +5603,6 @@ fi
 
 AC_SUBST(MOZ_ENABLE_MASK_AS_SHORTHAND)
 
-# Avoid using obsolete NSPR features
-AC_DEFINE(NO_NSPR_10_SUPPORT)
-
 # Don't build NSS libpkix
 NSS_DISABLE_LIBPKIX=1
 AC_SUBST(NSS_DISABLE_LIBPKIX)
@@ -5708,10 +5698,6 @@ RC=
 # Run the SpiderMonkey 'configure' script.
 dist=$MOZ_BUILD_ROOT/dist
 ac_configure_args="$_SUBDIR_CONFIG_ARGS"
-
-# --with-system-nspr will have been converted into the relevant $NSPR_CFLAGS
-# and $NSPR_LIBS.
-ac_configure_args="`echo $ac_configure_args | sed -e 's/--with-system-nspr\S* *//'`"
 
 if test "$_INTL_API" = no; then
     ac_configure_args="$ac_configure_args --without-intl-api"

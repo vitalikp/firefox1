@@ -160,7 +160,7 @@ elif CONFIG['OS_ARCH'] == 'WINNT':
 
     LOCAL_INCLUDES += ['/security/sandbox/chromium-shim']
     LOCAL_INCLUDES += ['/security/sandbox/chromium']
-    CXXFLAGS += CONFIG['NSPR_CFLAGS']
+    CXXFLAGS += CONFIG['MOZ_NSPR4_CFLAGS']
 
     DISABLE_STL_WRAPPING = True
 
