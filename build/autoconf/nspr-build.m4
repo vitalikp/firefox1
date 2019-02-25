@@ -17,15 +17,6 @@ dnl     JS_STANDALONE=1 MOZ_BUILD_APP=js
 dnl ========================================================
 dnl = Find the right NSPR to use.
 dnl ========================================================
-MOZ_ARG_WITH_STRING(nspr-cflags,
-[  --with-nspr-cflags=FLAGS
-                          Pass FLAGS to CC when building code that uses NSPR.
-                          Use this when there's no accurate nspr-config
-                          script available.  This is the case when building
-                          SpiderMonkey as part of the Mozilla tree: the
-                          top-level configure script computes NSPR flags
-                          that accomodate the quirks of that environment.],
-    NSPR_CFLAGS=$withval)
 MOZ_ARG_WITH_STRING(nspr-libs,
 [  --with-nspr-libs=LIBS   Pass LIBS to LD when linking code that uses NSPR.
                           See --with-nspr-cflags for more details.],
@@ -46,7 +37,7 @@ MOZ_ARG_WITH_BOOL(system-nspr,
 
 dnl Pass at most one of
 dnl   --with-system-nspr
-dnl   --with-nspr-cflags/libs
+dnl   --with-nspr-libs
 
 AC_MSG_CHECKING([NSPR selection])
 nspr_opts=
@@ -55,7 +46,7 @@ if test -n "$_USE_SYSTEM_NSPR"; then
     nspr_opts="x$nspr_opts"
     which_nspr="system"
 fi
-if test -n "$NSPR_CFLAGS" -o -n "$NSPR_LIBS"; then
+if test -n "$NSPR_LIBS"; then
     nspr_opts="x$nspr_opts"
     which_nspr="command-line"
 fi
@@ -86,7 +77,7 @@ if test -n "$_USE_SYSTEM_NSPR"; then
     AM_PATH_NSPR($NSPR_MINVER, [MOZ_SYSTEM_NSPR=1], [AC_MSG_ERROR([you do not have NSPR installed or your version is older than $NSPR_MINVER.])])
 fi
 
-if test -n "$MOZ_SYSTEM_NSPR" -o -n "$NSPR_CFLAGS" -o -n "$NSPR_LIBS"; then
+if test -n "$MOZ_SYSTEM_NSPR" -o -n "$NSPR_LIBS"; then
     _SAVE_CFLAGS=$CFLAGS
     CFLAGS="$CFLAGS $NSPR_CFLAGS"
     AC_TRY_COMPILE([#include "prtypes.h"],
@@ -103,8 +94,6 @@ if test -n "$MOZ_SYSTEM_NSPR" -o -n "$NSPR_CFLAGS" -o -n "$NSPR_LIBS"; then
                 AC_MSG_ERROR([system NSPR does not support PR_UINT64 or including prtypes.h does not provide it]))
     CFLAGS=$_SAVE_CFLAGS
 fi
-
-AC_SUBST_LIST(NSPR_CFLAGS)
 
 fi # _IS_OUTER_CONFIGURE
 

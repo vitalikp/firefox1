@@ -5717,8 +5717,7 @@ if test "$_INTL_API" = no; then
     ac_configure_args="$ac_configure_args --without-intl-api"
 fi
 
-if test -n "$NSPR_CFLAGS" -o -n "$NSPR_LIBS"; then
-    ac_configure_args="$ac_configure_args --with-nspr-cflags='$NSPR_CFLAGS'"
+if test -n "$NSPR_LIBS"; then
     ac_configure_args="$ac_configure_args --with-nspr-libs='$NSPR_LIBS'"
 fi
 ac_configure_args="$ac_configure_args --prefix=$dist"
