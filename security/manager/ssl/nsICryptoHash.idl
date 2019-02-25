@@ -17,7 +17,8 @@ interface nsICryptoHash : nsISupports
      * Hashing Algorithms.  These values are to be used by the
      * |init| method to indicate which hashing function to
      * use.  These values map directly onto the values defined
-     * in mozilla/security/nss/lib/cryptohi/hasht.h.
+     * in hasht.h.
+     * https://hg.mozilla.org/projects/nss/file/tip/lib/util
      */
     const short MD2    = 1;  /* String value: "md2"    */
     const short MD5    = 2;  /* String value: "md5"    */

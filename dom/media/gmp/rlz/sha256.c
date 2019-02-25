@@ -2,9 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-// Stripped down version of security/nss/lib/freebl/sha512.c
-// and related headers.
-
 #include "sha256.h"
 #include "string.h"
 #include "prcpucfg.h"

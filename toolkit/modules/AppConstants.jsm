@@ -232,13 +232,6 @@ this.AppConstants = Object.freeze({
   false,
 #endif
 
-  MOZ_SYSTEM_NSS:
-#ifdef MOZ_SYSTEM_NSS
-  true,
-#else
-  false,
-#endif
-
   MOZ_PLACES:
 #ifdef MOZ_PLACES
   true,

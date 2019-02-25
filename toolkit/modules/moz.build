@@ -136,7 +136,6 @@ for var in ('ANDROID_PACKAGE_NAME',
             DEFINES[var] = CONFIG[var]
 
 for var in ('MOZ_TOOLKIT_SEARCH',
-            'MOZ_SYSTEM_NSS',
             'MOZ_UPDATER',
             'MOZ_SWITCHBOARD',
             'MOZ_SERVICES_CLOUDSYNC'):

@@ -23,7 +23,9 @@
 #include "mozilla/dom/WorkerPrivate.h"
 #include "mozilla/dom/workers/bindings/WorkerHolder.h"
 
-// Template taken from security/nss/lib/util/templates.c
+// https://hg.mozilla.org/projects/nss/file/tip/lib
+// Template taken from pkcs12/pkcs12t.h:328 and util/templates.c:125 
+// (need rename to sgn_DigestInfoTemplate?)
 // This (or SGN_EncodeDigestInfo) would ideally be exported
 // by NSS and until that happens we have to keep our own copy.
 const SEC_ASN1Template SGN_DigestInfoTemplate[] = {

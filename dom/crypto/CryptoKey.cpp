@@ -14,7 +14,8 @@
 #include "nsNSSComponent.h"
 #include "pk11pub.h"
 
-// Templates taken from security/nss/lib/cryptohi/seckey.c
+// https://hg.mozilla.org/projects/nss/file/tip/lib
+// Templates taken from cryptohi/seckey.c:88
 // These would ideally be exported by NSS and until that
 // happens we have to keep our own copies.
 const SEC_ASN1Template SECKEY_DHPublicKeyTemplate[] = {

@@ -147,12 +147,6 @@ elif action in ('update_nspr'):
     if not options.repo:
         options.repo = 'https://hg.mozilla.org/projects/nspr'
     update_nspr_or_nss(tag, depfile, 'nsprpub', options.repo)
-elif action in ('update_nss'):
-    tag, = args[1:]
-    depfile = "security/nss/coreconf/coreconf.dep"
-    if not options.repo:
-	    options.repo = 'https://hg.mozilla.org/projects/nss'
-    update_nspr_or_nss(tag, depfile, 'security/nss', options.repo)
 elif action in ('update_libffi'):
     tag, = args[1:]
     if not options.cvsroot:

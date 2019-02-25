@@ -234,7 +234,7 @@ prefix and suffix shall be given.
 
 Note that ``/path/from/topsrcdir/to/third-party`` and
 ``../relative/third-party/baz`` must lead under a subconfigured directory (a
-directory with an AC_OUTPUT_SUBDIRS in configure.in), or ``security/nss``.
+directory with an AC_OUTPUT_SUBDIRS in configure.in).
 
 
 Building both static and shared libraries

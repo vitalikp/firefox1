@@ -2,9 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-// Stripped down version of security/nss/lib/freebl/blapi.h
-// and related headers.
-
 #ifndef _SHA256_H_
 #define _SHA256_H_
 

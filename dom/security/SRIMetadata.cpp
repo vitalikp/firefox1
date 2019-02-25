@@ -147,7 +147,8 @@ SRIMetadata::GetHash(uint32_t aIndex, nsCString* outHash) const
 void
 SRIMetadata::GetHashType(int8_t* outType, uint32_t* outLength) const
 {
-  // these constants are defined in security/nss/lib/util/hasht.h and
+  // https://hg.mozilla.org/projects/nss/file/tip/lib/util
+  // these constants are defined in hasht.h and
   // netwerk/base/public/nsICryptoHash.idl
   switch (mAlgorithmType) {
     case nsICryptoHash::SHA256:

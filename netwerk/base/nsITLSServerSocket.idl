@@ -127,7 +127,8 @@ interface nsITLSClientStatus : nsISupports
    *
    * Name of the cipher suite used, such as
    * "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256".
-   * See security/nss/lib/ssl/sslinfo.c for the possible values.
+   * https://hg.mozilla.org/projects/nss/file/tip/lib/ssl
+   * See sslinfo.c for the possible values.
    */
   readonly attribute ACString cipherName;
 
