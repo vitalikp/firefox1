@@ -255,10 +255,10 @@ INCLUDES = \
   $(NULL)
 
 ifndef IS_GYP_DIR
-# NSPR_CFLAGS and NSS_CFLAGS must appear ahead of the other flags to avoid Linux
+# NSPR_CFLAGS and MOZ_NSS3_CFLAGS must appear ahead of the other flags to avoid Linux
 # builds wrongly picking up system NSPR/NSS header files.
 OS_INCLUDES := \
-  $(NSPR_CFLAGS) $(NSS_CFLAGS) \
+  $(NSPR_CFLAGS) $(MOZ_NSS3_CFLAGS) \
   $(MOZ_JPEG_CFLAGS) \
   $(MOZ_PNG_CFLAGS) \
   $(MOZ_ZLIB_CFLAGS) \

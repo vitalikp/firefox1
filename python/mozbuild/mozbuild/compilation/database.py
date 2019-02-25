@@ -125,7 +125,7 @@ class CompileDBBackend(CommonBackend):
             if directory not in self._gyp_dirs:
                 for var in (
                     'NSPR_CFLAGS',
-                    'NSS_CFLAGS',
+                    'MOZ_NSS3_CFLAGS',
                     'MOZ_JPEG_CFLAGS',
                     'MOZ_PNG_CFLAGS',
                     'MOZ_ZLIB_CFLAGS',

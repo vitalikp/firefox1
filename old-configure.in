@@ -2106,25 +2106,6 @@ LIBS=$_SAVE_LIBS
 
 AC_SUBST(MOZ_SYSTEM_LIBEVENT)
 
-dnl ========================================================
-dnl = If NSS was not detected in the system,
-dnl = use the one in the source tree (mozilla/security/nss)
-dnl ========================================================
-
-MOZ_ARG_WITH_BOOL(system-nss,
-[  --with-system-nss       Use system installed NSS],
-    _USE_SYSTEM_NSS=1 )
-
-if test -n "$_USE_SYSTEM_NSS"; then
-    AM_PATH_NSS(3.28.6, [MOZ_SYSTEM_NSS=1], [AC_MSG_ERROR([you don't have NSS installed or your version is too old])])
-fi
-
-if test -n "$MOZ_SYSTEM_NSS"; then
-   NSS_LIBS="$NSS_LIBS -lcrmf"
-else
-   NSS_CFLAGS="-I${DIST}/include/nss"
-fi
-
 if test -z "$SKIP_LIBRARY_CHECKS"; then
 dnl system JPEG support
 dnl ========================================================
@@ -5403,8 +5384,6 @@ AC_SUBST_LIST(MOZ_PNG_CFLAGS)
 AC_SUBST_LIST(MOZ_PNG_LIBS)
 
 AC_SUBST(MOZ_SYSTEM_NSPR)
-
-AC_SUBST(MOZ_SYSTEM_NSS)
 
 HOST_CMFLAGS=-fobjc-exceptions
 HOST_CMMFLAGS=-fobjc-exceptions

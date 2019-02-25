@@ -74,3 +74,31 @@ check_pkg('MOZ_GRAPHITE2', 'graphite2', '3.0.1', when=notjs_project)
 # Protocol Buffers
 # ==============================================================
 check_pkg('MOZ_PROTOBUF', 'protobuf', '3.5.0', when=notjs_project)
+
+# NSS
+# ==============================================================
+nss_config = check_cmd('nss-config')
+
+@template
+@imports('sys')
+def check_nss(var, minver, when=notjs_project):
+    @depends_when(nss_config, when=when)
+    def check_nss_conf(nss_config):
+        ver = Version(run_cmd(nss_config, '--version'))
+        if ver < minver:
+            log.error("*** Package 'nss' has version '%s', required version is '>= %s" % (ver, minver))
+            sys.exit(1)
+        log.info('-- Found nss %s' % ver)
+
+        flags = str(run_cmd(nss_config, '--cflags'))
+        log.info('    %s_CFLAGS: %s' % (var, flags))
+        conf('%s_CFLAGS' % var, flags.split())
+
+        libs = str(run_cmd(nss_config, '--libs'))
+        log.info('    %s_LIBS: %s' % (var, libs))
+        conf('%s_LIBS' % var, libs.split())
+
+        conf(var, True)
+    depends(check_nss_conf)
+
+check_nss('MOZ_NSS3', '3.28.6')
