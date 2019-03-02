@@ -75,6 +75,10 @@ check_pkg('MOZ_GRAPHITE2', 'graphite2', '3.0.1', when=notjs_project)
 # ==============================================================
 check_pkg('MOZ_PROTOBUF', 'protobuf', '3.5.0', when=notjs_project)
 
+# ALSA
+# ==============================================================
+check_pkg('MOZ_ALSA', 'alsa', '1.0', when=notjs_project)
+
 # NSS
 # ==============================================================
 nss_config = check_cmd('nss-config')
