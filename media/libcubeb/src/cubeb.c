@@ -24,9 +24,6 @@ struct cubeb_stream {
   struct cubeb * context;
 };
 
-#if defined(USE_PULSE)
-int pulse_init(cubeb ** context, char const * context_name);
-#endif
 #if defined(USE_JACK)
 int jack_init (cubeb ** context, char const * context_name);
 #endif
@@ -113,9 +110,6 @@ cubeb_init(cubeb ** context, char const * context_name)
   int (* init[])(cubeb **, char const *) = {
 #if defined(USE_JACK)
     jack_init,
-#endif
-#if defined(USE_PULSE)
-    pulse_init,
 #endif
 #if defined(USE_ALSA)
     alsa_init,

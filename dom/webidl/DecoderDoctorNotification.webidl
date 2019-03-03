@@ -8,7 +8,6 @@ enum DecoderDoctorNotificationType {
   "cannot-play",
   "platform-decoder-not-found",
   "can-play-but-some-missing-decoders",
-  "cannot-initialize-pulseaudio",
   "unsupported-libavcodec",
 };
 

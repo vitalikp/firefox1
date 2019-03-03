@@ -27,8 +27,7 @@ typedef void *DllHandle;
 // loading of symbols from DLLs. Currently the implementation only supports
 // Linux and OS X, and pure C symbols (or extern "C" symbols that wrap C++
 // functions).  Sub-classes for specific DLLs are generated via the "supermacro"
-// files latebindingsymboltable.h.def and latebindingsymboltable.cc.def. See
-// talk/sound/pulseaudiosymboltable.(h|cc) for an example.
+// files latebindingsymboltable.h.def and latebindingsymboltable.cc.def.
 class LateBindingSymbolTable {
  public:
   struct TableInfo {

@@ -38,7 +38,6 @@
 #endif
 
 #define ADM_AUDIO_LAYER AudioDeviceModule::kPlatformDefaultAudio
-//#define ADM_AUDIO_LAYER AudioDeviceModule::kLinuxPulseAudio
 
 enum TestType
 {

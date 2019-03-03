@@ -26,7 +26,6 @@ class OpenBSDBootstrapper(BaseBootstrapper):
             'gtk+2',
             'gtk+3',
             'dbus-glib',
-            'pulseaudio',
         ]
 
     def install_system_packages(self):

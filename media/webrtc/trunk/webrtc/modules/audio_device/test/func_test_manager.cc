@@ -732,9 +732,6 @@ int32_t FuncTestManager::TestAudioLayerSelection()
     } else if (audioLayer == AudioDeviceModule::kLinuxAlsaAudio)
     {
         TEST_LOG("\nActiveAudioLayer: kLinuxAlsaAudio\n \n");
-    } else if (audioLayer == AudioDeviceModule::kLinuxPulseAudio)
-    {
-        TEST_LOG("\nActiveAudioLayer: kLinuxPulseAudio\n \n");
     } else if (audioLayer == AudioDeviceModule::kSndioAudio)
     {
         TEST_LOG("\nActiveAudioLayer: kSndioAudio\n \n");
@@ -2385,21 +2382,7 @@ int32_t FuncTestManager::TestDeviceRemoval()
             AudioDeviceModule::AudioLayer audioLayer;
             EXPECT_EQ(0, audioDevice->ActiveAudioLayer(&audioLayer));
 
-            if (audioLayer == AudioDeviceModule::kLinuxPulseAudio)
-            {
-                TEST_LOG("\n \n> PulseAudio loopback audio is now active.\n"
-                    "> Rec : fs=%u, #channels=%u.\n"
-                    "> Play: fs=%u, #channels=%u.\n"
-                    "> Speak into the microphone and verify that your voice is"
-                    " played out in loopback.\n"
-                    "> Unplug the device and make sure that your voice is played"
-                    " out in loop back on the built-in soundcard.\n"
-                    "> Then press any key...\n",
-                         recSamplesPerSecRec, nRecChannels, playSamplesPerSec,
-                         nPlayChannels);
-
-                PAUSE(DEFAULT_PAUSE_TIME);
-            } else if (audioDevice->Playing() && audioDevice->Recording())
+            if (audioDevice->Playing() && audioDevice->Recording())
             {
                 if (loopCount < 1)
                 {

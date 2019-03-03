@@ -21,7 +21,6 @@
 // This file provides macros for creating "symbol table" classes to simplify the
 // dynamic loading of symbols from DLLs. Currently the implementation only
 // supports Linux and pure C symbols.
-// See talk/sound/pulseaudiosymboltable.(h|cc) for an example.
 
 namespace webrtc_adm_linux {
 

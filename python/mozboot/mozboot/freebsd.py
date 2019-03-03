@@ -26,7 +26,6 @@ class FreeBSDBootstrapper(BaseBootstrapper):
             'gconf2',
             'gtk2',
             'gtk3',
-            'pulseaudio',
             'v4l_compat',
             'yasm',
         ]

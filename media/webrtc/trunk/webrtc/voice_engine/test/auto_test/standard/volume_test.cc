@@ -102,8 +102,6 @@ TEST_F(VolumeTest, DefaultSpeakerVolumeIsAtMost255) {
 }
 
 TEST_F(VolumeTest, SetVolumeBeforePlayoutWorks) {
-  // This is a rather specialized test, intended to exercise some PulseAudio
-  // code. However, these conditions should be satisfied on any platform.
   unsigned int original_volume = 0;
   EXPECT_EQ(0, voe_volume_control_->GetSpeakerVolume(original_volume));
   Sleep(1000);

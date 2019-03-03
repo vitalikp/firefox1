@@ -24,7 +24,6 @@ PID    USER       NI  VIRT   RES   CPU% MEM%     TIME+  NAME
 989    giampaol    0   66M   12M    7.4  0.1   0:00.61  python
 2083   root        0  506M  159M    6.5  1.6   0:29.26  Xorg
 4503   giampaol    0  599M   25M    6.5  0.3   3:32.60  gnome-terminal
-3868   giampaol    0  358M    8M    2.8  0.1  23:12.60  pulseaudio
 3936   giampaol    0    1G  111M    2.8  1.1  33:41.67  compiz
 4401   giampaol    0  536M  141M    2.8  1.4  35:42.73  skype
 4047   giampaol    0  743M   76M    1.8  0.8  42:03.33  unity-panel-service

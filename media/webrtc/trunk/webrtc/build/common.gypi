@@ -135,10 +135,6 @@
 
     'conditions': [
       ['build_with_chromium==1', {
-        # Exclude pulse audio on Chromium since its prerequisites don't require
-        # pulse audio.
-        'include_pulse_audio%': 0,
-
         # Exclude internal ADM since Chromium uses its own IO handling.
         'include_internal_audio_device%': 0,
 
@@ -149,7 +145,6 @@
         # http://code.google.com/p/webrtc/issues/detail?id=163
         'clang_use_chrome_plugins%': 0,
 
-        'include_pulse_audio%': 1,
         'include_internal_audio_device%': 1,
         'include_ndk_cpu_features%': 0,
       }],
@@ -169,11 +164,6 @@
         'include_sndio_audio%': 1,
       }, {
         'include_sndio_audio%': 0,
-      }],
-      ['OS=="solaris" or (OS!="openbsd" and os_bsd==1)', {
-        'include_pulse_audio%': 1,
-      }, {
-        'include_pulse_audio%': 0,
       }],
       ['OS=="linux" or OS=="solaris" or os_bsd==1', {
         'include_v4l2_video_capture%': 1,

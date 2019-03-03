@@ -713,20 +713,6 @@ def findTestMediaDevices(log):
                            'v4l2sink', 'device=%s' % device])
     info['video'] = name
 
-    # Use pactl to see if the PulseAudio module-sine-source module is loaded.
-    def sine_source_loaded():
-        o = subprocess.check_output(
-            ['/usr/bin/pactl', 'list', 'short', 'modules'])
-        return filter(lambda x: 'module-sine-source' in x, o.splitlines())
-
-    if not sine_source_loaded():
-        # Load module-sine-source
-        subprocess.check_call(['/usr/bin/pactl', 'load-module',
-                               'module-sine-source'])
-    if not sine_source_loaded():
-        log.error('Couldn\'t load module-sine-source')
-        return None
-
     # Hardcode the name since it's always the same.
     info['audio'] = 'Sine source at 440 Hz'
     return info

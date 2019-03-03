@@ -45,9 +45,6 @@
  #if defined(LINUX_ALSA)
     #include "audio_device_alsa_linux.h"
  #endif
- #if defined(LINUX_PULSE)
-    #include "audio_device_pulse_linux.h"
- #endif
 #elif defined(WEBRTC_IOS)
     #include "audio_device_utility_ios.h"
     #include "audio_device_ios.h"
@@ -335,34 +332,15 @@ int32_t AudioDeviceModuleImpl::CreatePlatformSpecificObjects()
     // Create the *Linux* implementation of the Audio Device
     //
 #elif defined(WEBRTC_LINUX) || defined(WEBRTC_BSD)
-    if ((audioLayer == kLinuxPulseAudio) || (audioLayer == kPlatformDefaultAudio))
+    if (audioLayer == kPlatformDefaultAudio)
     {
-#if defined(LINUX_PULSE)
-        WEBRTC_TRACE(kTraceInfo, kTraceAudioDevice, _id, "attempting to use the Linux PulseAudio APIs...");
-
-        // create *Linux PulseAudio* implementation
-        AudioDeviceLinuxPulse* pulseDevice = new AudioDeviceLinuxPulse(Id());
-        if (pulseDevice->Init() != -1)
-        {
-            ptrAudioDevice = pulseDevice;
-            WEBRTC_TRACE(kTraceInfo, kTraceAudioDevice, _id, "Linux PulseAudio APIs will be utilized");
-        }
-        else
-        {
-            delete pulseDevice;
-#endif
 #if defined(LINUX_ALSA)
             // create *Linux ALSA Audio* implementation
             ptrAudioDevice = new AudioDeviceLinuxALSA(Id());
             if (ptrAudioDevice != NULL)
             {
-                // Pulse Audio was not supported => revert to ALSA instead
                 _platformAudioLayer = kLinuxAlsaAudio;  // modify the state set at construction
-                WEBRTC_TRACE(kTraceWarning, kTraceAudioDevice, _id, "Linux PulseAudio is *not* supported => ALSA APIs will be utilized instead");
             }
-#endif
-#if defined(LINUX_PULSE)
-        }
 #endif
     }
     else if (audioLayer == kLinuxAlsaAudio)

@@ -28,7 +28,6 @@ class AudioDeviceModule : public RefCountedModule {
     kWindowsWaveAudio = 1,
     kWindowsCoreAudio = 2,
     kLinuxAlsaAudio = 3,
-    kLinuxPulseAudio = 4,
     kAndroidJavaAudio = 5,
     kAndroidOpenSLESAudio = 6,
     kSndioAudio = 7,

@@ -59,10 +59,6 @@ declare_args() {
   rtc_use_lto = false
 
   if (build_with_chromium) {
-    # Exclude pulse audio on Chromium since its prerequisites don't require
-    # pulse audio.
-    rtc_include_pulse_audio = false
-
     # Exclude internal ADM since Chromium uses its own IO handling.
     rtc_include_internal_audio_device = false
 
@@ -74,7 +70,6 @@ declare_args() {
     # http://code.google.com/p/webrtc/issues/detail?id=163
     clang_use_chrome_plugins = false
 
-    rtc_include_pulse_audio = true
     rtc_include_internal_audio_device = true
   }
 

@@ -19,7 +19,6 @@ cp $1/src/cubeb_jack.cpp src
 cp $1/src/cubeb_opensl.c src
 cp $1/src/cubeb_panner.cpp src
 cp $1/src/cubeb_panner.h src
-cp $1/src/cubeb_pulse.c src
 cp $1/src/cubeb_resampler.cpp src
 cp $1/src/cubeb_resampler.h src
 cp $1/src/cubeb_resampler_internal.h src
@@ -69,9 +68,6 @@ patch -p1 < ./osx-linearize-operations.patch
 
 echo "Applying a patch on top of $version"
 patch -p1 < ./prevent-double-free.patch
-
-echo "Applying a patch on top of $version"
-patch -p1 < ./bug1292803_pulse_assert.patch
 
 echo "Applying a patch on top of $version"
 patch -p1 < ./uplift-wasapi-part-to-beta.patch

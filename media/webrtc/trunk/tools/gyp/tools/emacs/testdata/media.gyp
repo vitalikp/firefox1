@@ -5,8 +5,6 @@
 {
   'variables': {
     'chromium_code': 1,
-    # Override to dynamically link the PulseAudio library.
-    'use_pulseaudio%': 0,
     # Override to dynamically link the cras (ChromeOS audio) library.
     'use_cras%': 0,
   },
@@ -398,28 +396,6 @@
               'sources!': [
                 'audio/linux/cras_output.cc',
                 'audio/linux/cras_output.h',
-              ],
-            }],
-          ],
-        }],
-        ['os_posix == 1', {
-          'conditions': [
-            ['use_pulseaudio == 1', {
-              'cflags': [
-                '<!@(pkg-config --cflags libpulse)',
-              ],
-              'link_settings': {
-                'libraries': [
-                  '<!@(pkg-config --libs-only-l libpulse)',
-                ],
-              },
-              'defines': [
-                'USE_PULSEAUDIO',
-              ],
-            }, {  # else: use_pulseaudio == 0
-              'sources!': [
-                'audio/pulse/pulse_output.cc',
-                'audio/pulse/pulse_output.h',
               ],
             }],
           ],

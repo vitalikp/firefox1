@@ -221,8 +221,6 @@ class AudioDeviceAPITest: public testing::Test {
                 kId, AudioDeviceModule::kLinuxAlsaAudio)) == NULL);
     EXPECT_TRUE((audio_device_ = AudioDeviceModuleImpl::Create(
                 kId, AudioDeviceModule::kSndioAudio)) == NULL);
-    EXPECT_TRUE((audio_device_ = AudioDeviceModuleImpl::Create(
-                kId, AudioDeviceModule::kLinuxPulseAudio)) == NULL);
     // Create default implementation instance
     EXPECT_TRUE((audio_device_ = AudioDeviceModuleImpl::Create(
                 kId, AudioDeviceModule::kPlatformDefaultAudio)) != NULL);
@@ -237,9 +235,6 @@ class AudioDeviceAPITest: public testing::Test {
     audio_device_->AddRef();
     EXPECT_EQ(0, audio_device_->Terminate());
     EXPECT_EQ(0, audio_device_->Release());
-    // explicitly specify usage of Pulse Audio (same as default)
-    EXPECT_TRUE((audio_device_ = AudioDeviceModuleImpl::Create(
-                kId, AudioDeviceModule::kLinuxPulseAudio)) != NULL);
 #endif
 
 #if defined(WEBRTC_MAC)
@@ -250,8 +245,6 @@ class AudioDeviceAPITest: public testing::Test {
                 kId, AudioDeviceModule::kWindowsCoreAudio)) == NULL);
     EXPECT_TRUE((audio_device_ = AudioDeviceModuleImpl::Create(
                 kId, AudioDeviceModule::kLinuxAlsaAudio)) == NULL);
-    EXPECT_TRUE((audio_device_ = AudioDeviceModuleImpl::Create(
-                kId, AudioDeviceModule::kLinuxPulseAudio)) == NULL);
     EXPECT_TRUE((audio_device_ = AudioDeviceModuleImpl::Create(
                 kId, AudioDeviceModule::kSndioAudio)) == NULL);
     // Create default implementation instance

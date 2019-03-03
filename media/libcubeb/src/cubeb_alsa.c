@@ -23,8 +23,6 @@
 
 #define CUBEB_ALSA_PCM_NAME "default"
 
-#define ALSA_PA_PLUGIN "ALSA <-> PulseAudio PCM I/O Plugin"
-
 /* ALSA is not thread-safe.  snd_pcm_t instances are individually protected
    by the owning cubeb_stream's mutex.  snd_pcm_t creation and destruction
    is not thread-safe until ALSA 1.0.24 (see alsa-lib.git commit 91c9c8f1),
@@ -59,12 +57,6 @@ struct cubeb {
   /* Track number of active streams.  This is limited to CUBEB_STREAM_MAX
      due to resource contraints. */
   unsigned int active_streams;
-
-  /* Local configuration with handle_underrun workaround set for PulseAudio
-     ALSA plugin.  Will be NULL if the PA ALSA plugin is not in use or the
-     workaround is not required. */
-  snd_config_t * local_config;
-  int is_pa;
 };
 
 enum stream_state {
@@ -102,8 +94,8 @@ struct cubeb_stream {
 
   /* XXX: Horrible hack -- if an active stream has been idle for
      CUBEB_WATCHDOG_MS it will be disabled and the error callback will be
-     called.  This works around a bug seen with older versions of ALSA and
-     PulseAudio where streams would stop requesting new data despite still
+     called.  This works around a bug seen with older versions of ALSA
+     where streams would stop requesting new data despite still
      being logically active and playing. */
   struct timeval last_activity;
   float volume;
@@ -483,109 +475,13 @@ get_slave_pcm_node(snd_config_t * lconf, snd_config_t * root_pcm)
   return NULL;
 }
 
-/* Work around PulseAudio ALSA plugin bug where the PA server forces a
-   higher than requested latency, but the plugin does not update its (and
-   ALSA's) internal state to reflect that, leading to an immediate underrun
-   situation.  Inspired by WINE's make_handle_underrun_config.
-   Reference: http://mailman.alsa-project.org/pipermail/alsa-devel/2012-July/05 */
-static snd_config_t *
-init_local_config_with_workaround(char const * pcm_name)
-{
-  int r;
-  snd_config_t * lconf;
-  snd_config_t * pcm_node;
-  snd_config_t * node;
-  char const * string;
-  char node_name[64];
-
-  lconf = NULL;
-
-  if (snd_config == NULL) {
-    return NULL;
-  }
-
-  r = snd_config_copy(&lconf, snd_config);
-  if (r < 0) {
-    return NULL;
-  }
-
-  do {
-    r = snd_config_search_definition(lconf, "pcm", pcm_name, &pcm_node);
-    if (r < 0) {
-      break;
-    }
-
-    r = snd_config_get_id(pcm_node, &string);
-    if (r < 0) {
-      break;
-    }
-
-    r = snprintf(node_name, sizeof(node_name), "pcm.%s", string);
-    if (r < 0 || r > (int) sizeof(node_name)) {
-      break;
-    }
-    r = snd_config_search(lconf, node_name, &pcm_node);
-    if (r < 0) {
-      break;
-    }
-
-    /* If this PCM has a slave, walk the slave configurations until we reach the bottom. */
-    while ((node = get_slave_pcm_node(lconf, pcm_node)) != NULL) {
-      pcm_node = node;
-    }
-
-    /* Fetch the PCM node's type, and bail out if it's not the PulseAudio plugin. */
-    r = snd_config_search(pcm_node, "type", &node);
-    if (r < 0) {
-      break;
-    }
-
-    r = snd_config_get_string(node, &string);
-    if (r < 0) {
-      break;
-    }
-
-    if (strcmp(string, "pulse") != 0) {
-      break;
-    }
-
-    /* Don't clobber an explicit existing handle_underrun value, set it only
-       if it doesn't already exist. */
-    r = snd_config_search(pcm_node, "handle_underrun", &node);
-    if (r != -ENOENT) {
-      break;
-    }
-
-    /* Disable pcm_pulse's asynchronous underrun handling. */
-    r = snd_config_imake_integer(&node, "handle_underrun", 0);
-    if (r < 0) {
-      break;
-    }
-
-    r = snd_config_add(pcm_node, node);
-    if (r < 0) {
-      break;
-    }
-
-    return lconf;
-  } while (0);
-
-  snd_config_delete(lconf);
-
-  return NULL;
-}
-
 static int
-alsa_locked_pcm_open(snd_pcm_t ** pcm, snd_pcm_stream_t stream, snd_config_t * local_config)
+alsa_locked_pcm_open(snd_pcm_t ** pcm, snd_pcm_stream_t stream)
 {
   int r;
 
   pthread_mutex_lock(&cubeb_alsa_mutex);
-  if (local_config) {
-    r = snd_pcm_open_lconf(pcm, CUBEB_ALSA_PCM_NAME, stream, SND_PCM_NONBLOCK, local_config);
-  } else {
-    r = snd_pcm_open(pcm, CUBEB_ALSA_PCM_NAME, stream, SND_PCM_NONBLOCK);
-  }
+  r = snd_pcm_open(pcm, CUBEB_ALSA_PCM_NAME, stream, SND_PCM_NONBLOCK);
   pthread_mutex_unlock(&cubeb_alsa_mutex);
 
   return r;
@@ -705,29 +601,9 @@ alsa_init(cubeb ** context, char const * context_name)
   r = pthread_attr_destroy(&attr);
   assert(r == 0);
 
-  /* Open a dummy PCM to force the configuration space to be evaluated so that
-     init_local_config_with_workaround can find and modify the default node. */
-  r = alsa_locked_pcm_open(&dummy, SND_PCM_STREAM_PLAYBACK, NULL);
+  r = alsa_locked_pcm_open(&dummy, SND_PCM_STREAM_PLAYBACK);
   if (r >= 0) {
     alsa_locked_pcm_close(dummy);
-  }
-  ctx->is_pa = 0;
-  pthread_mutex_lock(&cubeb_alsa_mutex);
-  ctx->local_config = init_local_config_with_workaround(CUBEB_ALSA_PCM_NAME);
-  pthread_mutex_unlock(&cubeb_alsa_mutex);
-  if (ctx->local_config) {
-    ctx->is_pa = 1;
-    r = alsa_locked_pcm_open(&dummy, SND_PCM_STREAM_PLAYBACK, ctx->local_config);
-    /* If we got a local_config, we found a PA PCM.  If opening a PCM with that
-       config fails with EINVAL, the PA PCM is too old for this workaround. */
-    if (r == -EINVAL) {
-      pthread_mutex_lock(&cubeb_alsa_mutex);
-      snd_config_delete(ctx->local_config);
-      pthread_mutex_unlock(&cubeb_alsa_mutex);
-      ctx->local_config = NULL;
-    } else if (r >= 0) {
-      alsa_locked_pcm_close(dummy);
-    }
   }
 
   *context = ctx;
@@ -761,12 +637,6 @@ alsa_destroy(cubeb * ctx)
   close(ctx->control_fd_write);
   pthread_mutex_destroy(&ctx->mutex);
   free(ctx->fds);
-
-  if (ctx->local_config) {
-    pthread_mutex_lock(&cubeb_alsa_mutex);
-    snd_config_delete(ctx->local_config);
-    pthread_mutex_unlock(&cubeb_alsa_mutex);
-  }
 
   free(ctx);
 }
@@ -844,7 +714,7 @@ alsa_stream_init(cubeb * ctx, cubeb_stream ** stream, char const * stream_name,
   r = pthread_mutex_init(&stm->mutex, NULL);
   assert(r == 0);
 
-  r = alsa_locked_pcm_open(&stm->pcm, SND_PCM_STREAM_PLAYBACK, ctx->local_config);
+  r = alsa_locked_pcm_open(&stm->pcm, SND_PCM_STREAM_PLAYBACK);
   if (r < 0) {
     alsa_stream_destroy(stm);
     return CUBEB_ERROR;
@@ -854,14 +724,6 @@ alsa_stream_init(cubeb * ctx, cubeb_stream ** stream, char const * stream_name,
   assert(r == 0);
 
   latency_us = latency_frames * 1e6 / stm->params.rate;
-
-  /* Ugly hack: the PA ALSA plugin allows buffer configurations that can't
-     possibly work.  See https://bugzilla.mozilla.org/show_bug.cgi?id=761274.
-     Only resort to this hack if the handle_underrun workaround failed. */
-  if (!ctx->local_config && ctx->is_pa) {
-    const int min_latency = 5e5;
-    latency_us = latency_us < min_latency ? min_latency: latency_us;
-  }
 
   r = snd_pcm_set_params(stm->pcm, format, SND_PCM_ACCESS_RW_INTERLEAVED,
                          stm->params.channels, stm->params.rate, 1,

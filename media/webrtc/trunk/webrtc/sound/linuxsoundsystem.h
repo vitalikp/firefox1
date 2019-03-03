@@ -16,22 +16,9 @@
 namespace rtc {
 
 extern const SoundSystemCreator kLinuxSoundSystemCreators[
-#ifdef HAVE_LIBPULSE
-    2
-#else
     1
-#endif
     ];
 
-// The vast majority of Linux systems use ALSA for the device-level sound API,
-// but an increasing number are using PulseAudio for the application API and
-// only using ALSA internally in PulseAudio itself. But like everything on
-// Linux this is user-configurable, so we need to support both and choose the
-// right one at run-time.
-// PulseAudioSoundSystem is designed to only successfully initialize if
-// PulseAudio is installed and running, and if it is running then direct device
-// access using ALSA typically won't work, so if PulseAudioSoundSystem
-// initializes then we choose that. Otherwise we choose ALSA.
 typedef AutomaticallyChosenSoundSystem<
     kLinuxSoundSystemCreators,
     ARRAY_SIZE(kLinuxSoundSystemCreators)> LinuxSoundSystem;

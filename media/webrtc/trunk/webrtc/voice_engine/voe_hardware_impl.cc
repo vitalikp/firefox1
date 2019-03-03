@@ -78,9 +78,6 @@ int VoEHardwareImpl::SetAudioDeviceLayer(AudioLayers audioLayer)
         case kAudioLinuxAlsa:
             wantedLayer = AudioDeviceModule::kLinuxAlsaAudio;
             break;
-        case kAudioLinuxPulse:
-            wantedLayer = AudioDeviceModule::kLinuxPulseAudio;
-            break;
         case kAudioSndio:
             wantedLayer = AudioDeviceModule::kSndioAudio;
             break;
@@ -132,9 +129,6 @@ int VoEHardwareImpl::GetAudioDeviceLayer(AudioLayers& audioLayer)
             break;
         case AudioDeviceModule::kLinuxAlsaAudio:
             audioLayer = kAudioLinuxAlsa;
-            break;
-        case AudioDeviceModule::kLinuxPulseAudio:
-            audioLayer = kAudioLinuxPulse;
             break;
         case AudioDeviceModule::kSndioAudio:
             audioLayer = kAudioSndio;

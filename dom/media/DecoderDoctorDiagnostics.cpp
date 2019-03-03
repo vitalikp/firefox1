@@ -269,9 +269,6 @@ static const NotificationAndReportStringId sMediaCannotPlayNoDecoders =
 static const NotificationAndReportStringId sMediaNoDecoders =
   { dom::DecoderDoctorNotificationType::Can_play_but_some_missing_decoders,
     "MediaNoDecoders" };
-static const NotificationAndReportStringId sCannotInitializePulseAudio =
-  { dom::DecoderDoctorNotificationType::Cannot_initialize_pulseaudio,
-    "MediaCannotInitializePulseAudio" };
 static const NotificationAndReportStringId sUnsupportedLibavcodec =
   { dom::DecoderDoctorNotificationType::Unsupported_libavcodec,
     "MediaUnsupportedLibavcodec" };
@@ -285,7 +282,6 @@ sAllNotificationsAndReportStringIds[] =
   &sMediaPlatformDecoderNotFound,
   &sMediaCannotPlayNoDecoders,
   &sMediaNoDecoders,
-  &sCannotInitializePulseAudio,
   &sUnsupportedLibavcodec,
 };
 
@@ -791,25 +787,6 @@ DecoderDoctorDiagnostics::StoreEvent(nsIDocument* aDocument,
             this, GetDescription().get(), aCallSite);
     return;
   }
-
-  // Don't keep events for later processing, just handle them now.
-#ifdef MOZ_PULSEAUDIO
-  switch (aEvent.mDomain) {
-    case DecoderDoctorEvent::eAudioSinkStartup:
-      if (aEvent.mResult == NS_ERROR_DOM_MEDIA_CUBEB_INITIALIZATION_ERR) {
-        DD_INFO("DecoderDoctorDocumentWatcher[%p, doc=%p]::AddDiagnostics() - unable to initialize PulseAudio",
-                this, aDocument);
-        ReportAnalysis(aDocument, sCannotInitializePulseAudio,
-                       false, NS_LITERAL_STRING("*"));
-      } else if (aEvent.mResult == NS_OK) {
-        DD_INFO("DecoderDoctorDocumentWatcher[%p, doc=%p]::AddDiagnostics() - now able to initialize PulseAudio",
-                this, aDocument);
-        ReportAnalysis(aDocument, sCannotInitializePulseAudio,
-                       true, NS_LITERAL_STRING("*"));
-      }
-      break;
-  }
-#endif // MOZ_PULSEAUDIO
 }
 
 static const char*

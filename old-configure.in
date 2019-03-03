@@ -3102,37 +3102,6 @@ AC_DEFINE(MOZ_WEBM_ENCODER)
 AC_SUBST(MOZ_WEBM_ENCODER)
 
 dnl ========================================================
-dnl = Disable PulseAudio
-dnl ========================================================
-
-dnl If using Desktop Linux, ensure that the PA library is available
-case "$OS_TARGET" in
-WINNT|Darwin|Android|OpenBSD)
-    ;;
-*)
-    MOZ_PULSEAUDIO=1
-    ;;
-esac
-
-MOZ_ARG_DISABLE_BOOL(pulseaudio,
-[  --disable-pulseaudio          Disable PulseAudio support],
-   MOZ_PULSEAUDIO=,
-   MOZ_PULSEAUDIO=1)
-
-if test -n "$MOZ_PULSEAUDIO"; then
-    AC_DEFINE(MOZ_PULSEAUDIO)
-    if test -z "$gonkdir"; then
-        PKG_CHECK_MODULES(MOZ_PULSEAUDIO, libpulse, ,
-             [echo "$MOZ_PULSEAUDIO_PKG_ERRORS"
-              AC_MSG_ERROR([pulseaudio audio backend requires libpulse development package])])
-    else
-        MOZ_PULSEAUDIO_CFLAGS="-I$gonkdir/external/pulseaudio/pulseaudio/src"
-    fi
-fi
-
-AC_SUBST(MOZ_PULSEAUDIO)
-
-dnl ========================================================
 dnl NegotiateAuth
 dnl ========================================================
 

@@ -66,11 +66,11 @@
             'sndio',
           ],
         }], # include_sndio_audio==1
-        ['OS=="linux" or include_alsa_audio==1 or include_pulse_audio==1', {
+        ['OS=="linux" or include_alsa_audio==1', {
           'include_dirs': [
             'linux',
           ],
-        }], # OS=="linux" or include_alsa_audio==1 or include_pulse_audio==1
+        }], # OS=="linux" or include_alsa_audio==1
         ['OS=="ios"', {
           'include_dirs': [
             'ios',
@@ -241,22 +241,6 @@
                 'linux/audio_device_alsa_linux.h',
                 'linux/audio_mixer_manager_alsa_linux.cc',
                 'linux/audio_mixer_manager_alsa_linux.h',
-              ],
-            }],
-            ['include_pulse_audio==1', {
-              'cflags_mozilla': [
-                '$(MOZ_PULSEAUDIO_CFLAGS)',
-              ],
-              'defines': [
-                'LINUX_PULSE',
-              ],
-              'sources': [
-                'linux/audio_device_pulse_linux.cc',
-                'linux/audio_device_pulse_linux.h',
-                'linux/audio_mixer_manager_pulse_linux.cc',
-                'linux/audio_mixer_manager_pulse_linux.h',
-                'linux/pulseaudiosymboltable_linux.cc',
-                'linux/pulseaudiosymboltable_linux.h',
               ],
             }],
             ['OS=="mac"', {
