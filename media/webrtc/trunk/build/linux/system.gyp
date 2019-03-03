@@ -236,30 +236,6 @@
       ],
     },
     {
-      'target_name': 'gconf',
-      'type': 'none',
-      'conditions': [
-        ['use_gconf==1 and _toolset=="target"', {
-          'direct_dependent_settings': {
-            'cflags': [
-              '<!@(<(pkg-config) --cflags gconf-2.0)',
-            ],
-            'defines': [
-              'USE_GCONF',
-            ],
-          },
-          'link_settings': {
-            'ldflags': [
-              '<!@(<(pkg-config) --libs-only-L --libs-only-other gconf-2.0)',
-            ],
-            'libraries': [
-              '<!@(<(pkg-config) --libs-only-l gconf-2.0)',
-            ],
-          },
-        }],
-      ],
-    },
-    {
       'target_name': 'gio',
       'type': 'none',
       'conditions': [

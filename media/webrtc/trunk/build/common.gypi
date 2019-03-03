@@ -1246,13 +1246,10 @@
         'libjpeg_gyp_path': '../third_party/libjpeg_turbo/libjpeg.gyp',
       }],
 
-      # Options controlling the use of GConf (the classic GNOME configuration
-      # system) and GIO, which contains GSettings (the new GNOME config system).
+      # Options controlling the use of GIO, which contains GSettings (the new GNOME config system).
       ['chromeos==1', {
-        'use_gconf%': 0,
         'use_gio%': 0,
       }, {
-        'use_gconf%': 1,
         'use_gio%': 1,
       }],
 

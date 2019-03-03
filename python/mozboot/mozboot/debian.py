@@ -53,7 +53,6 @@ class DebianBootstrapper(BaseBootstrapper):
         'libcurl4-openssl-dev',
         'libdbus-1-dev',
         'libdbus-glib-1-dev',
-        'libgconf2-dev',
         'libgtk-3-dev',
         'libgtk2.0-dev',
         'libiw-dev',

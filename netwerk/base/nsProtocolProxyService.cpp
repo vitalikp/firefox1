@@ -1851,8 +1851,8 @@ nsProtocolProxyService::Resolve_Internal(nsIChannel *channel,
     }
 
     if (mSystemProxySettings && mProxyConfig == PROXYCONFIG_SYSTEM) {
-        // If the system proxy setting implementation is not threadsafe (e.g
-        // linux gconf), we'll do it inline here. Such implementations promise
+        // If the system proxy setting implementation is not threadsafe
+        // we'll do it inline here. Such implementations promise
         // not to block
 
         nsAutoCString PACURI;

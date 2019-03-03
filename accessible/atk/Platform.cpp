@@ -7,7 +7,6 @@
 #include "Platform.h"
 
 #include "nsIAccessibleEvent.h"
-#include "nsIGConfService.h"
 #include "nsIServiceManager.h"
 #include "nsMai.h"
 #include "AtkSocketAccessible.h"
@@ -364,14 +363,6 @@ dbus_done:
   if (dbusSuccess)
     return sShouldEnable;
 #endif
-
-  //check gconf-2 setting
-#define GCONF_A11Y_KEY "/desktop/gnome/interface/accessibility"
-  nsresult rv = NS_OK;
-  nsCOMPtr<nsIGConfService> gconf =
-    do_GetService(NS_GCONFSERVICE_CONTRACTID, &rv);
-  if (NS_SUCCEEDED(rv) && gconf)
-    gconf->GetBool(NS_LITERAL_CSTRING(GCONF_A11Y_KEY), &sShouldEnable);
 
   return sShouldEnable;
 }

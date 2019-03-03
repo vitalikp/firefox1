@@ -29,7 +29,6 @@ class CentOSFedoraBootstrapper(BaseBootstrapper):
 
         self.browser_packages = [
             'alsa-lib-devel',
-            'GConf2-devel',
             'glibc-static',
             'gtk2-devel',  # It is optional in Fedora 20's GNOME Software
                            # Development group.
