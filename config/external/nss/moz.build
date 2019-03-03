@@ -6,25 +6,8 @@
 
 DIRS += ['crmf']
 
-if CONFIG['MOZ_NSS3']:
-    Library('nss')
-    OS_LIBS += CONFIG['MOZ_NSS3_LIBS']
-elif CONFIG['MOZ_FOLD_LIBS']:
-    GeckoSharedLibrary('nss', linkage=None)
-    # TODO: The library name can be changed when bug 845217 is fixed.
-    SHARED_LIBRARY_NAME = 'nss3'
-
-    SDK_LIBRARY = True
-
-    USE_LIBS += [
-        'nspr4',
-        'plc4',
-        'plds4',
-    ]
-
-    OS_LIBS += CONFIG['REALTIME_LIBS']
-
-    SYMBOLS_FILE = 'nss.symbols'
+Library('nss')
+OS_LIBS += CONFIG['MOZ_NSS3_LIBS']
 
 
 # XXX: We should fix these warnings.

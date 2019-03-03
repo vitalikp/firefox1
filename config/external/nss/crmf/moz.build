@@ -6,6 +6,5 @@
 
 Library('crmf')
 
-if CONFIG['MOZ_NSS3']:
-    OS_LIBS += [l for l in CONFIG['MOZ_NSS3_LIBS'] if l.startswith('-L')]
-    OS_LIBS += ['-lcrmf']
+OS_LIBS += [l for l in CONFIG['MOZ_NSS3_LIBS'] if l.startswith('-L')]
+OS_LIBS += ['-lcrmf']
