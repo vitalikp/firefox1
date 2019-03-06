@@ -94,12 +94,7 @@ FINAL_LIBRARY = 'xul'
 # registering its allocator, causing memory management failures (bug 938730).
 # However, this is not an issue if both the jemalloc allocator and the default
 # allocator are the same thing.
-#
-# Note: On Windows our sqlite build assumes we use jemalloc.  If you disable
-# MOZ_STORAGE_MEMORY on Windows, you will also need to change the "ifdef
-# MOZ_MEMORY" options in db/sqlite3/src/Makefile.in.
-if CONFIG['MOZ_MEMORY'] and (not CONFIG['MOZ_SYSTEM_SQLITE']
-                             or CONFIG['MOZ_SYSTEM_JEMALLOC']):
+if CONFIG['MOZ_MEMORY'] and CONFIG['MOZ_SYSTEM_JEMALLOC']:
     if CONFIG['OS_TARGET'] != 'Android':
         DEFINES['MOZ_STORAGE_MEMORY'] = True
 
@@ -109,12 +104,10 @@ DEFINES['SQLITE_MAX_LIKE_PATTERN_LENGTH'] = 50000
 
 # See Sqlite moz.build for reasoning about TEMP_STORE.
 # For system sqlite we cannot use the compile time option, so we use a pragma.
-if CONFIG['MOZ_SYSTEM_SQLITE'] and (CONFIG['OS_TARGET'] == 'Android'
-                                    or CONFIG['HAVE_64BIT_BUILD']):
+if (CONFIG['OS_TARGET'] == 'Android' or CONFIG['HAVE_64BIT_BUILD']):
     DEFINES['MOZ_MEMORY_TEMP_STORE_PRAGMA'] = True
 
 LOCAL_INCLUDES += [
-    '/db/sqlite3/src',
     '/dom/base',
 ]
 

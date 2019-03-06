@@ -7,11 +7,12 @@
 #ifndef mozilla_storage_SQLCollations_h
 #define mozilla_storage_SQLCollations_h
 
+#include <sqlite3.h>
+
 #include "mozStorageService.h"
 #include "nscore.h"
 #include "nsString.h"
 
-#include "sqlite3.h"
 
 namespace mozilla {
 namespace storage {

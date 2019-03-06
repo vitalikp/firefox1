@@ -7,7 +7,7 @@
 #ifndef mozStorageStatementData_h
 #define mozStorageStatementData_h
 
-#include "sqlite3.h"
+#include <sqlite3.h>
 
 #include "nsAutoPtr.h"
 #include "nsTArray.h"

@@ -23,8 +23,6 @@ test_file_perms()
   uint32_t perms = 0;
   do_check_success(dbFile->GetPermissions(&perms));
 
-  // This reflexts the permissions defined by SQLITE_DEFAULT_FILE_PERMISSIONS in
-  // db/sqlite3/src/Makefile.in and must be kept in sync with that
 #ifdef ANDROID
   do_check_true(perms == (PR_IRUSR | PR_IWUSR));
 #elif defined(XP_WIN)

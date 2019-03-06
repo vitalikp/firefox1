@@ -5,6 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include <inttypes.h>
+#include <sqlite3.h>
 
 #include "mozilla/ArrayUtils.h"
 #include "mozilla/Attributes.h"
@@ -47,7 +48,6 @@
 
 #include "mozilla/Telemetry.h"
 
-#include "sqlite3.h"
 #include "mozilla/storage.h"
 #include "nsVariant.h"
 #include "mozilla/BasePrincipal.h"

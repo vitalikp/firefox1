@@ -11,7 +11,8 @@
  * This file contains convenience methods for mozStorage.
  */
 
-#include "sqlite3.h"
+#include <sqlite3.h>
+
 #include "nsIVariant.h"
 #include "nsError.h"
 #include "nsAutoPtr.h"

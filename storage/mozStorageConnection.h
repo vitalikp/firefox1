@@ -7,6 +7,8 @@
 #ifndef mozilla_storage_Connection_h
 #define mozilla_storage_Connection_h
 
+#include <sqlite3.h>
+
 #include "nsAutoPtr.h"
 #include "nsCOMPtr.h"
 #include "mozilla/Mutex.h"
@@ -25,7 +27,6 @@
 #include "nsIMutableArray.h"
 #include "mozilla/Attributes.h"
 
-#include "sqlite3.h"
 
 class nsIFile;
 class nsIFileURL;

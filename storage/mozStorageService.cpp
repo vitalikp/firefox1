@@ -4,6 +4,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+#include <sqlite3.h>
+
 #include "mozilla/Attributes.h"
 #include "mozilla/DebugOnly.h"
 
@@ -25,7 +27,6 @@
 #include "mozIStorageCompletionCallback.h"
 #include "mozIStoragePendingStatement.h"
 
-#include "sqlite3.h"
 
 #ifdef SQLITE_OS_WIN
 // "windows.h" was included and it can #define lots of things we care about...
@@ -49,8 +50,6 @@
 
 #define PREF_TS_PAGESIZE "toolkit.storage.pageSize"
 
-// This value must be kept in sync with the value of SQLITE_DEFAULT_PAGE_SIZE in
-// db/sqlite3/src/Makefile.in.
 #define PREF_TS_PAGESIZE_DEFAULT 32768
 
 namespace mozilla {

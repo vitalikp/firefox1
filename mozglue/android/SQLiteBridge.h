@@ -5,7 +5,7 @@
 #ifndef SQLiteBridge_h
 #define SQLiteBridge_h
 
-#include "sqlite3.h"
+#include <sqlite3.h>
 
 void setup_sqlite_functions(void *sqlite_handle);
 

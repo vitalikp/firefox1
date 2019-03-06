@@ -7,10 +7,11 @@
 #ifndef mozStorageArgValueArray_h
 #define mozStorageArgValueArray_h
 
+#include <sqlite3.h>
+
 #include "mozIStorageValueArray.h"
 #include "mozilla/Attributes.h"
 
-#include "sqlite3.h"
 
 namespace mozilla {
 namespace storage {

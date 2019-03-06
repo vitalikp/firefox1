@@ -7,7 +7,8 @@
 #ifndef mozStorageSQLFunctions_h
 #define mozStorageSQLFunctions_h
 
-#include "sqlite3.h"
+#include <sqlite3.h>
+
 #include "nscore.h"
 
 namespace mozilla {

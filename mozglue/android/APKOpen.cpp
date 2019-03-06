@@ -27,7 +27,8 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <sys/prctl.h>
-#include "sqlite3.h"
+#include <sqlite3.h>
+
 #include "SQLiteBridge.h"
 #include "NSSBridge.h"
 #include "ElfLoader.h"

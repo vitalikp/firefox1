@@ -40,7 +40,6 @@ public class SQLiteBridge {
     private static final int RESULT_INSERT_ROW_ID = 0;
     private static final int RESULT_ROWS_CHANGED = 1;
 
-    // Shamelessly cribbed from db/sqlite3/src/moz.build.
     private static final int DEFAULT_PAGE_SIZE_BYTES = 32768;
 
     // The same size we use elsewhere.

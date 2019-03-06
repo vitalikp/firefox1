@@ -1,13 +1,14 @@
 /* Any copyright is dedicated to the Public Domain.
    http://creativecommons.org/publicdomain/zero/1.0/ */
 
+#include <sqlite3.h>
+
 #include "storage_test_harness.h"
 #include "prthread.h"
 #include "nsIEventTarget.h"
 #include "nsIInterfaceRequestorUtils.h"
 #include "mozilla/Attributes.h"
 
-#include "sqlite3.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 //// Async Helpers

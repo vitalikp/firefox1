@@ -1,12 +1,13 @@
 /* Any copyright is dedicated to the Public Domain.
    http://creativecommons.org/publicdomain/zero/1.0/ */
 
+#include <sqlite3.h>
+
 #include "storage_test_harness.h"
 
 #include "nsIEventTarget.h"
 #include "mozStorageConnection.h"
 
-#include "sqlite3.h"
 
 using namespace mozilla;
 using namespace mozilla::storage;
