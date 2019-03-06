@@ -75,6 +75,34 @@ def check_pkg(var, pkg, minver, when=always):
 
     depends(check_pkg_conf)
 
+@imports('os')
+@imports(_from='tempfile', _import='mkstemp')
+def testconf(cc, name, flags, includes, source, onerror=None):
+    flags = flags or []
+    tn = 'testconf.%s' % name
+    test = '/tmp/' + tn
+    fd, path = mkstemp(prefix=tn, suffix='.c')
+    
+    code = ''
+    for f in includes:
+        code += '#include <%s>\n' % f
+    code += 'int main(){ %s return 0;}' % source
+    
+    try:
+        log.debug('Creating `%s` with content:', path)
+        os.write(fd, code)
+        os.close(fd)
+        
+        cmd = [cc.compiler]
+        cmd += list(flags)
+        cmd += [path, '-o', test]
+        res = run_cmd(*cmd, onerror=onerror)
+        res = run_cmd(test, onerror=onerror)
+        os.remove(test)
+        return res
+    finally:
+        os.remove(path)
+
 # Graphite2
 # ==============================================================
 check_pkg('MOZ_GRAPHITE2', 'graphite2', '3.0.1', when=notjs_project)
