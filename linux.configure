@@ -7,8 +7,8 @@ def notjs_project(build_project):
 def conf(name, value):
     __sandbox__.set_config_impl(name, value)
 
-def run_cmd(cmd, *args):
-    return check_cmd_output(cmd, *args).rstrip()
+def run_cmd(cmd, *args, **kwargs):
+    return check_cmd_output(cmd, *args, **kwargs).rstrip()
 
 def cmd_ver(cmd):
     return run_cmd(cmd, '--version')
