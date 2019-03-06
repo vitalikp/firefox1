@@ -115,6 +115,34 @@ check_pkg('MOZ_PROTOBUF', 'protobuf', '3.5.0', when=notjs_project)
 # ==============================================================
 check_pkg('MOZ_ALSA', 'alsa', '1.0', when=notjs_project)
 
+# SQLite
+# ==============================================================
+@template
+def sqlite_opt(name):
+    @depends_when(c_compiler, config, when=notjs_project)
+    @imports('sys')
+    def sqlite_check(compiler, config):
+        opt = 'SQLITE_%s' % name.upper()
+
+        flags = config['MOZ_SQLITE3_CFLAGS']
+        flags += config['MOZ_SQLITE3_LIBS']
+        includes = ['sqlite3.h']
+        src = 'if (!sqlite3_compileoption_used("%s")) return 1;' % opt
+
+        if (testconf(compiler, name, flags, includes, src, onerror=(lambda: '1'))):
+            log.error('*** System SQLite library is not compiled with %s.' % opt)
+            sys.exit(1)
+        log.info('    found %s option' % opt)
+    depends(sqlite_check)
+
+check_pkg('MOZ_SQLITE3', 'sqlite3', '3.17.0', when=notjs_project)
+sqlite_opt('secure_delete')
+sqlite_opt('threadsafe')
+sqlite_opt('enable_fts3')
+sqlite_opt('enable_unlock_notify')
+sqlite_opt('enable_dbstat_vtab')
+
+
 # NSS
 # ==============================================================
 nss_config = check_cmd('nss-config')

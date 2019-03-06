@@ -5,4 +5,4 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 Library('sqlite')
-OS_LIBS += CONFIG['SQLITE_LIBS']
+OS_LIBS += CONFIG['MOZ_SQLITE3_LIBS']
