@@ -3,9 +3,17 @@
 def notjs_project(build_project):
     return build_project != 'js'
 
+@depends(mozconfig)
+def config(mozconf):
+    return {}
+
+@depends(config)
 @imports('__sandbox__')
-def conf(name, value):
-    __sandbox__.set_config_impl(name, value)
+def conf(config):
+    def conf_func(name, value):
+        config[name] = value
+        __sandbox__.set_config_impl(name, value)
+    return conf_func
 
 def run_cmd(cmd, *args, **kwargs):
     return check_cmd_output(cmd, *args, **kwargs).rstrip()
@@ -15,10 +23,10 @@ def cmd_ver(cmd):
 
 @template
 @imports('sys')
-@imports('re')
 def check_cmd(cmd, vercmd=cmd_ver, when=always):
-    @depends_if(when)
-    def check_func(when):
+    @depends(when, conf)
+    @imports('re')
+    def check_func(when, conf):
         if not when:
             return None
         res = find_program(cmd)
@@ -33,12 +41,12 @@ def check_cmd(cmd, vercmd=cmd_ver, when=always):
                 info += str(ver)
 
         log.info('-- Found %s: %s' % (info, res))
+        
+        var = cmd.replace('-', '_').upper()
+        var = re.sub('[^A-Z_]', '', var)
+        conf(var, res)
 
         return res
-
-    var = cmd.replace('-', '_').upper()
-    var = re.sub('[^A-Z_]', '', var)
-    conf(var, check_func)
 
     return check_func
 
@@ -47,8 +55,8 @@ pkgconf = check_cmd('pkgconf')
 @template
 @imports('sys')
 def check_pkg(var, pkg, minver, when=always):
-    @depends_when(pkgconf, when=when)
-    def check_pkg_conf(pkgconf):
+    @depends_when(pkgconf, conf, when=when)
+    def check_pkg_conf(pkgconf, conf):
         ver = Version(run_cmd(pkgconf, pkg, '--modversion'))
         if ver < minver:
             log.error("*** Package '%s' has version '%s', required version is '>= %s" % (pkg, ver, minver))
@@ -86,8 +94,8 @@ nss_config = check_cmd('nss-config')
 @template
 @imports('sys')
 def check_nss(var, minver, when=notjs_project):
-    @depends_when(nss_config, when=when)
-    def check_nss_conf(nss_config):
+    @depends_when(nss_config, conf, when=when)
+    def check_nss_conf(nss_config, conf):
         ver = Version(run_cmd(nss_config, '--version'))
         if ver < minver:
             log.error("*** Package 'nss' has version '%s', required version is '>= %s" % (ver, minver))
@@ -114,8 +122,8 @@ nspr_config = check_cmd('nspr-config')
 @template
 @imports('sys')
 def check_nspr(var, minver, when=always):
-    @depends_when(nspr_config, when=when)
-    def check_nspr_conf(nspr_config):
+    @depends_when(nspr_config, conf, when=when)
+    def check_nspr_conf(nspr_config, conf):
         ver = Version(run_cmd(nspr_config, '--version'))
         if ver < minver:
             log.error("*** Package 'nspr' has version '%s', required version is '>= %s" % (ver, minver))
