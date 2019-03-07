@@ -33,9 +33,6 @@ if CONFIG['MOZ_WEBM_ENCODER']:
 if not CONFIG['MOZ_SYSTEM_LIBVPX']:
     external_dirs += ['media/libvpx']
 
-if not CONFIG['MOZ_SYSTEM_PNG']:
-    external_dirs += ['media/libpng']
-
 if CONFIG['CPU_ARCH'] == 'arm':
     external_dirs += ['media/openmax_dl']
 
