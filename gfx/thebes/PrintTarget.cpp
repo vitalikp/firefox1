@@ -32,14 +32,6 @@ PrintTarget::PrintTarget(cairo_surface_t* aCairoSurface, const IntSize& aSize)
   // CreateOrNull factory methods hand over ownership of aCairoSurface,
   // so we don't call cairo_surface_reference(aSurface) here.
 
-  // This code was copied from gfxASurface::Init:
-#ifdef MOZ_TREE_CAIRO
-  if (mCairoSurface &&
-      cairo_surface_get_content(mCairoSurface) != CAIRO_CONTENT_COLOR) {
-    cairo_surface_set_subpixel_antialiasing(mCairoSurface,
-                                            CAIRO_SUBPIXEL_ANTIALIASING_DISABLED);
-  }
-#endif
 }
 
 PrintTarget::~PrintTarget()

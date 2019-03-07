@@ -349,8 +349,6 @@ nsJPEGEncoder::CloseWithStatus(nsresult aStatus)
 //
 //    Our colors are stored with premultiplied alphas, but we need
 //    an output with no alpha in machine-independent byte order.
-//
-//    See gfx/cairo/cairo/src/cairo-png.c
 void
 nsJPEGEncoder::ConvertHostARGBRow(const uint8_t* aSrc, uint8_t* aDest,
                                   uint32_t aPixelWidth)

@@ -5,7 +5,6 @@ extensions/spellcheck/hunspell/src/
 gfx/2d/convolver
 gfx/2d/image_operations
 gfx/angle/
-gfx/cairo/
 gfx/graphite2/
 gfx/harfbuzz/
 gfx/ots/

@@ -859,7 +859,6 @@ DrawThemeWithCairo(gfxContext* aContext, DrawTarget* aDrawTarget,
   nsIntSize clipSize((aDrawSize.width + aScaleFactor - 1) / aScaleFactor,
                      (aDrawSize.height + aScaleFactor - 1) / aScaleFactor);
 
-#ifndef MOZ_TREE_CAIRO
   // Directly use the Cairo draw target to render the widget if using system Cairo everywhere.
   BorrowedCairoContext borrowCairo(aDrawTarget);
   if (borrowCairo.mCairo) {
@@ -874,7 +873,6 @@ DrawThemeWithCairo(gfxContext* aContext, DrawTarget* aDrawTarget,
     borrowCairo.Finish();
     return;
   }
-#endif
 
   // A direct Cairo draw target is not available, so we need to create a temporary one.
 #if defined(MOZ_X11) && defined(CAIRO_HAS_XLIB_SURFACE)

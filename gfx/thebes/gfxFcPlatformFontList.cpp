@@ -1833,26 +1833,6 @@ gfxFcPlatformFontList::ActivateBundledFonts()
 #endif
 
 #ifdef MOZ_WIDGET_GTK
-/***************************************************************************
- *
- * This function must be last in the file because it uses the system cairo
- * library.  Above this point the cairo library used is the tree cairo if
- * MOZ_TREE_CAIRO.
- */
-
-#if MOZ_TREE_CAIRO
-// Tree cairo symbols have different names.  Disable their activation through
-// preprocessor macros.
-#undef cairo_ft_font_options_substitute
-
-// The system cairo functions are not declared because the include paths cause
-// the gdk headers to pick up the tree cairo.h.
-extern "C" {
-NS_VISIBILITY_DEFAULT void
-cairo_ft_font_options_substitute (const cairo_font_options_t *options,
-                                  FcPattern                  *pattern);
-}
-#endif
 
 static void
 ApplyGdkScreenFontOptions(FcPattern *aPattern)

@@ -933,9 +933,6 @@ gfxPlatform::~gfxPlatform()
     SkGraphics::PurgeFontCache();
 #endif
 
-#if MOZ_TREE_CAIRO
-    cairo_debug_reset_static_data();
-#endif
 #endif
 }
 

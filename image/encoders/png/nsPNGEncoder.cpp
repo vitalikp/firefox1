@@ -44,8 +44,6 @@ nsPNGEncoder::~nsPNGEncoder()
 //
 //    One output option is supported: "transparency=none" means that the
 //    output PNG will not have an alpha channel, even if the input does.
-//
-//    Based partially on gfx/cairo/cairo/src/cairo-png.c
 
 NS_IMETHODIMP
 nsPNGEncoder::InitFromData(const uint8_t* aData,
@@ -440,8 +438,6 @@ nsPNGEncoder::CloseWithStatus(nsresult aStatus)
 //
 //    Our colors are stored with premultiplied alphas, but PNGs use
 //    post-multiplied alpha. This swaps to PNG-style alpha.
-//
-//    Copied from gfx/cairo/cairo/src/cairo-png.c
 
 void
 nsPNGEncoder::ConvertHostARGBRow(const uint8_t* aSrc, uint8_t* aDest,
