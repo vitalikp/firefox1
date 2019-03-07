@@ -108,7 +108,6 @@ class nsIRequest;
  *
  * @par
  * <li> GIFs never have more than a 1 bit alpha.
- * <li> APNGs may have a full alpha channel.
  *
  * @par
  * <li> Background color specified in GIF is ignored by web browsers.

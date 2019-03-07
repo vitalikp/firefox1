@@ -2042,9 +2042,6 @@ html|span.ac-emphasize-text-url {
   background-repeat: no-repeat;
   background-position: center center;
 }
-#share-container[loading] {
-  background-image: url(chrome://browser/skin/tabbrowser/pendingpaint.png);
-}
 #share-container > browser {
   transition: opacity 150ms ease-in-out;
   opacity: 1;

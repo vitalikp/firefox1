@@ -13,10 +13,7 @@ v. 2.0. If a copy of the MPL was not distributed with this file, You can
 obtain one at http://mozilla.org/MPL/2.0/.
 
 This modified version of libpng code adds animated PNG support and is
-released under the libpng license described below. The modifications are
-Copyright (c) 2006-2007 Andrew Smith, Copyright (c) 2008-2016 Max Stepin,
-and are delimited by "#ifdef PNG_APNG_SUPPORTED / #endif" directives
-surrounding them in the modified libpng source files.
+released under the libpng license described below.
 
 This modified version of libpng code adds Intel-SSE support and is
 released under the libpng license described below. The modifications are

@@ -753,7 +753,7 @@ FrameAnimator::DrawFrameTo(const uint8_t* aSrcData, const IntRect& aSrcRect,
   NS_ENSURE_ARG_POINTER(aSrcData);
   NS_ENSURE_ARG_POINTER(aDstPixels);
 
-  // According to both AGIF and APNG specs, offsets are unsigned
+  // According to AGIF spec, offsets are unsigned
   if (aSrcRect.x < 0 || aSrcRect.y < 0) {
     NS_WARNING("FrameAnimator::DrawFrameTo: negative offsets not allowed");
     return NS_ERROR_FAILURE;

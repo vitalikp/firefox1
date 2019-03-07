@@ -2203,8 +2203,6 @@ if test -z "$PNG_DIR" -o "$PNG_DIR" = no; then
 else
     AC_CHECK_LIB(png, png_get_valid, [MOZ_SYSTEM_PNG=1 MOZ_PNG_LIBS="-lpng"],
                  AC_MSG_ERROR([--with-system-png requested but no working libpng found]))
-    AC_CHECK_LIB(png, png_get_acTL, ,
-                 AC_MSG_ERROR([--with-system-png won't work because the system's libpng doesn't have APNG support]))
 fi
 if test "$MOZ_SYSTEM_PNG" = 1; then
     AC_TRY_COMPILE([ #include <stdio.h>

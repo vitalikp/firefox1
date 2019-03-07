@@ -110,13 +110,6 @@ nsPNGEncoder::StartImageEncode(uint32_t aWidth,
     return rv;
   }
 
-#ifdef PNG_APNG_SUPPORTED
-  if (numFrames > 1) {
-    mIsAnimation = true;
-  }
-
-#endif
-
   // initialize
   mPNG = png_create_write_struct(PNG_LIBPNG_VER_STRING,
                                  nullptr,
@@ -167,13 +160,6 @@ nsPNGEncoder::StartImageEncode(uint32_t aWidth,
                PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT,
                PNG_FILTER_TYPE_DEFAULT);
 
-#ifdef PNG_APNG_SUPPORTED
-  if (mIsAnimation) {
-    png_set_first_frame_is_hidden(mPNG, mPNGinfo, skipFirstFrame);
-    png_set_acTL(mPNG, mPNGinfo, numFrames, numPlays);
-  }
-#endif
-
   // XXX: support PLTE, gAMA, tRNS, bKGD?
 
   png_write_info(mPNG, mPNGinfo);
@@ -210,13 +196,8 @@ nsPNGEncoder::AddImageFrame(const uint8_t* aData,
 {
   bool useTransparency= true;
   uint32_t delay_ms = 500;
-#ifdef PNG_APNG_SUPPORTED
-  uint32_t dispose_op = PNG_DISPOSE_OP_NONE;
-  uint32_t blend_op = PNG_BLEND_OP_SOURCE;
-#else
   uint32_t dispose_op;
   uint32_t blend_op;
-#endif
   uint32_t x_offset = 0, y_offset = 0;
 
   // must be initialized
@@ -248,15 +229,6 @@ nsPNGEncoder::AddImageFrame(const uint8_t* aData,
   if (rv != NS_OK) {
     return rv;
   }
-
-#ifdef PNG_APNG_SUPPORTED
-  if (mIsAnimation) {
-    // XXX the row pointers arg (#3) is unused, can it be removed?
-    png_write_frame_head(mPNG, mPNGinfo, nullptr,
-                         aWidth, aHeight, x_offset, y_offset,
-                         delay_ms, 1000, dispose_op, blend_op);
-  }
-#endif
 
   // Stride is the padded width of each row, so it better be longer
   // (I'm afraid people will not understand what stride means, so
@@ -302,12 +274,6 @@ nsPNGEncoder::AddImageFrame(const uint8_t* aData,
     NS_NOTREACHED("Bad format type");
     return NS_ERROR_INVALID_ARG;
   }
-
-#ifdef PNG_APNG_SUPPORTED
-  if (mIsAnimation) {
-    png_write_frame_tail(mPNG, mPNGinfo);
-  }
-#endif
 
   return NS_OK;
 }
@@ -360,154 +326,6 @@ nsPNGEncoder::ParseOptions(const nsAString& aOptions,
                            uint32_t* offsetX,
                            uint32_t* offsetY)
 {
-#ifdef PNG_APNG_SUPPORTED
-  // Make a copy of aOptions, because strtok() will modify it.
-  nsAutoCString optionsCopy;
-  optionsCopy.Assign(NS_ConvertUTF16toUTF8(aOptions));
-  char* options = optionsCopy.BeginWriting();
-
-  while (char* token = nsCRT::strtok(options, ";", &options)) {
-    // If there's an '=' character, split the token around it.
-    char* equals = token;
-    char* value = nullptr;
-    while(*equals != '=' && *equals) {
-      ++equals;
-    }
-    if (*equals == '=') {
-      value = equals + 1;
-    }
-
-    if (value) {
-      *equals = '\0'; // temporary null
-    }
-
-    // transparency=[yes|no|none]
-    if (nsCRT::strcmp(token, "transparency") == 0 && useTransparency) {
-      if (!value) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      if (nsCRT::strcmp(value, "none") == 0 ||
-          nsCRT::strcmp(value, "no") == 0) {
-        *useTransparency = false;
-      } else if (nsCRT::strcmp(value, "yes") == 0) {
-        *useTransparency = true;
-      } else {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-    // skipfirstframe=[yes|no]
-    } else if (nsCRT::strcmp(token, "skipfirstframe") == 0 &&
-               skipFirstFrame) {
-      if (!value) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      if (nsCRT::strcmp(value, "no") == 0) {
-        *skipFirstFrame = false;
-      } else if (nsCRT::strcmp(value, "yes") == 0) {
-        *skipFirstFrame = true;
-      } else {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-    // frames=#
-    } else if (nsCRT::strcmp(token, "frames") == 0 && numFrames) {
-      if (!value) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      if (PR_sscanf(value, "%u", numFrames) != 1) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      // frames=0 is nonsense.
-      if (*numFrames == 0) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-    // plays=#
-    } else if (nsCRT::strcmp(token, "plays") == 0 && numPlays) {
-      if (!value) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      // plays=0 to loop forever, otherwise play sequence specified
-      // number of times
-      if (PR_sscanf(value, "%u", numPlays) != 1) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-    // dispose=[none|background|previous]
-    } else if (nsCRT::strcmp(token, "dispose") == 0 && frameDispose) {
-      if (!value) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      if (nsCRT::strcmp(value, "none") == 0) {
-        *frameDispose = PNG_DISPOSE_OP_NONE;
-      } else if (nsCRT::strcmp(value, "background") == 0) {
-        *frameDispose = PNG_DISPOSE_OP_BACKGROUND;
-      } else if (nsCRT::strcmp(value, "previous") == 0) {
-        *frameDispose = PNG_DISPOSE_OP_PREVIOUS;
-      } else {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-    // blend=[source|over]
-    } else if (nsCRT::strcmp(token, "blend") == 0 && frameBlend) {
-      if (!value) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      if (nsCRT::strcmp(value, "source") == 0) {
-        *frameBlend = PNG_BLEND_OP_SOURCE;
-      } else if (nsCRT::strcmp(value, "over") == 0) {
-        *frameBlend = PNG_BLEND_OP_OVER;
-      } else {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-    // delay=# (in ms)
-    } else if (nsCRT::strcmp(token, "delay") == 0 && frameDelay) {
-      if (!value) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      if (PR_sscanf(value, "%u", frameDelay) != 1) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-    // xoffset=#
-    } else if (nsCRT::strcmp(token, "xoffset") == 0 && offsetX) {
-      if (!value) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      if (PR_sscanf(value, "%u", offsetX) != 1) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-    // yoffset=#
-    } else if (nsCRT::strcmp(token, "yoffset") == 0 && offsetY) {
-      if (!value) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-      if (PR_sscanf(value, "%u", offsetY) != 1) {
-        return NS_ERROR_INVALID_ARG;
-      }
-
-    // unknown token name
-    } else
-      return NS_ERROR_INVALID_ARG;
-
-    if (value) {
-      *equals = '='; // restore '=' so strtok doesn't get lost
-    }
-  }
-
-#endif
   return NS_OK;
 }
 

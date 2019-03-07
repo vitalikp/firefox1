@@ -116,9 +116,6 @@ public:
   struct AnimFrameInfo
   {
     AnimFrameInfo();
-#ifdef PNG_APNG_SUPPORTED
-    AnimFrameInfo(png_structp aPNG, png_infop aInfo);
-#endif
 
     DisposalMethod mDispose;
     BlendMethod mBlend;
@@ -137,10 +134,6 @@ public:
   static void PNGAPI info_callback(png_structp png_ptr, png_infop info_ptr);
   static void PNGAPI row_callback(png_structp png_ptr, png_bytep new_row,
                                   png_uint_32 row_num, int pass);
-#ifdef PNG_APNG_SUPPORTED
-  static void PNGAPI frame_info_callback(png_structp png_ptr,
-                                         png_uint_32 frame_num);
-#endif
   static void PNGAPI end_callback(png_structp png_ptr, png_infop info_ptr);
   static void PNGAPI error_callback(png_structp png_ptr,
                                     png_const_charp error_msg);

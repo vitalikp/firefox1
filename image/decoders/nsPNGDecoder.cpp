@@ -48,53 +48,6 @@ nsPNGDecoder::AnimFrameInfo::AnimFrameInfo()
  , mTimeout(0)
 { }
 
-#ifdef PNG_APNG_SUPPORTED
-
-int32_t GetNextFrameDelay(png_structp aPNG, png_infop aInfo)
-{
-  // Delay, in seconds, is delayNum / delayDen.
-  png_uint_16 delayNum = png_get_next_frame_delay_num(aPNG, aInfo);
-  png_uint_16 delayDen = png_get_next_frame_delay_den(aPNG, aInfo);
-
-  if (delayNum == 0) {
-    return 0; // SetFrameTimeout() will set to a minimum.
-  }
-
-  if (delayDen == 0) {
-    delayDen = 100; // So says the APNG spec.
-  }
-
-  // Need to cast delay_num to float to have a proper division and
-  // the result to int to avoid a compiler warning.
-  return static_cast<int32_t>(static_cast<double>(delayNum) * 1000 / delayDen);
-}
-
-nsPNGDecoder::AnimFrameInfo::AnimFrameInfo(png_structp aPNG, png_infop aInfo)
- : mDispose(DisposalMethod::KEEP)
- , mBlend(BlendMethod::OVER)
- , mTimeout(0)
-{
-  png_byte dispose_op = png_get_next_frame_dispose_op(aPNG, aInfo);
-  png_byte blend_op = png_get_next_frame_blend_op(aPNG, aInfo);
-
-  if (dispose_op == PNG_DISPOSE_OP_PREVIOUS) {
-    mDispose = DisposalMethod::RESTORE_PREVIOUS;
-  } else if (dispose_op == PNG_DISPOSE_OP_BACKGROUND) {
-    mDispose = DisposalMethod::CLEAR;
-  } else {
-    mDispose = DisposalMethod::KEEP;
-  }
-
-  if (blend_op == PNG_BLEND_OP_SOURCE) {
-    mBlend = BlendMethod::SOURCE;
-  } else {
-    mBlend = BlendMethod::OVER;
-  }
-
-  mTimeout = GetNextFrameDelay(aPNG, aInfo);
-}
-#endif
-
 // First 8 bytes of a PNG file
 const uint8_t
 nsPNGDecoder::pngSignatureBytes[] = { 137, 80, 78, 71, 13, 10, 26, 10 };
@@ -233,18 +186,6 @@ nsPNGDecoder::CreateFrame(const FrameInfo& aFrameInfo)
          ("PNGDecoderAccounting: nsPNGDecoder::CreateFrame -- created "
           "image frame with %dx%d pixels for decoder %p",
           mFrameRect.width, mFrameRect.height, this));
-
-#ifdef PNG_APNG_SUPPORTED
-  if (png_get_valid(mPNG, mInfo, PNG_INFO_acTL)) {
-    mAnimInfo = AnimFrameInfo(mPNG, mInfo);
-
-    if (mAnimInfo.mDispose == DisposalMethod::CLEAR) {
-      // We may have to display the background under this image during
-      // animation playback, so we regard it as transparent.
-      PostHasTransparency();
-    }
-  }
-#endif
 
   return NS_OK;
 }
@@ -679,21 +620,6 @@ nsPNGDecoder::info_callback(png_structp png_ptr, png_infop info_ptr)
     png_error(decoder->mPNG, "Invalid number of channels");
   }
 
-#ifdef PNG_APNG_SUPPORTED
-  bool isAnimated = png_get_valid(png_ptr, info_ptr, PNG_INFO_acTL);
-  if (isAnimated) {
-    int32_t rawTimeout = GetNextFrameDelay(png_ptr, info_ptr);
-    decoder->PostIsAnimated(FrameTimeout::FromRawMilliseconds(rawTimeout));
-
-    if (decoder->Size() != decoder->OutputSize() &&
-        !decoder->IsFirstFrameDecode()) {
-      MOZ_ASSERT_UNREACHABLE("Doing downscale-during-decode "
-                             "for an animated image?");
-      png_error(decoder->mPNG, "Invalid downscale attempt"); // Abort decode.
-    }
-  }
-#endif
-
   if (decoder->IsMetadataDecode()) {
     // If we are animated then the first frame rect is either:
     // 1) the whole image if the IDAT chunk is part of the animation
@@ -711,26 +637,13 @@ nsPNGDecoder::info_callback(png_structp png_ptr, png_infop info_ptr)
     return decoder->DoTerminate(png_ptr, TerminalState::SUCCESS);
   }
 
-#ifdef PNG_APNG_SUPPORTED
-  if (isAnimated) {
-    png_set_progressive_frame_fn(png_ptr, nsPNGDecoder::frame_info_callback,
-                                 nullptr);
+  nsresult rv = decoder->CreateFrame(FrameInfo{ decoder->format,
+                                                frameRect,
+                                                isInterlaced });
+  if (NS_FAILED(rv)) {
+    png_error(decoder->mPNG, "CreateFrame failed");
   }
-
-  if (png_get_first_frame_is_hidden(png_ptr, info_ptr)) {
-    decoder->mFrameIsHidden = true;
-  } else {
-#endif
-    nsresult rv = decoder->CreateFrame(FrameInfo{ decoder->format,
-                                                  frameRect,
-                                                  isInterlaced });
-    if (NS_FAILED(rv)) {
-      png_error(decoder->mPNG, "CreateFrame failed");
-    }
-    MOZ_ASSERT(decoder->mImageData, "Should have a buffer now");
-#ifdef PNG_APNG_SUPPORTED
-  }
-#endif
+  MOZ_ASSERT(decoder->mImageData, "Should have a buffer now");
 
   if (decoder->mTransform && (channels <= 2 || isInterlaced)) {
     uint32_t bpp[] = { 0, 3, 4, 3, 4 };
@@ -959,67 +872,6 @@ nsPNGDecoder::DoYield(png_structp aPNGStruct)
     Transition::ContinueUnbufferedAfterYield(State::PNG_DATA, consumedBytes);
 }
 
-#ifdef PNG_APNG_SUPPORTED
-// got the header of a new frame that's coming
-void
-nsPNGDecoder::frame_info_callback(png_structp png_ptr, png_uint_32 frame_num)
-{
-  nsPNGDecoder* decoder =
-               static_cast<nsPNGDecoder*>(png_get_progressive_ptr(png_ptr));
-
-  // old frame is done
-  decoder->EndImageFrame();
-
-  const bool previousFrameWasHidden = decoder->mFrameIsHidden;
-
-  if (!previousFrameWasHidden && decoder->IsFirstFrameDecode()) {
-    // We're about to get a second non-hidden frame, but we only want the first.
-    // Stop decoding now. (And avoid allocating the unnecessary buffers below.)
-    decoder->PostDecodeDone();
-    return decoder->DoTerminate(png_ptr, TerminalState::SUCCESS);
-  }
-
-  // Only the first frame can be hidden, so unhide unconditionally here.
-  decoder->mFrameIsHidden = false;
-
-  // Save the information necessary to create the frame; we'll actually create
-  // it when we return from the yield.
-  const IntRect frameRect(png_get_next_frame_x_offset(png_ptr, decoder->mInfo),
-                          png_get_next_frame_y_offset(png_ptr, decoder->mInfo),
-                          png_get_next_frame_width(png_ptr, decoder->mInfo),
-                          png_get_next_frame_height(png_ptr, decoder->mInfo));
-  const bool isInterlaced = bool(decoder->interlacebuf);
-
-#ifndef MOZ_EMBEDDED_LIBPNG
-  // if using system library, check frame_width and height against 0
-  if (frameRect.width == 0) {
-    png_error(png_ptr, "Frame width must not be 0");
-  }
-  if (frameRect.height == 0) {
-    png_error(png_ptr, "Frame height must not be 0");
-  }
-#endif
-
-  const FrameInfo info { decoder->format, frameRect, isInterlaced };
-
-  // If the previous frame was hidden, skip the yield (which will mislead the
-  // caller, who will think the previous frame was real) and just allocate the
-  // new frame here.
-  if (previousFrameWasHidden) {
-    if (NS_FAILED(decoder->CreateFrame(info))) {
-      return decoder->DoTerminate(png_ptr, TerminalState::FAILURE);
-    }
-
-    MOZ_ASSERT(decoder->mImageData, "Should have a buffer now");
-    return;  // No yield, so we'll just keep decoding.
-  }
-
-  // Yield to the caller to notify them that the previous frame is now complete.
-  decoder->mNextFrameInfo = Some(info);
-  return decoder->DoYield(png_ptr);
-}
-#endif
-
 void
 nsPNGDecoder::end_callback(png_structp png_ptr, png_infop info_ptr)
 {
@@ -1042,12 +894,6 @@ nsPNGDecoder::end_callback(png_structp png_ptr, png_infop info_ptr)
   MOZ_ASSERT(!decoder->HasError(), "Finishing up PNG but hit error!");
 
   int32_t loop_count = 0;
-#ifdef PNG_APNG_SUPPORTED
-  if (png_get_valid(png_ptr, info_ptr, PNG_INFO_acTL)) {
-    int32_t num_plays = png_get_num_plays(png_ptr, info_ptr);
-    loop_count = num_plays - 1;
-  }
-#endif
 
   // Send final notifications.
   decoder->EndImageFrame();
