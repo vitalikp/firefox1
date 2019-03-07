@@ -129,7 +129,7 @@ class CompileDBBackend(CommonBackend):
                     'MOZ_JPEG_CFLAGS',
                     'LIBPNG_CFLAGS',
                     'MOZ_ZLIB_CFLAGS',
-                    'MOZ_PIXMAN_CFLAGS',
+                    'MOZ_PIXMAN1_CFLAGS',
                 ):
                     f = env.substs.get(var)
                     if f:

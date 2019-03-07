@@ -107,6 +107,10 @@ def testconf(cc, name, flags, includes, source, onerror=None):
 # ==============================================================
 check_pkg('LIBPNG', 'libpng', '1.6.25', when=notjs_project)
 
+# pixman
+# ==============================================================
+check_pkg('MOZ_PIXMAN1', 'pixman-1', '0.19.2', when=notjs_project)
+
 # Graphite2
 # ==============================================================
 check_pkg('MOZ_GRAPHITE2', 'graphite2', '3.0.1', when=notjs_project)

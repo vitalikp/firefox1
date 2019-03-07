@@ -4513,7 +4513,7 @@ if test "$USE_FC_FREETYPE"; then
 fi
 
 dnl ========================================================
-dnl Check for pixman and cairo
+dnl Check for cairo
 dnl ========================================================
 
 MOZ_TREE_CAIRO=1
@@ -4522,29 +4522,6 @@ MOZ_ARG_ENABLE_BOOL(system-cairo,
 MOZ_TREE_CAIRO=,
 MOZ_TREE_CAIRO=1 )
 
-MOZ_TREE_PIXMAN=1
-MOZ_ARG_ENABLE_BOOL(system-pixman,
-[ --enable-system-pixman Use system pixman (located with pkgconfig)],
-MOZ_TREE_PIXMAN=,
-MOZ_TREE_PIXMAN=force,
-MOZ_TREE_PIXMAN=1 )
-
-# System cairo depends on system pixman
-if test "$MOZ_TREE_PIXMAN" = "force"; then
-    if test -z "$MOZ_TREE_CAIRO"; then
-        AC_MSG_ERROR([--disable-system-pixman is incompatible with --enable-system-cairo.])
-    else
-        MOZ_TREE_PIXMAN=1
-    fi
-elif test -z "$MOZ_TREE_CAIRO"; then
-    MOZ_TREE_PIXMAN=
-fi
-
-if test "$MOZ_TREE_PIXMAN"; then
-    AC_DEFINE(MOZ_TREE_PIXMAN)
-else
-    PKG_CHECK_MODULES(MOZ_PIXMAN, pixman-1 >= 0.19.2)
-fi
 
 if test "$MOZ_TREE_CAIRO"; then
     MOZ_CAIRO_CFLAGS="-I${DIST}/include/cairo"
@@ -4642,8 +4619,8 @@ fi
 
 case "$MOZ_WIDGET_TOOLKIT" in
 android|gonk)
-    TK_CFLAGS="$MOZ_CAIRO_CFLAGS $MOZ_PIXMAN_CFLAGS"
-    TK_LIBS="$MOZ_CAIRO_LIBS $MOZ_PIXMAN_LIBS"
+    TK_CFLAGS="$MOZ_CAIRO_CFLAGS"
+    TK_LIBS="$MOZ_CAIRO_LIBS"
     ;;
 esac
 
@@ -4651,7 +4628,6 @@ AC_SUBST(MOZ_TREE_CAIRO)
 AC_SUBST_LIST(MOZ_CAIRO_CFLAGS)
 AC_SUBST_LIST(MOZ_CAIRO_LIBS)
 AC_SUBST_LIST(MOZ_CAIRO_OSLIBS)
-AC_SUBST(MOZ_TREE_PIXMAN)
 
 dnl ========================================================
 dnl disable xul

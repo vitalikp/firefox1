@@ -202,7 +202,7 @@
       'cflags_mozilla': [
         '$(MOZ_NSPR4_CFLAGS)',
         '$(MOZ_NSS3_CFLAGS)',
-        '$(MOZ_PIXMAN_CFLAGS)',
+        '$(MOZ_PIXMAN1_CFLAGS)',
       ],
 
 
