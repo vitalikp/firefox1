@@ -216,29 +216,9 @@ no-pixman-image-reuse-across-threads.patch: bug 1273701, picked from 71e8a4c2301
 
 ==== pixman patches ====
 
-pixman-android-cpu-detect.patch: Add CPU detection support for Android, where we can't reliably access /proc/self/auxv.
-
-pixman-rename-and-endian.patch: include cairo-platform.h for renaming of external symbols and endian macros
-
-NOTE: we previously supported ARM assembler on MSVC, this has been removed because of the maintenance burden
-
-pixman-export.patch: use cairo_public for PIXMAN_EXPORT to make sure pixman symbols are not exported in libxul
-
-pixman-limits.patch: include limits.h for SIZE_MAX
-
-pixman-lowres-interp.patch: Use lower quality interpolation for more speed.
-
-pixman-bilinear-fastpath.patch: Bilinear fast paths for non-neon
-
-pixman-16-bit-pipeline.patch: 16 bit pipeline for dithering
-
-pixman-dither.patch: Add dithering of 16 bit gradients
-
 quartz-support-color-emoji-font.patch: support Apple Color Emoji font in cairo-quartz backend
 
 use-show-text-glyphs-if-glyph-path-fails.patch: fall back to show_text_glyphs even at huge sizes if scaled_font_glyph_path didn't work
-
-pixman-enable-altivec-acceleration.patch: enable building the altivec acceleration
 
 win32-d3dsurface9.patch: Create a win32 d3d9 surface to support LockRect
 
