@@ -103,6 +103,10 @@ def testconf(cc, name, flags, includes, source, onerror=None):
     finally:
         os.remove(path)
 
+# libpng
+# ==============================================================
+check_pkg('LIBPNG', 'libpng', '1.6.25', when=notjs_project)
+
 # Graphite2
 # ==============================================================
 check_pkg('MOZ_GRAPHITE2', 'graphite2', '3.0.1', when=notjs_project)

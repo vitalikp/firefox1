@@ -127,7 +127,7 @@ class CompileDBBackend(CommonBackend):
                     'MOZ_NSPR4_CFLAGS',
                     'MOZ_NSS3_CFLAGS',
                     'MOZ_JPEG_CFLAGS',
-                    'MOZ_PNG_CFLAGS',
+                    'LIBPNG_CFLAGS',
                     'MOZ_ZLIB_CFLAGS',
                     'MOZ_PIXMAN_CFLAGS',
                 ):
