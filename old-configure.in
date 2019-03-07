@@ -1436,7 +1436,6 @@ fi
 
 AC_CHECK_LIB(socket, socket)
 
-XLDFLAGS="$X_LIBS"
 XLIBS="$X_EXTRA_LIBS"
 
 dnl ========================================================
