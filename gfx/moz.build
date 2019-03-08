@@ -20,10 +20,7 @@ DIRS += [
     'config',
 ]
 
-if CONFIG['MOZ_GRAPHITE2']:
-    CXXFLAGS += CONFIG['MOZ_GRAPHITE2_CFLAGS']
-else:
-    DIRS += ['graphite2/src']
+CXXFLAGS += CONFIG['MOZ_GRAPHITE2_CFLAGS']
 
 if CONFIG['MOZ_ENABLE_SKIA']:
     DIRS += ['skia']
