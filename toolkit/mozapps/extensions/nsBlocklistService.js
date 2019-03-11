@@ -39,7 +39,6 @@ const KEY_PROFILEDIR                  = "ProfD";
 const KEY_APPDIR                      = "XCurProcD";
 const FILE_BLOCKLIST                  = "blocklist.xml";
 const PREF_BLOCKLIST_ENABLED          = "extensions.blocklist.enabled";
-const PREF_BLOCKLIST_PINGCOUNTVERSION = "extensions.blocklist.pingCountVersion";
 const PREF_BLOCKLIST_SUPPRESSUI       = "extensions.blocklist.suppressUI";
 const PREF_ONECRL_VIA_AMO             = "security.onecrl.via.amo";
 const PREF_GENERAL_USERAGENT_LOCALE   = "general.useragent.locale";

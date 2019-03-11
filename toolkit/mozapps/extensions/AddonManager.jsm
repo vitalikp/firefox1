@@ -25,7 +25,6 @@ Cu.import("resource://gre/modules/AppConstants.jsm");
 
 const MOZ_COMPATIBILITY_NIGHTLY = !['aurora', 'beta', 'release', 'esr'].includes(AppConstants.MOZ_UPDATE_CHANNEL);
 
-const PREF_BLOCKLIST_PINGCOUNTVERSION = "extensions.blocklist.pingCountVersion";
 const PREF_DEFAULT_PROVIDERS_ENABLED  = "extensions.defaultProviders.enabled";
 const PREF_EM_UPDATE_ENABLED          = "extensions.update.enabled";
 const PREF_EM_LAST_APP_VERSION        = "extensions.lastAppVersion";
@@ -865,8 +864,6 @@ var AddonManagerInternal = {
                                    Services.appinfo.version);
         Services.prefs.setCharPref(PREF_EM_LAST_PLATFORM_VERSION,
                                    Services.appinfo.platformVersion);
-        Services.prefs.setIntPref(PREF_BLOCKLIST_PINGCOUNTVERSION,
-                                  (appChanged === undefined ? 0 : -1));
         this.validateBlocklist();
       }
 
