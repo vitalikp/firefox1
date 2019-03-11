@@ -2191,9 +2191,6 @@ pref("services.blocklist.gfx.checked", 0);
 // collections.
 pref("services.blocklist.signing.enforced", true);
 
-// Enable blocklists via the services settings mechanism
-pref("services.blocklist.update_enabled", true);
-
 // Enable certificate blocklist updates via services settings
 pref("security.onecrl.via.amo", false);
 
