@@ -43,7 +43,6 @@ const PREF_BLOCKLIST_ITEM_URL         = "extensions.blocklist.itemURL";
 const PREF_BLOCKLIST_ENABLED          = "extensions.blocklist.enabled";
 const PREF_BLOCKLIST_INTERVAL         = "extensions.blocklist.interval";
 const PREF_BLOCKLIST_LEVEL            = "extensions.blocklist.level";
-const PREF_BLOCKLIST_PINGCOUNTTOTAL   = "extensions.blocklist.pingCountTotal";
 const PREF_BLOCKLIST_PINGCOUNTVERSION = "extensions.blocklist.pingCountVersion";
 const PREF_BLOCKLIST_SUPPRESSUI       = "extensions.blocklist.suppressUI";
 const PREF_ONECRL_VIA_AMO             = "security.onecrl.via.amo";
