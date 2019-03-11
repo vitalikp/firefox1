@@ -39,7 +39,6 @@ const KEY_PROFILEDIR                  = "ProfD";
 const KEY_APPDIR                      = "XCurProcD";
 const FILE_BLOCKLIST                  = "blocklist.xml";
 const PREF_BLOCKLIST_ENABLED          = "extensions.blocklist.enabled";
-const PREF_BLOCKLIST_LEVEL            = "extensions.blocklist.level";
 const PREF_BLOCKLIST_PINGCOUNTVERSION = "extensions.blocklist.pingCountVersion";
 const PREF_BLOCKLIST_SUPPRESSUI       = "extensions.blocklist.suppressUI";
 const PREF_ONECRL_VIA_AMO             = "security.onecrl.via.amo";
@@ -64,7 +63,6 @@ const EXTENSION_BLOCK_FILTERS = ["id", "name", "creator", "homepageURL", "update
 
 var gLoggingEnabled = null;
 var gBlocklistEnabled = true;
-var gBlocklistLevel = DEFAULT_LEVEL;
 
 XPCOMUtils.defineLazyServiceGetter(this, "gConsole",
                                    "@mozilla.org/consoleservice;1",
@@ -283,8 +281,6 @@ function Blocklist() {
   Services.obs.addObserver(this, "sessionstore-windows-restored", false);
   gLoggingEnabled = getPref("getBoolPref", PREF_EM_LOGGING_ENABLED, false);
   gBlocklistEnabled = getPref("getBoolPref", PREF_BLOCKLIST_ENABLED, true);
-  gBlocklistLevel = Math.min(getPref("getIntPref", PREF_BLOCKLIST_LEVEL, DEFAULT_LEVEL),
-                                     MAX_BLOCK_LEVEL);
   gPref.addObserver("extensions.blocklist.", this, false);
   gPref.addObserver(PREF_EM_LOGGING_ENABLED, this, false);
   this.wrappedJSObject = this;
@@ -334,11 +330,6 @@ Blocklist.prototype = {
         case PREF_BLOCKLIST_ENABLED:
           gBlocklistEnabled = getPref("getBoolPref", PREF_BLOCKLIST_ENABLED, true);
           this._loadBlocklist();
-          this._blocklistUpdated(null, null);
-          break;
-        case PREF_BLOCKLIST_LEVEL:
-          gBlocklistLevel = Math.min(getPref("getIntPref", PREF_BLOCKLIST_LEVEL, DEFAULT_LEVEL),
-                                     MAX_BLOCK_LEVEL);
           this._blocklistUpdated(null, null);
           break;
       }
@@ -418,7 +409,7 @@ Blocklist.prototype = {
 
     for (let currentblItem of blItem.versions) {
       if (currentblItem.includesItem(addon.version, appVersion, toolkitVersion))
-        return currentblItem.severity >= gBlocklistLevel ? Ci.nsIBlocklistService.STATE_BLOCKED :
+        return currentblItem.severity >= DEFAULT_LEVEL ? Ci.nsIBlocklistService.STATE_BLOCKED :
                                                        Ci.nsIBlocklistService.STATE_SOFTBLOCKED;
     }
     return Ci.nsIBlocklistService.STATE_NOT_BLOCKED;
@@ -1110,7 +1101,7 @@ Blocklist.prototype = {
 
     let {entry: blockEntry, version: blockEntryVersion} = r;
 
-    if (blockEntryVersion.severity >= gBlocklistLevel)
+    if (blockEntryVersion.severity >= DEFAULT_LEVEL)
       return Ci.nsIBlocklistService.STATE_BLOCKED;
     if (blockEntryVersion.severity == SEVERITY_OUTDATED) {
       let vulnerabilityStatus = blockEntryVersion.vulnerabilityStatus;
