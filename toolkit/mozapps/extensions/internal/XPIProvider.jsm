@@ -7195,16 +7195,6 @@ AddonInternal.prototype = {
     return Blocklist.getAddonBlocklistState(this.wrapper);
   },
 
-  get blocklistURL() {
-    let staticItem = findMatchingStaticBlocklistItem(this);
-    if (staticItem) {
-      let url = Services.urlFormatter.formatURLPref("extensions.blocklist.itemURL");
-      return url.replace(/%blockID%/g, staticItem.blockID);
-    }
-
-    return Blocklist.getAddonBlocklistURL(this.wrapper);
-  },
-
   applyCompatibilityUpdate: function(aUpdate, aSyncCompatibility) {
     for (let targetApp of this.targetApplications) {
       for (let updateTarget of aUpdate.targetApplications) {
@@ -7909,7 +7899,7 @@ function defineAddonWrapperProperty(name, getter) {
 }
 
 ["id", "syncGUID", "version", "isCompatible", "isPlatformCompatible",
- "providesUpdatesSecurely", "blocklistState", "blocklistURL", "appDisabled",
+ "providesUpdatesSecurely", "blocklistState", "appDisabled",
  "softDisabled", "skinnable", "size", "foreignInstall", "hasBinaryComponents",
  "strictCompatibility", "compatibilityOverrides", "updateURL", "dependencies",
  "getDataDirectory", "multiprocessCompatible", "signedState", "mpcOptedOut",

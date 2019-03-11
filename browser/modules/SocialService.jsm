@@ -954,10 +954,6 @@ AddonWrapper.prototype = {
     return Services.blocklist.getAddonBlocklistState(this);
   },
 
-  get blocklistURL() {
-    return Services.blocklist.getAddonBlocklistURL(this);
-  },
-
   get screenshots() {
     return [];
   },

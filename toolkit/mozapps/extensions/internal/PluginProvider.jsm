@@ -407,13 +407,6 @@ PluginWrapper.prototype = {
     return bs.getPluginBlocklistState(tag);
   },
 
-  get blocklistURL() {
-    let { tags: [tag] } = pluginFor(this);
-    let bs = Cc["@mozilla.org/extensions/blocklist;1"].
-             getService(Ci.nsIBlocklistService);
-    return bs.getPluginBlocklistURL(tag);
-  },
-
   get size() {
     function getDirectorySize(aFile) {
       let size = 0;
