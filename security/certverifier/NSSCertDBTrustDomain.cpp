@@ -464,13 +464,6 @@ NSSCertDBTrustDomain::CheckRevocation(EndEntityOrCA endEntityOrCA,
   PR_ASSERT((!cachedResponsePresent && cachedResponseResult == Success) ||
             (cachedResponsePresent && cachedResponseResult != Success));
 
-  // If we have a fresh OneCRL Blocklist we can skip OCSP for CA certs
-  bool blocklistIsFresh;
-  nsresult nsrv = mCertBlocklist->IsBlocklistFresh(&blocklistIsFresh);
-  if (NS_FAILED(nsrv)) {
-    return Result::FATAL_ERROR_LIBRARY_FAILURE;
-  }
-
   // TODO: We still need to handle the fallback for expired responses. But,
   // if/when we disable OCSP fetching by default, it would be ambiguous whether
   // security.OCSP.enable==0 means "I want the default" or "I really never want
@@ -482,8 +475,7 @@ NSSCertDBTrustDomain::CheckRevocation(EndEntityOrCA endEntityOrCA,
       (validityDuration < shortLifetime) ||
       (endEntityOrCA == EndEntityOrCA::MustBeCA &&
        (mOCSPFetching == FetchOCSPForDVHardFail ||
-        mOCSPFetching == FetchOCSPForDVSoftFail ||
-        blocklistIsFresh))) {
+        mOCSPFetching == FetchOCSPForDVSoftFail))) {
     // We're not going to be doing any fetching, so if there was a cached
     // "unknown" response, say so.
     if (cachedResponseResult == Result::ERROR_OCSP_UNKNOWN_CERT) {

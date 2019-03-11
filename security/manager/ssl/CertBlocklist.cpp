@@ -31,14 +31,12 @@ NS_IMPL_ISUPPORTS(CertBlocklist, nsICertBlocklist)
 using namespace mozilla;
 using namespace mozilla::pkix;
 
-#define PREF_BACKGROUND_UPDATE_TIMER "app.update.lastUpdateTime.blocklist-background-update-timer"
 #define PREF_BLOCKLIST_ONECRL_CHECKED "services.blocklist.onecrl.checked"
 #define PREF_MAX_STALENESS_IN_SECONDS "security.onecrl.maximum_staleness_in_seconds"
 #define PREF_ONECRL_VIA_AMO "security.onecrl.via.amo"
 
 static LazyLogModule gCertBlockPRLog("CertBlock");
 
-uint32_t CertBlocklist::sLastBlocklistUpdate = 0U;
 uint32_t CertBlocklist::sLastKintoUpdate = 0U;
 uint32_t CertBlocklist::sMaxStaleness = 0U;
 bool CertBlocklist::sUseAMO = true;
@@ -137,9 +135,6 @@ CertBlocklist::CertBlocklist()
 CertBlocklist::~CertBlocklist()
 {
   Preferences::UnregisterCallback(CertBlocklist::PreferenceChanged,
-                                  PREF_BACKGROUND_UPDATE_TIMER,
-                                  this);
-  Preferences::UnregisterCallback(CertBlocklist::PreferenceChanged,
                                   PREF_MAX_STALENESS_IN_SECONDS,
                                   this);
   Preferences::UnregisterCallback(CertBlocklist::PreferenceChanged,
@@ -165,12 +160,6 @@ CertBlocklist::Init()
   // Register preference callbacks
   nsresult rv =
       Preferences::RegisterCallbackAndCall(CertBlocklist::PreferenceChanged,
-                                           PREF_BACKGROUND_UPDATE_TIMER,
-                                           this);
-  if (NS_FAILED(rv)) {
-    return rv;
-  }
-  rv = Preferences::RegisterCallbackAndCall(CertBlocklist::PreferenceChanged,
                                             PREF_MAX_STALENESS_IN_SECONDS,
                                             this);
   if (NS_FAILED(rv)) {
@@ -621,31 +610,6 @@ CertBlocklist::IsCertRevoked(const uint8_t* aIssuer,
   return NS_OK;
 }
 
-NS_IMETHODIMP
-CertBlocklist::IsBlocklistFresh(bool* _retval)
-{
-  MutexAutoLock lock(mMutex);
-  *_retval = false;
-
-  uint32_t now = uint32_t(PR_Now() / PR_USEC_PER_SEC);
-  uint32_t lastUpdate = sUseAMO ? sLastBlocklistUpdate : sLastKintoUpdate;
-  MOZ_LOG(gCertBlockPRLog, LogLevel::Warning,
-          ("CertBlocklist::IsBlocklistFresh using AMO? %i lastUpdate is %i",
-           sUseAMO, lastUpdate));
-
-  if (now > lastUpdate) {
-    int64_t interval = now - lastUpdate;
-    MOZ_LOG(gCertBlockPRLog, LogLevel::Warning,
-           ("CertBlocklist::IsBlocklistFresh we're after the last BlocklistUpdate "
-            "interval is %i, staleness %u", interval, sMaxStaleness));
-    *_retval = sMaxStaleness > interval;
-  }
-  MOZ_LOG(gCertBlockPRLog, LogLevel::Warning,
-         ("CertBlocklist::IsBlocklistFresh ? %s", *_retval ? "true" : "false"));
-  return NS_OK;
-}
-
-
 /* static */
 void
 CertBlocklist::PreferenceChanged(const char* aPref, void* aClosure)
@@ -656,10 +620,7 @@ CertBlocklist::PreferenceChanged(const char* aPref, void* aClosure)
 
   MOZ_LOG(gCertBlockPRLog, LogLevel::Warning,
          ("CertBlocklist::PreferenceChanged %s changed", aPref));
-  if (strcmp(aPref, PREF_BACKGROUND_UPDATE_TIMER) == 0) {
-    sLastBlocklistUpdate = Preferences::GetUint(PREF_BACKGROUND_UPDATE_TIMER,
-                                                uint32_t(0));
-  } else if (strcmp(aPref, PREF_BLOCKLIST_ONECRL_CHECKED) == 0) {
+  if (strcmp(aPref, PREF_BLOCKLIST_ONECRL_CHECKED) == 0) {
     sLastKintoUpdate = Preferences::GetUint(PREF_BLOCKLIST_ONECRL_CHECKED,
                                             uint32_t(0));
   } else if (strcmp(aPref, PREF_MAX_STALENESS_IN_SECONDS) == 0) {

@@ -38,7 +38,6 @@ const TOOLKIT_ID                      = "toolkit@mozilla.org";
 const KEY_PROFILEDIR                  = "ProfD";
 const KEY_APPDIR                      = "XCurProcD";
 const FILE_BLOCKLIST                  = "blocklist.xml";
-const PREF_BLOCKLIST_LASTUPDATETIME   = "app.update.lastUpdateTime.blocklist-background-update-timer";
 const PREF_BLOCKLIST_ITEM_URL         = "extensions.blocklist.itemURL";
 const PREF_BLOCKLIST_ENABLED          = "extensions.blocklist.enabled";
 const PREF_BLOCKLIST_INTERVAL         = "extensions.blocklist.interval";
@@ -497,10 +496,6 @@ Blocklist.prototype = {
     url = url.replace(/%blockID%/g, id);
 
     return url;
-  },
-
-  notify: function(aTimer) {
-
   },
 
   onXMLLoad: Task.async(function*(aEvent) {

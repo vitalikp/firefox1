@@ -50,12 +50,4 @@ interface nsICertBlocklist : nsISupports {
                           in unsigned long subject_length,
                           [const, array, size_is(pubkey_length)] in octet pubkey,
                           in unsigned long pubkey_length);
-
-   /**
-    * Check that the blocklist data is current. Specifically, that the current
-    * time is no more than security.onecrl.maximum_staleness_in_seconds seconds
-    * after the last blocklist update (as stored in the
-    * app.update.lastUpdateTime.blocklist-background-update-timer pref)
-    */
-   boolean isBlocklistFresh();
 };
