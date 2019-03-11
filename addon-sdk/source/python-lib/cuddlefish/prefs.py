@@ -72,7 +72,6 @@ DEFAULT_NO_CONNECTIONS_PREFS = {
     # Point update checks to a nonexistent local URL for fast failures.
     'extensions.update.url' : 'http://localhost/extensions-dummy/updateURL',
     'extensions.update.background.url': 'http://localhost/extensions-dummy/updateBackgroundURL',
-    'extensions.blocklist.url' : 'http://localhost/extensions-dummy/blocklistURL',
     'extensions.getAddons.maxResults': 0,
 
     # Disable webapp updates.  Yes, it is supposed to be an integer.

@@ -39,7 +39,6 @@ const KEY_PROFILEDIR                  = "ProfD";
 const KEY_APPDIR                      = "XCurProcD";
 const FILE_BLOCKLIST                  = "blocklist.xml";
 const PREF_BLOCKLIST_LASTUPDATETIME   = "app.update.lastUpdateTime.blocklist-background-update-timer";
-const PREF_BLOCKLIST_URL              = "extensions.blocklist.url";
 const PREF_BLOCKLIST_ITEM_URL         = "extensions.blocklist.itemURL";
 const PREF_BLOCKLIST_ENABLED          = "extensions.blocklist.enabled";
 const PREF_BLOCKLIST_INTERVAL         = "extensions.blocklist.interval";
@@ -188,18 +187,6 @@ function getPref(func, preference, defaultValue) {
   catch (e) {
   }
   return defaultValue;
-}
-
-/**
- * Constructs a URI to a spec.
- * @param   spec
- *          The spec to construct a URI to
- * @returns The nsIURI constructed.
- */
-function newURI(spec) {
-  var ioServ = Cc["@mozilla.org/network/io-service;1"].
-               getService(Ci.nsIIOService);
-  return ioServ.newURI(spec, null, null);
 }
 
 // Restarts the application checking in with observers first
@@ -514,130 +501,7 @@ Blocklist.prototype = {
   },
 
   notify: function(aTimer) {
-    if (!gBlocklistEnabled)
-      return;
 
-    try {
-      var dsURI = gPref.getCharPref(PREF_BLOCKLIST_URL);
-    }
-    catch (e) {
-      LOG("Blocklist::notify: The " + PREF_BLOCKLIST_URL + " preference" +
-          " is missing!");
-      return;
-    }
-
-    var pingCountVersion = getPref("getIntPref", PREF_BLOCKLIST_PINGCOUNTVERSION, 0);
-    var pingCountTotal = getPref("getIntPref", PREF_BLOCKLIST_PINGCOUNTTOTAL, 1);
-    var daysSinceLastPing = 0;
-    if (pingCountVersion == 0) {
-      daysSinceLastPing = "new";
-    }
-    else {
-      // Seconds in one day is used because nsIUpdateTimerManager stores the
-      // last update time in seconds.
-      let secondsInDay = 60 * 60 * 24;
-      let lastUpdateTime = getPref("getIntPref", PREF_BLOCKLIST_LASTUPDATETIME, 0);
-      if (lastUpdateTime == 0) {
-        daysSinceLastPing = "invalid";
-      }
-      else {
-        let now = Math.round(Date.now() / 1000);
-        daysSinceLastPing = Math.floor((now - lastUpdateTime) / secondsInDay);
-      }
-
-      if (daysSinceLastPing == 0 || daysSinceLastPing == "invalid") {
-        pingCountVersion = pingCountTotal = "invalid";
-      }
-    }
-
-    if (pingCountVersion < 1)
-      pingCountVersion = 1;
-    if (pingCountTotal < 1)
-      pingCountTotal = 1;
-
-    dsURI = dsURI.replace(/%APP_ID%/g, gApp.ID);
-    // Not all applications implement nsIXULAppInfo (e.g. xpcshell doesn't).
-    if (gApp.version)
-      dsURI = dsURI.replace(/%APP_VERSION%/g, gApp.version);
-    dsURI = dsURI.replace(/%PRODUCT%/g, gApp.name);
-    // Not all applications implement nsIXULAppInfo (e.g. xpcshell doesn't).
-    if (gApp.version)
-      dsURI = dsURI.replace(/%VERSION%/g, gApp.version);
-    dsURI = dsURI.replace(/%BUILD_ID%/g, gApp.appBuildID);
-    dsURI = dsURI.replace(/%BUILD_TARGET%/g, gApp.OS + "_" + gABI);
-    dsURI = dsURI.replace(/%OS_VERSION%/g, gOSVersion);
-    dsURI = dsURI.replace(/%LOCALE%/g, getLocale());
-    dsURI = dsURI.replace(/%CHANNEL%/g, UpdateUtils.UpdateChannel);
-    dsURI = dsURI.replace(/%PLATFORM_VERSION%/g, gApp.platformVersion);
-    dsURI = dsURI.replace(/%DISTRIBUTION%/g,
-                      getDistributionPrefValue(PREF_APP_DISTRIBUTION));
-    dsURI = dsURI.replace(/%DISTRIBUTION_VERSION%/g,
-                      getDistributionPrefValue(PREF_APP_DISTRIBUTION_VERSION));
-    dsURI = dsURI.replace(/%PING_COUNT%/g, pingCountVersion);
-    dsURI = dsURI.replace(/%TOTAL_PING_COUNT%/g, pingCountTotal);
-    dsURI = dsURI.replace(/%DAYS_SINCE_LAST_PING%/g, daysSinceLastPing);
-    dsURI = dsURI.replace(/\+/g, "%2B");
-
-    // Under normal operations it will take around 5,883,516 years before the
-    // preferences used to store pingCountVersion and pingCountTotal will rollover
-    // so this code doesn't bother trying to do the "right thing" here.
-    if (pingCountVersion != "invalid") {
-      pingCountVersion++;
-      if (pingCountVersion > 2147483647) {
-        // Rollover to -1 if the value is greater than what is support by an
-        // integer preference. The -1 indicates that the counter has been reset.
-        pingCountVersion = -1;
-      }
-      gPref.setIntPref(PREF_BLOCKLIST_PINGCOUNTVERSION, pingCountVersion);
-    }
-
-    if (pingCountTotal != "invalid") {
-      pingCountTotal++;
-      if (pingCountTotal > 2147483647) {
-        // Rollover to 1 if the value is greater than what is support by an
-        // integer preference.
-        pingCountTotal = -1;
-      }
-      gPref.setIntPref(PREF_BLOCKLIST_PINGCOUNTTOTAL, pingCountTotal);
-    }
-
-    // Verify that the URI is valid
-    try {
-      var uri = newURI(dsURI);
-    }
-    catch (e) {
-      LOG("Blocklist::notify: There was an error creating the blocklist URI\r\n" +
-          "for: " + dsURI + ", error: " + e);
-      return;
-    }
-
-    LOG("Blocklist::notify: Requesting " + uri.spec);
-    let request = new ServiceRequest();
-    request.open("GET", uri.spec, true);
-    request.channel.notificationCallbacks = new gCertUtils.BadCertHandler();
-    request.overrideMimeType("text/xml");
-    request.setRequestHeader("Cache-Control", "no-cache");
-    request.QueryInterface(Components.interfaces.nsIJSXMLHttpRequest);
-
-    request.addEventListener("error", event => this.onXMLError(event), false);
-    request.addEventListener("load", event => this.onXMLLoad(event), false);
-    request.send(null);
-
-    // When the blocklist loads we need to compare it to the current copy so
-    // make sure we have loaded it.
-    if (!this._isBlocklistLoaded())
-      this._loadBlocklist();
-
-    // If kinto update is enabled, do the kinto update
-    if (gPref.getBoolPref(PREF_BLOCKLIST_UPDATE_ENABLED)) {
-      const updater =
-        Components.utils.import("resource://services-common/blocklist-updater.js",
-                                {});
-      updater.checkVersions().catch(() => {
-        // Before we enable this in release, we want to collect telemetry on
-        // failed kinto updates - see bug 1254099
-      });
-    }
   },
 
   onXMLLoad: Task.async(function*(aEvent) {
