@@ -569,9 +569,7 @@ JavaVM/jni.h
 JManager.h
 JNIEnvTests.h
 jni.h
-#if MOZ_SYSTEM_JPEG==1
 jpeglib.h
-#endif
 JVMManagerTests.h
 Kerberos/Kerberos.h
 kernel/image.h

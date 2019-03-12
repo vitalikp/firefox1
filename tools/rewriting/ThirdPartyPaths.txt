@@ -20,7 +20,6 @@ media/gmp-clearkey/0.1/openaes/
 media/kiss_fft/
 media/libav/
 media/libcubeb/
-media/libjpeg/
 media/libmkv/
 media/libnestegg/
 media/libogg/
