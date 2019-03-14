@@ -26,7 +26,7 @@
           ],
         }, {
           'include_dirs': [
-            '$(MOZ_LIBVPX_CFLAGS)',
+            '$(MOZ_VPX_CFLAGS)',
           ],
 	}],
         ['build_vp9==1', {

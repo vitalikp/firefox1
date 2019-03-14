@@ -268,7 +268,6 @@ def old_configure_options(*options):
     '--with-system-bz2',
     '--with-system-icu',
     '--with-system-libevent',
-    '--with-system-libvpx',
     '--with-system-zlib',
     '--with-thumb',
     '--with-thumb-interwork',
