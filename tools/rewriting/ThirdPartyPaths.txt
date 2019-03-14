@@ -30,7 +30,6 @@ media/libstagefright/
 media/libtheora/
 media/libtremor/
 media/libvorbis/
-media/libvpx/
 media/libyuv/
 media/mtransport/
 media/openmax_dl/

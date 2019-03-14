@@ -28,9 +28,6 @@ if CONFIG['MOZ_TREMOR']:
 if CONFIG['MOZ_WEBM_ENCODER']:
     external_dirs += ['media/libmkv']
 
-if not CONFIG['MOZ_SYSTEM_LIBVPX']:
-    external_dirs += ['media/libvpx']
-
 if CONFIG['CPU_ARCH'] == 'arm':
     external_dirs += ['media/openmax_dl']
 
