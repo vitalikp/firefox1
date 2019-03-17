@@ -7,6 +7,3 @@
 DIRS += ['glue']
 if not CONFIG['MOZ_SYSTEM_HUNSPELL']:
     DIRS += ['src']
-
-if CONFIG['ENABLE_TESTS']:
-    XPCSHELL_TESTS_MANIFESTS += ['tests/unit/xpcshell.ini']    
