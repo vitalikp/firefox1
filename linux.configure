@@ -124,6 +124,10 @@ check_pkg('MOZ_JPEG', 'libjpeg', '1.5.1', when=notjs_project)
 # ==============================================================
 check_pkg('MOZ_VPX', 'vpx', '1.5.0', when=notjs_project)
 
+# hunspell
+# ==============================================================
+check_pkg('MOZ_HUNSPELL', 'hunspell', '1.4.1', when=notjs_project)
+
 # Graphite2
 # ==============================================================
 check_pkg('MOZ_GRAPHITE2', 'graphite2', '3.0.1', when=notjs_project)
