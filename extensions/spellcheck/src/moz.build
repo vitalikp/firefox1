@@ -19,10 +19,7 @@ SOURCES += [
 
 FINAL_LIBRARY = 'xul'
 
-if CONFIG['MOZ_SYSTEM_HUNSPELL']:
-    CXXFLAGS += CONFIG['MOZ_HUNSPELL_CFLAGS']
-else:
-    LOCAL_INCLUDES += ['../hunspell/src']
+CXXFLAGS += CONFIG['MOZ_HUNSPELL_CFLAGS']
 
 LOCAL_INCLUDES += [
     '/dom/base',
