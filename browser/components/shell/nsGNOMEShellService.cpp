@@ -194,7 +194,6 @@ nsGNOMEShellService::IsDefaultBrowser(bool aStartupCheck,
 
   nsCOMPtr<nsIGIOService> giovfs = do_GetService(NS_GIOSERVICE_CONTRACTID);
 
-  bool enabled;
   nsAutoCString handler;
   nsCOMPtr<nsIGIOMimeApp> gioApp;
 
