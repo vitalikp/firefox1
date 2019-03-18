@@ -70,7 +70,6 @@ class Connection;
 class PowerManager;
 class Presentation;
 class LegacyMozTCPSocket;
-class VRDisplay;
 class StorageManager;
 
 namespace time {
@@ -194,8 +193,6 @@ public:
   network::Connection* GetConnection(ErrorResult& aRv);
   MediaDevices* GetMediaDevices(ErrorResult& aRv);
 
-  already_AddRefed<Promise> GetVRDisplays(ErrorResult& aRv);
-  void GetActiveVRDisplays(nsTArray<RefPtr<VRDisplay>>& aDisplays) const;
 #ifdef MOZ_TIME_MANAGER
   time::TimeManager* GetMozTime(ErrorResult& aRv);
 #endif // MOZ_TIME_MANAGER
@@ -257,10 +254,6 @@ public:
 private:
   RefPtr<MediaKeySystemAccessManager> mMediaKeySystemAccessManager;
 
-public:
-  void NotifyVRDisplaysUpdated();
-  void NotifyActiveVRDisplaysChanged();
-
 private:
   virtual ~Navigator();
 
@@ -284,7 +277,6 @@ private:
   RefPtr<ServiceWorkerContainer> mServiceWorkerContainer;
   nsCOMPtr<nsPIDOMWindowInner> mWindow;
   RefPtr<Presentation> mPresentation;
-  nsTArray<RefPtr<Promise> > mVRGetDisplaysPromises;
   nsTArray<uint32_t> mRequestedVibrationPattern;
   RefPtr<StorageManager> mStorageManager;
 };

@@ -196,9 +196,6 @@
 #include "mozilla/dom/MessageChannel.h"
 #include "mozilla/dom/Promise.h"
 
-#include "mozilla/dom/VRDisplay.h"
-#include "mozilla/dom/VREventObserver.h"
-
 #include "nsRefreshDriver.h"
 #include "Layers.h"
 
@@ -1284,7 +1281,6 @@ nsGlobalWindow::nsGlobalWindow(nsGlobalWindow *aOuterWindow)
     mHasFocus(false),
     mShowFocusRingForContent(false),
     mFocusByKeyOccurred(false),
-    mHasVREvents(false),
     mNotifiedIDDestroyed(false),
     mAllowScriptsToClose(false),
     mTimeoutInsertionPoint(nullptr),
@@ -1725,14 +1721,10 @@ nsGlobalWindow::CleanUp()
   }
 
   if (IsInnerWindow()) {
-    DisableVRUpdates();
-    mHasVREvents = false;
 #ifdef MOZ_B2G
     DisableTimeChangeNotifications();
 #endif
     DisableIdleCallbackRequests();
-  } else {
-    MOZ_ASSERT(!mHasVREvents);
   }
 
   if (mCleanMessageManager) {
@@ -1870,10 +1862,6 @@ nsGlobalWindow::FreeInnerObjects()
     mAudioContexts[i]->Shutdown();
   }
   mAudioContexts.Clear();
-
-  DisableVRUpdates();
-  mHasVREvents = false;
-  mVRDisplays.Clear();
 }
 
 //*****************************************************************************
@@ -2027,7 +2015,6 @@ NS_IMPL_CYCLE_COLLECTION_TRAVERSE_BEGIN_INTERNAL(nsGlobalWindow)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mIdleObservers)
 
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mCacheStorage)
-  NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mVRDisplays)
 
   // Traverse stuff from nsPIDOMWindow
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mChromeEventHandler)
@@ -2100,7 +2087,6 @@ NS_IMPL_CYCLE_COLLECTION_UNLINK_BEGIN(nsGlobalWindow)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mIdleObservers)
 
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mCacheStorage)
-  NS_IMPL_CYCLE_COLLECTION_UNLINK(mVRDisplays)
 
   // Unlink stuff from nsPIDOMWindow
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mChromeEventHandler)
@@ -10237,24 +10223,6 @@ void nsGlobalWindow::MaybeUpdateTouchState()
 }
 
 void
-nsGlobalWindow::EnableVRUpdates()
-{
-  MOZ_ASSERT(IsInnerWindow());
-
-  if (mHasVREvents && !mVREventObserver) {
-    mVREventObserver = new VREventObserver(this);
-  }
-}
-
-void
-nsGlobalWindow::DisableVRUpdates()
-{
-  MOZ_ASSERT(IsInnerWindow());
-
-  mVREventObserver = nullptr;
-}
-
-void
 nsGlobalWindow::SetChromeEventHandler(EventTarget* aChromeEventHandler)
 {
   MOZ_ASSERT(IsOuterWindow());
@@ -11968,7 +11936,6 @@ nsGlobalWindow::Suspend()
     for (uint32_t i = 0; i < mEnabledSensors.Length(); i++)
       ac->RemoveWindowListener(mEnabledSensors[i], this);
   }
-  DisableVRUpdates();
 
   mozilla::dom::workers::SuspendWorkersForWindow(AsInner());
 
@@ -12029,7 +11996,6 @@ nsGlobalWindow::Resume()
     for (uint32_t i = 0; i < mEnabledSensors.Length(); i++)
       ac->AddWindowListener(mEnabledSensors[i], this);
   }
-  EnableVRUpdates();
 
   // Resume all of the AudioContexts for this window
   for (uint32_t i = 0; i < mAudioContexts.Length(); ++i) {
@@ -13773,19 +13739,6 @@ nsGlobalWindow::DisableOrientationChangeListener()
 void
 nsGlobalWindow::EventListenerAdded(nsIAtom* aType)
 {
-  if (aType == nsGkAtoms::onvrdisplayconnect ||
-      aType == nsGkAtoms::onvrdisplaydisconnect ||
-      aType == nsGkAtoms::onvrdisplaypresentchange) {
-    NotifyVREventListenerAdded();
-  }
-}
-
-void
-nsGlobalWindow::NotifyVREventListenerAdded()
-{
-  MOZ_ASSERT(IsInnerWindow());
-  mHasVREvents = true;
-  EnableVRUpdates();
 }
 
 void
@@ -13842,27 +13795,6 @@ nsGlobalWindow::AddSizeOfIncludingThis(nsWindowSizes* aWindowSizes) const
       aWindowSizes->mDOMEventListenersCount += elm->ListenerCount();
     }
     ++aWindowSizes->mDOMEventTargetsCount;
-  }
-}
-
-
-bool
-nsGlobalWindow::UpdateVRDisplays(nsTArray<RefPtr<mozilla::dom::VRDisplay>>& aDevices)
-{
-  FORWARD_TO_INNER(UpdateVRDisplays, (aDevices), false);
-
-  VRDisplay::UpdateVRDisplays(mVRDisplays, AsInner());
-  aDevices = mVRDisplays;
-  return true;
-}
-
-void
-nsGlobalWindow::NotifyActiveVRDisplaysChanged()
-{
-  MOZ_ASSERT(IsInnerWindow());
-
-  if (mNavigator) {
-    mNavigator->NotifyActiveVRDisplaysChanged();
   }
 }
 

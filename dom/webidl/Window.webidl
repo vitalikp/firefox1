@@ -475,15 +475,6 @@ interface ChromeWindow {
   void beginWindowMove(Event mouseDownEvent, optional Element? panel = null);
 };
 
-partial interface Window {
-  [Pref="dom.vr.enabled"]
-  attribute EventHandler onvrdisplayconnect;
-  [Pref="dom.vr.enabled"]
-  attribute EventHandler onvrdisplaydisconnect;
-  [Pref="dom.vr.enabled"]
-  attribute EventHandler onvrdisplaypresentchange;
-};
-
 // For testing worklet only
 partial interface Window {
   [Pref="dom.worklet.testing.enabled", Throws]

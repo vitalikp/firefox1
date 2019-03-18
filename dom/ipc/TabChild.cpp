@@ -108,7 +108,6 @@
 #include "nsDeviceContext.h"
 #include "nsSandboxFlags.h"
 #include "FrameLayerBuilder.h"
-#include "VRManagerChild.h"
 #include "nsICommandParams.h"
 #include "nsISHistory.h"
 #include "nsQueryObject.h"
@@ -2582,7 +2581,6 @@ TabChild::InitRenderingState(const TextureFactoryIdentifier& aTextureFactoryIden
       lf->SetShadowManager(shadowManager);
       lf->IdentifyTextureHost(mTextureFactoryIdentifier);
       ImageBridgeChild::IdentifyCompositorTextureHost(mTextureFactoryIdentifier);
-      gfx::VRManagerChild::IdentifyTextureHost(mTextureFactoryIdentifier);
     }
 
     mRemoteFrame = remoteFrame;

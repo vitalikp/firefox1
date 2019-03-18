@@ -131,8 +131,6 @@ class SpeechSynthesis;
 class TabGroup;
 class Timeout;
 class U2F;
-class VRDisplay;
-class VREventObserver;
 class WakeLock;
 #if defined(MOZ_WIDGET_ANDROID) || defined(MOZ_WIDGET_GONK)
 class WindowOrientationObserver;
@@ -443,7 +441,6 @@ public:
   bool FullScreen() const;
 
   // Inner windows only.
-  void NotifyVREventListenerAdded();
   virtual void EventListenerAdded(nsIAtom* aType) override;
 
   // nsIInterfaceRequestor
@@ -730,18 +727,6 @@ public:
     KillSlowScript
   };
   SlowScriptResponse ShowSlowScriptDialog();
-
-  // Inner windows only.
-  // Enable/disable updates for VR
-  void EnableVRUpdates();
-  void DisableVRUpdates();
-
-  // Update the VR displays for this window
-  bool UpdateVRDisplays(nsTArray<RefPtr<mozilla::dom::VRDisplay>>& aDisplays);
-
-  // Inner windows only.
-  // Called to inform that the set of active VR displays has changed.
-  void NotifyActiveVRDisplaysChanged();
 
 #define EVENT(name_, id_, type_, struct_)                                     \
   mozilla::dom::EventHandlerNonNull* GetOn##name_()                           \
@@ -1800,10 +1785,6 @@ protected:
   // should be displayed.
   bool                   mFocusByKeyOccurred : 1;
 
-  // Inner windows only.
-  // Indicates whether this window wants VR events
-  bool                   mHasVREvents : 1;
-
   // whether we've sent the destroy notification for our window id
   bool                   mNotifiedIDDestroyed : 1;
   // whether scripts may close the window,
@@ -1965,11 +1946,6 @@ protected:
 
   // This is the CC generation the last time we called CanSkip.
   uint32_t mCanSkipCCGeneration;
-
-  // The VR Displays for this window
-  nsTArray<RefPtr<mozilla::dom::VRDisplay>> mVRDisplays;
-
-  nsAutoPtr<mozilla::dom::VREventObserver> mVREventObserver;
 
   friend class nsDOMScriptableHelper;
   friend class nsDOMWindowUtils;

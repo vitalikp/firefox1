@@ -41,7 +41,6 @@
 #include "mozilla/dom/ServiceWorkerContainer.h"
 #include "mozilla/dom/StorageManager.h"
 #include "mozilla/dom/TCPSocket.h"
-#include "mozilla/dom/VRDisplay.h"
 #include "mozilla/dom/workers/RuntimeService.h"
 #include "mozilla/Hal.h"
 #include "nsISiteSpecificUserAgent.h"
@@ -213,7 +212,6 @@ NS_IMPL_CYCLE_COLLECTION_TRAVERSE_BEGIN(Navigator)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mWindow)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mMediaKeySystemAccessManager)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mPresentation)
-  NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mVRGetDisplaysPromises)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE_SCRIPT_OBJECTS
 NS_IMPL_CYCLE_COLLECTION_TRAVERSE_END
 
@@ -286,8 +284,6 @@ Navigator::Invalidate()
     mMediaKeySystemAccessManager->Shutdown();
     mMediaKeySystemAccessManager = nullptr;
   }
-
-  mVRGetDisplaysPromises.Clear();
 }
 
 //*****************************************************************************
@@ -1433,83 +1429,6 @@ Navigator::MozTCPSocket()
 {
   RefPtr<LegacyMozTCPSocket> socket = new LegacyMozTCPSocket(GetWindow());
   return socket.forget();
-}
-
-already_AddRefed<Promise>
-Navigator::GetVRDisplays(ErrorResult& aRv)
-{
-  if (!mWindow || !mWindow->GetDocShell()) {
-    aRv.Throw(NS_ERROR_UNEXPECTED);
-    return nullptr;
-  }
-
-  nsGlobalWindow* win = nsGlobalWindow::Cast(mWindow);
-  win->NotifyVREventListenerAdded();
-
-  nsCOMPtr<nsIGlobalObject> go = do_QueryInterface(mWindow);
-  RefPtr<Promise> p = Promise::Create(go, aRv);
-  if (aRv.Failed()) {
-    return nullptr;
-  }
-
-  // We pass mWindow's id to RefreshVRDisplays, so NotifyVRDisplaysUpdated will
-  // be called asynchronously, resolving the promises in mVRGetDisplaysPromises.
-  if (!VRDisplay::RefreshVRDisplays(win->WindowID())) {
-    p->MaybeReject(NS_ERROR_FAILURE);
-    return p.forget();
-  }
-
-  mVRGetDisplaysPromises.AppendElement(p);
-  return p.forget();
-}
-
-void
-Navigator::GetActiveVRDisplays(nsTArray<RefPtr<VRDisplay>>& aDisplays) const
-{
-  /**
-   * Get only the active VR displays.
-   * Callers do not wish to VRDisplay::RefreshVRDisplays, as the enumeration may
-   * activate hardware that is not yet intended to be used.
-   */
-  if (!mWindow || !mWindow->GetDocShell()) {
-    return;
-  }
-  nsGlobalWindow* win = nsGlobalWindow::Cast(mWindow);
-  win->NotifyVREventListenerAdded();
-  nsTArray<RefPtr<VRDisplay>> displays;
-  if (win->UpdateVRDisplays(displays)) {
-    for (auto display : displays) {
-      if (display->IsPresenting()) {
-        aDisplays.AppendElement(display);
-      }
-    }
-  }
-}
-
-void
-Navigator::NotifyVRDisplaysUpdated()
-{
-  // Synchronize the VR devices and resolve the promises in
-  // mVRGetDisplaysPromises
-  nsGlobalWindow* win = nsGlobalWindow::Cast(mWindow);
-
-  nsTArray<RefPtr<VRDisplay>> vrDisplays;
-  if (win->UpdateVRDisplays(vrDisplays)) {
-    for (auto p : mVRGetDisplaysPromises) {
-      p->MaybeResolve(vrDisplays);
-    }
-  } else {
-    for (auto p : mVRGetDisplaysPromises) {
-      p->MaybeReject(NS_ERROR_FAILURE);
-    }
-  }
-  mVRGetDisplaysPromises.Clear();
-}
-
-void
-Navigator::NotifyActiveVRDisplaysChanged()
-{
-  NavigatorBinding::ClearCachedActiveVRDisplaysValue(this);
 }
 
 //*****************************************************************************
