@@ -1300,7 +1300,6 @@ kvm.h
 spawn.h
 err.h
 xlocale.h
-#ifdef MOZ_SYSTEM_ICU
 unicode/locid.h
 unicode/numsys.h
 unicode/plurrule.h
@@ -1318,7 +1317,6 @@ unicode/unum.h
 unicode/upluralrules.h
 unicode/ustring.h
 unicode/utypes.h
-#endif
 libutil.h
 unwind.h
 fenv.h
