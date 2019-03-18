@@ -103,6 +103,10 @@ def testconf(cc, name, flags, includes, source, onerror=None):
     finally:
         os.remove(path)
 
+# ICU
+# ==============================================================
+check_pkg('MOZ_ICU', 'icu-i18n', '58.1')
+
 # libpng
 # ==============================================================
 check_pkg('LIBPNG', 'libpng', '1.6.25', when=notjs_project)

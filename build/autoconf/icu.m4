@@ -8,19 +8,6 @@ dnl ICU library, as well as a few other things.
 AC_DEFUN([MOZ_CONFIG_ICU], [
 
 ICU_LIB_NAMES=
-MOZ_SYSTEM_ICU=
-MOZ_ARG_WITH_BOOL(system-icu,
-[  --with-system-icu
-                          Use system ICU (located with pkgconfig)],
-    MOZ_SYSTEM_ICU=1)
-
-if test -n "$MOZ_SYSTEM_ICU"; then
-    PKG_CHECK_MODULES(MOZ_ICU, icu-i18n >= 58.1)
-    CFLAGS="$CFLAGS $MOZ_ICU_CFLAGS"
-    CXXFLAGS="$CXXFLAGS $MOZ_ICU_CFLAGS"
-fi
-
-AC_SUBST(MOZ_SYSTEM_ICU)
 
 MOZ_ARG_WITH_STRING(intl-api,
 [  --with-intl-api, --with-intl-api=build, --without-intl-api
