@@ -474,7 +474,6 @@ struct input_keymap_entry {
 #define BTN_BASE5 0x12a
 #define BTN_BASE6 0x12b
 #define BTN_DEAD 0x12f
-#define BTN_GAMEPAD 0x130
 /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
 #define BTN_A 0x130
 #define BTN_B 0x131

@@ -16,6 +16,3 @@ DeviceOrientationProviderTest.StartFailing
 SkCanvasVideoRendererTest.*
 # crbug.com/139095
 RenderWidgetTest.OnMsgPaintAtSize
-# crbug.com/147549
-GamepadProviderTest.PollingAccess
-PepperGamepadHostTest.WaitForReply

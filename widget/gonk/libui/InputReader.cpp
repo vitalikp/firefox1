@@ -427,9 +427,6 @@ InputDevice* InputReader::createDeviceLocked(int32_t deviceId,
     if (classes & INPUT_DEVICE_CLASS_DPAD) {
         keyboardSource |= AINPUT_SOURCE_DPAD;
     }
-    if (classes & INPUT_DEVICE_CLASS_GAMEPAD) {
-        keyboardSource |= AINPUT_SOURCE_GAMEPAD;
-    }
 
     if (keyboardSource != 0) {
         device->addMapper(new KeyboardInputMapper(device, keyboardSource, keyboardType));
@@ -951,8 +948,8 @@ void InputDevice::reset(nsecs_t when) {
 void InputDevice::process(const RawEvent* rawEvents, size_t count) {
     // Process all of the events in order for each mapper.
     // We cannot simply ask each mapper to process them in bulk because mappers may
-    // have side-effects that must be interleaved.  For example, joystick movement events and
-    // gamepad button presses are handled by different mappers but they should be dispatched
+    // have side-effects that must be interleaved.  For example, joystick movement events
+    // are handled by different mappers but they should be dispatched
     // in the order received.
     size_t numMappers = mMappers.size();
     for (const RawEvent* rawEvent = rawEvents; count--; rawEvent++) {
@@ -2056,19 +2053,7 @@ void KeyboardInputMapper::reset(nsecs_t when) {
 void KeyboardInputMapper::process(const RawEvent* rawEvent) {
     switch (rawEvent->type) {
     case EV_KEY: {
-        int32_t scanCode = rawEvent->code;
-        int32_t usageCode = mCurrentHidUsage;
         mCurrentHidUsage = 0;
-
-        if (isKeyboardOrGamepadKey(scanCode)) {
-            int32_t keyCode;
-            uint32_t flags;
-            if (getEventHub()->mapKey(getDeviceId(), scanCode, usageCode, &keyCode, &flags)) {
-                keyCode = AKEYCODE_UNKNOWN;
-                flags = 0;
-            }
-            processKey(rawEvent->when, rawEvent->value != 0, keyCode, scanCode, flags);
-        }
         break;
     }
     case EV_MSC: {
@@ -2083,13 +2068,6 @@ void KeyboardInputMapper::process(const RawEvent* rawEvent) {
         }
     }
     }
-}
-
-bool KeyboardInputMapper::isKeyboardOrGamepadKey(int32_t scanCode) {
-    return scanCode < BTN_MOUSE
-        || scanCode >= KEY_OK
-        || (scanCode >= BTN_MISC && scanCode < BTN_MOUSE)
-        || (scanCode >= BTN_JOYSTICK && scanCode < BTN_DIGI);
 }
 
 void KeyboardInputMapper::processKey(nsecs_t when, bool down, int32_t keyCode,
@@ -6434,8 +6412,7 @@ void JoystickInputMapper::sync(nsecs_t when, bool force) {
     }
 
     // Moving a joystick axis should not wake the device because joysticks can
-    // be fairly noisy even when not in use.  On the other hand, pushing a gamepad
-    // button will likely wake the device.
+    // be fairly noisy even when not in use.
     // TODO: Use the input device configuration to control this behavior more finely.
     uint32_t policyFlags = 0;
 

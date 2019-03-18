@@ -118,13 +118,10 @@ enum {
     /* The input device is a directional pad (implies keyboard, has DPAD keys). */
     INPUT_DEVICE_CLASS_DPAD          = 0x00000020,
 
-    /* The input device is a gamepad (implies keyboard, has BUTTON keys). */
-    INPUT_DEVICE_CLASS_GAMEPAD       = 0x00000040,
-
     /* The input device has switches. */
     INPUT_DEVICE_CLASS_SWITCH        = 0x00000080,
 
-    /* The input device is a joystick (implies gamepad, has joystick absolute axes). */
+    /* The input device is a joystick. */
     INPUT_DEVICE_CLASS_JOYSTICK      = 0x00000100,
 
     /* The input device has a vibrator (supports FF_RUMBLE). */

@@ -175,7 +175,6 @@ def old_configure_options(*options):
     '--enable-extensions',
     '--enable-faststripe',
     '--enable-feeds',
-    '--enable-gamepad',
     '--enable-gczeal',
     '--enable-gold',
     '--enable-hardware-aec-ns',

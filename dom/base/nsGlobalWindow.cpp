@@ -196,11 +196,6 @@
 #include "mozilla/dom/MessageChannel.h"
 #include "mozilla/dom/Promise.h"
 
-#ifdef MOZ_GAMEPAD
-#include "mozilla/dom/Gamepad.h"
-#include "mozilla/dom/GamepadManager.h"
-#endif
-
 #include "mozilla/dom/VRDisplay.h"
 #include "mozilla/dom/VREventObserver.h"
 
@@ -1289,11 +1284,7 @@ nsGlobalWindow::nsGlobalWindow(nsGlobalWindow *aOuterWindow)
     mHasFocus(false),
     mShowFocusRingForContent(false),
     mFocusByKeyOccurred(false),
-    mHasGamepad(false),
     mHasVREvents(false),
-#ifdef MOZ_GAMEPAD
-    mHasSeenGamepadInput(false),
-#endif
     mNotifiedIDDestroyed(false),
     mAllowScriptsToClose(false),
     mTimeoutInsertionPoint(nullptr),
@@ -1734,8 +1725,6 @@ nsGlobalWindow::CleanUp()
   }
 
   if (IsInnerWindow()) {
-    DisableGamepadUpdates();
-    mHasGamepad = false;
     DisableVRUpdates();
     mHasVREvents = false;
 #ifdef MOZ_B2G
@@ -1743,7 +1732,6 @@ nsGlobalWindow::CleanUp()
 #endif
     DisableIdleCallbackRequests();
   } else {
-    MOZ_ASSERT(!mHasGamepad);
     MOZ_ASSERT(!mHasVREvents);
   }
 
@@ -1883,11 +1871,6 @@ nsGlobalWindow::FreeInnerObjects()
   }
   mAudioContexts.Clear();
 
-#ifdef MOZ_GAMEPAD
-  DisableGamepadUpdates();
-  mHasGamepad = false;
-  mGamepads.Clear();
-#endif
   DisableVRUpdates();
   mHasVREvents = false;
   mVRDisplays.Clear();
@@ -2043,10 +2026,6 @@ NS_IMPL_CYCLE_COLLECTION_TRAVERSE_BEGIN_INTERNAL(nsGlobalWindow)
 
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mIdleObservers)
 
-#ifdef MOZ_GAMEPAD
-  NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mGamepads)
-#endif
-
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mCacheStorage)
   NS_IMPL_CYCLE_COLLECTION_TRAVERSE(mVRDisplays)
 
@@ -2119,10 +2098,6 @@ NS_IMPL_CYCLE_COLLECTION_UNLINK_BEGIN(nsGlobalWindow)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mWakeLock)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mPendingStorageEvents)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mIdleObservers)
-
-#ifdef MOZ_GAMEPAD
-  NS_IMPL_CYCLE_COLLECTION_UNLINK(mGamepads)
-#endif
 
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mCacheStorage)
   NS_IMPL_CYCLE_COLLECTION_UNLINK(mVRDisplays)
@@ -10243,14 +10218,6 @@ void nsGlobalWindow::SetIsBackground(bool aIsBackground)
       inner->UnthrottleIdleCallbackRequests();
     }
   }
-#ifdef MOZ_GAMEPAD
-  if (!aIsBackground) {
-    nsGlobalWindow* inner = GetCurrentInnerWindowInternal();
-    if (inner) {
-      inner->SyncGamepadState();
-    }
-  }
-#endif
 }
 
 void nsGlobalWindow::MaybeUpdateTouchState()
@@ -10266,36 +10233,6 @@ void nsGlobalWindow::MaybeUpdateTouchState()
                                        DOM_TOUCH_LISTENER_ADDED,
                                        nullptr);
     }
-  }
-}
-
-void
-nsGlobalWindow::EnableGamepadUpdates()
-{
-  MOZ_ASSERT(IsInnerWindow());
-
-  if (mHasGamepad) {
-#ifdef MOZ_GAMEPAD
-    RefPtr<GamepadManager> gamepadManager(GamepadManager::GetService());
-    if (gamepadManager) {
-      gamepadManager->AddListener(this);
-    }
-#endif
-  }
-}
-
-void
-nsGlobalWindow::DisableGamepadUpdates()
-{
-  MOZ_ASSERT(IsInnerWindow());
-
-  if (mHasGamepad) {
-#ifdef MOZ_GAMEPAD
-    RefPtr<GamepadManager> gamepadManager(GamepadManager::GetService());
-    if (gamepadManager) {
-      gamepadManager->RemoveListener(this);
-    }
-#endif
   }
 }
 
@@ -12031,7 +11968,6 @@ nsGlobalWindow::Suspend()
     for (uint32_t i = 0; i < mEnabledSensors.Length(); i++)
       ac->RemoveWindowListener(mEnabledSensors[i], this);
   }
-  DisableGamepadUpdates();
   DisableVRUpdates();
 
   mozilla::dom::workers::SuspendWorkersForWindow(AsInner());
@@ -12093,7 +12029,6 @@ nsGlobalWindow::Resume()
     for (uint32_t i = 0; i < mEnabledSensors.Length(); i++)
       ac->AddWindowListener(mEnabledSensors[i], this);
   }
-  EnableGamepadUpdates();
   EnableVRUpdates();
 
   // Resume all of the AudioContexts for this window
@@ -13834,16 +13769,6 @@ nsGlobalWindow::DisableOrientationChangeListener()
 }
 #endif
 
-void
-nsGlobalWindow::SetHasGamepadEventListener(bool aHasGamepad/* = true*/)
-{
-  MOZ_ASSERT(IsInnerWindow());
-  mHasGamepad = aHasGamepad;
-  if (aHasGamepad) {
-    EnableGamepadUpdates();
-  }
-}
-
 
 void
 nsGlobalWindow::EventListenerAdded(nsIAtom* aType)
@@ -13920,90 +13845,6 @@ nsGlobalWindow::AddSizeOfIncludingThis(nsWindowSizes* aWindowSizes) const
   }
 }
 
-
-#ifdef MOZ_GAMEPAD
-void
-nsGlobalWindow::AddGamepad(uint32_t aIndex, Gamepad* aGamepad)
-{
-  MOZ_ASSERT(IsInnerWindow());
-  // Create the index we will present to content based on which indices are
-  // already taken, as required by the spec.
-  // https://w3c.github.io/gamepad/gamepad.html#widl-Gamepad-index
-  int index = 0;
-  while(mGamepadIndexSet.Contains(index)) {
-    ++index;
-  }
-  mGamepadIndexSet.Put(index);
-  aGamepad->SetIndex(index);
-  mGamepads.Put(aIndex, aGamepad);
-}
-
-void
-nsGlobalWindow::RemoveGamepad(uint32_t aIndex)
-{
-  MOZ_ASSERT(IsInnerWindow());
-  RefPtr<Gamepad> gamepad;
-  if (!mGamepads.Get(aIndex, getter_AddRefs(gamepad))) {
-    return;
-  }
-  // Free up the index we were using so it can be reused
-  mGamepadIndexSet.Remove(gamepad->Index());
-  mGamepads.Remove(aIndex);
-}
-
-void
-nsGlobalWindow::GetGamepads(nsTArray<RefPtr<Gamepad> >& aGamepads)
-{
-  MOZ_ASSERT(IsInnerWindow());
-  aGamepads.Clear();
-  // mGamepads.Count() may not be sufficient, but it's not harmful.
-  aGamepads.SetCapacity(mGamepads.Count());
-  for (auto iter = mGamepads.Iter(); !iter.Done(); iter.Next()) {
-    Gamepad* gamepad = iter.UserData();
-    aGamepads.EnsureLengthAtLeast(gamepad->Index() + 1);
-    aGamepads[gamepad->Index()] = gamepad;
-  }
-}
-
-already_AddRefed<Gamepad>
-nsGlobalWindow::GetGamepad(uint32_t aIndex)
-{
-  MOZ_ASSERT(IsInnerWindow());
-  RefPtr<Gamepad> gamepad;
-
-  if (mGamepads.Get(aIndex, getter_AddRefs(gamepad))) {
-    return gamepad.forget();
-  }
-
-  return nullptr;
-}
-
-void
-nsGlobalWindow::SetHasSeenGamepadInput(bool aHasSeen)
-{
-  MOZ_ASSERT(IsInnerWindow());
-  mHasSeenGamepadInput = aHasSeen;
-}
-
-bool
-nsGlobalWindow::HasSeenGamepadInput()
-{
-  MOZ_ASSERT(IsInnerWindow());
-  return mHasSeenGamepadInput;
-}
-
-void
-nsGlobalWindow::SyncGamepadState()
-{
-  MOZ_ASSERT(IsInnerWindow());
-  if (mHasSeenGamepadInput) {
-    RefPtr<GamepadManager> gamepadManager(GamepadManager::GetService());
-    for (auto iter = mGamepads.Iter(); !iter.Done(); iter.Next()) {
-      gamepadManager->SyncGamepadState(iter.Key(), iter.UserData());
-    }
-  }
-}
-#endif // MOZ_GAMEPAD
 
 bool
 nsGlobalWindow::UpdateVRDisplays(nsTArray<RefPtr<mozilla::dom::VRDisplay>>& aDevices)

@@ -10,7 +10,6 @@
  * http://www.w3.org/TR/battery-status/#navigatorbattery-interface
  * http://www.w3.org/TR/vibration/#vibration-interface
  * http://www.w3.org/2012/sysapps/runtime/#extension-to-the-navigator-interface-1
- * https://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html#navigator-interface-extension
  * http://www.w3.org/TR/beacon/#sec-beacon-method
  * https://html.spec.whatwg.org/#navigatorconcurrenthardware
  *
@@ -255,18 +254,6 @@ partial interface Navigator {
   [Throws, Pref="dom.netinfo.enabled"]
   readonly attribute NetworkInformation connection;
 };
-
-#ifdef MOZ_GAMEPAD
-// https://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html#navigator-interface-extension
-partial interface Navigator {
-  [Throws, Pref="dom.gamepad.enabled"]
-  sequence<Gamepad?> getGamepads();
-};
-partial interface Navigator {
-  [Pref="dom.gamepad.test.enabled"]
-  GamepadServiceTest requestGamepadServiceTest();
-};
-#endif // MOZ_GAMEPAD
 
 partial interface Navigator {
   [Throws, Pref="dom.vr.enabled"]

@@ -53,7 +53,6 @@ DIRS += [
     'filehandle',
     'filesystem',
     'flyweb',
-    'gamepad',
     'geolocation',
     'grid',
     'html',

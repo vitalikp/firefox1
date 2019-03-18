@@ -471,13 +471,6 @@ public:
 #endif // MOZ_B2G
 
   /**
-   * Tell this window that there is an observer for gamepad input
-   *
-   * Inner windows only.
-   */
-  virtual void SetHasGamepadEventListener(bool aHasGamepad = true) = 0;
-
-  /**
    * Set a arguments for this window. This will be set on the window
    * right away (if there's an existing document) and it will also be
    * installed on the window when the next document is loaded.

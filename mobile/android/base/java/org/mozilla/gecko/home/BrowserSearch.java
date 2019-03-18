@@ -1121,8 +1121,6 @@ public class BrowserSearch extends HomeFragment
 
         @Override
         public boolean isEnabled(int position) {
-            // If we're using a gamepad or keyboard, allow the row to be
-            // focused so it can pass the focus to its child suggestion views.
             if (!mList.isInTouchMode()) {
                 return true;
             }

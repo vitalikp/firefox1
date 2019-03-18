@@ -11,7 +11,6 @@ show allResults
   org.mozilla.gecko.mozglue.* \
   org.mozilla.gecko.sqlite.* \
   org.mozilla.gecko.util.* \
-  org.mozilla.gecko.AndroidGamepadManager \
   org.mozilla.gecko.AppConstants \
   org.mozilla.gecko.BaseGeckoInterface \
   org.mozilla.gecko.ContextGetter \

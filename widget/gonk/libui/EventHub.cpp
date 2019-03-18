@@ -978,19 +978,6 @@ static bool containsNonZeroByte(const uint8_t* array, uint32_t startIndex, uint3
     return false;
 }
 
-static const int32_t GAMEPAD_KEYCODES[] = {
-        AKEYCODE_BUTTON_A, AKEYCODE_BUTTON_B, AKEYCODE_BUTTON_C,
-        AKEYCODE_BUTTON_X, AKEYCODE_BUTTON_Y, AKEYCODE_BUTTON_Z,
-        AKEYCODE_BUTTON_L1, AKEYCODE_BUTTON_R1,
-        AKEYCODE_BUTTON_L2, AKEYCODE_BUTTON_R2,
-        AKEYCODE_BUTTON_THUMBL, AKEYCODE_BUTTON_THUMBR,
-        AKEYCODE_BUTTON_START, AKEYCODE_BUTTON_SELECT, AKEYCODE_BUTTON_MODE,
-        AKEYCODE_BUTTON_1, AKEYCODE_BUTTON_2, AKEYCODE_BUTTON_3, AKEYCODE_BUTTON_4,
-        AKEYCODE_BUTTON_5, AKEYCODE_BUTTON_6, AKEYCODE_BUTTON_7, AKEYCODE_BUTTON_8,
-        AKEYCODE_BUTTON_9, AKEYCODE_BUTTON_10, AKEYCODE_BUTTON_11, AKEYCODE_BUTTON_12,
-        AKEYCODE_BUTTON_13, AKEYCODE_BUTTON_14, AKEYCODE_BUTTON_15, AKEYCODE_BUTTON_16,
-};
-
 status_t EventHub::openDeviceLocked(const char *devicePath) {
     char buffer[80];
 
@@ -1098,15 +1085,11 @@ status_t EventHub::openDeviceLocked(const char *devicePath) {
     ioctl(fd, EVIOCGPROP(sizeof(device->propBitmask)), device->propBitmask);
 
     // See if this is a keyboard.  Ignore everything in the button range except for
-    // joystick and gamepad buttons which are handled like keyboards for the most part.
+    // joystick buttons which are handled like keyboards for the most part.
     bool haveKeyboardKeys = containsNonZeroByte(device->keyBitmask, 0, sizeof_bit_array(BTN_MISC))
             || containsNonZeroByte(device->keyBitmask, sizeof_bit_array(KEY_OK),
                     sizeof_bit_array(KEY_MAX + 1));
-    bool haveGamepadButtons = containsNonZeroByte(device->keyBitmask, sizeof_bit_array(BTN_MISC),
-                    sizeof_bit_array(BTN_MOUSE))
-            || containsNonZeroByte(device->keyBitmask, sizeof_bit_array(BTN_JOYSTICK),
-                    sizeof_bit_array(BTN_DIGI));
-    if (haveKeyboardKeys || haveGamepadButtons) {
+    if (haveKeyboardKeys) {
         device->classes |= INPUT_DEVICE_CLASS_KEYBOARD;
     }
 
@@ -1124,7 +1107,7 @@ status_t EventHub::openDeviceLocked(const char *devicePath) {
         // Some joysticks such as the PS3 controller report axes that conflict
         // with the ABS_MT range.  Try to confirm that the device really is
         // a touch screen.
-        if (test_bit(BTN_TOUCH, device->keyBitmask) || !haveGamepadButtons) {
+        if (test_bit(BTN_TOUCH, device->keyBitmask)) {
             device->classes |= INPUT_DEVICE_CLASS_TOUCH | INPUT_DEVICE_CLASS_TOUCH_MT;
         }
     // Is this an old style single-touch driver?
@@ -1132,20 +1115,6 @@ status_t EventHub::openDeviceLocked(const char *devicePath) {
             && test_bit(ABS_X, device->absBitmask)
             && test_bit(ABS_Y, device->absBitmask)) {
         device->classes |= INPUT_DEVICE_CLASS_TOUCH;
-    }
-
-    // See if this device is a joystick.
-    // Assumes that joysticks always have gamepad buttons in order to distinguish them
-    // from other devices such as accelerometers that also have absolute axes.
-    if (haveGamepadButtons) {
-        uint32_t assumedClasses = device->classes | INPUT_DEVICE_CLASS_JOYSTICK;
-        for (int i = 0; i <= ABS_MAX; i++) {
-            if (test_bit(i, device->absBitmask)
-                    && (getAbsAxisUsage(i, assumedClasses) & INPUT_DEVICE_CLASS_JOYSTICK)) {
-                device->classes = assumedClasses;
-                break;
-            }
-        }
     }
 
     // Check whether this device has switches.
@@ -1179,7 +1148,7 @@ status_t EventHub::openDeviceLocked(const char *devicePath) {
         keyMapStatus = loadKeyMapLocked(device);
     }
 
-    // Configure the keyboard, gamepad or virtual keyboard.
+    // Configure the keyboard, virtual keyboard.
     if (device->classes & INPUT_DEVICE_CLASS_KEYBOARD) {
         // Register the keyboard as a built-in keyboard if it is eligible.
         if (!keyMapStatus
@@ -1201,14 +1170,6 @@ status_t EventHub::openDeviceLocked(const char *devicePath) {
                 hasKeycodeLocked(device, AKEYCODE_DPAD_RIGHT) &&
                 hasKeycodeLocked(device, AKEYCODE_DPAD_CENTER)) {
             device->classes |= INPUT_DEVICE_CLASS_DPAD;
-        }
-
-        // See if this device has a gamepad.
-        for (size_t i = 0; i < sizeof(GAMEPAD_KEYCODES)/sizeof(GAMEPAD_KEYCODES[0]); i++) {
-            if (hasKeycodeLocked(device, GAMEPAD_KEYCODES[i])) {
-                device->classes |= INPUT_DEVICE_CLASS_GAMEPAD;
-                break;
-            }
         }
 
         // Disable kernel key repeat since we handle it ourselves

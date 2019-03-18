@@ -88,10 +88,6 @@ function _onInputKeyPress (event, callback) {
   }
 
   if (key == PrefObserver['keyCodeReturn']) {
-    // We report presses of the action button on a gamepad "A" as the return
-    // key to the DOM. The behaviour of hitting the return key and clicking an
-    // element is the same for some elements, but not all, so we handle the
-    // ones we want (like the Select element) here:
     if (event.target instanceof Ci.nsIDOMHTMLSelectElement &&
         event.target.click) {
       event.target.click();
