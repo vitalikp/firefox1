@@ -444,6 +444,8 @@ HTMLTooltip.prototype = {
    * is hidden.
    */
   hide: Task.async(function* () {
+    if (!this.doc.defaultView)
+      return;
     this.doc.defaultView.clearTimeout(this.attachEventsTimer);
     if (!this.isVisible()) {
       this.emit("hidden");
