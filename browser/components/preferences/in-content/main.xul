@@ -186,22 +186,6 @@
       </html:td>
     </html:tr>
     <html:tr>
-      <html:td class="label-cell">
-        <label accesskey="&homepage.accesskey;"
-               control="browserHomePage">&homepage.label;</label>
-      </html:td>
-      <html:td class="content-cell">
-        <textbox id="browserHomePage"
-                 class="padded uri-element content-cell-item"
-                 type="autocomplete"
-                 autocompletesearch="unifiedcomplete"
-                 onsyncfrompreference="return gMainPane.syncFromHomePref();"
-                 onsynctopreference="return gMainPane.syncToHomePref(this.value);"
-                 placeholder="&abouthome.pageTitle;"
-                 preference="browser.startup.homepage"/>
-      </html:td>
-    </html:tr>
-    <html:tr>
       <html:td class="label-cell" />
       <html:td class="content-cell homepage-buttons">
         <button id="useCurrent"

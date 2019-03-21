@@ -49,7 +49,6 @@ DEFAULT_NO_CONNECTIONS_PREFS = {
     'media.gmp-manager.url' : 'http://localhost/media-dummy/gmpmanager',
     'media.gmp-manager.url.override': 'http://localhost/dummy-gmp-manager.xml',
     'media.gmp-manager.updateEnabled': False,
-    'browser.aboutHomeSnippets.updateUrl': 'https://localhost/snippet-dummy',
     'browser.newtab.url' : 'about:blank',
     'browser.search.update': False,
     'browser.search.suggest.enabled' : False,

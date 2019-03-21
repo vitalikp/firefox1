@@ -20,7 +20,6 @@ chrome.jar:
   content/aboutPrivateBrowsing.xhtml   (content/aboutPrivateBrowsing.xhtml)
   content/aboutPrivateBrowsing.js      (content/aboutPrivateBrowsing.js)
   content/Reader.js                    (content/Reader.js)
-  content/aboutHome.xhtml              (content/aboutHome.xhtml)
   content/aboutRights.xhtml            (content/aboutRights.xhtml)
   content/blockedSite.xhtml            (content/blockedSite.xhtml)
   content/languages.properties         (content/languages.properties)

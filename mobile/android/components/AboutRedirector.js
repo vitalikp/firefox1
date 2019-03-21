@@ -48,7 +48,7 @@ var modules = {
     hide: true
   },
   home: {
-    uri: "chrome://browser/content/aboutHome.xhtml",
+    uri: "about:blank",
     privileged: false
   },
   downloads: {

@@ -902,18 +902,6 @@
                        removable="true"
                        cui-areatype="toolbar"
                        tooltip="dynamic-shortcut-tooltip"/>
-
-        <toolbarbutton id="home-button" class="toolbarbutton-1 chromeclass-toolbar-additional"
-                       removable="true"
-                       label="&homeButton.label;"
-                       ondragover="homeButtonObserver.onDragOver(event)"
-                       ondragenter="homeButtonObserver.onDragOver(event)"
-                       ondrop="homeButtonObserver.onDrop(event)"
-                       ondragexit="homeButtonObserver.onDragExit(event)"
-                       key="goHome"
-                       onclick="BrowserGoHome(event);"
-                       cui-areatype="toolbar"
-                       aboutHomeOverrideTooltip="&abouthome.pageTitle;"/>
       </hbox>
 
       <toolbarbutton id="nav-bar-overflow-button"

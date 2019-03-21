@@ -147,11 +147,8 @@ var AboutHomeListener = {
 
     // Inject search engine and snippets URL.
     let docElt = doc.documentElement;
-    // Set snippetsVersion last, which triggers to show the snippets when it's set.
-    docElt.setAttribute("snippetsURL", aData.snippetsURL);
     if (aData.showKnowYourRights)
       docElt.setAttribute("showKnowYourRights", "true");
-    docElt.setAttribute("snippetsVersion", aData.snippetsVersion);
   },
 
   onPageLoad: function() {

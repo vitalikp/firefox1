@@ -292,6 +292,7 @@ var gPage = {
   },
 
   maybeShowAutoMigrationUndoNotification() {
-    sendAsyncMessage("NewTab:MaybeShowAutoMigrationUndoNotification");
+    if (typeof sendAsyncMessage === 'function')
+      sendAsyncMessage("NewTab:MaybeShowAutoMigrationUndoNotification");
   },
 };

@@ -214,11 +214,6 @@ user_pref("browser.newtabpage.introShown", true);
 // Enable webapps testing mode, which bypasses native installation.
 user_pref("browser.webapps.testing", true);
 
-// Disable android snippets
-user_pref("browser.snippets.enabled", false);
-user_pref("browser.snippets.syncPromo.enabled", false);
-user_pref("browser.snippets.firstrunHomepage.enabled", false);
-
 // Disable useragent updates.
 user_pref("general.useragent.updates.enabled", false);
 
@@ -277,9 +272,6 @@ user_pref("browser.translation.bing.authURL", "http://%(server)s/browser/browser
 user_pref("browser.translation.bing.translateArrayURL", "http://%(server)s/browser/browser/components/translation/test/bing.sjs");
 user_pref("browser.translation.yandex.translateURLOverride", "http://%(server)s/browser/browser/components/translation/test/yandex.sjs");
 user_pref("browser.translation.engine", "bing");
-
-// Make sure we don't try to load snippets from the network.
-user_pref("browser.aboutHomeSnippets.updateUrl", "nonexistent://test");
 
 // Don't fetch or send directory tiles data from real servers
 user_pref("browser.newtabpage.directory.source", 'data:application/json,{"testing":1}');

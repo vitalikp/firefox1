@@ -532,7 +532,6 @@
 @BINPATH@/components/PromptService.js
 @BINPATH@/components/SessionStore.js
 @BINPATH@/components/SiteSpecificUserAgent.js
-@BINPATH@/components/Snippets.js
 
 @BINPATH@/components/XPIDialogService.js
 

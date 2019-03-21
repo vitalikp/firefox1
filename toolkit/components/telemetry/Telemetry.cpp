@@ -2124,7 +2124,7 @@ struct TrackedDBEntry
 // A whitelist of database names. If the database name exactly matches one of
 // these then its SQL statements will always be recorded.
 static constexpr TrackedDBEntry kTrackedDBs[] = {
-  // IndexedDB for about:home, see aboutHome.js
+  // IndexedDB for about:home
   TRACKEDDB_ENTRY("818200132aebmoouht.sqlite"),
   TRACKEDDB_ENTRY("addons.sqlite"),
   TRACKEDDB_ENTRY("content-prefs.sqlite"),

@@ -39,8 +39,6 @@ def normalize_l10n_path(p):
 
     >>> normalize_l10n_path('chrome/es-ES/locale/branding/brand.properties')
     'chrome/en-US/locale/branding/brand.properties'
-    >>> normalize_l10n_path('chrome/fr/locale/fr/browser/aboutHome.dtd')
-    'chrome/en-US/locale/en-US/browser/aboutHome.dtd'
     '''
     # Keep a trailing slash here! e.g. locales like 'br' can transform
     # 'chrome/br/locale/branding/' into 'chrome/en-US/locale/en-USanding/'

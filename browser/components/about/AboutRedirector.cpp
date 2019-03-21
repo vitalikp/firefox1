@@ -79,13 +79,8 @@ static RedirEntry kRedirMap[] = {
     nsIAboutModule::ALLOW_SCRIPT },
   { "sync-tabs", "chrome://browser/content/sync/aboutSyncTabs.xul",
     nsIAboutModule::ALLOW_SCRIPT },
-  // Linkable because of indexeddb use (bug 1228118)
-  { "home", "chrome://browser/content/abouthome/aboutHome.xhtml",
-    nsIAboutModule::URI_SAFE_FOR_UNTRUSTED_CONTENT |
-    nsIAboutModule::URI_MUST_LOAD_IN_CHILD |
-    nsIAboutModule::ALLOW_SCRIPT |
-    nsIAboutModule::MAKE_LINKABLE |
-    nsIAboutModule::ENABLE_INDEXED_DB },
+  { "home", "about:blank",
+    nsIAboutModule::ALLOW_SCRIPT },
   // the newtab's actual URL will be determined when the channel is created
   { "newtab", "about:blank",
     nsIAboutModule::ALLOW_SCRIPT },
@@ -143,7 +138,7 @@ AboutRedirector::NewChannel(nsIURI* aURI,
     if (!strcmp(path.get(), kRedirMap[i].id)) {
       nsAutoCString url;
 
-      if (path.EqualsLiteral("newtab")) {
+      if (path.EqualsLiteral("newtab") || path.EqualsLiteral("home")) {
         // let the aboutNewTabService decide where to redirect
         nsCOMPtr<nsIAboutNewTabService> aboutNewTabService =
           do_GetService("@mozilla.org/browser/aboutnewtab-service;1", &rv);

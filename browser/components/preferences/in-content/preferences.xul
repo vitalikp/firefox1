@@ -31,7 +31,6 @@
   "chrome://browser/locale/preferences/containers.dtd">
 <!ENTITY % sanitizeDTD SYSTEM "chrome://browser/locale/sanitize.dtd">
 <!ENTITY % mainDTD SYSTEM "chrome://browser/locale/preferences/main.dtd">
-<!ENTITY % aboutHomeDTD SYSTEM "chrome://browser/locale/aboutHome.dtd">
 <!ENTITY % contentDTD SYSTEM "chrome://browser/locale/preferences/content.dtd">
 <!ENTITY % applicationsDTD SYSTEM
   "chrome://browser/locale/preferences/applications.dtd">
@@ -49,7 +48,6 @@
 %containersDTD;
 %sanitizeDTD;
 %mainDTD;
-%aboutHomeDTD;
 %contentDTD;
 %applicationsDTD;
 %advancedDTD;
