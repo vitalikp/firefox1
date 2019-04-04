@@ -134,7 +134,7 @@ public:
     }
   }
 private:
-  std::auto_ptr<EnvironmentEnvp> mEnvp;
+  std::unique_ptr<EnvironmentEnvp> mEnvp;
 };
 
 bool LaunchApp(const std::vector<std::string>& argv,
