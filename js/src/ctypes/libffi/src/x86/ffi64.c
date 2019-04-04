@@ -192,7 +192,7 @@ classify_argument (ffi_type *type, enum x86_64_reg_class classes[],
 	    return 2;
 	  }
 	else
-	  FFI_ASSERT (0);
+	  { FFI_ASSERT (0); }
       }
     case FFI_TYPE_FLOAT:
       if (!(byte_offset % 8))
