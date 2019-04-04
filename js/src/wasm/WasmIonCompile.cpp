@@ -2256,7 +2256,7 @@ EmitRotate(FunctionCompiler& f, ValType type, bool isLeftRotation)
 static bool
 EmitBitNot(FunctionCompiler& f, ValType operandType)
 {
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readUnary(operandType, &input))
         return false;
 
