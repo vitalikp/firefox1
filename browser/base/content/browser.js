@@ -17,7 +17,6 @@ Cu.import("resource://gre/modules/NotificationDB.jsm");
   ["AddonWatcher", "resource://gre/modules/AddonWatcher.jsm"],
   ["AppConstants", "resource://gre/modules/AppConstants.jsm"],
   ["BrowserUITelemetry", "resource:///modules/BrowserUITelemetry.jsm"],
-  ["BrowserUsageTelemetry", "resource:///modules/BrowserUsageTelemetry.jsm"],
   ["BrowserUtils", "resource://gre/modules/BrowserUtils.jsm"],
   ["CastingApps", "resource:///modules/CastingApps.jsm"],
   ["CharsetMenu", "resource://gre/modules/CharsetMenu.jsm"],
@@ -3783,22 +3782,14 @@ const BrowserSearch = {
    * @param engine
    *        (nsISearchEngine) The engine handling the search.
    * @param source
-   *        (string) Where the search originated from. See BrowserUsageTelemetry for
-   *        allowed values.
+   *        (string) Where the search originated from.
    * @param details [optional]
-   *        An optional parameter passed to |BrowserUsageTelemetry.recordSearch|.
-   *        See its documentation for allowed options.
    *        Additionally, if the search was a suggested search, |details.selection|
    *        indicates where the item was in the suggestion list and how the user
    *        selected it: {selection: {index: The selected index, kind: "key" or "mouse"}}
    */
   recordSearchInTelemetry: function (engine, source, details = {}) {
     BrowserUITelemetry.countSearchEvent(source, null, details.selection);
-    try {
-      BrowserUsageTelemetry.recordSearch(engine, source, details);
-    } catch (ex) {
-      Cu.reportError(ex);
-    }
   },
 
   /**
@@ -3809,8 +3800,7 @@ const BrowserSearch = {
    * @param engine
    *        (nsISearchEngine) The engine handling the search.
    * @param source
-   *        (string) Where the search originated from. See BrowserUsageTelemetry for
-   *        allowed values.
+   *        (string) Where the search originated from.
    * @param type
    *        (string) Indicates how the user selected the search item.
    * @param where
@@ -3819,12 +3809,6 @@ const BrowserSearch = {
   recordOneoffSearchInTelemetry: function (engine, source, type, where) {
     let id = this._getSearchEngineId(engine) + "." + source;
     BrowserUITelemetry.countOneoffSearchEvent(id, type, where);
-    try {
-      const details = {type, isOneOff: true};
-      BrowserUsageTelemetry.recordSearch(engine, source, details);
-    } catch (ex) {
-      Cu.reportError(ex);
-    }
   }
 };
 

@@ -28,7 +28,6 @@ XPCOMUtils.defineLazyServiceGetter(this, "AlertsService", "@mozilla.org/alerts-s
   ["BookmarkHTMLUtils", "resource://gre/modules/BookmarkHTMLUtils.jsm"],
   ["BookmarkJSONUtils", "resource://gre/modules/BookmarkJSONUtils.jsm"],
   ["BrowserUITelemetry", "resource:///modules/BrowserUITelemetry.jsm"],
-  ["BrowserUsageTelemetry", "resource:///modules/BrowserUsageTelemetry.jsm"],
   ["ContentClick", "resource:///modules/ContentClick.jsm"],
   ["ContentPrefServiceParent", "resource://gre/modules/ContentPrefServiceParent.jsm"],
   ["ContentSearch", "resource:///modules/ContentSearch.jsm"],
@@ -665,7 +664,6 @@ BrowserGlue.prototype = {
     NewTabMessages.init();
 
     SessionStore.init();
-    BrowserUsageTelemetry.init();
     BrowserUITelemetry.init();
     ContentSearch.init();
     FormValidationHandler.init();
@@ -1027,7 +1025,6 @@ BrowserGlue.prototype = {
       delete this._bookmarksBackupIdleTime;
     }
 
-    BrowserUsageTelemetry.uninit();
     SelfSupportBackend.uninit();
     PageThumbs.uninit();
     NewTabMessages.uninit();
