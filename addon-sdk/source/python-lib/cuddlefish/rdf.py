@@ -165,7 +165,7 @@ def gen_manifest(template_root_dir, target_cfg, jid,
         # https://bugzilla.mozilla.org/show_bug.cgi?id=971249
         manifest.set("em:optionsURL", "data:text/xml,<placeholder/>")
 
-        # workaround for workaround, for testing simple-prefs-regression
+        # workaround for workaround
         if (os.path.exists(os.path.join(template_root_dir, "options.xul"))):
             manifest.remove("em:optionsURL")
     else:

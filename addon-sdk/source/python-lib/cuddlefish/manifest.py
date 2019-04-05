@@ -414,7 +414,7 @@ class ManifestBuilder:
                 if them_me is None:
                     if mi.section == "tests":
                         # tolerate missing modules in tests, because
-                        # test-securable-module.js, and the modules/red.js
+                        # test-securable-module.js
                         # that it imports, both do that intentionally
                         continue
                     if reqname.endswith(".jsm"):
