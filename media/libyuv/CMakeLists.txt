@@ -56,22 +56,6 @@ set(ly_source_files
   ${ly_src_dir}/video_common.cc
 )
 
-set(ly_unittest_sources
-  ${ly_base_dir}/unit_test/basictypes_test.cc
-  ${ly_base_dir}/unit_test/color_test.cc
-  ${ly_base_dir}/unit_test/compare_test.cc
-  ${ly_base_dir}/unit_test/convert_test.cc
-  ${ly_base_dir}/unit_test/cpu_test.cc
-  ${ly_base_dir}/unit_test/math_test.cc
-  ${ly_base_dir}/unit_test/planar_test.cc
-  ${ly_base_dir}/unit_test/rotate_argb_test.cc
-  ${ly_base_dir}/unit_test/rotate_test.cc
-  ${ly_base_dir}/unit_test/scale_argb_test.cc
-  ${ly_base_dir}/unit_test/scale_test.cc
-  ${ly_base_dir}/unit_test/unit_test.cc
-  ${ly_base_dir}/unit_test/video_common_test.cc
-)
-
 set(ly_header_files
   ${ly_inc_dir}/libyuv/basic_types.h
   ${ly_inc_dir}/libyuv/compare.h
@@ -122,19 +106,6 @@ if(TEST)
       message(FATAL_ERROR "TEST is set but unable to find gtest library")
     endif()
   endif()
-
-  add_executable(libyuv_unittest ${ly_unittest_sources})
-  target_link_libraries(libyuv_unittest ${ly_lib_name} ${GTEST_LIBRARY} pthread)
-  if (JPEG_FOUND)
-    target_link_libraries(libyuv_unittest ${JPEG_LIBRARY})
-  endif()
-  
-  if(NACL AND NACL_LIBC STREQUAL "newlib")
-    target_link_libraries(libyuv_unittest glibc-compat)
-  endif()
-
-  target_link_libraries(libyuv_unittest gflags)
-  
 endif()
 
 install(TARGETS ${ly_lib_name} DESTINATION lib)
