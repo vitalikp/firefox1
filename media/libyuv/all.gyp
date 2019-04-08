@@ -14,7 +14,6 @@
       'type': 'none',
       'dependencies': [
         'libyuv.gyp:*',
-        'libyuv_test.gyp:*',
       ],
     },
   ],
