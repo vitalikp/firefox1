@@ -20,7 +20,6 @@ from mozboot.osx import OSXBootstrapper
 from mozboot.openbsd import OpenBSDBootstrapper
 from mozboot.archlinux import ArchlinuxBootstrapper
 from mozboot.windows import WindowsBootstrapper
-from mozboot.mozillabuild import MozillaBuildBootstrapper
 from mozboot.util import (
     get_state_dir,
 )
@@ -197,12 +196,6 @@ class Bootstrapper(object):
             cls = FreeBSDBootstrapper
             args['version'] = platform.release()
             args['flavor'] = platform.system()
-
-        elif sys.platform.startswith('win32') or sys.platform.startswith('msys'):
-            if 'MOZILLABUILD' in os.environ:
-                cls = MozillaBuildBootstrapper
-            else:
-                cls = WindowsBootstrapper
 
         if cls is None:
             raise NotImplementedError('Bootstrap support is not yet available '
