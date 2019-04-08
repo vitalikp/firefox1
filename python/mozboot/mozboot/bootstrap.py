@@ -19,7 +19,6 @@ from mozboot.gentoo import GentooBootstrapper
 from mozboot.osx import OSXBootstrapper
 from mozboot.openbsd import OpenBSDBootstrapper
 from mozboot.archlinux import ArchlinuxBootstrapper
-from mozboot.windows import WindowsBootstrapper
 from mozboot.util import (
     get_state_dir,
 )
