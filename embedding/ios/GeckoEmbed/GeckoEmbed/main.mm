@@ -33,7 +33,6 @@ static const nsXREAppData sAppData = {
   nullptr, // xreDirectory
   "38.0a1",
   "*",
-  "https://crash-reports.mozilla.com/submit",
   nullptr,
   "Firefox"
 };

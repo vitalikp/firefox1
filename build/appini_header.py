@@ -16,10 +16,6 @@ def main(output, file):
         if config.getint('XRE', 'EnableProfileMigrator') == 1:
             flags.add('NS_XRE_ENABLE_PROFILE_MIGRATOR')
     except: pass
-    try:
-        if config.getint('Crash Reporter', 'Enabled') == 1:
-            flags.add('NS_XRE_ENABLE_CRASH_REPORTER')
-    except: pass
     appdata = dict(("%s:%s" % (s, o), config.get(s, o)) for s in config.sections() for o in config.options(s))
     appdata['flags'] = ' | '.join(flags) if flags else '0'
     appdata['App:profile'] = '"%s"' % appdata['App:profile'] if 'App:profile' in appdata else 'NULL'
@@ -30,9 +26,6 @@ def main(output, file):
         print >>sys.stderr, \
             "Missing values in %s: %s" % (file, ', '.join(missing))
         sys.exit(1)
-
-    if not 'Crash Reporter:serverurl' in appdata:
-        appdata['Crash Reporter:serverurl'] = ''
 
     output.write('''#include "nsXREAppData.h"
              static const nsXREAppData sAppData = {
@@ -49,7 +42,6 @@ def main(output, file):
                  NULL, // xreDirectory
                  "%(Gecko:minversion)s",
                  "%(Gecko:maxversion)s",
-                 "%(Crash Reporter:serverurl)s",
                  %(App:profile)s
              };''' % appdata)
 
