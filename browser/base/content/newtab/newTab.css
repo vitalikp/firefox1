@@ -135,9 +135,9 @@ body:not(.compact) #topsites-heading {
 /* CELLS */
 .newtab-cell {
   display: -moz-box;
-  height: 210px;
-  margin: 20px 10px 35px;
-  width: 290px;
+  height: 120px;
+  margin: 10px;
+  width: 255px;
 }
 
 body.compact .newtab-cell {
@@ -327,7 +327,8 @@ body.compact .newtab-cell {
 
 /* SEARCH */
 #newtab-search-container {
-  display: -moz-box;
+  /*display: -moz-box;*/
+  display: none;
   position: relative;
   -moz-box-pack: center;
   margin: 40px 0 15px;

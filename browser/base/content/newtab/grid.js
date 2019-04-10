@@ -274,6 +274,6 @@ var gGrid = {
     this._node.style.maxWidth = gGridPrefs.gridColumns * this._cellWidth +
                                 GRID_WIDTH_EXTRA + "px";
     this._node.style.height = this._computeHeight() + "px";
-    this._node.style.maxHeight = this._computeHeight(gridRows) - SPONSORED_TAG_BUFFER + "px";
+    this._node.style.maxHeight = this._computeHeight(gridRows) + GRID_BOTTOM_EXTRA + "px";
   }
 };

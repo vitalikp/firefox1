@@ -114,7 +114,7 @@
 
 /* CELLS */
 .newtab-cell {
-  --cell-corner-radius: 8px;
+  --cell-corner-radius: 5px;
   background-color: rgba(255,255,255,.2);
   border-radius: var(--cell-corner-radius);
 }
@@ -124,8 +124,8 @@ body.compact .newtab-cell {
 }
 
 .newtab-cell:empty {
-  outline: 2px dashed #c1c1c1;
-  outline-offset: -2px;
+  outline: 1px dashed #c1c1c1;
+  outline-offset: -1px;
   -moz-outline-radius: var(--cell-corner-radius);
 }
 
@@ -140,9 +140,9 @@ body.compact .newtab-cell {
 .newtab-cell:not([ignorehover]) .newtab-control:hover ~ .newtab-link,
 .newtab-cell:not([ignorehover]) .newtab-link:hover,
 .newtab-site[dragged] {
-  border: 2px solid white;
+  border: none;
   box-shadow: 0 0 6px 1px #add6ff;
-  margin: -2px;
+  margin: 0;
 }
 
 .newtab-site[dragged] {
@@ -249,9 +249,9 @@ body.compact .newtab-suggested {
 
 body:not(.compact) .newtab-site:hover .newtab-title {
   color: white;
-  background-color: #333;
-  border-color: #333;
-  border-top-color: white;
+  background-color: #57c;
+  border-color: #57c;
+  border-top: none;
 }
 
 body.compact .newtab-site:hover .newtab-title {
@@ -266,7 +266,7 @@ body.compact .newtab-site:hover .newtab-title {
 }
 
 .newtab-site[pinned] .newtab-title::before {
-  background-image: -moz-image-rect(url("chrome://browser/skin/newtab/controls.svg"), 7, 278, 28, 266);
+  background-image: none;
   background-size: 10px;
   content: "";
   height: 17px;
