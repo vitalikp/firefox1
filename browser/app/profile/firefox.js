@@ -1156,7 +1156,7 @@ pref("browser.newtabpage.compact", false);
 pref("browser.newtabpage.thumbnailPlaceholder", false);
 
 // number of rows of newtab grid
-pref("browser.newtabpage.rows", 3);
+pref("browser.newtabpage.rows", 5);
 
 // number of columns of newtab grid
 pref("browser.newtabpage.columns", 5);
