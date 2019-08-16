@@ -42,8 +42,6 @@ const PREF_MODE = "browser.newtabpage.remote.mode";
  * Mode choices:
  * 'production': pages from our production CDN
  * 'staging': pages from our staging CDN
- * 'test': intended for tests
- * 'test2': intended for tests
  * 'dev': intended for development
  *
  *  An unknown mode will result in 'production' mode, which is the default
