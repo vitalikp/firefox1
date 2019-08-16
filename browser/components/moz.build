@@ -50,7 +50,6 @@ EXTRA_JS_MODULES += [
 ]
 
 BROWSER_CHROME_MANIFESTS += [
-    'safebrowsing/content/test/browser.ini',
     'tests/browser/browser.ini'
 ]
 
