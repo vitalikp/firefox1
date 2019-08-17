@@ -228,9 +228,6 @@ private:
   // 2. If true, interim results SHOULD be returned
   // 3. If false, interim results MUST NOT be returned
   //
-  // Pocketsphinx does not return interm results; so, defaulting
-  // mInterimResults to false, then ignoring its subsequent value
-  // is a conforming implementation.
   bool mInterimResults;
 
   // WebSpeechAPI (http://bit.ly/1JAiqeo) states:
@@ -238,10 +235,6 @@ private:
   // 1. Default value is 1
   // 2. Subsequent value is the "maximum number of SpeechRecognitionAlternatives per result"
   //
-  // Pocketsphinx can only return at maximum a single SpeechRecognitionAlternative
-  // per SpeechRecognitionResult. So defaulting mMaxAlternatives to 1, for all non
-  // zero values ignoring mMaxAlternatives while for a 0 value returning no
-  // SpeechRecognitionAlternative per result is a conforming implementation.
   uint32_t mMaxAlternatives;
 
   void ProcessTestEventRequest(nsISupports* aSubject, const nsAString& aEventName);

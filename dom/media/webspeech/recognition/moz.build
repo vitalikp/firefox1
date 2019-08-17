@@ -46,7 +46,6 @@ if CONFIG['MOZ_WEBSPEECH_TEST_BACKEND']:
 
 LOCAL_INCLUDES += [
     '/dom/base',
-    '/media/sphinxbase',
 ]
 
 if CONFIG['MOZ_WEBSPEECH_MODELS']:

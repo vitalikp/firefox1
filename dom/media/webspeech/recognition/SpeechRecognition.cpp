@@ -43,8 +43,6 @@ namespace mozilla {
 namespace dom {
 
 #define PREFERENCE_DEFAULT_RECOGNITION_SERVICE "media.webspeech.service.default"
-#define DEFAULT_RECOGNITION_SERVICE_PREFIX "pocketsphinx-"
-#define DEFAULT_RECOGNITION_SERVICE "pocketsphinx-en-US"
 
 #define PREFERENCE_ENDPOINTER_SILENCE_LENGTH "media.webspeech.silence_length"
 #define PREFERENCE_ENDPOINTER_LONG_SILENCE_LENGTH "media.webspeech.long_silence_length"
@@ -75,14 +73,10 @@ GetSpeechRecognitionService(const nsAString& aLang)
     Preferences::GetCString(PREFERENCE_DEFAULT_RECOGNITION_SERVICE);
   nsAutoCString speechRecognitionService;
 
-  if (!aLang.IsEmpty()) {
-    speechRecognitionService =
-      NS_LITERAL_CSTRING(DEFAULT_RECOGNITION_SERVICE_PREFIX) +
-      NS_ConvertUTF16toUTF8(aLang);
-  } else if (!prefValue.IsEmpty()) {
+  if (!prefValue.IsEmpty()) {
     speechRecognitionService = prefValue;
   } else {
-    speechRecognitionService = DEFAULT_RECOGNITION_SERVICE;
+    speechRecognitionService = "";
   }
 
   if (MediaPrefs::WebSpeechFakeRecognitionService()) {
