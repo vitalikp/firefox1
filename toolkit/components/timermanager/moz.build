@@ -6,8 +6,6 @@
 
 XPIDL_MODULE = 'update'
 
-XPCSHELL_TESTS_MANIFESTS += ['tests/unit/xpcshell.ini']
-
 XPIDL_SOURCES += [
     'nsIUpdateTimerManager.idl',
 ]
