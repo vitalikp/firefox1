@@ -67,9 +67,6 @@ browser/components/tabview/**
 # generated files in cld2
 browser/components/translation/cld2/cld-worker.js
 browser/extensions/pdfjs/**
-# generated or library files in pocket
-browser/extensions/pocket/content/panels/js/tmpl.js
-browser/extensions/pocket/content/panels/js/vendor/**
 browser/locales/**
 
 # devtools/ exclusions
