@@ -45,21 +45,6 @@
 #define NS_PARENTALCONTROLSSERVICE_CONTRACTID \
     "@mozilla.org/parental-controls-service;1"
 
-#define NS_URLCLASSIFIERPREFIXSET_CONTRACTID \
-  "@mozilla.org/url-classifier/prefixset;1"
-
-#define NS_URLCLASSIFIERDBSERVICE_CONTRACTID \
-    "@mozilla.org/url-classifier/dbservice;1"
-
-#define NS_URLCLASSIFIERSTREAMUPDATER_CONTRACTID \
-    "@mozilla.org/url-classifier/streamupdater;1"
-
-#define NS_URLCLASSIFIERUTILS_CONTRACTID \
-    "@mozilla.org/url-classifier/utils;1"
-
-#define NS_URLCLASSIFIERHASHCOMPLETER_CONTRACTID \
-    "@mozilla.org/url-classifier/hashcompleter;1"
-
 #define NS_NAVHISTORYSERVICE_CONTRACTID \
   "@mozilla.org/browser/nav-history-service;1"
 
@@ -139,22 +124,6 @@
 #define NS_TYPEAHEADFIND_CID \
 { 0xe7f70966, 0x9a37, 0x48d7, { 0x8a, 0xeb, 0x35, 0x99, 0x8f, 0x31, 0x09, 0x0e} }
 
-// {3d8579f0-75fa-4e00-ba41-38661d5b5d17}
- #define NS_URLCLASSIFIERPREFIXSET_CID \
-{ 0x3d8579f0, 0x75fa, 0x4e00, { 0xba, 0x41, 0x38, 0x66, 0x1d, 0x5b, 0x5d, 0x17} }
-
-// {7a258022-6765-11e5-b379-b37b1f2354be}
-#define NS_URLCLASSIFIERDBSERVICE_CID \
-{ 0x7a258022, 0x6765, 0x11e5, { 0xb3, 0x79, 0xb3, 0x7b, 0x1f, 0x23, 0x54, 0xbe} }
-
-// e1797597-f4d6-4dd3-a1e1-745ad352cd80
-#define NS_URLCLASSIFIERSTREAMUPDATER_CID \
-{ 0xe1797597, 0xf4d6, 0x4dd3, { 0xa1, 0xe1, 0x74, 0x5a, 0xd3, 0x52, 0xcd, 0x80 }}
-
-// {b7b2ccec-7912-4ea6-a548-b038447004bd}
-#define NS_URLCLASSIFIERUTILS_CID \
-{ 0xb7b2ccec, 0x7912, 0x4ea6, { 0xa5, 0x48, 0xb0, 0x38, 0x44, 0x70, 0x04, 0xbd} }
-
 #define NS_NAVHISTORYSERVICE_CID \
 { 0x88cecbb7, 0x6c63, 0x4b3b, { 0x8c, 0xd4, 0x84, 0xf3, 0xb8, 0x22, 0x8c, 0x69 } }
 
@@ -174,12 +143,6 @@
 #define NS_UPDATEPROCESSOR_CID \
 { 0xf3dcf644, 0x79e8, 0x4f59, { 0xa1, 0xbb, 0x87, 0x84, 0x54, 0x48, 0x8e, 0xf9 } }
 #endif
-
-#define NS_APPLICATION_REPUTATION_SERVICE_CONTRACTID \
-  "@mozilla.org/downloads/application-reputation-service;1"
-
-#define NS_APPLICATION_REPUTATION_SERVICE_CID \
-{ 0x8576c950, 0xf4a2, 0x11e2, { 0xb7, 0x78, 0x08, 0x00, 0x20, 0x0c, 0x9a, 0x66 } }
 
 #define NS_ADDONCONTENTPOLICY_CID \
 { 0xc26a8241, 0xecf4, 0x4aed, { 0x9f, 0x3c, 0xf1, 0xf5, 0xc7, 0x13, 0xb9, 0xa5 } }

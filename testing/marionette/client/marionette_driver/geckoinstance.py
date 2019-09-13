@@ -258,9 +258,6 @@ class FennecInstance(GeckoInstance):
         # Enable output of dump()
         "browser.dom.window.dump.enabled": True,
 
-        # Disable safebrowsing components
-        "browser.safebrowsing.downloads.enabled": False,
-
         # Do not restore the last open set of tabs if the browser has crashed
         "browser.sessionstore.resume_from_crash": False,
 
@@ -387,13 +384,6 @@ class DesktopInstance(GeckoInstance):
 
         # Avoid performing Reader Mode intros during tests
         "browser.reader.detectedFirstArticle": True,
-
-        # Disable safebrowsing components
-        "browser.safebrowsing.blockedURIs.enabled": False,
-        "browser.safebrowsing.downloads.enabled": False,
-        "browser.safebrowsing.forbiddenURIs.enabled": False,
-        "browser.safebrowsing.malware.enabled": False,
-        "browser.safebrowsing.phishing.enabled": False,
 
         # Disable updates to search engines
         "browser.search.update": False,

@@ -2785,24 +2785,6 @@ public:
   virtual void AddSubImportLink(nsINode* aLink) = 0;
   virtual nsINode* GetSubImportLink(uint32_t aIdx) = 0;
 
-  /*
-   * Given a node, get a weak reference to it and append that reference to
-   * mBlockedTrackingNodes. Can be used later on to look up a node in it.
-   * (e.g., by the UI)
-   */
-  void AddBlockedTrackingNode(nsINode *node)
-  {
-    if (!node) {
-      return;
-    }
-
-    nsWeakPtr weakNode = do_GetWeakReference(node);
-
-    if (weakNode) {
-      mBlockedTrackingNodes.AppendElement(weakNode);
-    }
-  }
-
   gfxUserFontSet* GetUserFontSet(bool aFlushUserFontSet = true);
   void FlushUserFontSet();
   void RebuildUserFontSet(); // asynchronously
@@ -3282,13 +3264,6 @@ protected:
 
   // Count of live static clones of this document.
   uint32_t mStaticCloneCount;
-
-  // Array of nodes that have been blocked to prevent user tracking.
-  // They most likely have had their nsIChannel canceled by the URL
-  // classifier. (Safebrowsing)
-  //
-  // Weak nsINode pointers are used to allow nodes to disappear.
-  nsTArray<nsWeakPtr> mBlockedTrackingNodes;
 
   // Weak reference to mScriptGlobalObject QI:d to nsPIDOMWindow,
   // updated on every set of mScriptGlobalObject.

@@ -15,8 +15,6 @@ Cu.import("resource://testing-common/BrowserTestUtils.jsm");
 Cu.import("resource:///modules/SitePermissions.jsm");
 Cu.import("resource://gre/modules/NetUtil.jsm");
 
-let {UrlClassifierTestUtils} = Cu.import("resource://testing-common/UrlClassifierTestUtils.jsm", {});
-
 const RESOURCE_PATH = "extensions/mozscreenshots/browser/chrome/mozscreenshots/lib/controlCenter";
 const HTTP_PAGE = "http://example.com/";
 const HTTPS_PAGE = "https://example.com/";
@@ -188,34 +186,6 @@ this.ControlCenter = {
         Services.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
 
         yield loadPage(HTTP_PAGE);
-        yield openIdentityPopup();
-      }),
-    },
-
-    trackingProtectionEnabled: {
-      applyConfig: Task.async(function* () {
-        Services.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
-        Services.prefs.setIntPref("privacy.trackingprotection.introCount", 20);
-        yield UrlClassifierTestUtils.addTestTrackers();
-
-        yield loadPage(TRACKING_PAGE);
-        yield openIdentityPopup();
-      }),
-    },
-
-    trackingProtectionDisabled: {
-      applyConfig: Task.async(function* () {
-        let browserWindow = Services.wm.getMostRecentWindow("navigator:browser");
-        let gBrowser = browserWindow.gBrowser;
-        Services.prefs.setBoolPref("privacy.trackingprotection.enabled", true);
-        Services.prefs.setIntPref("privacy.trackingprotection.introCount", 20);
-        yield UrlClassifierTestUtils.addTestTrackers();
-
-        yield loadPage(TRACKING_PAGE);
-        yield openIdentityPopup();
-        // unblock the page
-        gBrowser.ownerGlobal.document.querySelector("#tracking-action-unblock").click();
-        yield BrowserTestUtils.browserLoaded(gBrowser.selectedBrowser, false, TRACKING_PAGE);
         yield openIdentityPopup();
       }),
     },

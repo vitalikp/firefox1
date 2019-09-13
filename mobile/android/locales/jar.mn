@@ -25,7 +25,6 @@
   locale/@AB_CD@/browser/devicePrompt.properties  (%chrome/devicePrompt.properties)
   locale/@AB_CD@/browser/pippki.properties        (%chrome/pippki.properties)
   locale/@AB_CD@/browser/sync.properties          (%chrome/sync.properties)
-  locale/@AB_CD@/browser/phishing.dtd             (%chrome/phishing.dtd)
   locale/@AB_CD@/browser/handling.properties      (%chrome/handling.properties)
   locale/@AB_CD@/browser/aboutLogins.dtd          (%chrome/aboutLogins.dtd)
   locale/@AB_CD@/browser/aboutLogins.properties  (%chrome/aboutLogins.properties)

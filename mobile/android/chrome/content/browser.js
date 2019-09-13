@@ -57,9 +57,6 @@ XPCOMUtils.defineLazyModuleGetter(this, "LoginManagerParent",
 XPCOMUtils.defineLazyModuleGetter(this, "Task", "resource://gre/modules/Task.jsm");
 XPCOMUtils.defineLazyModuleGetter(this, "OS", "resource://gre/modules/osfile.jsm");
 
-XPCOMUtils.defineLazyModuleGetter(this, "SafeBrowsing",
-                                  "resource://gre/modules/SafeBrowsing.jsm");
-
 XPCOMUtils.defineLazyModuleGetter(this, "BrowserUtils",
                                   "resource://gre/modules/BrowserUtils.jsm");
 
@@ -454,10 +451,6 @@ var BrowserApp = {
     }
 
     if (ParentalControls.parentalControlsEnabled) {
-        let isBlockListEnabled = ParentalControls.isAllowed(ParentalControls.BLOCK_LIST);
-        Services.prefs.setBoolPref("browser.safebrowsing.forbiddenURIs.enabled", isBlockListEnabled);
-        Services.prefs.setBoolPref("browser.safebrowsing.allowOverride", !isBlockListEnabled);
-
         let isTelemetryEnabled = ParentalControls.isAllowed(ParentalControls.TELEMETRY);
         Services.prefs.setBoolPref("toolkit.telemetry.enabled", isTelemetryEnabled);
 
@@ -529,9 +522,6 @@ var BrowserApp = {
       InitLater(() => CastingApps.init(), window, "CastingApps");
       InitLater(() => Services.search.init(), Services, "search");
       InitLater(() => DownloadNotifications.init(), window, "DownloadNotifications");
-
-      // Bug 778855 - Perf regression if we do this here. To be addressed in bug 779008.
-      InitLater(() => SafeBrowsing.init(), window, "SafeBrowsing");
 
       InitLater(() => Cc["@mozilla.org/login-manager;1"].getService(Ci.nsILoginManager));
       InitLater(() => LoginManagerParent.init(), window, "LoginManagerParent");
@@ -1017,20 +1007,6 @@ var BrowserApp = {
             Services.obs.notifyObservers(null, "default-search-engine-migrated", "");
           }
         });
-      }
-    }
-
-    if (currentUIVersion < 3) {
-      const kOldSafeBrowsingPref = "browser.safebrowsing.enabled";
-      // Default value is set to true, a user pref means that the pref was
-      // set to false.
-      if (Services.prefs.prefHasUserValue(kOldSafeBrowsingPref) &&
-          !Services.prefs.getBoolPref(kOldSafeBrowsingPref)) {
-        Services.prefs.setBoolPref("browser.safebrowsing.phishing.enabled",
-                                   false);
-        // Should just remove support for the pref entirely, even if it's
-        // only in about:config
-        Services.prefs.clearUserPref(kOldSafeBrowsingPref);
       }
     }
 
@@ -1619,9 +1595,6 @@ var BrowserApp = {
           }
 
           if (data.contentType === "tracking") {
-            // Convert document URI into the format used by
-            // nsChannelClassifier::ShouldEnableTrackingProtection
-            // (any scheme turned into https is correct)
             let normalizedUrl = Services.io.newURI("https://" + browser.currentURI.hostPort, null, null);
             if (data.allowContent) {
               // Add the current host in the 'trackingprotection' consumer of
@@ -4728,20 +4701,6 @@ var ErrorPageEventHandler = {
             // to the generic page describing phishing/malware protection.
             let url = Services.urlFormatter.formatURLPref("app.support.baseURL");
             BrowserApp.selectedBrowser.loadURI(url + "phishing-malware");
-          } else if (target == errorDoc.getElementById("ignoreWarningButton") &&
-                     Services.prefs.getBoolPref("browser.safebrowsing.allowOverride")) {
-            if (sendTelemetry) {
-              Telemetry.addData("SECURITY_UI", nsISecTel[bucketName + "IGNORE_WARNING"]);
-            }
-
-            // Allow users to override and continue through to the site,
-            let webNav = BrowserApp.selectedBrowser.docShell.QueryInterface(Ci.nsIWebNavigation);
-            let location = BrowserApp.selectedBrowser.contentWindow.location;
-            webNav.loadURI(location, Ci.nsIWebNavigation.LOAD_FLAGS_BYPASS_CLASSIFIER, null, null, null);
-
-            // ....but add a notify bar as a reminder, so that they don't lose
-            // track after, e.g., tab switching.
-            NativeWindow.doorhanger.show(Strings.browser.GetStringFromName("safeBrowsingDoorhanger"), "safebrowsing-warning", [], BrowserApp.selectedTab.id);
           }
         }
         break;
@@ -6302,16 +6261,6 @@ var Experiments = {
       let names = JSON.parse(experiments);
       for (let name of names) {
         switch (name) {
-          case this.MALWARE_DOWNLOAD_PROTECTION: {
-            // Apply experiment preferences on the default branch. This allows
-            // us to avoid migrating user prefs when experiments are enabled/disabled,
-            // and it also allows users to override these prefs in about:config.
-            let defaults = Services.prefs.getDefaultBranch(null);
-            defaults.setBoolPref("browser.safebrowsing.downloads.enabled", true);
-            defaults.setBoolPref("browser.safebrowsing.downloads.remote.enabled", true);
-            continue;
-          }
-
           case this.OFFLINE_CACHE: {
             let defaults = Services.prefs.getDefaultBranch(null);
             defaults.setBoolPref("browser.tabs.useCache", true);

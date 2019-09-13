@@ -2488,16 +2488,6 @@ nsScriptLoader::OnStreamComplete(nsIIncrementalStreamLoader* aLoader,
   }
 
   if (NS_FAILED(rv)) {
-    /*
-     * Handle script not loading error because source was a tracking URL.
-     * We make a note of this script node by including it in a dedicated
-     * array of blocked tracking nodes under its parent document.
-     */
-    if (rv == NS_ERROR_TRACKING_URI) {
-      nsCOMPtr<nsIContent> cont = do_QueryInterface(request->mElement);
-      mDocument->AddBlockedTrackingNode(cont);
-    }
-
     if (request->mIsDefer) {
       MOZ_ASSERT_IF(request->IsModuleRequest(),
                     request->AsModuleRequest()->IsTopLevel());

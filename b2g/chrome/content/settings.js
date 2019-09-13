@@ -533,8 +533,6 @@ var settingsToObserve = {
   },
   'app.update.interval': 86400,
   'apz.overscroll.enabled': true,
-  'browser.safebrowsing.phishing.enabled': true,
-  'browser.safebrowsing.malware.enabled': true,
   'debug.fps.enabled': {
     prefName: 'layers.acceleration.draw-fps',
     defaultValue: false

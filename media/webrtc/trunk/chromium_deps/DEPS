@@ -83,9 +83,6 @@ deps = {
   "src/third_party/hunspell_dictionaries":
     "/trunk/deps/third_party/hunspell_dictionaries@149334",
 
-  "src/third_party/safe_browsing/testing":
-    (Var("googlecode_url") % "google-safe-browsing") + "/trunk/testing@111",
-
   "src/third_party/cacheinvalidation/files/src/google":
     (Var("googlecode_url") % "google-cache-invalidation-api") +
     "/trunk/src/google@220",
@@ -442,7 +439,6 @@ deps_os = {
     "src/third_party/ots": None,
     "src/third_party/pylib": None,
     "src/third_party/pymox/src": None,
-    "src/third_party/safe_browsing/testing": None,
     "src/third_party/scons-2.0.1": None,
     "src/third_party/sfntly/cpp/src": None,
     "src/third_party/skia/src": None,

@@ -172,10 +172,6 @@ var gPrivacyPane = {
                      gPrivacyPane.trackingProtectionWritePrefs);
     setEventListener("trackingProtectionExceptions", "command",
                      gPrivacyPane.showTrackingProtectionExceptions);
-    setEventListener("changeBlockList", "command",
-                     gPrivacyPane.showBlockLists);
-    setEventListener("changeBlockListPBM", "command",
-                     gPrivacyPane.showBlockLists);
     setEventListener("browserContainersCheckbox", "command",
                      gPrivacyPane._checkBrowserContainers);
     setEventListener("browserContainersSettings", "command",
@@ -482,21 +478,6 @@ var gPrivacyPane = {
    */
   showContainerSettings() {
     gotoPref("containers");
-  },
-
-  /**
-   * Displays the available block lists for tracking protection.
-   */
-  showBlockLists: function ()
-  {
-    var bundlePreferences = document.getElementById("bundlePreferences");
-    let brandName = document.getElementById("bundleBrand")
-                            .getString("brandShortName");
-    var params = { brandShortName: brandName,
-                   windowTitle: bundlePreferences.getString("blockliststitle"),
-                   introText: bundlePreferences.getString("blockliststext") };
-    gSubDialog.open("chrome://browser/content/preferences/blocklists.xul",
-                    null, params);
   },
 
   /**

@@ -417,13 +417,6 @@
 ; Modules
 @BINPATH@/modules/*
 
-; Safe Browsing
-@BINPATH@/components/nsURLClassifier.manifest
-@BINPATH@/components/nsUrlClassifierHashCompleter.js
-@BINPATH@/components/nsUrlClassifierListManager.js
-@BINPATH@/components/nsUrlClassifierLib.js
-@BINPATH@/components/url-classifier.xpt
-
 ; Private Browsing
 @BINPATH@/components/privatebrowsing.xpt
 @BINPATH@/components/PrivateBrowsing.manifest

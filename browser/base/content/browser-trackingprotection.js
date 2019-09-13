@@ -137,8 +137,6 @@ var TrackingProtection = {
   },
 
   disableForCurrentPage() {
-    // Convert document URI into the format used by
-    // nsChannelClassifier::ShouldEnableTrackingProtection.
     // Any scheme turned into https is correct.
     let normalizedUrl = Services.io.newURI(
       "https://" + gBrowser.selectedBrowser.currentURI.hostPort,

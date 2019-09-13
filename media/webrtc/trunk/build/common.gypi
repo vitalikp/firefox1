@@ -245,9 +245,6 @@
       # Configuration policy is enabled by default. Set to 0 to disable.
       'configuration_policy%': 1,
 
-      # Safe browsing is compiled in by default. Set to 0 to disable.
-      'safe_browsing%': 1,
-
       # Speech input is compiled in by default. Set to 0 to disable.
       'input_speech%': 1,
 
@@ -640,7 +637,6 @@
     'enable_webrtc%': '<(enable_webrtc)',
     'chromium_win_pch%': '<(chromium_win_pch)',
     'configuration_policy%': '<(configuration_policy)',
-    'safe_browsing%': '<(safe_browsing)',
     'input_speech%': '<(input_speech)',
     'notifications%': '<(notifications)',
     'clang_use_chrome_plugins%': '<(clang_use_chrome_plugins)',
@@ -1058,7 +1054,6 @@
 
         'proprietary_codecs%': '<(proprietary_codecs)',
         'enable_task_manager%': 0,
-        'safe_browsing%': 0,
         'configuration_policy%': 0,
         'input_speech%': 0,
         'enable_web_intents%': 0,
