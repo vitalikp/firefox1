@@ -368,26 +368,6 @@ var ViewSourceContent = {
         event.stopPropagation();
       });
     }
-
-    // Don't trust synthetic events
-    if (!event.isTrusted || event.target.localName != "button")
-      return;
-
-    let errorDoc = target.ownerDocument;
-
-    if (/^about:blocked/.test(errorDoc.documentURI)) {
-      // The event came from a button on a malware/phishing block page
-
-      if (target == errorDoc.getElementById("getMeOutButton")) {
-        // Instead of loading some safe page, just close the window
-        sendAsyncMessage("ViewSource:Close");
-      } else if (target == errorDoc.getElementById("reportButton")) {
-        // This is the "Why is this site blocked" button. We redirect
-        // to the generic page describing phishing/malware protection.
-        let URL = Services.urlFormatter.formatURLPref("app.support.baseURL");
-        sendAsyncMessage("ViewSource:OpenURL", { URL })
-      }
-    }
   },
 
   /**

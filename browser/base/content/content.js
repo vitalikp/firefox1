@@ -458,9 +458,6 @@ var ClickEventHandler = {
     if (ownerDoc.documentURI.startsWith("about:certerror")) {
       this.onCertError(originalTarget, ownerDoc);
       return;
-    } else if (ownerDoc.documentURI.startsWith("about:blocked")) {
-      this.onAboutBlocked(originalTarget, ownerDoc);
-      return;
     } else if (ownerDoc.documentURI.startsWith("about:neterror")) {
       this.onAboutNetError(event, ownerDoc.documentURI);
       return;
@@ -877,7 +874,7 @@ addMessageListener("ContextMenu:SearchFieldBookmarkData", (message) => {
 
 addMessageListener("Bookmarks:GetPageDetails", (message) => {
   let doc = content.document;
-  let isErrorPage = /^about:(neterror|certerror|blocked)/.test(doc.documentURI);
+  let isErrorPage = /^about:(neterror|certerror)/.test(doc.documentURI);
   sendAsyncMessage("Bookmarks:GetPageDetails:Result",
                    { isErrorPage: isErrorPage,
                      description: PlacesUIUtils.getDescriptionFromDocument(doc) });

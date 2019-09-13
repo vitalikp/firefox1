@@ -37,11 +37,6 @@ var modules = {
     uri: "chrome://browser/content/aboutRights.xhtml",
     privileged: false
   },
-  blocked: {
-    uri: "chrome://browser/content/blockedSite.xhtml",
-    privileged: false,
-    hide: true
-  },
   certerror: {
     uri: "chrome://browser/content/aboutCertError.xhtml",
     privileged: false,

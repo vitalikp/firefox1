@@ -1368,7 +1368,7 @@ GeckoDriver.prototype.switchToParentFrame = function*(cmd, resp) {
 GeckoDriver.prototype.switchToFrame = function* (cmd, resp) {
   let {id, element, focus} = cmd.parameters;
 
-  const otherErrorsExpr = /about:.+(error)|(blocked)\?/;
+  const otherErrorsExpr = /about:.+(error)\?/;
   const checkTimer = Cc["@mozilla.org/timer;1"].createInstance(Ci.nsITimer);
 
   let curWindow = this.getCurrentWindow();
