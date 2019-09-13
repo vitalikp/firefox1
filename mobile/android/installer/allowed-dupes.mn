@@ -23,7 +23,6 @@ chrome/en-US/locale/en-US/browser/config.properties
 chrome/en-US/locale/en-US/browser/devicePrompt.properties
 chrome/en-US/locale/en-US/browser/handling.properties
 chrome/en-US/locale/en-US/browser/passwordmgr.properties
-chrome/en-US/locale/en-US/browser/phishing.dtd
 chrome/en-US/locale/en-US/browser/sync.properties
 chrome/en-US/locale/en-US/browser/overrides/aboutAbout.dtd
 chrome/en-US/locale/en-US/browser/overrides/global.dtd

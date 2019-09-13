@@ -84,10 +84,6 @@ XPCOMUtils.defineLazyGetter(this, "gParentalControlsService", function() {
   return null;
 });
 
-XPCOMUtils.defineLazyServiceGetter(this, "gApplicationReputationService",
-           "@mozilla.org/downloads/application-reputation-service;1",
-           Ci.nsIApplicationReputationService);
-
 XPCOMUtils.defineLazyServiceGetter(this, "volumeService",
                                    "@mozilla.org/telephony/volume-service;1",
                                    "nsIVolumeService");
@@ -133,20 +129,6 @@ const kObserverTopics = [
   "network:offline-status-changed",
   "xpcom-will-shutdown",
 ];
-
-/**
- * Maps nsIApplicationReputationService verdicts with the DownloadError ones.
- */
-const kVerdictMap = {
-  [Ci.nsIApplicationReputationService.VERDICT_DANGEROUS]:
-                Downloads.Error.BLOCK_VERDICT_MALWARE,
-  [Ci.nsIApplicationReputationService.VERDICT_UNCOMMON]:
-                Downloads.Error.BLOCK_VERDICT_UNCOMMON,
-  [Ci.nsIApplicationReputationService.VERDICT_POTENTIALLY_UNWANTED]:
-                Downloads.Error.BLOCK_VERDICT_POTENTIALLY_UNWANTED,
-  [Ci.nsIApplicationReputationService.VERDICT_DANGEROUS_HOST]:
-                Downloads.Error.BLOCK_VERDICT_MALWARE,
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 //// DownloadIntegration
@@ -480,46 +462,10 @@ this.DownloadIntegration = {
    *           }
    */
   shouldBlockForReputationCheck(aDownload) {
-    let hash;
-    let sigInfo;
-    let channelRedirects;
-    try {
-      hash = aDownload.saver.getSha256Hash();
-      sigInfo = aDownload.saver.getSignatureInfo();
-      channelRedirects = aDownload.saver.getRedirects();
-    } catch (ex) {
-      // Bail if DownloadSaver doesn't have a hash or signature info.
-      return Promise.resolve({
-        shouldBlock: false,
-        verdict: "",
-      });
-    }
-    if (!hash || !sigInfo) {
-      return Promise.resolve({
-        shouldBlock: false,
-        verdict: "",
-      });
-    }
-    let deferred = Promise.defer();
-    let aReferrer = null;
-    if (aDownload.source.referrer) {
-      aReferrer = NetUtil.newURI(aDownload.source.referrer);
-    }
-    gApplicationReputationService.queryReputation({
-      sourceURI: NetUtil.newURI(aDownload.source.url),
-      referrerURI: aReferrer,
-      fileSize: aDownload.currentBytes,
-      sha256Hash: hash,
-      suggestedFileName: OS.Path.basename(aDownload.target.path),
-      signatureInfo: sigInfo,
-      redirects: channelRedirects },
-      function onComplete(aShouldBlock, aRv, aVerdict) {
-        deferred.resolve({
-          shouldBlock: aShouldBlock,
-          verdict: (aShouldBlock && kVerdictMap[aVerdict]) || "",
-        });
-      });
-    return deferred.promise;
+    return Promise.resolve({
+      shouldBlock: false,
+      verdict: "",
+    });
   },
 
 #ifdef XP_WIN

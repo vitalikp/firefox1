@@ -7,20 +7,7 @@
 with Files('*'):
     BUG_COMPONENT = ('Toolkit', 'Download Manager')
 
-with Files('ApplicationReputation.*'):
-    BUG_COMPONENT = ('Toolkit', 'Safe Browsing')
-
-with Files('chromium/*'):
-    BUG_COMPONENT = ('Toolkit', 'Safe Browsing')
-
-with Files('generate_csd.sh'):
-    BUG_COMPONENT = ('Toolkit', 'Safe Browsing')
-
-with Files('nsIApplicationReputation.idl'):
-    BUG_COMPONENT = ('Toolkit', 'Safe Browsing')
-
 XPIDL_SOURCES += [
-    'nsIApplicationReputation.idl',
     'nsIDownload.idl',
     'nsIDownloadManager.idl',
     'nsIDownloadManagerUI.idl',
@@ -30,8 +17,6 @@ XPIDL_SOURCES += [
 XPIDL_MODULE = 'downloads'
 
 UNIFIED_SOURCES += [
-    'ApplicationReputation.cpp',
-    'chromium/chrome/common/safe_browsing/csd.pb.cc',
     'nsDownloadManager.cpp'
 ]
 
@@ -59,7 +44,6 @@ FINAL_LIBRARY = 'xul'
 
 LOCAL_INCLUDES += [
     '/ipc/chromium/src',
-    'chromium'
 ]
 
 if CONFIG['MOZ_PROTOBUF']:

@@ -107,7 +107,7 @@ class Permissions(BaseLib):
     def add(self, host, permission):
         """Add a permission for web host.
 
-        Permissions include safe-browsing, install, geolocation, and others described here:
+        Permissions include install, geolocation, and others described here:
         https://dxr.mozilla.org/mozilla-central/source/browser/modules/SitePermissions.jsm#144
         and elsewhere.
 
@@ -125,7 +125,7 @@ class Permissions(BaseLib):
     def remove(self, host, permission):
         """Remove a permission for web host.
 
-        Permissions include safe-browsing, install, geolocation, and others described here:
+        Permissions include install, geolocation, and others described here:
         https://dxr.mozilla.org/mozilla-central/source/browser/modules/SitePermissions.jsm#144
         and elsewhere.
 

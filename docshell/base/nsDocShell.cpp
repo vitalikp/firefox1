@@ -5064,14 +5064,6 @@ nsDocShell::DisplayLoadError(nsresult aError, nsIURI* aURI,
     CopyUTF8toUTF16(host, formatStrs[0]);
     formatStrCount = 1;
 
-    // Malware and phishing detectors may want to use an alternate error
-    // page, but if the pref's not set, we'll fall back on the standard page
-    nsAdoptingCString alternateErrorPage =
-      Preferences::GetCString("urlclassifier.alternate_error_page");
-    if (alternateErrorPage) {
-      errorPage.Assign(alternateErrorPage);
-    }
-
     uint32_t bucketId;
     bool sendTelemetry = false;
     if (NS_ERROR_PHISHING_URI == aError) {
@@ -5282,8 +5274,6 @@ nsDocShell::DisplayLoadError(nsresult aError, nsIURI* aURI,
   return NS_OK;
 }
 
-#define PREF_SAFEBROWSING_ALLOWOVERRIDE "browser.safebrowsing.allowOverride"
-
 NS_IMETHODIMP
 nsDocShell::LoadErrorPage(nsIURI* aURI, const char16_t* aURL,
                           const char* aErrorPage,
@@ -5357,10 +5347,6 @@ nsDocShell::LoadErrorPage(nsIURI* aURI, const char16_t* aURL,
   errorPageUrl.AppendASCII(escapedError.get());
   errorPageUrl.AppendLiteral("&u=");
   errorPageUrl.AppendASCII(escapedUrl.get());
-  if ((strcmp(aErrorPage, "blocked") == 0) &&
-      Preferences::GetBool(PREF_SAFEBROWSING_ALLOWOVERRIDE, true)) {
-    errorPageUrl.AppendLiteral("&o=1");
-  }
   if (!escapedCSSClass.IsEmpty()) {
     errorPageUrl.AppendLiteral("&s=");
     errorPageUrl.AppendASCII(escapedCSSClass.get());
@@ -7755,9 +7741,6 @@ nsDocShell::EndPageLoad(nsIWebProgress* aProgress,
       if (!parentDoc) {
         return NS_OK;
       }
-
-      nsCOMPtr<nsIContent> cont = do_QueryInterface(frameElement);
-      parentDoc->AddBlockedTrackingNode(cont);
 
       return NS_OK;
     }

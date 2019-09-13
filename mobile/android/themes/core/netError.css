@@ -50,7 +50,6 @@ li > button {
   width: calc(100% + 2em);
 }
 
-/* Push the #ignoreWarningButton to the bottom on the blocked site page */
 .blockedsite > #errorPageContainer > #errorLongContent {
   flex: 1;
 }
@@ -165,22 +164,6 @@ div[collapsed="true"] > .expander + * {
 .blockedsite button {
   background-color: #9b2e2e;
   color: white;
-}
-
-/* Style warning button to look like a small text link in the
-   bottom. This is preferable to just using a text link
-   since there is already a mechanism in browser.js for trapping
-   oncommand events from unprivileged chrome pages (ErrorPageEventHandler).*/
-#ignoreWarningButton {
-  width: calc(100% + 40px);
-  -moz-appearance: none;
-  background: #b14646;
-  border: none;
-  text-decoration: underline;
-  margin: 0;
-  margin-inline-start: -20px;
-  font-size: smaller;
-  border-radius: 0;
 }
 
 /* On large screen devices (hopefully a 7+ inch tablet, we already center content (see #errorPageContainer above).

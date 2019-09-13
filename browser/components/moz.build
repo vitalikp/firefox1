@@ -49,8 +49,5 @@ EXTRA_JS_MODULES += [
     'distribution.js',
 ]
 
-with Files('safebrowsing/*'):
-    BUG_COMPONENT = ('Toolkit', 'Phishing Protection')
-
 with Files('controlcenter/**'):
     BUG_COMPONENT = ('Firefox', 'General')

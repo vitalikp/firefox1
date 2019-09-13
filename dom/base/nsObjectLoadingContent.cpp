@@ -88,7 +88,6 @@
 #include "mozilla/Telemetry.h"
 #include "mozilla/dom/HTMLObjectElementBinding.h"
 #include "mozilla/dom/HTMLSharedObjectElement.h"
-#include "nsChannelClassifier.h"
 
 #ifdef XP_WIN
 // Thanks so much, Microsoft! :(
@@ -108,7 +107,6 @@ static NS_DEFINE_CID(kAppShellCID, NS_APPSHELL_CID);
 
 static const char *kPrefJavaMIME = "plugin.java.mime";
 static const char *kPrefYoutubeRewrite = "plugins.rewrite_youtube_embeds";
-static const char *kPrefBlockURIs = "browser.safebrowsing.blockedURIs.enabled";
 static const char *kPrefFavorFallbackMode = "plugins.favorfallback.mode";
 static const char *kPrefFavorFallbackRules = "plugins.favorfallback.rules";
 
@@ -1177,17 +1175,6 @@ nsObjectLoadingContent::OnStopRequest(nsIRequest *aRequest,
 {
   PROFILER_LABEL("nsObjectLoadingContent", "OnStopRequest",
     js::ProfileEntry::Category::NETWORK);
-
-  // Handle object not loading error because source was a tracking URL.
-  // We make a note of this object node by including it in a dedicated
-  // array of blocked tracking nodes under its parent document.
-  if (aStatusCode == NS_ERROR_TRACKING_URI) {
-    nsCOMPtr<nsIContent> thisNode =
-      do_QueryInterface(static_cast<nsIObjectLoadingContent*>(this));
-    if (thisNode && thisNode->IsInComposedDoc()) {
-      thisNode->GetComposedDoc()->AddBlockedTrackingNode(thisNode);
-    }
-  }
 
   NS_ENSURE_TRUE(nsContentUtils::LegacyIsCallerChromeOrNativeCode(), NS_ERROR_NOT_AVAILABLE);
 
@@ -3380,7 +3367,6 @@ nsObjectLoadingContent::GetRunID(uint32_t* aRunID)
 static bool sPrefsInitialized;
 static uint32_t sSessionTimeoutMinutes;
 static uint32_t sPersistentTimeoutDays;
-static bool sBlockURIs;
 
 static void initializeObjectLoadingContentPrefs()
 {
@@ -3389,8 +3375,6 @@ static void initializeObjectLoadingContentPrefs()
                                  "plugin.sessionPermissionNow.intervalInMinutes", 60);
     Preferences::AddUintVarCache(&sPersistentTimeoutDays,
                                  "plugin.persistentPermissionAlways.intervalInDays", 90);
-
-    Preferences::AddBoolVarCache(&sBlockURIs, kPrefBlockURIs, false);
     sPrefsInitialized = true;
   }
 }
@@ -3401,10 +3385,6 @@ nsObjectLoadingContent::ShouldBlockContent()
  
   if (!sPrefsInitialized) {
     initializeObjectLoadingContentPrefs();
-  }
-
-  if (mContentBlockingEnabled && mURI && IsFlashMIME(mContentType) && sBlockURIs ) {
-    return true;
   }
 
   return false;

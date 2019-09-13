@@ -25,7 +25,6 @@ LOCAL_INCLUDES += [
     '../startup',
     '../statusfilter',
     '../typeaheadfind',
-    '../url-classifier',
 ]
 
 if CONFIG['MOZ_PROTOBUF']:

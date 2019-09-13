@@ -41,7 +41,6 @@ const SCRIPTS = [
   "browser/base/content/browser-places.js",
   "browser/base/content/browser-plugins.js",
   "browser/base/content/browser-refreshblocker.js",
-  "browser/base/content/browser-safebrowsing.js",
   "browser/base/content/browser-sidebar.js",
   "browser/base/content/browser-social.js",
   "browser/base/content/browser-syncui.js",
