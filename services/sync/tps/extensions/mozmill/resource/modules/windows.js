@@ -251,7 +251,7 @@ function attachEventListeners(aWindow) {
     // Note: Error pages will never fire a "pageshow" event. For those we
     // have to wait for the "DOMContentLoaded" event. That's the final state.
     // Error pages will always have a baseURI starting with
-    // "about:" followed by "error" or "blocked".
+    // "about:" followed by "error".
     aWindow.addEventListener("DOMContentLoaded", DOMContentLoadedHandler, true);
 
     // Page is ready

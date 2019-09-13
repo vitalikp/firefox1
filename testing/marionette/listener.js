@@ -1551,7 +1551,7 @@ function switchToShadowRoot(id) {
 function switchToFrame(msg) {
   let command_id = msg.json.command_id;
   function checkLoad() {
-    let errorRegex = /about:.+(error)|(blocked)\?/;
+    let errorRegex = /about:.+(error)\?/;
     if (curContainer.frame.document.readyState == "complete") {
       sendOk(command_id);
       return;

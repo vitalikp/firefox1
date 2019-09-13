@@ -21,7 +21,6 @@ chrome.jar:
   content/aboutPrivateBrowsing.js      (content/aboutPrivateBrowsing.js)
   content/Reader.js                    (content/Reader.js)
   content/aboutRights.xhtml            (content/aboutRights.xhtml)
-  content/blockedSite.xhtml            (content/blockedSite.xhtml)
   content/languages.properties         (content/languages.properties)
   content/browser.xul                  (content/browser.xul)
   content/browser.css                  (content/browser.css)

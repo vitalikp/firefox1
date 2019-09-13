@@ -5083,10 +5083,6 @@ nsDocShell::DisplayLoadError(nsresult aError, nsIURI* aURI,
                            : nsISecurityUITelemetry::WARNING_UNWANTED_PAGE_TOP;
     }
 
-    if (sendTelemetry && errorPage.EqualsIgnoreCase("blocked")) {
-      Telemetry::Accumulate(Telemetry::SECURITY_UI, bucketId);
-    }
-
     cssClass.AssignLiteral("blacklist");
   } else if (NS_ERROR_CONTENT_CRASHED == aError) {
     errorPage.AssignLiteral("tabcrashed");

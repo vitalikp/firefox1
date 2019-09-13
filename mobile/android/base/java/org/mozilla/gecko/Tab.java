@@ -331,9 +331,7 @@ public class Tab {
     }
 
     public void setErrorType(String type) {
-        if ("blocked".equals(type))
-            setErrorType(ErrorType.BLOCKED);
-        else if ("certerror".equals(type))
+        if ("certerror".equals(type))
             setErrorType(ErrorType.CERT_ERROR);
         else if ("neterror".equals(type))
             setErrorType(ErrorType.NET_ERROR);
