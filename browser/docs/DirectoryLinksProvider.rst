@@ -12,8 +12,6 @@ Firefox already knows about from user browsing with external content. There are
   browsing behavior, i.e., if the user has a top site that matches one of
   several possible sites. E.g., only show a sports suggestion if the user has a
   sport site as a top site
-- enhanced links replace a matching user's visible history tile from the same
-  site but only the visual aspects: title, image, and rollover image
 
 To power the above features, DirectoryLinksProvider module downloads, at most
 once per 24 hours, the directory source links as JSON with enough data for
@@ -100,7 +98,7 @@ Source JSON Format
 
 Firefox expects links data in a JSON object with top level keys each providing
 an array of tile objects. The keys correspond to the different types of links:
-``directory``, ``suggested``, and ``enhanced``.
+``directory``, and ``suggested``.
 
 Example
 -------
@@ -112,22 +110,10 @@ Below is an example directory source file::
           {
               "bgColor": "",
               "directoryId": 498,
-              "enhancedImageURI": "https://tiles.cdn.mozilla.net/images/d11ba0b3095bb19d8092cd29be9cbb9e197671ea.28088.png",
               "imageURI": "https://tiles.cdn.mozilla.net/images/1332a68badf11e3f7f69bf7364e79c0a7e2753bc.5316.png",
               "title": "Mozilla Community",
               "type": "affiliate",
               "url": "http://contribute.mozilla.org/"
-          }
-      ],
-      "enhanced": [
-          {
-              "bgColor": "",
-              "directoryId": 776,
-              "enhancedImageURI": "https://tiles.cdn.mozilla.net/images/44a14fc405cebc299ead86514dff0e3735c8cf65.10814.png",
-              "imageURI": "https://tiles.cdn.mozilla.net/images/20e24aa2219ec7542cc8cf0fd79f0c81e16ebeac.11859.png",
-              "title": "TurboTax",
-              "type": "sponsored",
-              "url": "https://turbotax.intuit.com/"
           }
       ],
       "suggested": [
@@ -172,11 +158,9 @@ Each link object has various values that Firefox uses to display a tile:
   https and http URLs are allowed.
 - ``title`` - string that appears below the tile.
 - ``type`` - string relationship of the link to Mozilla. Expected values:
-  affiliate, organic, sponsored.
+  affiliate, organic.
 - ``imageURI`` - string url for the tile image to show. Only https and data URIs
   are allowed.
-- ``enhancedImageURI`` - string url for the image to be shown before the user
-  hovers. Only https and data URIs are allowed.
 - ``bgColor`` - string css color for additional fill background color.
 - ``directoryId`` - id of the tile to be used during ping reporting
 
@@ -228,9 +212,8 @@ ping:
 
 An additional key at the top level indicates which action triggered the ping.
 The value associated to the action key is the 0-based index into the tiles array
-of which tile triggered the action. Valid actions: block, click, pin, sponsored,
-sponsored_link, unpin, view. E.g., if the second tile is being clicked, the ping
-will have ``"click": 1``
+of which tile triggered the action. Valid actions: block, click, pin, unpin, view. 
+E.g., if the second tile is being clicked, the ping will have ``"click": 1``
 
 Example
 -------
@@ -262,7 +245,7 @@ Each tile of the new tab page is reported back as part of the ping with some or
 none of the following optional values:
 
 - ``id`` - id that was provided as part of the downloaded link object (for all
-  types of links: directory, suggested, enhanced); not present if the tile was
+  types of links: directory, suggested); not present if the tile was
   created from user behavior, e.g., visiting pages
 - ``past_impressions`` - number of impressions (new tab "views") a suggested
   tile was shown before it was clicked, pinned or blocked. Where the "total"
@@ -274,5 +257,3 @@ none of the following optional values:
 - ``pos`` - integer position if the tile is not in the natural order, e.g., a
   pinned tile after an empty slot; not present otherwise
 - ``score`` - integer truncated score based on the tile's frecency; not present
-  if 0
-- ``url`` - empty string if it's an enhanced tile; not present otherwise

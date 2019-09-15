@@ -6165,11 +6165,6 @@
     "kind": "boolean",
     "description": "New tab page is enabled."
   },
-  "NEWTAB_PAGE_ENHANCED": {
-    "expires_in_version": "default",
-    "kind": "boolean",
-    "description": "New tab page is enhanced (showing suggestions)."
-  },
   "NEWTAB_PAGE_LIFE_SPAN": {
     "expires_in_version": "default",
     "kind": "exponential",

@@ -61,9 +61,6 @@ const PREF_DIRECTORY_SOURCE = "browser.newtabpage.directory.source";
 // The preference that tells where to send click/view pings
 const PREF_DIRECTORY_PING = "browser.newtabpage.directory.ping";
 
-// The preference that tells if newtab is enhanced
-const PREF_NEWTAB_ENHANCED = "browser.newtabpage.enhanced";
-
 // Only allow link urls that are http(s)
 const ALLOWED_LINK_SCHEMES = new Set(["http", "https"]);
 
@@ -97,7 +94,7 @@ const MIN_VISIBLE_HISTORY_TILES = 8;
 const MAX_VISIBLE_HISTORY_TILES = 15;
 
 // Allowed ping actions remotely stored as columns: case-insensitive [a-z0-9_]
-const PING_ACTIONS = ["block", "click", "pin", "sponsored", "sponsored_link", "unpin", "view"];
+const PING_ACTIONS = ["block", "click", "pin", "unpin", "view"];
 
 // Location of inadjacent sites json
 const INADJACENCY_SOURCE = "chrome://browser/content/newtab/newTab.inadjacent.json";
@@ -124,11 +121,6 @@ var DirectoryLinksProvider = {
 
   // download default interval is 24 hours in milliseconds
   _downloadIntervalMS: 86400000,
-
-  /**
-   * A mapping from eTLD+1 to an enhanced link objects
-   */
-  _enhancedLinks: new Map(),
 
   /**
    * A mapping from site to a list of suggested link objects
@@ -164,7 +156,6 @@ var DirectoryLinksProvider = {
 
   get _observedPrefs() {
     return Object.freeze({
-      enhanced: PREF_NEWTAB_ENHANCED,
       linksURL: PREF_DIRECTORY_SOURCE,
       matchOSLocale: PREF_MATCH_OS_LOCALE,
       prefSelectedLocale: PREF_SELECTED_LOCALE,
@@ -216,31 +207,9 @@ var DirectoryLinksProvider = {
     return "en-US";
   },
 
-  /**
-   * Set appropriate default ping behavior controlled by enhanced pref
-   */
-  _setDefaultEnhanced: function DirectoryLinksProvider_setDefaultEnhanced() {
-    if (!Services.prefs.prefHasUserValue(PREF_NEWTAB_ENHANCED)) {
-      let enhanced = Services.prefs.getBoolPref(PREF_NEWTAB_ENHANCED);
-      try {
-        // Default to not enhanced if DNT is set to tell websites to not track
-        if (Services.prefs.getBoolPref("privacy.donottrackheader.enabled")) {
-          enhanced = false;
-        }
-      }
-      catch (ex) {}
-      Services.prefs.setBoolPref(PREF_NEWTAB_ENHANCED, enhanced);
-    }
-  },
-
   observe: function DirectoryLinksProvider_observe(aSubject, aTopic, aData) {
     if (aTopic == "nsPref:changed") {
       switch (aData) {
-        // Re-set the default in case the user clears the pref
-        case this._observedPrefs.enhanced:
-          this._setDefaultEnhanced();
-          break;
-
         case this._observedPrefs.linksURL:
           delete this.__linksURL;
           // fallthrough
@@ -383,15 +352,14 @@ var DirectoryLinksProvider = {
    *         or {'directory': [], 'suggested': []} if read or parse fails.
    */
   _readDirectoryLinksFile: function DirectoryLinksProvider_readDirectoryLinksFile() {
-    let emptyOutput = {directory: [], suggested: [], enhanced: []};
+    let emptyOutput = {directory: [], suggested: []};
     return OS.File.read(this._directoryFilePath).then(binaryData => {
       let output;
       try {
         let json = gTextDecoder.decode(binaryData);
         let linksObj = JSON.parse(json);
         output = {directory: linksObj.directory || [],
-                  suggested: linksObj.suggested || [],
-                  enhanced:  linksObj.enhanced  || []};
+                  suggested: linksObj.suggested || []};
       }
       catch (e) {
         Cu.reportError(e);
@@ -547,10 +515,8 @@ var DirectoryLinksProvider = {
       }
     }
 
-    let newtabEnhanced = false;
     let pingEndPoint = "";
     try {
-      newtabEnhanced = Services.prefs.getBoolPref(PREF_NEWTAB_ENHANCED);
       pingEndPoint = Services.prefs.getCharPref(PREF_DIRECTORY_PING);
     }
     catch (ex) {}
@@ -558,7 +524,7 @@ var DirectoryLinksProvider = {
     // Bug 1240245 - We no longer send pings, but frequency capping and fetching
     // tests depend on the following actions, so references to PING remain.
     let invalidAction = PING_ACTIONS.indexOf(action) == -1;
-    if (!newtabEnhanced || pingEndPoint == "" || invalidAction) {
+    if (pingEndPoint == "" || invalidAction) {
       return Promise.resolve();
     }
 
@@ -568,15 +534,6 @@ var DirectoryLinksProvider = {
       // Use this as an opportunity to potentially fetch new links
       yield this._fetchAndCacheLinksIfNecessary();
     }.bind(this));
-  },
-
-  /**
-   * Get the enhanced link object for a link (whether history or directory)
-   */
-  getEnhancedLink: function DirectoryLinksProvider_getEnhancedLink(link) {
-    // Use the provided link if it's already enhanced
-    return link.enhancedImageURI && link ? link :
-           this._enhancedLinks.get(NewTabUtils.extractSite(link.url));
   },
 
   /**
@@ -624,8 +581,6 @@ var DirectoryLinksProvider = {
    */
   getLinks: function DirectoryLinksProvider_getLinks(aCallback) {
     this._readDirectoryLinksFile().then(rawLinks => {
-      // Reset the cache of suggested tiles and enhanced images for this new set of links
-      this._enhancedLinks.clear();
       this._suggestedLinks.clear();
       this._clearCampaignTimeout();
       this._avoidInadjacentSites = false;
@@ -636,9 +591,7 @@ var DirectoryLinksProvider = {
         // Make sure the link url is allowed and images too if they exist
         return this.isURLAllowed(link.url, ALLOWED_LINK_SCHEMES, false) &&
                (!link.imageURI ||
-                this.isURLAllowed(link.imageURI, ALLOWED_IMAGE_SCHEMES, checkBase)) &&
-               (!link.enhancedImageURI ||
-                this.isURLAllowed(link.enhancedImageURI, ALLOWED_IMAGE_SCHEMES, checkBase));
+                this.isURLAllowed(link.imageURI, ALLOWED_IMAGE_SCHEMES, checkBase));
       }.bind(this);
 
       rawLinks.suggested.filter(validityFilter).forEach((link, position) => {
@@ -663,15 +616,6 @@ var DirectoryLinksProvider = {
         // The decision for which suggested tile to include will be made separately.
         this._cacheSuggestedLinks(link);
         this._updateFrequencyCapSettings(link);
-      });
-
-      rawLinks.enhanced.filter(validityFilter).forEach((link, position) => {
-        link.lastVisitDate = rawLinks.enhanced.length - position;
-
-        // Stash the enhanced image for the site
-        if (link.enhancedImageURI) {
-          this._enhancedLinks.set(NewTabUtils.extractSite(link.url), link);
-        }
       });
 
       let links = rawLinks.directory.filter(validityFilter).map((link, position) => {
@@ -699,7 +643,6 @@ var DirectoryLinksProvider = {
   },
 
   init: function DirectoryLinksProvider_init() {
-    this._setDefaultEnhanced();
     this._addPrefsObserver();
     // setup directory file path and last download timestamp
     this._directoryFilePath = OS.Path.join(OS.Constants.Path.localProfileDir, DIRECTORY_LINKS_FILE);
@@ -811,7 +754,7 @@ var DirectoryLinksProvider = {
     let newTabLinks = NewTabUtils.links.getLinks();
     for (let link of newTabLinks.slice(0, MIN_VISIBLE_HISTORY_TILES)) {
       // compute visibleTopSiteCount for suggested tiles
-      if (link && (link.type == "history" || link.type == "enhanced")) {
+      if (link && (link.type == "history")) {
         visibleTopSiteCount++;
       }
     }
