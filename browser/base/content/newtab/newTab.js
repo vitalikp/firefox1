@@ -48,7 +48,6 @@ function inPrivateBrowsingMode() {
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const XUL_NAMESPACE = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
-const TILES_INTRO_LINK = "https://www.mozilla.org/firefox/tiles/";
 const TILES_PRIVACY_LINK = "https://www.mozilla.org/privacy/";
 
 #include transformations.js
