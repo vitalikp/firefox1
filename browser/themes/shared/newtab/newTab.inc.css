@@ -190,14 +190,8 @@ body.compact .newtab-thumbnail.placeholder {
   font-size: 45px;
 }
 
-.newtab-cell:not([ignorehover]) .newtab-site:hover .newtab-thumbnail.enhanced-content {
-  opacity: 0;
-}
-
 .newtab-site[type=affiliate] .newtab-thumbnail,
-.newtab-site[type=enhanced] .newtab-thumbnail,
-.newtab-site[type=organic] .newtab-thumbnail,
-.newtab-site[type=sponsored] .newtab-thumbnail {
+.newtab-site[type=organic] .newtab-thumbnail {
   background-position: center center;
 }
 
@@ -206,9 +200,7 @@ body.compact .newtab-site[type=affiliate] .newtab-thumbnail {
 }
 
 .newtab-site[type=affiliate] .newtab-thumbnail,
-body:not(.compact) .newtab-site[type=enhanced] .newtab-thumbnail,
-body:not(.compact) .newtab-site[type=organic] .newtab-thumbnail,
-body:not(.compact) .newtab-site[type=sponsored] .newtab-thumbnail {
+body:not(.compact) .newtab-site[type=organic] .newtab-thumbnail {
   background-size: auto;
 }
 
