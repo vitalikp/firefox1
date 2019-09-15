@@ -10,8 +10,7 @@ var gCustomize = {
     "button",
     "classic",
     "panel",
-    "overlay",
-    "learn"
+    "overlay"
   ],
 
   _nodes: {},
@@ -24,7 +23,6 @@ var gCustomize = {
     this._nodes.button.addEventListener("click", e => this.showPanel(e));
     this._nodes.blank.addEventListener("click", this);
     this._nodes.classic.addEventListener("click", this);
-    this._nodes.learn.addEventListener("click", this);
 
     this.updateSelected();
   },
@@ -87,9 +85,6 @@ var gCustomize = {
       case "newtab-customize-classic":
         sendAsyncMessage("NewTab:Customize", {enabled: true});
         break;
-      case "newtab-customize-learn":
-        this.showLearn();
-        break;
     }
   },
 
@@ -97,11 +92,6 @@ var gCustomize = {
     if (event.keyCode == event.DOM_VK_ESCAPE) {
       this.hidePanel();
     }
-  },
-
-  showLearn: function() {
-    window.open(TILES_INTRO_LINK, 'new_window');
-    this.hidePanel();
   },
 
   updateSelected: function() {
