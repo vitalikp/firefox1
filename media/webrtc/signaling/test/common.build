@@ -18,7 +18,6 @@ LOCAL_INCLUDES += [
     '/dom/media/',
     '/ipc/chromium/src',
     '/media/mtransport',
-    '/media/mtransport/test',
     '/media/mtransport/third_party/nICEr/src/ice',
     '/media/mtransport/third_party/nICEr/src/net',
     '/media/mtransport/third_party/nICEr/src/stun',
