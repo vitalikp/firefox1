@@ -144,6 +144,10 @@ check_pkg('MOZ_PROTOBUF', 'protobuf', '3.5.0', when=notjs_project)
 # ==============================================================
 check_pkg('MOZ_ALSA', 'alsa', '1.0', when=notjs_project)
 
+# SoundTouch
+# ==============================================================
+check_pkg('MOZ_ST2', 'soundtouch', '2.0', when=notjs_project)
+
 # SQLite
 # ==============================================================
 @template
