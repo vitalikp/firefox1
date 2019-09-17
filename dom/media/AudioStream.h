@@ -16,7 +16,8 @@
 #include "mozilla/TimeStamp.h"
 #include "mozilla/UniquePtr.h"
 #include "CubebUtils.h"
-#include "soundtouch/SoundTouchFactory.h"
+#include <soundtouch/STTypes.h>
+#include <soundtouch/SoundTouch.h>
 
 namespace mozilla {
 
