@@ -300,6 +300,9 @@ if CONFIG['MOZ_WEBRTC']:
         '/media/webrtc/trunk',
     ]
 
+if CONFIG['MOZ_ST2']:
+    CXXFLAGS += CONFIG['MOZ_ST2_CFLAGS']
+
 DEFINES['MOZILLA_INTERNAL_API'] = True
 
 if CONFIG['OS_TARGET'] == 'WINNT':
