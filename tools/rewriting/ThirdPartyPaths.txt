@@ -23,7 +23,6 @@ media/libmkv/
 media/libnestegg/
 media/libogg/
 media/libopus/
-media/libsoundtouch/
 media/libspeex_resampler/
 media/libstagefright/
 media/libtheora/
