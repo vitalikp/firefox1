@@ -40,7 +40,6 @@ external_dirs += [
     'media/libtheora',
     'media/libspeex_resampler',
     'media/libstagefright',
-    'media/libsoundtouch',
     'media/psshparser'
 ]
 

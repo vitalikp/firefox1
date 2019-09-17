@@ -16,6 +16,8 @@
 #include "mozilla/TimeStamp.h"
 #include "mozilla/UniquePtr.h"
 #include "CubebUtils.h"
+
+#define ST_NO_EXCEPTION_HANDLING    1 // disable throwing std exceptions
 #include <soundtouch/STTypes.h>
 #include <soundtouch/SoundTouch.h>
 
