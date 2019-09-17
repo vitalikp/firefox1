@@ -7,10 +7,6 @@
 #ifndef NETWERK_SCTP_DATACHANNEL_DATACHANNEL_H_
 #define NETWERK_SCTP_DATACHANNEL_DATACHANNEL_H_
 
-#ifdef MOZ_WEBRTC_SIGNALING
-#define SCTP_DTLS_SUPPORTED 1
-#endif
-
 #include <string>
 #include <errno.h>
 #include "nsISupports.h"
@@ -24,13 +20,6 @@
 #include "mozilla/Mutex.h"
 #include "DataChannelProtocol.h"
 #include "DataChannelListener.h"
-#ifdef SCTP_DTLS_SUPPORTED
-#include "mtransport/sigslot.h"
-#include "mtransport/transportflow.h"
-#include "mtransport/transportlayer.h"
-#include "mtransport/transportlayerdtls.h"
-#include "mtransport/transportlayerprsock.h"
-#endif
 
 #ifndef DATACHANNEL_LOG
 #define DATACHANNEL_LOG(args)
@@ -92,9 +81,6 @@ public:
 
 // One per PeerConnection
 class DataChannelConnection
-#ifdef SCTP_DTLS_SUPPORTED
-  : public sigslot::has_slots<>
-#endif
 {
   virtual ~DataChannelConnection();
 
@@ -125,14 +111,6 @@ public:
   // the main thread!
   bool Listen(unsigned short port);
   bool Connect(const char *addr, unsigned short port);
-#endif
-
-#ifdef SCTP_DTLS_SUPPORTED
-  // Connect using a TransportFlow (DTLS) channel
-  void SetEvenOdd();
-  bool ConnectViaTransportFlow(TransportFlow *aFlow, uint16_t localport, uint16_t remoteport);
-  void CompleteConnect(TransportFlow *flow, TransportLayer::State state);
-  void SetSignals();
 #endif
 
   typedef enum {
@@ -198,12 +176,6 @@ protected:
 private:
   friend class DataChannelConnectRunnable;
 
-#ifdef SCTP_DTLS_SUPPORTED
-  static void DTLSConnectThread(void *data);
-  int SendPacket(unsigned char data[], size_t len, bool release);
-  void SctpDtlsInput(TransportFlow *flow, const unsigned char *data, size_t len);
-  static int SctpDtlsOutput(void *addr, void *buffer, size_t length, uint8_t tos, uint8_t set_df);
-#endif
   DataChannel* FindChannelByStream(uint16_t stream);
   uint16_t FindFreeStream();
   bool RequestMoreStreams(int32_t aNeeded = 16);
@@ -244,16 +216,6 @@ private:
   void HandleStreamChangeEvent(const struct sctp_stream_change_event *strchg);
   void HandleNotification(const union sctp_notification *notif, size_t n);
 
-#ifdef SCTP_DTLS_SUPPORTED
-  bool IsSTSThread() {
-    bool on = false;
-    if (mSTS) {
-      mSTS->IsOnCurrentThread(&on);
-    }
-    return on;
-  }
-#endif
-
   // Exists solely for proxying release of the TransportFlow to the STS thread
   static void ReleaseTransportFlow(RefPtr<TransportFlow> aFlow) {}
 
@@ -273,10 +235,6 @@ private:
   struct socket *mSocket; // cloned from mMasterSocket on successful Connect on STS thread
   uint16_t mState; // Protected with mLock
 
-#ifdef SCTP_DTLS_SUPPORTED
-  RefPtr<TransportFlow> mTransportFlow;
-  nsCOMPtr<nsIEventTarget> mSTS;
-#endif
   uint16_t mLocalPort; // Accessed from connect thread
   uint16_t mRemotePort;
   bool mUsingDtls;
