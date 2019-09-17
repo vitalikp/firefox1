@@ -8,7 +8,6 @@ EXPORTS.soundtouch += [
     'FIFOSamplePipe.h',
     'SoundTouch.h',
     'soundtouch_config.h',
-    'SoundTouchFactory.h',
     'STTypes.h',
 ]
 
@@ -22,7 +21,6 @@ UNIFIED_SOURCES += [
     'InterpolateShannon.cpp',
     'RateTransposer.cpp',
     'SoundTouch.cpp',
-    'SoundTouchFactory.cpp',
     'TDStretch.cpp',
 ]
 

@@ -131,7 +131,7 @@ AudioStream::~AudioStream()
     fclose(mDumpFile);
   }
   if (mTimeStretcher) {
-    soundtouch::destroySoundTouchObj(mTimeStretcher);
+    delete mTimeStretcher;
   }
 }
 
@@ -151,7 +151,7 @@ nsresult AudioStream::EnsureTimeStretcherInitializedUnlocked()
 {
   mMonitor.AssertCurrentThreadOwns();
   if (!mTimeStretcher) {
-    mTimeStretcher = soundtouch::createSoundTouchObj();
+    mTimeStretcher = new soundtouch::SoundTouch();
     mTimeStretcher->setSampleRate(mAudioClock.GetInputRate());
     mTimeStretcher->setChannels(mOutChannels);
     mTimeStretcher->setPitch(1.0);
