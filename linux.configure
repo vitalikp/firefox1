@@ -151,6 +151,7 @@ check_pkg('MOZ_ST2', 'soundtouch', '2.0', when=notjs_project)
 # FFmpeg
 # ==============================================================
 check_pkg('MOZ_AVUTIL', 'libavutil', '55.0', when=notjs_project)
+check_pkg('MOZ_AVCODEC', 'libavcodec', '57.0', when=notjs_project)
 
 # SQLite
 # ==============================================================
