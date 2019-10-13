@@ -17,7 +17,7 @@ FFmpegRuntimeLinker::LinkStatus FFmpegRuntimeLinker::sLinkStatus =
   LinkStatus_INIT;
 const char* FFmpegRuntimeLinker::sLinkStatusLibraryName = "";
 
-template <int V> class FFmpegDecoderModule
+class FFmpegDecoderModule
 {
 public:
   static already_AddRefed<PlatformDecoderModule> Create(FFmpegLibWrapper*);
@@ -119,10 +119,9 @@ FFmpegRuntimeLinker::CreateDecoderModule()
     return nullptr;
   }
   RefPtr<PlatformDecoderModule> module;
-  switch (sLibAV.mVersion) {
-    case 57: module = FFmpegDecoderModule<57>::Create(&sLibAV); break;
-    default: module = nullptr;
-  }
+
+  module = FFmpegDecoderModule::Create(&sLibAV);
+
   return module.forget();
 }
 
