@@ -8,6 +8,12 @@ EXPORTS += [
     'FFmpegDecoderModule.h'
 ]
 
+if CONFIG['MOZ_AVUTIL']:
+    CXXFLAGS += CONFIG['MOZ_AVUTIL_CFLAGS']
+
+if CONFIG['MOZ_AVCODEC']:
+    CXXFLAGS += CONFIG['MOZ_AVCODEC_CFLAGS']
+
 UNIFIED_SOURCES += [
     'FFmpegAudioDecoder.cpp',
     'FFmpegDataDecoder.cpp',
