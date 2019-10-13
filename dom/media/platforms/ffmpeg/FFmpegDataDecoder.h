@@ -15,13 +15,7 @@
 namespace mozilla
 {
 
-template <int V>
 class FFmpegDataDecoder : public MediaDataDecoder
-{
-};
-
-template <>
-class FFmpegDataDecoder<LIBAV_VER> : public MediaDataDecoder
 {
 public:
   FFmpegDataDecoder(FFmpegLibWrapper* aLib, TaskQueue* aTaskQueue,

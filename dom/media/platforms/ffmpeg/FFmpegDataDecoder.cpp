@@ -19,9 +19,9 @@
 namespace mozilla
 {
 
-StaticMutex FFmpegDataDecoder<LIBAV_VER>::sMonitor;
+StaticMutex FFmpegDataDecoder::sMonitor;
 
-  FFmpegDataDecoder<LIBAV_VER>::FFmpegDataDecoder(FFmpegLibWrapper* aLib,
+  FFmpegDataDecoder::FFmpegDataDecoder(FFmpegLibWrapper* aLib,
                                                   TaskQueue* aTaskQueue,
                                                   MediaDataDecoderCallback* aCallback,
                                                   AVCodecID aCodecID)
@@ -38,13 +38,13 @@ StaticMutex FFmpegDataDecoder<LIBAV_VER>::sMonitor;
   MOZ_COUNT_CTOR(FFmpegDataDecoder);
 }
 
-FFmpegDataDecoder<LIBAV_VER>::~FFmpegDataDecoder()
+FFmpegDataDecoder::~FFmpegDataDecoder()
 {
   MOZ_COUNT_DTOR(FFmpegDataDecoder);
 }
 
 nsresult
-FFmpegDataDecoder<LIBAV_VER>::InitDecoder()
+FFmpegDataDecoder::InitDecoder()
 {
   FFMPEG_LOG("Initialising FFmpeg decoder.");
 
@@ -91,11 +91,11 @@ FFmpegDataDecoder<LIBAV_VER>::InitDecoder()
 }
 
 void
-FFmpegDataDecoder<LIBAV_VER>::Shutdown()
+FFmpegDataDecoder::Shutdown()
 {
   if (mTaskQueue) {
     nsCOMPtr<nsIRunnable> runnable =
-      NewRunnableMethod(this, &FFmpegDataDecoder<LIBAV_VER>::ProcessShutdown);
+      NewRunnableMethod(this, &FFmpegDataDecoder::ProcessShutdown);
     mTaskQueue->Dispatch(runnable.forget());
   } else {
     ProcessShutdown();
@@ -103,7 +103,7 @@ FFmpegDataDecoder<LIBAV_VER>::Shutdown()
 }
 
 void
-FFmpegDataDecoder<LIBAV_VER>::ProcessDecode(MediaRawData* aSample)
+FFmpegDataDecoder::ProcessDecode(MediaRawData* aSample)
 {
   MOZ_ASSERT(mTaskQueue->IsCurrentThreadIn());
   if (mIsFlushing) {
@@ -118,34 +118,34 @@ FFmpegDataDecoder<LIBAV_VER>::ProcessDecode(MediaRawData* aSample)
 }
 
 void
-FFmpegDataDecoder<LIBAV_VER>::Input(MediaRawData* aSample)
+FFmpegDataDecoder::Input(MediaRawData* aSample)
 {
   mTaskQueue->Dispatch(NewRunnableMethod<RefPtr<MediaRawData>>(
     this, &FFmpegDataDecoder::ProcessDecode, aSample));
 }
 
 void
-FFmpegDataDecoder<LIBAV_VER>::Flush()
+FFmpegDataDecoder::Flush()
 {
   MOZ_ASSERT(mCallback->OnReaderTaskQueue());
   mIsFlushing = true;
   nsCOMPtr<nsIRunnable> runnable =
-    NewRunnableMethod(this, &FFmpegDataDecoder<LIBAV_VER>::ProcessFlush);
+    NewRunnableMethod(this, &FFmpegDataDecoder::ProcessFlush);
   SyncRunnable::DispatchToThread(mTaskQueue, runnable);
   mIsFlushing = false;
 }
 
 void
-FFmpegDataDecoder<LIBAV_VER>::Drain()
+FFmpegDataDecoder::Drain()
 {
   MOZ_ASSERT(mCallback->OnReaderTaskQueue());
   nsCOMPtr<nsIRunnable> runnable =
-    NewRunnableMethod(this, &FFmpegDataDecoder<LIBAV_VER>::ProcessDrain);
+    NewRunnableMethod(this, &FFmpegDataDecoder::ProcessDrain);
   mTaskQueue->Dispatch(runnable.forget());
 }
 
 void
-FFmpegDataDecoder<LIBAV_VER>::ProcessFlush()
+FFmpegDataDecoder::ProcessFlush()
 {
   MOZ_ASSERT(mTaskQueue->IsCurrentThreadIn());
   if (mCodecContext) {
@@ -154,7 +154,7 @@ FFmpegDataDecoder<LIBAV_VER>::ProcessFlush()
 }
 
 void
-FFmpegDataDecoder<LIBAV_VER>::ProcessShutdown()
+FFmpegDataDecoder::ProcessShutdown()
 {
   StaticMutexAutoLock mon(sMonitor);
 
@@ -170,7 +170,7 @@ FFmpegDataDecoder<LIBAV_VER>::ProcessShutdown()
 }
 
 AVFrame*
-FFmpegDataDecoder<LIBAV_VER>::PrepareFrame()
+FFmpegDataDecoder::PrepareFrame()
 {
   MOZ_ASSERT(mTaskQueue->IsCurrentThreadIn());
 
@@ -184,8 +184,7 @@ FFmpegDataDecoder<LIBAV_VER>::PrepareFrame()
 }
 
 /* static */ AVCodec*
-FFmpegDataDecoder<LIBAV_VER>::FindAVCodec(FFmpegLibWrapper* aLib,
-                                          AVCodecID aCodec)
+FFmpegDataDecoder::FindAVCodec(FFmpegLibWrapper* aLib, AVCodecID aCodec)
 {
   return aLib->avcodec_find_decoder(aCodec);
 }

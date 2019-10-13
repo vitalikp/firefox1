@@ -16,12 +16,12 @@ namespace mozilla
 {
 
 template <int V>
-class FFmpegVideoDecoder : public FFmpegDataDecoder<V>
+class FFmpegVideoDecoder : public FFmpegDataDecoder
 {
 };
 
 template <>
-class FFmpegVideoDecoder<LIBAV_VER> : public FFmpegDataDecoder<LIBAV_VER>
+class FFmpegVideoDecoder<LIBAV_VER> : public FFmpegDataDecoder
 {
   typedef mozilla::layers::Image Image;
   typedef mozilla::layers::ImageContainer ImageContainer;

@@ -18,7 +18,7 @@ template <int V> class FFmpegAudioDecoder
 };
 
 template <>
-class FFmpegAudioDecoder<LIBAV_VER> : public FFmpegDataDecoder<LIBAV_VER>
+class FFmpegAudioDecoder<LIBAV_VER> : public FFmpegDataDecoder
 {
 public:
   FFmpegAudioDecoder(FFmpegLibWrapper* aLib, TaskQueue* aTaskQueue,

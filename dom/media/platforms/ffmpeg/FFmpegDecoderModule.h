@@ -62,7 +62,7 @@ public:
       return false;
     }
     AVCodecID codec = audioCodec != AV_CODEC_ID_NONE ? audioCodec : videoCodec;
-    return !!FFmpegDataDecoder<V>::FindAVCodec(mLib, codec);
+    return !!FFmpegDataDecoder::FindAVCodec(mLib, codec);
   }
 
   ConversionRequired
