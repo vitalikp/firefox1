@@ -64,33 +64,13 @@ FFmpegLibWrapper::Link()
 
   enum {
     AV_FUNC_AVUTIL_MASK = 1 << 8,
-    AV_FUNC_53 = 1 << 0,
-    AV_FUNC_54 = 1 << 1,
-    AV_FUNC_55 = 1 << 2,
-    AV_FUNC_56 = 1 << 3,
     AV_FUNC_57 = 1 << 4,
-    AV_FUNC_AVUTIL_53 = AV_FUNC_53 | AV_FUNC_AVUTIL_MASK,
-    AV_FUNC_AVUTIL_54 = AV_FUNC_54 | AV_FUNC_AVUTIL_MASK,
-    AV_FUNC_AVUTIL_55 = AV_FUNC_55 | AV_FUNC_AVUTIL_MASK,
-    AV_FUNC_AVUTIL_56 = AV_FUNC_56 | AV_FUNC_AVUTIL_MASK,
     AV_FUNC_AVUTIL_57 = AV_FUNC_57 | AV_FUNC_AVUTIL_MASK,
-    AV_FUNC_AVCODEC_ALL = AV_FUNC_53 | AV_FUNC_54 | AV_FUNC_55 | AV_FUNC_56 | AV_FUNC_57,
+    AV_FUNC_AVCODEC_ALL = AV_FUNC_57,
     AV_FUNC_AVUTIL_ALL = AV_FUNC_AVCODEC_ALL | AV_FUNC_AVUTIL_MASK
   };
 
   switch (macro) {
-    case 53:
-      version = AV_FUNC_53;
-      break;
-    case 54:
-      version = AV_FUNC_54;
-      break;
-    case 55:
-      version = AV_FUNC_55;
-      break;
-    case 56:
-      version = AV_FUNC_56;
-      break;
     case 57:
       version = AV_FUNC_57;
       break;
@@ -136,15 +116,12 @@ FFmpegLibWrapper::Link()
   AV_FUNC(av_parser_init, AV_FUNC_AVCODEC_ALL)
   AV_FUNC(av_parser_close, AV_FUNC_AVCODEC_ALL)
   AV_FUNC(av_parser_parse2, AV_FUNC_AVCODEC_ALL)
-  AV_FUNC(avcodec_alloc_frame, (AV_FUNC_53 | AV_FUNC_54))
-  AV_FUNC(avcodec_get_frame_defaults, (AV_FUNC_53 | AV_FUNC_54))
-  AV_FUNC(avcodec_free_frame, AV_FUNC_54)
   AV_FUNC(av_log_set_level, AV_FUNC_AVUTIL_ALL)
   AV_FUNC(av_malloc, AV_FUNC_AVUTIL_ALL)
   AV_FUNC(av_freep, AV_FUNC_AVUTIL_ALL)
-  AV_FUNC(av_frame_alloc, (AV_FUNC_AVUTIL_55 | AV_FUNC_AVUTIL_56 | AV_FUNC_AVUTIL_57))
-  AV_FUNC(av_frame_free, (AV_FUNC_AVUTIL_55 | AV_FUNC_AVUTIL_56 | AV_FUNC_AVUTIL_57))
-  AV_FUNC(av_frame_unref, (AV_FUNC_AVUTIL_55 | AV_FUNC_AVUTIL_56 | AV_FUNC_AVUTIL_57))
+  AV_FUNC(av_frame_alloc, AV_FUNC_AVUTIL_57)
+  AV_FUNC(av_frame_free, AV_FUNC_AVUTIL_57)
+  AV_FUNC(av_frame_unref, AV_FUNC_AVUTIL_57)
   AV_FUNC_OPTION(av_frame_get_colorspace, AV_FUNC_AVUTIL_ALL)
 #undef AV_FUNC
 #undef AV_FUNC_OPTION

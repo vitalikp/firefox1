@@ -163,8 +163,6 @@ FFmpegDataDecoder<LIBAV_VER>::ProcessShutdown()
     mLib->av_freep(&mCodecContext);
 #if LIBAVCODEC_VERSION_MAJOR >= 55
     mLib->av_frame_free(&mFrame);
-#elif LIBAVCODEC_VERSION_MAJOR == 54
-    mLib->avcodec_free_frame(&mFrame);
 #else
     mLib->av_freep(&mFrame);
 #endif
@@ -175,22 +173,13 @@ AVFrame*
 FFmpegDataDecoder<LIBAV_VER>::PrepareFrame()
 {
   MOZ_ASSERT(mTaskQueue->IsCurrentThreadIn());
-#if LIBAVCODEC_VERSION_MAJOR >= 55
+
   if (mFrame) {
     mLib->av_frame_unref(mFrame);
   } else {
     mFrame = mLib->av_frame_alloc();
   }
-#elif LIBAVCODEC_VERSION_MAJOR == 54
-  if (mFrame) {
-    mLib->avcodec_get_frame_defaults(mFrame);
-  } else {
-    mFrame = mLib->avcodec_alloc_frame();
-  }
-#else
-  mLib->av_freep(&mFrame);
-  mFrame = mLib->avcodec_alloc_frame();
-#endif
+
   return mFrame;
 }
 
