@@ -34,11 +34,11 @@ public:
   CreateVideoDecoder(const CreateDecoderParams& aParams) override
   {
     RefPtr<MediaDataDecoder> decoder =
-      new FFmpegVideoDecoder<V>(mLib,
-                                aParams.mTaskQueue,
-                                aParams.mCallback,
-                                aParams.VideoConfig(),
-                                aParams.mImageContainer);
+      new FFmpegVideoDecoder(mLib,
+                             aParams.mTaskQueue,
+                             aParams.mCallback,
+                             aParams.VideoConfig(),
+                             aParams.mImageContainer);
     return decoder.forget();
   }
 
@@ -56,7 +56,7 @@ public:
   bool SupportsMimeType(const nsACString& aMimeType,
                         DecoderDoctorDiagnostics* aDiagnostics) const override
   {
-    AVCodecID videoCodec = FFmpegVideoDecoder<V>::GetCodecId(aMimeType);
+    AVCodecID videoCodec = FFmpegVideoDecoder::GetCodecId(aMimeType);
     AVCodecID audioCodec = FFmpegAudioDecoder::GetCodecId(aMimeType);
     if (audioCodec == AV_CODEC_ID_NONE && videoCodec == AV_CODEC_ID_NONE) {
       return false;
