@@ -108,6 +108,9 @@ if CONFIG['MOZ_AUDIO_CHANNEL_MANAGER']:
         '/dom/system/gonk',
     ]
 
+if CONFIG['MOZ_AVCODEC']:
+    CXXFLAGS += CONFIG['MOZ_AVCODEC_CFLAGS']
+
 FINAL_LIBRARY = 'xul'
 
 SPHINX_TREES['webidl'] = 'docs'

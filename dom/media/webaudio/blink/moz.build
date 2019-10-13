@@ -35,5 +35,8 @@ LOCAL_INCLUDES += [
     '/dom/media/webaudio',
 ]
 
+if CONFIG['MOZ_AVCODEC']:
+    CXXFLAGS += CONFIG['MOZ_AVCODEC_CFLAGS']
+
 if CONFIG['GNU_CXX']:
     CXXFLAGS += ['-Wno-shadow']
