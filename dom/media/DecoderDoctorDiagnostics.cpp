@@ -20,10 +20,6 @@
 #include "nsPrintfCString.h"
 #include "VideoUtils.h"
 
-#if defined(MOZ_FFMPEG)
-#include "FFmpegRuntimeLinker.h"
-#endif
-
 #if defined(XP_WIN)
 #include "mozilla/WindowsVersion.h"
 #endif
@@ -583,38 +579,6 @@ DecoderDoctorDocumentWatcher::SynthesizeAnalysis()
                          false, formatsRequiringWMF);
         }
         return;
-      }
-#endif
-#if defined(MOZ_FFMPEG)
-      if (!formatsRequiringFFMpeg.IsEmpty()) {
-        switch (FFmpegRuntimeLinker::LinkStatusCode()) {
-          case FFmpegRuntimeLinker::LinkStatus_INVALID_FFMPEG_CANDIDATE:
-          case FFmpegRuntimeLinker::LinkStatus_UNUSABLE_LIBAV57:
-          case FFmpegRuntimeLinker::LinkStatus_INVALID_LIBAV_CANDIDATE:
-          case FFmpegRuntimeLinker::LinkStatus_OBSOLETE_FFMPEG:
-          case FFmpegRuntimeLinker::LinkStatus_OBSOLETE_LIBAV:
-          case FFmpegRuntimeLinker::LinkStatus_INVALID_CANDIDATE:
-            DD_INFO("DecoderDoctorDocumentWatcher[%p, doc=%p]::SynthesizeAnalysis() - unplayable formats: %s -> Cannot play media because of unsupported %s (Reason: %s)",
-                    this, mDocument,
-                    NS_ConvertUTF16toUTF8(formatsRequiringFFMpeg).get(),
-                    FFmpegRuntimeLinker::LinkStatusLibraryName(),
-                    FFmpegRuntimeLinker::LinkStatusString());
-            ReportAnalysis(mDocument, sUnsupportedLibavcodec,
-                           false, formatsRequiringFFMpeg);
-            return;
-          case FFmpegRuntimeLinker::LinkStatus_INIT:
-            MOZ_FALLTHROUGH_ASSERT("Unexpected LinkStatus_INIT");
-          case FFmpegRuntimeLinker::LinkStatus_SUCCEEDED:
-            MOZ_FALLTHROUGH_ASSERT("Unexpected LinkStatus_SUCCEEDED");
-          case FFmpegRuntimeLinker::LinkStatus_NOT_FOUND:
-            DD_INFO("DecoderDoctorDocumentWatcher[%p, doc=%p]::SynthesizeAnalysis() - unplayable formats: %s -> Cannot play media because platform decoder was not found (Reason: %s)",
-                    this, mDocument,
-                    NS_ConvertUTF16toUTF8(formatsRequiringFFMpeg).get(),
-                    FFmpegRuntimeLinker::LinkStatusString());
-            ReportAnalysis(mDocument, sMediaPlatformDecoderNotFound,
-                           false, formatsRequiringFFMpeg);
-            return;
-        }
       }
 #endif
       DD_INFO("DecoderDoctorDocumentWatcher[%p, doc=%p]::SynthesizeAnalysis() - Cannot play media, unplayable formats: %s",

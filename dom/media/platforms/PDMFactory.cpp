@@ -11,7 +11,7 @@
 
 #endif
 #ifdef MOZ_FFMPEG
-#include "FFmpegRuntimeLinker.h"
+#include "FFmpegDecoderModule.h"
 #endif
 #ifdef MOZ_APPLEMEDIA
 #include "AppleDecoderModule.h"
@@ -378,7 +378,7 @@ PDMFactory::CreatePDMs()
 #endif
 #ifdef MOZ_FFMPEG
   if (MediaPrefs::PDMFFmpegEnabled()) {
-    m = FFmpegRuntimeLinker::CreateDecoderModule();
+    m = FFmpegDecoderModule::Create();
     mFFmpegFailedToLoad = !StartupPDM(m);
   } else {
     mFFmpegFailedToLoad = false;
