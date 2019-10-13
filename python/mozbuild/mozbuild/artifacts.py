@@ -305,7 +305,6 @@ class MacArtifactJob(ArtifactJob):
                 'firefox',
                 'firefox-bin',
                 'libfreebl3.dylib',
-                'liblgpllibs.dylib',
                 # 'liblogalloc.dylib',
                 'libmozglue.dylib',
                 'libnss3.dylib',

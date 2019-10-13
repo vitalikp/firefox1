@@ -115,7 +115,6 @@
 @RESPATH@/update-settings.ini
 #endif
 @RESPATH@/platform.ini
-@BINPATH@/@DLL_PREFIX@lgpllibs@DLL_SUFFIX@
 @RESPATH@/browser/blocklist.xml
 #ifdef XP_UNIX
 #ifndef XP_MACOSX
