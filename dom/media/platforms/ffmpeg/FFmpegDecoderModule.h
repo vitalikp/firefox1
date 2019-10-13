@@ -15,7 +15,6 @@
 namespace mozilla
 {
 
-template <int V>
 class FFmpegDecoderModule : public PlatformDecoderModule
 {
 public:

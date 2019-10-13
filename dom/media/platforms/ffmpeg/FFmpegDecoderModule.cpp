@@ -8,6 +8,6 @@
 
 namespace mozilla {
 
-template class FFmpegDecoderModule<LIBAV_VER>;
+class FFmpegDecoderModule;
 
 } // namespace mozilla
