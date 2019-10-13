@@ -5,7 +5,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "FFmpegRuntimeLinker.h"
-#include "FFmpegLibWrapper.h"
+#include "FFmpegDecoderModule.h"
 #include "mozilla/ArrayUtils.h"
 #include "FFmpegLog.h"
 #include "prlink.h"
@@ -17,110 +17,12 @@ FFmpegRuntimeLinker::LinkStatus FFmpegRuntimeLinker::sLinkStatus =
   LinkStatus_INIT;
 const char* FFmpegRuntimeLinker::sLinkStatusLibraryName = "";
 
-class FFmpegDecoderModule
-{
-public:
-  static already_AddRefed<PlatformDecoderModule> Create(FFmpegLibWrapper*);
-};
-
-static FFmpegLibWrapper sLibAV;
-
-static const char* sLibs[] = {
-#if defined(XP_DARWIN)
-  "libavcodec.57.dylib",
-#else
-  "libavcodec-ffmpeg.so.57",
-  "libavcodec.so.57",
-#endif
-};
-
-/* static */ bool
-FFmpegRuntimeLinker::Init()
-{
-  if (sLinkStatus != LinkStatus_INIT) {
-    return sLinkStatus == LinkStatus_SUCCEEDED;
-  }
-
-  // While going through all possible libs, this status will be updated with a
-  // more precise error if possible.
-  sLinkStatus = LinkStatus_NOT_FOUND;
-
-  for (size_t i = 0; i < ArrayLength(sLibs); i++) {
-    const char* lib = sLibs[i];
-    PRLibSpec lspec;
-    lspec.type = PR_LibSpec_Pathname;
-    lspec.value.pathname = lib;
-    sLibAV.mAVCodecLib = PR_LoadLibraryWithFlags(lspec, PR_LD_NOW | PR_LD_LOCAL);
-    if (sLibAV.mAVCodecLib) {
-      sLibAV.mAVUtilLib = sLibAV.mAVCodecLib;
-      switch (sLibAV.Link()) {
-        case FFmpegLibWrapper::LinkResult::Success:
-          sLinkStatus = LinkStatus_SUCCEEDED;
-          sLinkStatusLibraryName = lib;
-          return true;
-        case FFmpegLibWrapper::LinkResult::NoProvidedLib:
-          MOZ_ASSERT_UNREACHABLE("Incorrectly-setup sLibAV");
-          break;
-        case FFmpegLibWrapper::LinkResult::NoAVCodecVersion:
-          if (sLinkStatus > LinkStatus_INVALID_CANDIDATE) {
-            sLinkStatus = LinkStatus_INVALID_CANDIDATE;
-            sLinkStatusLibraryName = lib;
-          }
-          break;
-        case FFmpegLibWrapper::LinkResult::CannotUseLibAV57:
-          if (sLinkStatus > LinkStatus_UNUSABLE_LIBAV57) {
-            sLinkStatus = LinkStatus_UNUSABLE_LIBAV57;
-            sLinkStatusLibraryName = lib;
-          }
-          break;
-        case FFmpegLibWrapper::LinkResult::BlockedOldLibAVVersion:
-          if (sLinkStatus > LinkStatus_OBSOLETE_LIBAV) {
-            sLinkStatus = LinkStatus_OBSOLETE_LIBAV;
-            sLinkStatusLibraryName = lib;
-          }
-          break;
-        case FFmpegLibWrapper::LinkResult::UnknownFutureLibAVVersion:
-        case FFmpegLibWrapper::LinkResult::MissingLibAVFunction:
-          if (sLinkStatus > LinkStatus_INVALID_LIBAV_CANDIDATE) {
-            sLinkStatus = LinkStatus_INVALID_LIBAV_CANDIDATE;
-            sLinkStatusLibraryName = lib;
-          }
-          break;
-        case FFmpegLibWrapper::LinkResult::UnknownFutureFFMpegVersion:
-        case FFmpegLibWrapper::LinkResult::MissingFFMpegFunction:
-          if (sLinkStatus > LinkStatus_INVALID_FFMPEG_CANDIDATE) {
-            sLinkStatus = LinkStatus_INVALID_FFMPEG_CANDIDATE;
-            sLinkStatusLibraryName = lib;
-          }
-          break;
-        case FFmpegLibWrapper::LinkResult::UnknownOlderFFMpegVersion:
-          if (sLinkStatus > LinkStatus_OBSOLETE_FFMPEG) {
-            sLinkStatus = LinkStatus_OBSOLETE_FFMPEG;
-            sLinkStatusLibraryName = lib;
-          }
-          break;
-      }
-    }
-  }
-
-  FFMPEG_LOG("H264/AAC codecs unsupported without [");
-  for (size_t i = 0; i < ArrayLength(sLibs); i++) {
-    FFMPEG_LOG("%s %s", i ? "," : " ", sLibs[i]);
-  }
-  FFMPEG_LOG(" ]\n");
-
-  return false;
-}
-
 /* static */ already_AddRefed<PlatformDecoderModule>
 FFmpegRuntimeLinker::CreateDecoderModule()
 {
-  if (!Init()) {
-    return nullptr;
-  }
   RefPtr<PlatformDecoderModule> module;
 
-  module = FFmpegDecoderModule::Create(&sLibAV);
+  module = FFmpegDecoderModule::Create();
 
   return module.forget();
 }

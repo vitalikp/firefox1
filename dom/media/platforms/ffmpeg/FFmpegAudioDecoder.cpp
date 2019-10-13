@@ -14,10 +14,9 @@
 namespace mozilla
 {
 
-FFmpegAudioDecoder::FFmpegAudioDecoder(FFmpegLibWrapper* aLib,
-  TaskQueue* aTaskQueue, MediaDataDecoderCallback* aCallback,
-  const AudioInfo& aConfig)
-  : FFmpegDataDecoder(aLib, aTaskQueue, aCallback, GetCodecId(aConfig.mMimeType))
+FFmpegAudioDecoder::FFmpegAudioDecoder(TaskQueue* aTaskQueue,
+  MediaDataDecoderCallback* aCallback, const AudioInfo& aConfig)
+  : FFmpegDataDecoder(aTaskQueue, aCallback, GetCodecId(aConfig.mMimeType))
 {
   MOZ_COUNT_CTOR(FFmpegAudioDecoder);
   // Use a new MediaByteBuffer as the object will be modified during initialization.
@@ -119,7 +118,7 @@ MediaResult
 FFmpegAudioDecoder::DoDecode(MediaRawData* aSample)
 {
   AVPacket packet;
-  mLib->av_init_packet(&packet);
+  av_init_packet(&packet);
 
   packet.data = const_cast<uint8_t*>(aSample->Data());
   packet.size = aSample->Size();
@@ -136,7 +135,7 @@ FFmpegAudioDecoder::DoDecode(MediaRawData* aSample)
   while (packet.size > 0) {
     int decoded;
     int bytesConsumed =
-      mLib->avcodec_decode_audio4(mCodecContext, mFrame, &decoded, &packet);
+      avcodec_decode_audio4(mCodecContext, mFrame, &decoded, &packet);
 
     if (bytesConsumed < 0) {
       NS_WARNING("FFmpeg audio decoder error.");

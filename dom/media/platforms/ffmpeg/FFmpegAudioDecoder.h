@@ -7,7 +7,6 @@
 #ifndef __FFmpegAACDecoder_h__
 #define __FFmpegAACDecoder_h__
 
-#include "FFmpegLibWrapper.h"
 #include "FFmpegDataDecoder.h"
 
 namespace mozilla
@@ -16,7 +15,7 @@ namespace mozilla
 class FFmpegAudioDecoder : public FFmpegDataDecoder
 {
 public:
-  FFmpegAudioDecoder(FFmpegLibWrapper* aLib, TaskQueue* aTaskQueue,
+  FFmpegAudioDecoder(TaskQueue* aTaskQueue,
                      MediaDataDecoderCallback* aCallback,
                      const AudioInfo& aConfig);
   virtual ~FFmpegAudioDecoder();

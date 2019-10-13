@@ -21,12 +21,10 @@ namespace mozilla
 
 StaticMutex FFmpegDataDecoder::sMonitor;
 
-  FFmpegDataDecoder::FFmpegDataDecoder(FFmpegLibWrapper* aLib,
-                                                  TaskQueue* aTaskQueue,
-                                                  MediaDataDecoderCallback* aCallback,
-                                                  AVCodecID aCodecID)
-  : mLib(aLib)
-  , mCallback(aCallback)
+  FFmpegDataDecoder::FFmpegDataDecoder(TaskQueue* aTaskQueue,
+                                       MediaDataDecoderCallback* aCallback,
+                                       AVCodecID aCodecID)
+  : mCallback(aCallback)
   , mCodecContext(nullptr)
   , mFrame(NULL)
   , mExtraData(nullptr)
@@ -48,7 +46,7 @@ FFmpegDataDecoder::InitDecoder()
 {
   FFMPEG_LOG("Initialising FFmpeg decoder.");
 
-  AVCodec* codec = FindAVCodec(mLib, mCodecID);
+  AVCodec* codec = FindAVCodec(mCodecID);
   if (!codec) {
     NS_WARNING("Couldn't find ffmpeg decoder");
     return NS_ERROR_FAILURE;
@@ -56,7 +54,7 @@ FFmpegDataDecoder::InitDecoder()
 
   StaticMutexAutoLock mon(sMonitor);
 
-  if (!(mCodecContext = mLib->avcodec_alloc_context3(codec))) {
+  if (!(mCodecContext = avcodec_alloc_context3(codec))) {
     NS_WARNING("Couldn't init ffmpeg context");
     return NS_ERROR_FAILURE;
   }
@@ -79,10 +77,10 @@ FFmpegDataDecoder::InitDecoder()
     mCodecContext->flags |= CODEC_FLAG_EMU_EDGE;
   }
 
-  if (mLib->avcodec_open2(mCodecContext, codec, nullptr) < 0) {
+  if (avcodec_open2(mCodecContext, codec, nullptr) < 0) {
     NS_WARNING("Couldn't initialise ffmpeg decoder");
-    mLib->avcodec_close(mCodecContext);
-    mLib->av_freep(&mCodecContext);
+    avcodec_close(mCodecContext);
+    av_freep(&mCodecContext);
     return NS_ERROR_FAILURE;
   }
 
@@ -149,7 +147,7 @@ FFmpegDataDecoder::ProcessFlush()
 {
   MOZ_ASSERT(mTaskQueue->IsCurrentThreadIn());
   if (mCodecContext) {
-    mLib->avcodec_flush_buffers(mCodecContext);
+    avcodec_flush_buffers(mCodecContext);
   }
 }
 
@@ -159,12 +157,12 @@ FFmpegDataDecoder::ProcessShutdown()
   StaticMutexAutoLock mon(sMonitor);
 
   if (mCodecContext) {
-    mLib->avcodec_close(mCodecContext);
-    mLib->av_freep(&mCodecContext);
+    avcodec_close(mCodecContext);
+    av_freep(&mCodecContext);
 #if LIBAVCODEC_VERSION_MAJOR >= 55
-    mLib->av_frame_free(&mFrame);
+    av_frame_free(&mFrame);
 #else
-    mLib->av_freep(&mFrame);
+    av_freep(&mFrame);
 #endif
   }
 }
@@ -175,18 +173,18 @@ FFmpegDataDecoder::PrepareFrame()
   MOZ_ASSERT(mTaskQueue->IsCurrentThreadIn());
 
   if (mFrame) {
-    mLib->av_frame_unref(mFrame);
+    av_frame_unref(mFrame);
   } else {
-    mFrame = mLib->av_frame_alloc();
+    mFrame = av_frame_alloc();
   }
 
   return mFrame;
 }
 
 /* static */ AVCodec*
-FFmpegDataDecoder::FindAVCodec(FFmpegLibWrapper* aLib, AVCodecID aCodec)
+FFmpegDataDecoder::FindAVCodec(AVCodecID aCodec)
 {
-  return aLib->avcodec_find_decoder(aCodec);
+  return avcodec_find_decoder(aCodec);
 }
 
 } // namespace mozilla

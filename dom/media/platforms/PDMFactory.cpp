@@ -65,9 +65,6 @@ public:
 #ifdef MOZ_APPLEMEDIA
     AppleDecoderModule::Init();
 #endif
-#ifdef MOZ_FFMPEG
-    FFmpegRuntimeLinker::Init();
-#endif
   }
 };
 
