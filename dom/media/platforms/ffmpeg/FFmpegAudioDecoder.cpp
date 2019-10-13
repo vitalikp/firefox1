@@ -14,7 +14,7 @@
 namespace mozilla
 {
 
-FFmpegAudioDecoder<LIBAV_VER>::FFmpegAudioDecoder(FFmpegLibWrapper* aLib,
+FFmpegAudioDecoder::FFmpegAudioDecoder(FFmpegLibWrapper* aLib,
   TaskQueue* aTaskQueue, MediaDataDecoderCallback* aCallback,
   const AudioInfo& aConfig)
   : FFmpegDataDecoder(aLib, aTaskQueue, aCallback, GetCodecId(aConfig.mMimeType))
@@ -28,7 +28,7 @@ FFmpegAudioDecoder<LIBAV_VER>::FFmpegAudioDecoder(FFmpegLibWrapper* aLib,
 }
 
 RefPtr<MediaDataDecoder::InitPromise>
-FFmpegAudioDecoder<LIBAV_VER>::Init()
+FFmpegAudioDecoder::Init()
 {
   nsresult rv = InitDecoder();
 
@@ -37,7 +37,7 @@ FFmpegAudioDecoder<LIBAV_VER>::Init()
 }
 
 void
-FFmpegAudioDecoder<LIBAV_VER>::InitCodecContext()
+FFmpegAudioDecoder::InitCodecContext()
 {
   MOZ_ASSERT(mCodecContext);
   // We do not want to set this value to 0 as FFmpeg by default will
@@ -116,7 +116,7 @@ CopyAndPackAudio(AVFrame* aFrame, uint32_t aNumChannels, uint32_t aNumAFrames)
 }
 
 MediaResult
-FFmpegAudioDecoder<LIBAV_VER>::DoDecode(MediaRawData* aSample)
+FFmpegAudioDecoder::DoDecode(MediaRawData* aSample)
 {
   AVPacket packet;
   mLib->av_init_packet(&packet);
@@ -203,14 +203,14 @@ FFmpegAudioDecoder<LIBAV_VER>::DoDecode(MediaRawData* aSample)
 }
 
 void
-FFmpegAudioDecoder<LIBAV_VER>::ProcessDrain()
+FFmpegAudioDecoder::ProcessDrain()
 {
   ProcessFlush();
   mCallback->DrainComplete();
 }
 
 AVCodecID
-FFmpegAudioDecoder<LIBAV_VER>::GetCodecId(const nsACString& aMimeType)
+FFmpegAudioDecoder::GetCodecId(const nsACString& aMimeType)
 {
   if (aMimeType.EqualsLiteral("audio/mpeg")) {
     return AV_CODEC_ID_MP3;
@@ -223,7 +223,7 @@ FFmpegAudioDecoder<LIBAV_VER>::GetCodecId(const nsACString& aMimeType)
   return AV_CODEC_ID_NONE;
 }
 
-FFmpegAudioDecoder<LIBAV_VER>::~FFmpegAudioDecoder()
+FFmpegAudioDecoder::~FFmpegAudioDecoder()
 {
   MOZ_COUNT_DTOR(FFmpegAudioDecoder);
 }
