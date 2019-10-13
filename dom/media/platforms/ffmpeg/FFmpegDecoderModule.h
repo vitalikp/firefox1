@@ -46,10 +46,10 @@ public:
   CreateAudioDecoder(const CreateDecoderParams& aParams) override
   {
     RefPtr<MediaDataDecoder> decoder =
-      new FFmpegAudioDecoder<V>(mLib,
-                                aParams.mTaskQueue,
-                                aParams.mCallback,
-                                aParams.AudioConfig());
+      new FFmpegAudioDecoder(mLib,
+                             aParams.mTaskQueue,
+                             aParams.mCallback,
+                             aParams.AudioConfig());
     return decoder.forget();
   }
 
@@ -57,7 +57,7 @@ public:
                         DecoderDoctorDiagnostics* aDiagnostics) const override
   {
     AVCodecID videoCodec = FFmpegVideoDecoder<V>::GetCodecId(aMimeType);
-    AVCodecID audioCodec = FFmpegAudioDecoder<V>::GetCodecId(aMimeType);
+    AVCodecID audioCodec = FFmpegAudioDecoder::GetCodecId(aMimeType);
     if (audioCodec == AV_CODEC_ID_NONE && videoCodec == AV_CODEC_ID_NONE) {
       return false;
     }
