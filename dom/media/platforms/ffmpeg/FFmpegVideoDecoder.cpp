@@ -101,11 +101,10 @@ FFmpegVideoDecoder::PtsCorrectionContext::Reset()
   mLastDts = INT64_MIN;
 }
 
-FFmpegVideoDecoder::FFmpegVideoDecoder(FFmpegLibWrapper* aLib,
-  TaskQueue* aTaskQueue, MediaDataDecoderCallback* aCallback,
-  const VideoInfo& aConfig,
+FFmpegVideoDecoder::FFmpegVideoDecoder(TaskQueue* aTaskQueue,
+  MediaDataDecoderCallback* aCallback, const VideoInfo& aConfig,
   ImageContainer* aImageContainer)
-  : FFmpegDataDecoder(aLib, aTaskQueue, aCallback, GetCodecId(aConfig.mMimeType))
+  : FFmpegDataDecoder(aTaskQueue, aCallback, GetCodecId(aConfig.mMimeType))
   , mImageContainer(aImageContainer)
   , mInfo(aConfig)
   , mCodecParser(nullptr)
@@ -155,7 +154,7 @@ FFmpegVideoDecoder::InitCodecContext()
   // FFmpeg will call back to this to negotiate a video pixel format.
   mCodecContext->get_format = ChoosePixelFormat;
 
-  mCodecParser = mLib->av_parser_init(mCodecID);
+  mCodecParser = av_parser_init(mCodecID);
   if (mCodecParser) {
     mCodecParser->flags |= PARSER_FLAG_COMPLETE_FRAMES;
   }
@@ -183,7 +182,7 @@ FFmpegVideoDecoder::DoDecode(MediaRawData* aSample, bool* aGotFrame)
     while (inputSize) {
       uint8_t* data;
       int size;
-      int len = mLib->av_parser_parse2(mCodecParser, mCodecContext, &data, &size,
+      int len = av_parser_parse2(mCodecParser, mCodecContext, &data, &size,
                                        inputData, inputSize,
                                        aSample->mTime, aSample->mTimecode,
                                        aSample->mOffset);
@@ -215,7 +214,7 @@ FFmpegVideoDecoder::DoDecode(MediaRawData* aSample,
                                         bool* aGotFrame)
 {
   AVPacket packet;
-  mLib->av_init_packet(&packet);
+  av_init_packet(&packet);
 
   packet.data = aData;
   packet.size = aSize;
@@ -241,7 +240,7 @@ FFmpegVideoDecoder::DoDecode(MediaRawData* aSample,
 
   int decoded;
   int bytesConsumed =
-    mLib->avcodec_decode_video2(mCodecContext, mFrame, &decoded, &packet);
+    avcodec_decode_video2(mCodecContext, mFrame, &decoded, &packet);
 
   FFMPEG_LOG("DoDecodeFrame:decode_video: rv=%d decoded=%d "
              "(Input: pts(%lld) dts(%lld) Output: pts(%lld) "
@@ -301,8 +300,8 @@ FFmpegVideoDecoder::DoDecode(MediaRawData* aSample,
     b.mPlanes[1].mWidth = b.mPlanes[2].mWidth = (mFrame->width + 1) >> 1;
     b.mPlanes[1].mHeight = b.mPlanes[2].mHeight = (mFrame->height + 1) >> 1;
   }
-  if (mLib->av_frame_get_colorspace) {
-    switch (mLib->av_frame_get_colorspace(mFrame)) {
+#ifdef av_frame_get_colorspace
+    switch (av_frame_get_colorspace(mFrame)) {
       case AVCOL_SPC_BT709:
         b.mYUVColorSpace = YUVColorSpace::BT709;
         break;
@@ -313,7 +312,7 @@ FFmpegVideoDecoder::DoDecode(MediaRawData* aSample,
       default:
         break;
     }
-  }
+#endif
   RefPtr<VideoData> v =
     VideoData::CreateAndCopyData(mInfo,
                                   mImageContainer,
@@ -359,7 +358,7 @@ FFmpegVideoDecoder::~FFmpegVideoDecoder()
 {
   MOZ_COUNT_DTOR(FFmpegVideoDecoder);
   if (mCodecParser) {
-    mLib->av_parser_close(mCodecParser);
+    av_parser_close(mCodecParser);
     mCodecParser = nullptr;
   }
 }

@@ -15,7 +15,6 @@ namespace mozilla
 class FFmpegRuntimeLinker
 {
 public:
-  static bool Init();
   static already_AddRefed<PlatformDecoderModule> CreateDecoderModule();
   enum LinkStatus
   {

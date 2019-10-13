@@ -8,7 +8,6 @@
 #define __FFmpegDataDecoder_h__
 
 #include "PlatformDecoderModule.h"
-#include "FFmpegLibWrapper.h"
 #include "mozilla/StaticMutex.h"
 #include "FFmpegLibs.h"
 
@@ -18,7 +17,7 @@ namespace mozilla
 class FFmpegDataDecoder : public MediaDataDecoder
 {
 public:
-  FFmpegDataDecoder(FFmpegLibWrapper* aLib, TaskQueue* aTaskQueue,
+  FFmpegDataDecoder(TaskQueue* aTaskQueue,
                     MediaDataDecoderCallback* aCallback,
                     AVCodecID aCodecID);
   virtual ~FFmpegDataDecoder();
@@ -31,7 +30,7 @@ public:
   void Drain() override;
   void Shutdown() override;
 
-  static AVCodec* FindAVCodec(FFmpegLibWrapper* aLib, AVCodecID aCodec);
+  static AVCodec* FindAVCodec(AVCodecID aCodec);
 
 protected:
   // Flush and Drain operation, always run
@@ -41,7 +40,6 @@ protected:
   AVFrame*        PrepareFrame();
   nsresult        InitDecoder();
 
-  FFmpegLibWrapper* mLib;
   MediaDataDecoderCallback* mCallback;
 
   AVCodecContext* mCodecContext;
