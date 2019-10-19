@@ -244,9 +244,9 @@ FFmpegVideoDecoder::DoDecode(MediaRawData* aSample,
 
   FFMPEG_LOG("DoDecodeFrame:decode_video: rv=%d decoded=%d "
              "(Input: pts(%lld) dts(%lld) Output: pts(%lld) "
-             "opaque(%lld) pkt_pts(%lld) pkt_dts(%lld))",
+             "opaque(%lld) pkt_dts(%lld))",
              bytesConsumed, decoded, packet.pts, packet.dts, mFrame->pts,
-             mFrame->reordered_opaque, mFrame->pkt_pts, mFrame->pkt_dts);
+             mFrame->reordered_opaque, mFrame->pkt_dts);
 
   if (bytesConsumed < 0) {
     return MediaResult(NS_ERROR_DOM_MEDIA_DECODE_ERR,
@@ -261,7 +261,7 @@ FFmpegVideoDecoder::DoDecode(MediaRawData* aSample,
   }
 
   // If we've decoded a frame then we need to output it
-  int64_t pts = mPtsContext.GuessCorrectPts(mFrame->pkt_pts, mFrame->pkt_dts);
+  int64_t pts = mPtsContext.GuessCorrectPts(mFrame->pts, mFrame->pkt_dts);
   // Retrieve duration from dts.
   // We use the first entry found matching this dts (this is done to
   // handle damaged file with multiple frames with the same dts)
