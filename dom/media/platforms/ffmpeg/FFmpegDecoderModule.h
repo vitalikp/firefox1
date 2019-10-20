@@ -8,8 +8,6 @@
 #define __FFmpegDecoderModule_h__
 
 #include "PlatformDecoderModule.h"
-#include "FFmpegAudioDecoder.h"
-#include "FFmpegVideoDecoder.h"
 
 namespace mozilla
 {
@@ -29,49 +27,16 @@ public:
   virtual ~FFmpegDecoderModule() {}
 
   already_AddRefed<MediaDataDecoder>
-  CreateVideoDecoder(const CreateDecoderParams& aParams) override
-  {
-    RefPtr<MediaDataDecoder> decoder =
-      new FFmpegVideoDecoder(aParams.mTaskQueue,
-                             aParams.mCallback,
-                             aParams.VideoConfig(),
-                             aParams.mImageContainer);
-    return decoder.forget();
-  }
+  CreateVideoDecoder(const CreateDecoderParams& aParams) override;
 
   already_AddRefed<MediaDataDecoder>
-  CreateAudioDecoder(const CreateDecoderParams& aParams) override
-  {
-    RefPtr<MediaDataDecoder> decoder =
-      new FFmpegAudioDecoder(aParams.mTaskQueue,
-                             aParams.mCallback,
-                             aParams.AudioConfig());
-    return decoder.forget();
-  }
+  CreateAudioDecoder(const CreateDecoderParams& aParams) override;
 
   bool SupportsMimeType(const nsACString& aMimeType,
-                        DecoderDoctorDiagnostics* aDiagnostics) const override
-  {
-    AVCodecID videoCodec = FFmpegVideoDecoder::GetCodecId(aMimeType);
-    AVCodecID audioCodec = FFmpegAudioDecoder::GetCodecId(aMimeType);
-    if (audioCodec == AV_CODEC_ID_NONE && videoCodec == AV_CODEC_ID_NONE) {
-      return false;
-    }
-    AVCodecID codec = audioCodec != AV_CODEC_ID_NONE ? audioCodec : videoCodec;
-    return !!FFmpegDataDecoder::FindAVCodec(codec);
-  }
+                        DecoderDoctorDiagnostics* aDiagnostics) const override;
 
   ConversionRequired
-  DecoderNeedsConversion(const TrackInfo& aConfig) const override
-  {
-    if (aConfig.IsVideo() &&
-        (aConfig.mMimeType.EqualsLiteral("video/avc") ||
-         aConfig.mMimeType.EqualsLiteral("video/mp4"))) {
-      return ConversionRequired::kNeedAVCC;
-    } else {
-      return ConversionRequired::kNeedNone;
-    }
-  }
+  DecoderNeedsConversion(const TrackInfo& aConfig) const override;
 
 private:
 };

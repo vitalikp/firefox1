@@ -5,9 +5,54 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "FFmpegDecoderModule.h"
+#include "FFmpegAudioDecoder.h"
+#include "FFmpegVideoDecoder.h"
 
 namespace mozilla {
 
-class FFmpegDecoderModule;
+already_AddRefed<MediaDataDecoder>
+FFmpegDecoderModule::CreateVideoDecoder(const CreateDecoderParams& aParams)
+{
+  RefPtr<MediaDataDecoder> decoder =
+    new FFmpegVideoDecoder(aParams.mTaskQueue,
+                           aParams.mCallback,
+                           aParams.VideoConfig(),
+                           aParams.mImageContainer);
+  return decoder.forget();
+}
+
+already_AddRefed<MediaDataDecoder>
+FFmpegDecoderModule::CreateAudioDecoder(const CreateDecoderParams& aParams)
+{
+  RefPtr<MediaDataDecoder> decoder =
+    new FFmpegAudioDecoder(aParams.mTaskQueue,
+                           aParams.mCallback,
+                           aParams.AudioConfig());
+  return decoder.forget();
+}
+
+bool FFmpegDecoderModule::SupportsMimeType(const nsACString& aMimeType,
+                      DecoderDoctorDiagnostics* aDiagnostics) const
+{
+  AVCodecID videoCodec = FFmpegVideoDecoder::GetCodecId(aMimeType);
+  AVCodecID audioCodec = FFmpegAudioDecoder::GetCodecId(aMimeType);
+  if (audioCodec == AV_CODEC_ID_NONE && videoCodec == AV_CODEC_ID_NONE) {
+    return false;
+  }
+  AVCodecID codec = audioCodec != AV_CODEC_ID_NONE ? audioCodec : videoCodec;
+  return !!FFmpegDataDecoder::FindAVCodec(codec);
+}
+
+PlatformDecoderModule::ConversionRequired
+FFmpegDecoderModule::DecoderNeedsConversion(const TrackInfo& aConfig) const
+{
+  if (aConfig.IsVideo() &&
+      (aConfig.mMimeType.EqualsLiteral("video/avc") ||
+       aConfig.mMimeType.EqualsLiteral("video/mp4"))) {
+    return ConversionRequired::kNeedAVCC;
+  } else {
+    return ConversionRequired::kNeedNone;
+  }
+}
 
 } // namespace mozilla
