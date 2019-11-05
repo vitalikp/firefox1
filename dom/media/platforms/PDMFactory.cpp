@@ -381,7 +381,7 @@ PDMFactory::CreatePDMs()
 #endif
 #ifdef MOZ_FFMPEG
   if (MediaPrefs::PDMFFmpegEnabled()) {
-    m = FFmpegDecoderModule::Create();
+    m = new FFmpegDecoderModule();
     mFFmpegFailedToLoad = !StartupPDM(m);
   } else {
     mFFmpegFailedToLoad = false;

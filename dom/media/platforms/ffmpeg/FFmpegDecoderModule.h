@@ -15,15 +15,7 @@ namespace mozilla
 class FFmpegDecoderModule : public PlatformDecoderModule
 {
 public:
-  static already_AddRefed<PlatformDecoderModule>
-  Create()
-  {
-    RefPtr<PlatformDecoderModule> pdm = new FFmpegDecoderModule();
-
-    return pdm.forget();
-  }
-
-  explicit FFmpegDecoderModule() {}
+  FFmpegDecoderModule() {}
   virtual ~FFmpegDecoderModule() {}
 
   already_AddRefed<MediaDataDecoder>
