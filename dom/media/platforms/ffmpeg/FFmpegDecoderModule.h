@@ -39,6 +39,7 @@ public:
   DecoderNeedsConversion(const TrackInfo& aConfig) const override;
 
 private:
+  static bool sInitialized;
 };
 
 } // namespace mozilla

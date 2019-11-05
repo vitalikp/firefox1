@@ -10,6 +10,8 @@
 
 namespace mozilla {
 
+bool FFmpegDecoderModule::sInitialized = false;
+
 already_AddRefed<MediaDataDecoder>
 FFmpegDecoderModule::CreateVideoDecoder(const CreateDecoderParams& aParams)
 {
