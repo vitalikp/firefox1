@@ -38,6 +38,8 @@ public:
   ConversionRequired
   DecoderNeedsConversion(const TrackInfo& aConfig) const override;
 
+  static void Init();
+
 private:
   static bool sInitialized;
 };
