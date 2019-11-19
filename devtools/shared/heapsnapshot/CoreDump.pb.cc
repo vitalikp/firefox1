@@ -7,7 +7,6 @@
 
 #include <google/protobuf/stubs/common.h>
 #include <google/protobuf/stubs/port.h>
-#include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
 #include <google/protobuf/descriptor.h>
@@ -19,6 +18,11 @@
 #include "third_party/protobuf/version.h"
 #endif
 // @@protoc_insertion_point(includes)
+
+namespace protobuf_CoreDump_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_CoreDump_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_Edge;
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_CoreDump_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_StackFrame;
+}  // namespace protobuf_CoreDump_2eproto
 namespace mozilla {
 namespace devtools {
 namespace protobuf {
@@ -65,14 +69,9 @@ class EdgeDefaultTypeInternal {
 }  // namespace devtools
 }  // namespace mozilla
 namespace protobuf_CoreDump_2eproto {
-void InitDefaultsMetadataImpl() {
+static void InitDefaultsMetadata() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
   {
     void* ptr = &::mozilla::devtools::protobuf::_Metadata_default_instance_;
     new (ptr) ::mozilla::devtools::protobuf::Metadata();
@@ -81,19 +80,12 @@ void InitDefaultsMetadataImpl() {
   ::mozilla::devtools::protobuf::Metadata::InitAsDefaultInstance();
 }
 
-void InitDefaultsMetadata() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsMetadataImpl);
-}
+::google::protobuf::internal::SCCInfo<0> scc_info_Metadata =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsMetadata}, {}};
 
-void InitDefaultsStackFrameImpl() {
+static void InitDefaultsStackFrame() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
   {
     void* ptr = &::mozilla::devtools::protobuf::_StackFrame_Data_default_instance_;
     new (ptr) ::mozilla::devtools::protobuf::StackFrame_Data();
@@ -108,21 +100,12 @@ void InitDefaultsStackFrameImpl() {
   ::mozilla::devtools::protobuf::StackFrame::InitAsDefaultInstance();
 }
 
-void InitDefaultsStackFrame() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsStackFrameImpl);
-}
+::google::protobuf::internal::SCCInfo<0> scc_info_StackFrame =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsStackFrame}, {}};
 
-void InitDefaultsNodeImpl() {
+static void InitDefaultsNode() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  protobuf_CoreDump_2eproto::InitDefaultsEdge();
-  protobuf_CoreDump_2eproto::InitDefaultsStackFrame();
   {
     void* ptr = &::mozilla::devtools::protobuf::_Node_default_instance_;
     new (ptr) ::mozilla::devtools::protobuf::Node();
@@ -131,19 +114,14 @@ void InitDefaultsNodeImpl() {
   ::mozilla::devtools::protobuf::Node::InitAsDefaultInstance();
 }
 
-void InitDefaultsNode() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsNodeImpl);
-}
+::google::protobuf::internal::SCCInfo<2> scc_info_Node =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 2, InitDefaultsNode}, {
+      &protobuf_CoreDump_2eproto::scc_info_Edge.base,
+      &protobuf_CoreDump_2eproto::scc_info_StackFrame.base,}};
 
-void InitDefaultsEdgeImpl() {
+static void InitDefaultsEdge() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-  ::google::protobuf::internal::InitProtobufDefaultsForceUnique();
-#else
-  ::google::protobuf::internal::InitProtobufDefaults();
-#endif  // GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
   {
     void* ptr = &::mozilla::devtools::protobuf::_Edge_default_instance_;
     new (ptr) ::mozilla::devtools::protobuf::Edge();
@@ -152,9 +130,14 @@ void InitDefaultsEdgeImpl() {
   ::mozilla::devtools::protobuf::Edge::InitAsDefaultInstance();
 }
 
-void InitDefaultsEdge() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &InitDefaultsEdgeImpl);
+::google::protobuf::internal::SCCInfo<0> scc_info_Edge =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsEdge}, {}};
+
+void InitDefaults() {
+  ::google::protobuf::internal::InitSCC(&scc_info_Metadata.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_StackFrame.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Node.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_Edge.base);
 }
 
 ::google::protobuf::Metadata file_level_metadata[5];
@@ -265,15 +248,14 @@ static ::google::protobuf::Message const * const file_default_instances[] = {
 
 void protobuf_AssignDescriptors() {
   AddDescriptors();
-  ::google::protobuf::MessageFactory* factory = NULL;
   AssignDescriptors(
-      "CoreDump.proto", schemas, file_default_instances, TableStruct::offsets, factory,
+      "CoreDump.proto", schemas, file_default_instances, TableStruct::offsets,
       file_level_metadata, NULL, NULL);
 }
 
 void protobuf_AssignDescriptorsOnce() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &protobuf_AssignDescriptors);
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
 }
 
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
@@ -317,8 +299,8 @@ void AddDescriptorsImpl() {
 }
 
 void AddDescriptors() {
-  static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
-  ::google::protobuf::GoogleOnceInit(&once, &AddDescriptorsImpl);
+  static ::google::protobuf::internal::once_flag once;
+  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
 }
 // Force AddDescriptors() to be called at dynamic initialization time.
 struct StaticDescriptorInitializer {
@@ -341,24 +323,21 @@ const int Metadata::kTimeStampFieldNumber;
 
 Metadata::Metadata()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_CoreDump_2eproto::InitDefaultsMetadata();
-  }
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_CoreDump_2eproto::scc_info_Metadata.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:mozilla.devtools.protobuf.Metadata)
 }
 Metadata::Metadata(const Metadata& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      _has_bits_(from._has_bits_),
-      _cached_size_(0) {
+      _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   timestamp_ = from.timestamp_;
   // @@protoc_insertion_point(copy_constructor:mozilla.devtools.protobuf.Metadata)
 }
 
 void Metadata::SharedCtor() {
-  _cached_size_ = 0;
   timestamp_ = GOOGLE_ULONGLONG(0);
 }
 
@@ -371,9 +350,7 @@ void Metadata::SharedDtor() {
 }
 
 void Metadata::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  _cached_size_.Set(size);
 }
 const ::google::protobuf::Descriptor* Metadata::descriptor() {
   ::protobuf_CoreDump_2eproto::protobuf_AssignDescriptorsOnce();
@@ -381,17 +358,10 @@ const ::google::protobuf::Descriptor* Metadata::descriptor() {
 }
 
 const Metadata& Metadata::default_instance() {
-  ::protobuf_CoreDump_2eproto::InitDefaultsMetadata();
+  ::google::protobuf::internal::InitSCC(&protobuf_CoreDump_2eproto::scc_info_Metadata.base);
   return *internal_default_instance();
 }
 
-Metadata* Metadata::New(::google::protobuf::Arena* arena) const {
-  Metadata* n = new Metadata;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
 
 void Metadata::Clear() {
 // @@protoc_insertion_point(message_clear_start:mozilla.devtools.protobuf.Metadata)
@@ -410,7 +380,7 @@ bool Metadata::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:mozilla.devtools.protobuf.Metadata)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -505,9 +475,7 @@ size_t Metadata::ByteSizeLong() const {
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  SetCachedSize(cached_size);
   return total_size;
 }
 
@@ -565,7 +533,6 @@ void Metadata::InternalSwap(Metadata* other) {
   swap(timestamp_, other->timestamp_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Metadata::GetMetadata() const {
@@ -601,17 +568,15 @@ const int StackFrame_Data::kIsSelfHostedFieldNumber;
 
 StackFrame_Data::StackFrame_Data()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_CoreDump_2eproto::InitDefaultsStackFrame();
-  }
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_CoreDump_2eproto::scc_info_StackFrame.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:mozilla.devtools.protobuf.StackFrame.Data)
 }
 StackFrame_Data::StackFrame_Data(const StackFrame_Data& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      _has_bits_(from._has_bits_),
-      _cached_size_(0) {
+      _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_parent()) {
     parent_ = new ::mozilla::devtools::protobuf::StackFrame(*from.parent_);
@@ -653,7 +618,6 @@ StackFrame_Data::StackFrame_Data(const StackFrame_Data& from)
 }
 
 void StackFrame_Data::SharedCtor() {
-  _cached_size_ = 0;
   ::memset(&parent_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&isselfhosted_) -
       reinterpret_cast<char*>(&parent_)) + sizeof(isselfhosted_));
@@ -677,9 +641,7 @@ void StackFrame_Data::SharedDtor() {
 }
 
 void StackFrame_Data::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  _cached_size_.Set(size);
 }
 const ::google::protobuf::Descriptor* StackFrame_Data::descriptor() {
   ::protobuf_CoreDump_2eproto::protobuf_AssignDescriptorsOnce();
@@ -687,17 +649,10 @@ const ::google::protobuf::Descriptor* StackFrame_Data::descriptor() {
 }
 
 const StackFrame_Data& StackFrame_Data::default_instance() {
-  ::protobuf_CoreDump_2eproto::InitDefaultsStackFrame();
+  ::google::protobuf::internal::InitSCC(&protobuf_CoreDump_2eproto::scc_info_StackFrame.base);
   return *internal_default_instance();
 }
 
-StackFrame_Data* StackFrame_Data::New(::google::protobuf::Arena* arena) const {
-  StackFrame_Data* n = new StackFrame_Data;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
 
 void StackFrame_Data::clear_SourceOrRef() {
 // @@protoc_insertion_point(one_of_clear_start:mozilla.devtools.protobuf.StackFrame.Data)
@@ -764,7 +719,7 @@ bool StackFrame_Data::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:mozilla.devtools.protobuf.StackFrame.Data)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -939,7 +894,7 @@ void StackFrame_Data::SerializeWithCachedSizes(
   // optional .mozilla.devtools.protobuf.StackFrame parent = 2;
   if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, *this->parent_, output);
+      2, this->_internal_parent(), output);
   }
 
   // optional uint32 line = 3;
@@ -1006,7 +961,7 @@ void StackFrame_Data::SerializeWithCachedSizes(
   if (cached_has_bits & 0x00000001u) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        2, *this->parent_, deterministic, target);
+        2, this->_internal_parent(), deterministic, target);
   }
 
   // optional uint32 line = 3;
@@ -1073,7 +1028,7 @@ size_t StackFrame_Data::ByteSizeLong() const {
     if (has_parent()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *this->parent_);
+          *parent_);
     }
 
     // optional uint64 id = 1;
@@ -1147,9 +1102,7 @@ size_t StackFrame_Data::ByteSizeLong() const {
     }
   }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  SetCachedSize(cached_size);
   return total_size;
 }
 
@@ -1261,7 +1214,6 @@ void StackFrame_Data::InternalSwap(StackFrame_Data* other) {
   swap(_oneof_case_[1], other->_oneof_case_[1]);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata StackFrame_Data::GetMetadata() const {
@@ -1298,17 +1250,15 @@ const int StackFrame::kRefFieldNumber;
 
 StackFrame::StackFrame()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_CoreDump_2eproto::InitDefaultsStackFrame();
-  }
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_CoreDump_2eproto::scc_info_StackFrame.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:mozilla.devtools.protobuf.StackFrame)
 }
 StackFrame::StackFrame(const StackFrame& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      _has_bits_(from._has_bits_),
-      _cached_size_(0) {
+      _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   clear_has_StackFrameType();
   switch (from.StackFrameType_case()) {
@@ -1328,7 +1278,6 @@ StackFrame::StackFrame(const StackFrame& from)
 }
 
 void StackFrame::SharedCtor() {
-  _cached_size_ = 0;
   clear_has_StackFrameType();
 }
 
@@ -1344,9 +1293,7 @@ void StackFrame::SharedDtor() {
 }
 
 void StackFrame::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  _cached_size_.Set(size);
 }
 const ::google::protobuf::Descriptor* StackFrame::descriptor() {
   ::protobuf_CoreDump_2eproto::protobuf_AssignDescriptorsOnce();
@@ -1354,17 +1301,10 @@ const ::google::protobuf::Descriptor* StackFrame::descriptor() {
 }
 
 const StackFrame& StackFrame::default_instance() {
-  ::protobuf_CoreDump_2eproto::InitDefaultsStackFrame();
+  ::google::protobuf::internal::InitSCC(&protobuf_CoreDump_2eproto::scc_info_StackFrame.base);
   return *internal_default_instance();
 }
 
-StackFrame* StackFrame::New(::google::protobuf::Arena* arena) const {
-  StackFrame* n = new StackFrame;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
 
 void StackFrame::clear_StackFrameType() {
 // @@protoc_insertion_point(one_of_clear_start:mozilla.devtools.protobuf.StackFrame)
@@ -1402,7 +1342,7 @@ bool StackFrame::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:mozilla.devtools.protobuf.StackFrame)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -1462,7 +1402,7 @@ void StackFrame::SerializeWithCachedSizes(
   switch (StackFrameType_case()) {
     case kData:
       ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-        1, *StackFrameType_.data_, output);
+        1, this->_internal_data(), output);
       break;
     case kRef:
       ::google::protobuf::internal::WireFormatLite::WriteUInt64(2, this->ref(), output);
@@ -1487,7 +1427,7 @@ void StackFrame::SerializeWithCachedSizes(
     case kData:
       target = ::google::protobuf::internal::WireFormatLite::
         InternalWriteMessageToArray(
-          1, *StackFrameType_.data_, deterministic, target);
+          1, this->_internal_data(), deterministic, target);
       break;
     case kRef:
       target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(2, this->ref(), target);
@@ -1531,9 +1471,7 @@ size_t StackFrame::ByteSizeLong() const {
     }
   }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  SetCachedSize(cached_size);
   return total_size;
 }
 
@@ -1602,7 +1540,6 @@ void StackFrame::InternalSwap(StackFrame* other) {
   swap(_oneof_case_[0], other->_oneof_case_[0]);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata StackFrame::GetMetadata() const {
@@ -1642,9 +1579,8 @@ const int Node::kScriptFilenameRefFieldNumber;
 
 Node::Node()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_CoreDump_2eproto::InitDefaultsNode();
-  }
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_CoreDump_2eproto::scc_info_Node.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:mozilla.devtools.protobuf.Node)
 }
@@ -1652,7 +1588,6 @@ Node::Node(const Node& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
       _has_bits_(from._has_bits_),
-      _cached_size_(0),
       edges_(from.edges_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   if (from.has_allocationstack()) {
@@ -1709,7 +1644,6 @@ Node::Node(const Node& from)
 }
 
 void Node::SharedCtor() {
-  _cached_size_ = 0;
   ::memset(&allocationstack_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&coarsetype_) -
       reinterpret_cast<char*>(&allocationstack_)) + sizeof(coarsetype_));
@@ -1737,9 +1671,7 @@ void Node::SharedDtor() {
 }
 
 void Node::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  _cached_size_.Set(size);
 }
 const ::google::protobuf::Descriptor* Node::descriptor() {
   ::protobuf_CoreDump_2eproto::protobuf_AssignDescriptorsOnce();
@@ -1747,17 +1679,10 @@ const ::google::protobuf::Descriptor* Node::descriptor() {
 }
 
 const Node& Node::default_instance() {
-  ::protobuf_CoreDump_2eproto::InitDefaultsNode();
+  ::google::protobuf::internal::InitSCC(&protobuf_CoreDump_2eproto::scc_info_Node.base);
   return *internal_default_instance();
 }
 
-Node* Node::New(::google::protobuf::Arena* arena) const {
-  Node* n = new Node;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
 
 void Node::clear_TypeNameOrRef() {
 // @@protoc_insertion_point(one_of_clear_start:mozilla.devtools.protobuf.Node)
@@ -1844,7 +1769,7 @@ bool Node::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:mozilla.devtools.protobuf.Node)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -1907,7 +1832,8 @@ bool Node::MergePartialFromCodedStream(
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_edges()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+                input, add_edges()));
         } else {
           goto handle_unusual;
         }
@@ -2045,13 +1971,15 @@ void Node::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->edges_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->edges(static_cast<int>(i)), output);
+      5,
+      this->edges(static_cast<int>(i)),
+      output);
   }
 
   // optional .mozilla.devtools.protobuf.StackFrame allocationStack = 6;
   if (cached_has_bits & 0x00000001u) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      6, *this->allocationstack_, output);
+      6, this->_internal_allocationstack(), output);
   }
 
   switch (JSObjectClassNameOrRef_case()) {
@@ -2127,7 +2055,7 @@ void Node::SerializeWithCachedSizes(
   if (cached_has_bits & 0x00000001u) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        6, *this->allocationstack_, deterministic, target);
+        6, this->_internal_allocationstack(), deterministic, target);
   }
 
   switch (JSObjectClassNameOrRef_case()) {
@@ -2190,7 +2118,7 @@ size_t Node::ByteSizeLong() const {
     if (has_allocationstack()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSize(
-          *this->allocationstack_);
+          *allocationstack_);
     }
 
     // optional uint64 id = 1;
@@ -2273,9 +2201,7 @@ size_t Node::ByteSizeLong() const {
     }
   }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  SetCachedSize(cached_size);
   return total_size;
 }
 
@@ -2383,7 +2309,7 @@ void Node::Swap(Node* other) {
 }
 void Node::InternalSwap(Node* other) {
   using std::swap;
-  edges_.InternalSwap(&other->edges_);
+  CastToBase(&edges_)->InternalSwap(CastToBase(&other->edges_));
   swap(allocationstack_, other->allocationstack_);
   swap(id_, other->id_);
   swap(size_, other->size_);
@@ -2396,7 +2322,6 @@ void Node::InternalSwap(Node* other) {
   swap(_oneof_case_[2], other->_oneof_case_[2]);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Node::GetMetadata() const {
@@ -2420,17 +2345,15 @@ const int Edge::kNameRefFieldNumber;
 
 Edge::Edge()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
-    ::protobuf_CoreDump_2eproto::InitDefaultsEdge();
-  }
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_CoreDump_2eproto::scc_info_Edge.base);
   SharedCtor();
   // @@protoc_insertion_point(constructor:mozilla.devtools.protobuf.Edge)
 }
 Edge::Edge(const Edge& from)
   : ::google::protobuf::Message(),
       _internal_metadata_(NULL),
-      _has_bits_(from._has_bits_),
-      _cached_size_(0) {
+      _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   referent_ = from.referent_;
   clear_has_EdgeNameOrRef();
@@ -2451,7 +2374,6 @@ Edge::Edge(const Edge& from)
 }
 
 void Edge::SharedCtor() {
-  _cached_size_ = 0;
   referent_ = GOOGLE_ULONGLONG(0);
   clear_has_EdgeNameOrRef();
 }
@@ -2468,9 +2390,7 @@ void Edge::SharedDtor() {
 }
 
 void Edge::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  _cached_size_.Set(size);
 }
 const ::google::protobuf::Descriptor* Edge::descriptor() {
   ::protobuf_CoreDump_2eproto::protobuf_AssignDescriptorsOnce();
@@ -2478,17 +2398,10 @@ const ::google::protobuf::Descriptor* Edge::descriptor() {
 }
 
 const Edge& Edge::default_instance() {
-  ::protobuf_CoreDump_2eproto::InitDefaultsEdge();
+  ::google::protobuf::internal::InitSCC(&protobuf_CoreDump_2eproto::scc_info_Edge.base);
   return *internal_default_instance();
 }
 
-Edge* Edge::New(::google::protobuf::Arena* arena) const {
-  Edge* n = new Edge;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
 
 void Edge::clear_EdgeNameOrRef() {
 // @@protoc_insertion_point(one_of_clear_start:mozilla.devtools.protobuf.Edge)
@@ -2527,7 +2440,7 @@ bool Edge::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   // @@protoc_insertion_point(parse_start:mozilla.devtools.protobuf.Edge)
   for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
@@ -2689,9 +2602,7 @@ size_t Edge::ByteSizeLong() const {
     }
   }
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = cached_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  SetCachedSize(cached_size);
   return total_size;
 }
 
@@ -2764,7 +2675,6 @@ void Edge::InternalSwap(Edge* other) {
   swap(_oneof_case_[0], other->_oneof_case_[0]);
   swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata Edge::GetMetadata() const {
@@ -2777,5 +2687,24 @@ void Edge::InternalSwap(Edge* other) {
 }  // namespace protobuf
 }  // namespace devtools
 }  // namespace mozilla
+namespace google {
+namespace protobuf {
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::mozilla::devtools::protobuf::Metadata* Arena::CreateMaybeMessage< ::mozilla::devtools::protobuf::Metadata >(Arena* arena) {
+  return Arena::CreateInternal< ::mozilla::devtools::protobuf::Metadata >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::mozilla::devtools::protobuf::StackFrame_Data* Arena::CreateMaybeMessage< ::mozilla::devtools::protobuf::StackFrame_Data >(Arena* arena) {
+  return Arena::CreateInternal< ::mozilla::devtools::protobuf::StackFrame_Data >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::mozilla::devtools::protobuf::StackFrame* Arena::CreateMaybeMessage< ::mozilla::devtools::protobuf::StackFrame >(Arena* arena) {
+  return Arena::CreateInternal< ::mozilla::devtools::protobuf::StackFrame >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::mozilla::devtools::protobuf::Node* Arena::CreateMaybeMessage< ::mozilla::devtools::protobuf::Node >(Arena* arena) {
+  return Arena::CreateInternal< ::mozilla::devtools::protobuf::Node >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::mozilla::devtools::protobuf::Edge* Arena::CreateMaybeMessage< ::mozilla::devtools::protobuf::Edge >(Arena* arena) {
+  return Arena::CreateInternal< ::mozilla::devtools::protobuf::Edge >(arena);
+}
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
