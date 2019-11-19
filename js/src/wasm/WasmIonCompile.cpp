@@ -2219,8 +2219,8 @@ EmitReinterpret(FunctionCompiler& f, ValType resultType, ValType operandType, MI
 static bool
 EmitAdd(FunctionCompiler& f, ValType type, MIRType mirType)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(type, &lhs, &rhs))
         return false;
 
@@ -2231,8 +2231,8 @@ EmitAdd(FunctionCompiler& f, ValType type, MIRType mirType)
 static bool
 EmitSub(FunctionCompiler& f, ValType type, MIRType mirType)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(type, &lhs, &rhs))
         return false;
 
@@ -2243,8 +2243,8 @@ EmitSub(FunctionCompiler& f, ValType type, MIRType mirType)
 static bool
 EmitRotate(FunctionCompiler& f, ValType type, bool isLeftRotation)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(type, &lhs, &rhs))
         return false;
 
@@ -2268,8 +2268,8 @@ template <typename MIRClass>
 static bool
 EmitBitwise(FunctionCompiler& f, ValType operandType, MIRType mirType)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(operandType, &lhs, &rhs))
         return false;
 
@@ -2280,8 +2280,8 @@ EmitBitwise(FunctionCompiler& f, ValType operandType, MIRType mirType)
 static bool
 EmitMul(FunctionCompiler& f, ValType operandType, MIRType mirType)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(operandType, &lhs, &rhs))
         return false;
 
@@ -2293,8 +2293,8 @@ EmitMul(FunctionCompiler& f, ValType operandType, MIRType mirType)
 static bool
 EmitDiv(FunctionCompiler& f, ValType operandType, MIRType mirType, bool isUnsigned)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(operandType, &lhs, &rhs))
         return false;
 
@@ -2305,8 +2305,8 @@ EmitDiv(FunctionCompiler& f, ValType operandType, MIRType mirType, bool isUnsign
 static bool
 EmitRem(FunctionCompiler& f, ValType operandType, MIRType mirType, bool isUnsigned)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(operandType, &lhs, &rhs))
         return false;
 
@@ -2317,8 +2317,8 @@ EmitRem(FunctionCompiler& f, ValType operandType, MIRType mirType, bool isUnsign
 static bool
 EmitMinMax(FunctionCompiler& f, ValType operandType, MIRType mirType, bool isMax)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(operandType, &lhs, &rhs))
         return false;
 
@@ -2329,8 +2329,8 @@ EmitMinMax(FunctionCompiler& f, ValType operandType, MIRType mirType, bool isMax
 static bool
 EmitCopySign(FunctionCompiler& f, ValType operandType)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(operandType, &lhs, &rhs))
         return false;
 
@@ -2462,8 +2462,8 @@ EmitBinaryMathBuiltinCall(FunctionCompiler& f, SymbolicAddress callee, ValType o
     if (!f.startCall(&call))
         return false;
 
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(operandType, &lhs, &rhs))
         return false;
 
@@ -2590,7 +2590,7 @@ EmitSimdUnary(FunctionCompiler& f, ValType type, SimdOperation simdOp)
         MOZ_CRASH("not a simd unary arithmetic operation");
     }
 
-    MDefinition* input;
+    MDefinition* input = nullptr;
     if (!f.iter().readUnary(type, &input))
         return false;
 
@@ -2602,8 +2602,8 @@ template<class OpKind>
 inline bool
 EmitSimdBinary(FunctionCompiler& f, ValType type, OpKind op)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(type, &lhs, &rhs))
         return false;
 
@@ -2628,8 +2628,8 @@ static bool
 EmitSimdBinarySaturating(FunctionCompiler& f, ValType type, MSimdBinarySaturating::Operation op,
                          SimdSign sign)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readBinary(type, &lhs, &rhs))
         return false;
 
@@ -2640,8 +2640,8 @@ EmitSimdBinarySaturating(FunctionCompiler& f, ValType type, MSimdBinarySaturatin
 static bool
 EmitSimdShift(FunctionCompiler& f, ValType operandType, MSimdShift::Operation op)
 {
-    MDefinition* lhs;
-    MDefinition* rhs;
+    MDefinition* lhs = nullptr;
+    MDefinition* rhs = nullptr;
     if (!f.iter().readSimdShiftByScalar(operandType, &lhs, &rhs))
         return false;
 
