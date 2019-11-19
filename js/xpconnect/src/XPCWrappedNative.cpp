@@ -2218,7 +2218,10 @@ XPCWrappedNative::ToString(XPCWrappedNativeTearOff* to /* = nullptr */ ) const
                 const char* fmt = (i == 0) ?
                                     "(%s" : (i == count-1) ?
                                         ", %s)" : ", %s";
-                name = JS_sprintf_append(name, fmt,
+                if (!name)
+                    name = JS_smprintf(fmt, array[i]->GetNameString());
+                else
+                    name = JS_sprintf_append(name, fmt,
                                          array[i]->GetNameString());
             }
         }
