@@ -5,7 +5,7 @@
 
 #include "gfxFT2FontBase.h"
 #include "gfxFT2Utils.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 #include "mozilla/Likely.h"
 #include "gfxFontConstants.h"
 #include "gfxFontUtils.h"

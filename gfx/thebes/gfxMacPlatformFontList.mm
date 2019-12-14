@@ -48,7 +48,7 @@
 #include "gfxMacPlatformFontList.h"
 #include "gfxMacFont.h"
 #include "gfxUserFontSet.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 
 #include "nsServiceManagerUtils.h"
 #include "nsTArray.h"

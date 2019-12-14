@@ -12,7 +12,7 @@
 #include "graphite2/Font.h"
 #include "graphite2/Segment.h"
 
-#include "harfbuzz/hb.h"
+#include <hb.h>
 
 #define FloatToFixed(f) (65536 * (f))
 #define FixedToFloat(f) ((f) * (1.0 / 65536.0))

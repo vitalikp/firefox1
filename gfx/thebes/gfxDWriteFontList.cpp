@@ -24,7 +24,7 @@
 
 #include "nsIWindowsRegKey.h"
 
-#include "harfbuzz/hb.h"
+#include <hb.h>
 
 using namespace mozilla;
 

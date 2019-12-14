@@ -10,7 +10,7 @@
 #include "nsBidiUtils.h"
 #include "nsIUGenCategory.h"
 #include "nsUnicodeScriptCodes.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 
 #if ENABLE_INTL_API
 #include "unicode/uchar.h"

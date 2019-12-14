@@ -17,7 +17,7 @@
 #include "gfxPlatform.h"
 #include "mozilla/MemoryReporting.h"
 #include "DrawMode.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 #include "nsUnicodeScriptCodes.h"
 #include "nsColor.h"
 

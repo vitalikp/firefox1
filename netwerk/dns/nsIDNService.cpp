@@ -9,7 +9,7 @@
 #include "nsUnicharUtils.h"
 #include "nsUnicodeProperties.h"
 #include "nsUnicodeScriptCodes.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 #include "nsIServiceManager.h"
 #include "nsIPrefService.h"
 #include "nsIPrefBranch.h"

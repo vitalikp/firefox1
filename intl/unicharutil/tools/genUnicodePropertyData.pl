@@ -674,7 +674,7 @@ $versionInfo
  */
 
 #include <stdint.h>
-#include "harfbuzz/hb.h"
+#include <hb.h>
 
 __END
 

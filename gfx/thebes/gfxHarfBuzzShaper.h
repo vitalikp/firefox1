@@ -8,7 +8,7 @@
 
 #include "gfxFont.h"
 
-#include "harfbuzz/hb.h"
+#include <hb.h>
 #include "nsUnicodeProperties.h"
 #include "mozilla/gfx/2D.h"
 

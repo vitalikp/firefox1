@@ -20,7 +20,7 @@
 #include "nsIUUIDGenerator.h"
 #include "nsIUnicodeDecoder.h"
 
-#include "harfbuzz/hb.h"
+#include <hb.h>
 
 #include "plbase64.h"
 #include "mozilla/Logging.h"

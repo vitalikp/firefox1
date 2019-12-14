@@ -28,7 +28,7 @@
 #include <algorithm>
 #include "DrawMode.h"
 #include "nsDataHashtable.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 #include "mozilla/gfx/2D.h"
 #include "nsColor.h"
 
