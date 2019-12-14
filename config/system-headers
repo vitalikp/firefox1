@@ -1278,6 +1278,9 @@ QtSparql/qsparqlresult.h
 #endif
 
 pixman.h
+hb.h
+hb-ot.h
+hb-glib.h
 
 vpx/svc_context.h
 vpx/vpx_codec.h
