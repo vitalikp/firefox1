@@ -30,7 +30,7 @@
 #include "gfxFont.h"
 #include "nsSMILAnimationController.h"
 #include "gfxContext.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 #include "mozilla/dom/ImageTracker.h"
 
 #define SVG_CONTENT_TYPE NS_LITERAL_CSTRING("image/svg+xml")

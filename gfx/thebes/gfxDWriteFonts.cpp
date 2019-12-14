@@ -13,7 +13,7 @@
 #include "gfxTextRun.h"
 #include <dwrite.h>
 
-#include "harfbuzz/hb.h"
+#include <hb.h>
 
 using namespace mozilla;
 using namespace mozilla::gfx;

@@ -17,7 +17,7 @@
 #include "mozilla/MemoryReporting.h"
 #include "nsUnicodeScriptCodes.h"
 #include "nsDataHashtable.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 #include "mozilla/gfx/2D.h"
 #include "mozilla/UniquePtr.h"
 

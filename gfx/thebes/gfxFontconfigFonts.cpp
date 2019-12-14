@@ -15,9 +15,9 @@
 #include "gfxFontconfigFonts.h"
 #include "gfxFT2FontBase.h"
 #include "gfxFT2Utils.h"
-#include "harfbuzz/hb.h"
-#include "harfbuzz/hb-glib.h"
-#include "harfbuzz/hb-ot.h"
+#include <hb.h>
+#include <hb-glib.h>
+#include <hb-ot.h>
 #include "nsUnicodeProperties.h"
 #include "nsUnicodeScriptCodes.h"
 #include "gfxFontconfigUtils.h"

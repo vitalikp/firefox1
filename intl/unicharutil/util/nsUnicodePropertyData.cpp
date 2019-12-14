@@ -66,7 +66,7 @@ Standard.
  */
 
 #include <stdint.h>
-#include "harfbuzz/hb.h"
+#include <hb.h>
 
 #if !ENABLE_INTL_API
 static const uint32_t sScriptCodeToTag[] = {

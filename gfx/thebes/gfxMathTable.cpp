@@ -4,8 +4,8 @@
 
 #include "gfxMathTable.h"
 
-#include "harfbuzz/hb.h"
-#include "harfbuzz/hb-ot.h"
+#include <hb.h>
+#include <hb-ot.h>
 
 #define FixedToFloat(f) ((f) * (1.0 / 65536.0))
 

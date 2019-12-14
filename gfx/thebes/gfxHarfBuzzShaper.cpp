@@ -14,8 +14,8 @@
 #include "nsUnicodeScriptCodes.h"
 #include "nsUnicodeNormalizer.h"
 
-#include "harfbuzz/hb.h"
-#include "harfbuzz/hb-ot.h"
+#include <hb.h>
+#include <hb-ot.h>
 
 #if ENABLE_INTL_API // ICU is available: we'll use it for Unicode composition
                     // and decomposition in preference to nsUnicodeNormalizer.

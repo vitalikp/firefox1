@@ -12,7 +12,6 @@ DIRS += [
     'qcms',
     'gl',
     'layers',
-    'harfbuzz/src',
     'ots/src',
     'thebes',
     'ipc',

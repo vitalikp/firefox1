@@ -12,7 +12,7 @@
 #include <math.h>
 
 #include "DecoderTraits.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 #include "imgICache.h"
 #include "imgIContainer.h"
 #include "imgINotificationObserver.h"

@@ -56,7 +56,7 @@
 #include "gfxContext.h"
 #include "gfxImageSurface.h"
 #include "nsUnicodeProperties.h"
-#include "harfbuzz/hb.h"
+#include <hb.h>
 #include "gfxGraphiteShaper.h"
 #include "gfx2DGlue.h"
 #include "gfxGradientCache.h"

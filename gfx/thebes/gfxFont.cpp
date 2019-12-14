@@ -45,8 +45,8 @@
 
 #include "cairo.h"
 
-#include "harfbuzz/hb.h"
-#include "harfbuzz/hb-ot.h"
+#include <hb.h>
+#include <hb-ot.h>
 #include "graphite2/Font.h"
 
 #include <algorithm>
