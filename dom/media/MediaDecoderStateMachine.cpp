@@ -359,6 +359,7 @@ public:
   void Enter()
   {
     MOZ_ASSERT(!mMaster->mVideoDecodeSuspended);
+    mMaster->UpdateNextFrameStatus(MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE);
   }
 
   void Exit() override
@@ -569,6 +570,10 @@ public:
     }
 
     mMaster->UpdatePlaybackPositionPeriodically();
+
+    // Ensure currentTime is up to date prior updating mNextFrameStatus so that
+    // the MediaDecoderOwner fire events at correct currentTime.
+    mMaster->UpdateNextFrameStatus();
 
     MOZ_ASSERT(!mMaster->IsPlaying() ||
                mMaster->IsStateMachineScheduled(),
@@ -1022,13 +1027,6 @@ public:
     // We've decoded all samples. We don't need decoders anymore.
     Reader()->ReleaseResources();
 
-    bool hasNextFrame = (!mMaster->HasAudio() || !mMaster->mAudioCompleted)
-      && (!mMaster->HasVideo() || !mMaster->mVideoCompleted);
-
-    mMaster->UpdateNextFrameStatus(hasNextFrame
-      ? MediaDecoderOwner::NEXT_FRAME_AVAILABLE
-      : MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE);
-
     mMaster->ScheduleStateMachine();
   }
 
@@ -1069,7 +1067,7 @@ public:
       mMaster->UpdatePlaybackPosition(clockTime);
 
       // Ensure readyState is updated before firing the 'ended' event.
-      mMaster->UpdateNextFrameStatus(MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE);
+      mMaster->UpdateNextFrameStatus();
 
       mMaster->mOnPlaybackEvent.Notify(MediaEventType::PlaybackEnded);
 
@@ -1352,6 +1350,8 @@ DecodingFirstFrameState::Enter(SeekJob aPendingSeek)
 
   // Dispatch tasks to decode first frames.
   mMaster->DispatchDecodeTasksIfNeeded();
+
+  mMaster->UpdateNextFrameStatus(MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE);
 }
 
 RefPtr<MediaDecoder::SeekPromise>
@@ -1414,8 +1414,6 @@ DecodingState::Enter()
     SetState<CompletedState>();
     return;
   }
-
-  mMaster->UpdateNextFrameStatus(MediaDecoderOwner::NEXT_FRAME_AVAILABLE);
 
   mDecodeStartTime = TimeStamp::Now();
 
@@ -1548,6 +1546,10 @@ SeekingState::SeekCompleted()
   if (video) {
     mMaster->mMediaSink->Redraw(Info().mVideo);
     mMaster->mOnPlaybackEvent.Notify(MediaEventType::Invalidate);
+  }
+
+  if (mVisibility == EventVisibility::Observable) {
+    mMaster->UpdateNextFrameStatus();
   }
 
   if (nextState == DECODER_STATE_COMPLETED) {
@@ -1731,7 +1733,7 @@ MediaDecoderStateMachine::MediaDecoderStateMachine(MediaDecoder* aDecoder,
   INIT_MIRROR(mIsVisible, true),
   INIT_CANONICAL(mDuration, NullableTimeUnit()),
   INIT_CANONICAL(mIsShutdown, false),
-  INIT_CANONICAL(mNextFrameStatus, MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE),
+  INIT_CANONICAL(mNextFrameStatus, MediaDecoderOwner::NEXT_FRAME_UNINITIALIZED),
   INIT_CANONICAL(mCurrentPosition, 0),
   INIT_CANONICAL(mPlaybackOffset, 0),
   INIT_CANONICAL(mIsAudioDataAudible, false)
@@ -1839,6 +1841,28 @@ MediaDecoderStateMachine::CreateMediaSink(bool aAudioCaptured)
                   mVideoFrameContainer, *mFrameStats,
                   sVideoQueueSendToCompositorSize);
   return mediaSink.forget();
+}
+
+bool MediaDecoderStateMachine::HasFutureAudio()
+{
+  MOZ_ASSERT(OnTaskQueue());
+  NS_ASSERTION(HasAudio(), "Should only call HasFutureAudio() when we have audio");
+  // We've got audio ready to play if:
+  // 1. We've not completed playback of audio, and
+  // 2. we either have more than the threshold of decoded audio available, or
+  //    we've completely decoded all audio (but not finished playing it yet
+  //    as per 1).
+  return !mAudioCompleted &&
+         (GetDecodedAudioDuration() >
+            mLowAudioThresholdUsecs * mPlaybackRate ||
+          AudioQueue().IsFinished());
+}
+
+bool MediaDecoderStateMachine::HaveNextFrameData()
+{
+  MOZ_ASSERT(OnTaskQueue());
+  return (!HasAudio() || HasFutureAudio()) &&
+         (!HasVideo() || VideoQueue().GetSize() > 1);
 }
 
 int64_t
@@ -2975,6 +2999,15 @@ MediaDecoderStateMachine::UpdateNextFrameStatus(NextFrameStatus aStatus)
     DECODER_LOG("Changed mNextFrameStatus to %s", ToStr(aStatus));
     mNextFrameStatus = aStatus;
   }
+}
+
+void
+MediaDecoderStateMachine::UpdateNextFrameStatus()
+{
+  MOZ_ASSERT(OnTaskQueue());
+  UpdateNextFrameStatus(HaveNextFrameData()
+    ? MediaDecoderOwner::NEXT_FRAME_AVAILABLE
+    : MediaDecoderOwner::NEXT_FRAME_UNAVAILABLE);
 }
 
 bool
