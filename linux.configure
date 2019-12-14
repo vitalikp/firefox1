@@ -120,6 +120,10 @@ check_pkg('MOZ_PIXMAN1', 'pixman-1', '0.19.2', when=notjs_project)
 check_pkg('MOZ_CAIRO', 'cairo', '1.10', when=notjs_project)
 check_pkg('CAIRO_XRENDER', 'cairo-xlib-xrender', '1.10', when=notjs_project)
 
+# harfbuzz
+# ==============================================================
+check_pkg('MOZ_HARFBUZZ', 'harfbuzz', '1.4.1', when=notjs_project)
+
 # libjpeg
 # ==============================================================
 check_pkg('MOZ_JPEG', 'libjpeg', '1.5.1', when=notjs_project)
