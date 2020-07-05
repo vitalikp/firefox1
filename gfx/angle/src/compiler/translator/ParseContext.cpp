@@ -3786,6 +3786,7 @@ bool TParseContext::binaryOpCommonCheck(TOperator op,
                       GetOperatorString(op));
                 return false;
             }
+            break;
         case EOpLessThan:
         case EOpGreaterThan:
         case EOpLessThanEqual:
