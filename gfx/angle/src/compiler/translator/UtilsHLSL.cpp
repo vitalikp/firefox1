@@ -268,6 +268,7 @@ TString TypeString(const TType &type)
               case 3: return "float3";
               case 4: return "float4";
             }
+            break;
           case EbtInt:
             switch (type.getNominalSize())
             {
@@ -276,6 +277,7 @@ TString TypeString(const TType &type)
               case 3: return "int3";
               case 4: return "int4";
             }
+            break;
           case EbtUInt:
             switch (type.getNominalSize())
             {
@@ -284,6 +286,7 @@ TString TypeString(const TType &type)
               case 3: return "uint3";
               case 4: return "uint4";
             }
+            break;
           case EbtBool:
             switch (type.getNominalSize())
             {
@@ -292,6 +295,7 @@ TString TypeString(const TType &type)
               case 3: return "bool3";
               case 4: return "bool4";
             }
+            break;
           case EbtVoid:
             return "void";
           case EbtSampler2D:
