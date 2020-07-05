@@ -5,7 +5,7 @@
 #include "nsISupports.idl"
 
 %{C++
-#include "nsStringGlue.h"
+#include "nsString.h"
 #include "nsCOMPtr.h"
 #include "nsStringBuffer.h"
 %}

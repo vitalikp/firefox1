@@ -21,7 +21,7 @@
 
 #include "nsCOMPtr.h"
 #include "nsIFile.h"
-#include "nsStringGlue.h"
+#include "nsString.h"
 
 #ifdef XP_WIN
 // we want a wmain entry point
