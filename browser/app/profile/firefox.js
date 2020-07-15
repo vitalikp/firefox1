@@ -1155,9 +1155,6 @@ pref("browser.newtabpage.rows", 5);
 // number of columns of newtab grid
 pref("browser.newtabpage.columns", 5);
 
-// directory tiles download URL
-pref("browser.newtabpage.directory.source", "https://tiles.services.mozilla.com/v3/links/fetch/%LOCALE%/%CHANNEL%");
-
 // endpoint to send newtab click and view pings
 pref("browser.newtabpage.directory.ping", "https://tiles.services.mozilla.com/v3/links/");
 

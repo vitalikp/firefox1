@@ -265,7 +265,6 @@ user_pref("browser.translation.yandex.translateURLOverride", "http://%(server)s/
 user_pref("browser.translation.engine", "bing");
 
 // Don't fetch or send directory tiles data from real servers
-user_pref("browser.newtabpage.directory.source", 'data:application/json,{"testing":1}');
 user_pref("browser.newtabpage.directory.ping", "");
 
 // Ensure UITour won't hit the network

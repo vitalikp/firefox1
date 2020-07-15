@@ -34,20 +34,6 @@ Preferences
 There are two main preferences that control downloading links and reporting
 metrics.
 
-``browser.newtabpage.directory.source``
----------------------------------------
-
-This endpoint tells Firefox where to download directory source file as a GET
-request. It should return JSON of the appropriate format containing the relevant
-links data. The value can be a data URI, e.g., an empty JSON object effectively
-turns off remote downloading: ``data:text/plain,{}``
-
-The preference value will have %LOCALE% and %CHANNEL% replaced by the
-appropriate values for the build of Firefox, e.g.,
-
-- directory source endpoint:
-  https://tiles.services.mozilla.com/v3/links/fetch/en-US/release
-
 ``browser.newtabpage.directory.ping``
 -------------------------------------
 
