@@ -1155,9 +1155,6 @@ pref("browser.newtabpage.rows", 5);
 // number of columns of newtab grid
 pref("browser.newtabpage.columns", 5);
 
-// endpoint to send newtab click and view pings
-pref("browser.newtabpage.directory.ping", "https://tiles.services.mozilla.com/v3/links/");
-
 // activates the remote-hosted newtab page
 pref("browser.newtabpage.remote", false);
 

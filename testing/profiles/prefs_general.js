@@ -264,9 +264,6 @@ user_pref("browser.translation.bing.translateArrayURL", "http://%(server)s/brows
 user_pref("browser.translation.yandex.translateURLOverride", "http://%(server)s/browser/browser/components/translation/test/yandex.sjs");
 user_pref("browser.translation.engine", "bing");
 
-// Don't fetch or send directory tiles data from real servers
-user_pref("browser.newtabpage.directory.ping", "");
-
 // Ensure UITour won't hit the network
 user_pref("browser.uitour.pinnedTabUrl", "http://%(server)s/uitour-dummy/pinnedTab");
 user_pref("browser.uitour.url", "http://%(server)s/uitour-dummy/tour");
