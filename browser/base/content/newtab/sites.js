@@ -335,12 +335,6 @@ Site.prototype = {
     else if (button == 0) {
       aEvent.preventDefault();
       if (target.classList.contains("newtab-control-block")) {
-        // Notify DirectoryLinksProvider of suggested tile block, this may
-        // affect if and how suggested tiles are recommended and needs to
-        // be reported before pages are updated inside block() call
-        if (this.link.targetedSite) {
-          DirectoryLinksProvider.handleSuggestedTileBlock();
-        }
         this.block();
         action = "block";
       }
@@ -355,11 +349,6 @@ Site.prototype = {
         }
         action = "pin";
       }
-    }
-
-    // Report all link click actions
-    if (action) {
-      DirectoryLinksProvider.reportSitesAction(gGrid.sites, action, tileIndex);
     }
   },
 
