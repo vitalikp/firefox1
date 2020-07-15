@@ -55,9 +55,6 @@ const PREF_MATCH_OS_LOCALE = "intl.locale.matchOS";
 // The preference that tells what locale the user selected
 const PREF_SELECTED_LOCALE = "general.useragent.locale";
 
-// The preference that tells where to send click/view pings
-const PREF_DIRECTORY_PING = "browser.newtabpage.directory.ping";
-
 // Only allow link urls that are http(s)
 const ALLOWED_LINK_SCHEMES = new Set(["http", "https"]);
 
@@ -475,16 +472,10 @@ var DirectoryLinksProvider = {
       }
     }
 
-    let pingEndPoint = "";
-    try {
-      pingEndPoint = Services.prefs.getCharPref(PREF_DIRECTORY_PING);
-    }
-    catch (ex) {}
-
     // Bug 1240245 - We no longer send pings, but frequency capping and fetching
     // tests depend on the following actions, so references to PING remain.
     let invalidAction = PING_ACTIONS.indexOf(action) == -1;
-    if (pingEndPoint == "" || invalidAction) {
+    if (invalidAction) {
       return Promise.resolve();
     }
 

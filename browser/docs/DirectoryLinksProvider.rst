@@ -28,26 +28,6 @@ and Firefox enforces this by making anonymous requests.
 - default directory ping endpoint: https://tiles.services.mozilla.com/v3/links/
 
 
-Preferences
-===========
-
-There are two main preferences that control downloading links and reporting
-metrics.
-
-``browser.newtabpage.directory.ping``
--------------------------------------
-
-This endpoint tells Firefox where to report Tiles metrics as a POST request. The
-data is sent as a JSON blob. Setting it to empty effectively turns off reporting
-of Tiles data.
-
-A path segment will be appended to the endpoint of "view" or "click" depending
-on the type of ping, e.g.,
-
-- ``view`` ping endpoint: https://tiles.services.mozilla.com/v3/links/view
-- ``click`` ping endpoint: https://tiles.services.mozilla.com/v3/links/click
-
-
 Data Flow
 =========
 
