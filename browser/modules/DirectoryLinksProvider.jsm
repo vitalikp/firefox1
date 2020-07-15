@@ -55,9 +55,6 @@ const PREF_MATCH_OS_LOCALE = "intl.locale.matchOS";
 // The preference that tells what locale the user selected
 const PREF_SELECTED_LOCALE = "general.useragent.locale";
 
-// The preference that tells where to obtain directory links
-const PREF_DIRECTORY_SOURCE = "browser.newtabpage.directory.source";
-
 // The preference that tells where to send click/view pings
 const PREF_DIRECTORY_PING = "browser.newtabpage.directory.ping";
 
@@ -112,8 +109,6 @@ const AFTER_SUGGESTED_BLOCK_DECAY_TIME = 24 * 60 * 60 * 1000;
  */
 var DirectoryLinksProvider = {
 
-  __linksURL: null,
-
   _observers: new Set(),
 
   // links download deferred, resolved upon download completion
@@ -156,23 +151,9 @@ var DirectoryLinksProvider = {
 
   get _observedPrefs() {
     return Object.freeze({
-      linksURL: PREF_DIRECTORY_SOURCE,
       matchOSLocale: PREF_MATCH_OS_LOCALE,
       prefSelectedLocale: PREF_SELECTED_LOCALE,
     });
-  },
-
-  get _linksURL() {
-    if (!this.__linksURL) {
-      try {
-        this.__linksURL = Services.prefs.getCharPref(this._observedPrefs["linksURL"]);
-        this.__linksURLModified = Services.prefs.prefHasUserValue(this._observedPrefs["linksURL"]);
-      }
-      catch (e) {
-        Cu.reportError("Error fetching directory links url from prefs: " + e);
-      }
-    }
-    return this.__linksURL;
   },
 
   /**
@@ -210,10 +191,6 @@ var DirectoryLinksProvider = {
   observe: function DirectoryLinksProvider_observe(aSubject, aTopic, aData) {
     if (aTopic == "nsPref:changed") {
       switch (aData) {
-        case this._observedPrefs.linksURL:
-          delete this.__linksURL;
-          // fallthrough
-
         // Force directory download on changes to fetch related prefs
         case this._observedPrefs.matchOSLocale:
         case this._observedPrefs.prefSelectedLocale:
@@ -303,23 +280,6 @@ var DirectoryLinksProvider = {
   _fetchAndCacheLinksIfNecessary: function DirectoryLinksProvider_fetchAndCacheLinksIfNecessary(forceDownload = false) {
     if (this._downloadDeferred) {
       // fetching links already - just return the promise
-      return this._downloadDeferred.promise;
-    }
-
-    if (forceDownload || this._needsDownload) {
-      this._downloadDeferred = Promise.defer();
-      this._fetchAndCacheLinks(this._linksURL).then(() => {
-        // the new file was successfully downloaded and cached, so update a timestamp
-        this._lastDownloadMS = Date.now();
-        this._downloadDeferred.resolve();
-        this._downloadDeferred = null;
-        this._callObservers("onManyLinksChanged")
-      },
-      error => {
-        this._downloadDeferred.resolve();
-        this._downloadDeferred = null;
-        this._callObservers("onDownloadFail");
-      });
       return this._downloadDeferred.promise;
     }
 
@@ -586,12 +546,11 @@ var DirectoryLinksProvider = {
       this._avoidInadjacentSites = false;
 
       // Only check base domain for images when using the default pref
-      let checkBase = !this.__linksURLModified;
       let validityFilter = function(link) {
         // Make sure the link url is allowed and images too if they exist
         return this.isURLAllowed(link.url, ALLOWED_LINK_SCHEMES, false) &&
                (!link.imageURI ||
-                this.isURLAllowed(link.imageURI, ALLOWED_IMAGE_SCHEMES, checkBase));
+                this.isURLAllowed(link.imageURI, ALLOWED_IMAGE_SCHEMES, true));
       }.bind(this);
 
       rawLinks.suggested.filter(validityFilter).forEach((link, position) => {
@@ -1167,7 +1126,6 @@ var DirectoryLinksProvider = {
    * Return the object to its pre-init state
    */
   reset: function DirectoryLinksProvider_reset() {
-    delete this.__linksURL;
     this._removePrefsObserver();
     this._removeObservers();
   },
