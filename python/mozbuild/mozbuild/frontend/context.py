@@ -1513,18 +1513,6 @@ VARIABLES = {
         """List of manifest files defining puppeteer unit tests for Firefox.
         """),
 
-    'MARIONETTE_LAYOUT_MANIFESTS': (ManifestparserManifestList, list,
-        """List of manifest files defining marionette-layout tests.
-        """),
-
-    'MARIONETTE_UNIT_MANIFESTS': (ManifestparserManifestList, list,
-        """List of manifest files defining marionette-unit tests.
-        """),
-
-    'MARIONETTE_WEBAPI_MANIFESTS': (ManifestparserManifestList, list,
-        """List of manifest files defining marionette-webapi tests.
-        """),
-
     'METRO_CHROME_MANIFESTS': (ManifestparserManifestList, list,
         """List of manifest files defining metro browser chrome tests.
         """),

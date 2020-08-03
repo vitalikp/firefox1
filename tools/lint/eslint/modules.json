@@ -192,7 +192,6 @@
   "rotaryengine.js": ["RotaryEngine", "RotaryRecord", "RotaryStore", "RotaryTracker"],
   "RTCStatsReport.jsm": ["convertToRTCStatsReport"],
   "scratchpad-manager.jsm": ["ScratchpadManager"],
-  "server.js": ["MarionetteServer"],
   "service.js": ["Service"],
   "SettingsDB.jsm": ["SettingsDB", "SETTINGSDB_NAME", "SETTINGSSTORE_NAME"],
   "SharedPromptUtils.jsm": ["PromptUtils", "EnableDelayHelper"],

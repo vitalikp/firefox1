@@ -48,15 +48,6 @@ from manifestparser.filters import (
     tags,
 )
 
-try:
-    from marionette_driver.addons import Addons
-    from marionette_harness import Marionette
-except ImportError, e:
-    # Defer ImportError until attempt to use Marionette
-    def reraise(*args, **kwargs):
-        raise(e)
-    Marionette = reraise
-
 from leaks import ShutdownLeaks, LSANLeaks
 from mochitest_options import (
     MochitestArgumentParser, build_obj, get_default_valgrind_suppression_files
@@ -774,7 +765,6 @@ class MochitestDesktop(object):
         self._active_tests = None
         self._locations = None
 
-        self.marionette = None
         self.start_script = None
         self.mozLogs = None
         self.start_script_args = []
@@ -1537,7 +1527,7 @@ toolbar#nav-bar {
         process.wait()
 
     def execute_start_script(self):
-        if not self.start_script or not self.marionette:
+        if not self.start_script:
             return
 
         if os.path.isfile(self.start_script):
@@ -1545,9 +1535,6 @@ toolbar#nav-bar {
                 script = fh.read()
         else:
             script = self.start_script
-
-        with self.marionette.using_context('chrome'):
-            return self.marionette.execute_script(script, script_args=self.start_script_args)
 
     def fillCertificateDB(self, options):
         # TODO: move -> mozprofile:
@@ -1858,8 +1845,7 @@ toolbar#nav-bar {
                timeout=-1,
                detectShutdownLeaks=False,
                screenshotOnFail=False,
-               bisectChunk=None,
-               marionette_args=None):
+               bisectChunk=None):
         """
         Run the app, log the duration it took to execute, return the status code.
         Kills the app if it runs for longer than |maxTime| seconds, or outputs nothing
@@ -1921,7 +1907,6 @@ toolbar#nav-bar {
             # build command line
             cmd = os.path.abspath(app)
             args = list(extraArgs)
-            args.append('-marionette')
             # TODO: mozrunner should use -foreground at least for mac
             # https://bugzilla.mozilla.org/show_bug.cgi?id=916512
             args.append('-foreground')
@@ -1987,25 +1972,7 @@ toolbar#nav-bar {
             self.log.info("runtests.py | Application pid: %d" % proc.pid)
             self.log.process_start("Main app process")
 
-            # start marionette and kick off the tests
-            marionette_args = marionette_args or {}
-            port_timeout = marionette_args.pop('port_timeout')
-            self.marionette = Marionette(**marionette_args)
-            self.marionette.start_session(timeout=port_timeout)
-
-            # install specialpowers and mochikit as temporary addons
-            addons = Addons(self.marionette)
-
-            if mozinfo.info.get('toolkit') != 'gonk':
-                addons.install(os.path.join(here, 'extensions', 'specialpowers'), temp=True)
-                addons.install(self.mochijar, temp=True)
-
             self.execute_start_script()
-
-            # an open marionette session interacts badly with mochitest,
-            # delete it until we figure out why.
-            self.marionette.delete_session()
-            del self.marionette
 
             # wait until app is finished
             # XXX copy functionality from
@@ -2374,17 +2341,6 @@ toolbar#nav-bar {
                     "debug"] and options.flavor == 'browser'
 
             self.start_script_args.append(self.normflavor(options.flavor))
-            marionette_args = {
-                'symbols_path': options.symbolsPath,
-                'socket_timeout': options.marionette_socket_timeout,
-                'port_timeout': options.marionette_port_timeout,
-                'startup_timeout': options.marionette_startup_timeout,
-            }
-
-            if options.marionette:
-                host, port = options.marionette.split(':')
-                marionette_args['host'] = host
-                marionette_args['port'] = int(port)
 
             self.log.info("runtests.py | Running with e10s: {}".format(options.e10s))
             self.log.info("runtests.py | Running tests: start.\n")
@@ -2403,7 +2359,6 @@ toolbar#nav-bar {
                                  detectShutdownLeaks=detectShutdownLeaks,
                                  screenshotOnFail=options.screenshotOnFail,
                                  bisectChunk=options.bisectChunk,
-                                 marionette_args=marionette_args,
                                  )
         except KeyboardInterrupt:
             self.log.info("runtests.py | Received keyboard interrupt.\n")

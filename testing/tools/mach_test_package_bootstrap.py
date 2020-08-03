@@ -12,9 +12,6 @@ import types
 
 
 SEARCH_PATHS = [
-    'marionette',
-    'marionette/marionette/runner/mixins/browsermob-proxy-py',
-    'marionette/client',
     'mochitest',
     'mozbase/manifestparser',
     'mozbase/mozcrash',
@@ -41,7 +38,6 @@ SEARCH_PATHS = [
 
 # Individual files providing mach commands.
 MACH_MODULES = [
-    'marionette/mach_test_package_commands.py',
     'mochitest/mach_test_package_commands.py',
     'tools/mach/mach/commands/commandinfo.py',
     'xpcshell/mach_test_package_commands.py',

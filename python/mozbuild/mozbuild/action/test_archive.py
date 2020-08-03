@@ -87,21 +87,6 @@ ARCHIVE_FILES = {
             'pattern': 'modules/**',
         },
         {
-            'source': buildconfig.topsrcdir,
-            'base': 'testing/marionette',
-            'patterns': [
-                'client/**',
-                'harness/**',
-                'puppeteer/**',
-                'mach_test_package_commands.py',
-            ],
-            'dest': 'marionette',
-            'ignore': [
-                'client/docs',
-                'puppeteer/firefox/docs',
-            ],
-        },
-        {
             'source': buildconfig.topobjdir,
             'base': '_tests',
             'pattern': 'mozbase/**',

@@ -37,13 +37,11 @@ class StdOutProc(ProcessHandlerMixin):
 class B2GRemoteAutomation(Automation):
     _devicemanager = None
 
-    def __init__(self, deviceManager, appName='', remoteLog=None,
-                 marionette=None):
+    def __init__(self, deviceManager, appName='', remoteLog=None):
         self._devicemanager = deviceManager
         self._appName = appName
         self._remoteProfile = None
         self._remoteLog = remoteLog
-        self.marionette = marionette
         self._is_emulator = False
         self.test_script = None
         self.test_script_args = None
@@ -273,8 +271,6 @@ class B2GRemoteAutomation(Automation):
         # Wait for a bit to make sure B2G has completely shut down.
         time.sleep(10)
         self._devicemanager._checkCmd(['shell', 'start', 'b2g'])
-        if self._is_emulator:
-            self.marionette.emulator.wait_for_port(self.marionette.port)
 
     def rebootDevice(self):
         # find device's current status and serial number
@@ -303,8 +299,7 @@ class B2GRemoteAutomation(Automation):
         # On a desktop or fennec run, the Process method invokes a gecko
         # process in which to the tests.  For B2G, we simply
         # reboot the device (which was configured with a test profile
-        # already), wait for B2G to start up, and then navigate to the
-        # test url using Marionette.  There doesn't seem to be any way
+        # already), wait for B2G to start up. There doesn't seem to be any way
         # to pass env variables into the B2G process, but this doesn't
         # seem to matter.
 
@@ -332,52 +327,7 @@ class B2GRemoteAutomation(Automation):
         # relaunch b2g inside b2g instance
         instance = self.B2GInstance(self._devicemanager, env=env)
 
-        time.sleep(5)
-
-        # Set up port forwarding again for Marionette, since any that
-        # existed previously got wiped out by the reboot.
-        if not self._is_emulator:
-            self._devicemanager._checkCmd(['forward',
-                                           'tcp:%s' % self.marionette.port,
-                                           'tcp:%s' % self.marionette.port])
-
-        if self._is_emulator:
-            self.marionette.emulator.wait_for_port(self.marionette.port)
-        else:
-            time.sleep(5)
-
-        # start a marionette session
-        session = self.marionette.start_session()
-        if 'b2g' not in session:
-            raise Exception("bad session value %s returned by start_session" % session)
-
-        with self.marionette.using_context(self.marionette.CONTEXT_CHROME):
-            self.marionette.execute_script("""
-                let SECURITY_PREF = "security.turn_off_all_security_so_that_viruses_can_take_over_this_computer";
-                Components.utils.import("resource://gre/modules/Services.jsm");
-                Services.prefs.setBoolPref(SECURITY_PREF, true);
-
-                if (!testUtils.hasOwnProperty("specialPowersObserver")) {
-                  let loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                    .getService(Components.interfaces.mozIJSSubScriptLoader);
-                  loader.loadSubScript("chrome://specialpowers/content/SpecialPowersObserver.jsm",
-                    testUtils);
-                  testUtils.specialPowersObserver = new testUtils.SpecialPowersObserver();
-                  testUtils.specialPowersObserver.init();
-                }
-                """)
-
-            # run the script that starts the tests
-            if self.test_script:
-                if os.path.isfile(self.test_script):
-                    script = open(self.test_script, 'r')
-                    self.marionette.execute_script(script.read(), script_args=self.test_script_args)
-                    script.close()
-                elif isinstance(self.test_script, basestring):
-                    self.marionette.execute_script(self.test_script, script_args=self.test_script_args)
-            else:
-                # assumes the tests are started on startup automatically
-                pass
+        time.sleep(10)
 
         return instance
 
