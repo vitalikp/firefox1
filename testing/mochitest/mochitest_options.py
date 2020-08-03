@@ -510,25 +510,6 @@ class MochitestArguments(ArgumentContainer):
           "help": "Enable logging of unsafe CPOW usage, which is disabled by default for tests",
           "suppress": True,
           }],
-        [["--marionette"],
-         {"default": None,
-          "help": "host:port to use when connecting to Marionette",
-          }],
-        [["--marionette-port-timeout"],
-         {"default": None,
-          "help": "Timeout while waiting for the marionette port to open.",
-          "suppress": True,
-          }],
-        [["--marionette-socket-timeout"],
-         {"default": None,
-          "help": "Timeout while waiting to receive a message from the marionette server.",
-          "suppress": True,
-          }],
-        [["--marionette-startup-timeout"],
-         {"default": None,
-          "help": "Timeout while waiting for marionette server startup.",
-          "suppress": True,
-          }],
         [["--cleanup-crashes"],
          {"action": "store_true",
           "dest": "cleanupCrashes",
@@ -672,12 +653,6 @@ class MochitestArguments(ArgumentContainer):
         if options.debuggerArgs and not options.debugger:
             parser.error(
                 "--debugger-args requires --debugger.")
-
-        if options.valgrind or options.debugger:
-            # valgrind and some debuggers may cause Gecko to start slowly. Make sure
-            # marionette waits long enough to connect.
-            options.marionette_port_timeout = 900
-            options.marionette_socket_timeout = 540
 
         if options.store_chrome_manifest:
             options.store_chrome_manifest = os.path.abspath(options.store_chrome_manifest)
@@ -879,7 +854,6 @@ class AndroidArguments(ArgumentContainer):
         'dm': None,
         # we don't want to exclude specialpowers on android just yet
         'extensionsToExclude': [],
-        # mochijar doesn't get installed via marionette on android
         'extensionsToInstall': [os.path.join(here, 'mochijar')],
         'logFile': 'mochitest.log',
         'utilityPath': None,

@@ -7516,9 +7516,6 @@ var Debugger =
 	 * License, v. 2.0. If a copy of the MPL was not distributed with this
 	 * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 	
-	// TODO: Get rid of this code once the marionette server loads transport.js as
-	// an SDK module (see bug 1000814)
-	
 	"use strict";
 	
 	var DevToolsUtils = __webpack_require__(68);

@@ -174,8 +174,6 @@ class AutoTry(object):
         "firefox-ui-functional",
         "gtest",
         "jittest",
-        "marionette",
-        "marionette-e10s",
         "media-tests",
         "mochitests",
         "xpcshell",

@@ -17,7 +17,6 @@ XPCOMUtils.defineLazyModuleGetter(this, "SelfSupportBackend",
 const SIMPLETEST_OVERRIDES =
   ["ok", "is", "isnot", "todo", "todo_is", "todo_isnot", "info", "expectAssertions", "requestCompleteLog"];
 
-// non-android is bootstrapped by marionette
 if (Services.appinfo.OS == 'Android') {
   window.addEventListener("load", function testOnLoad() {
     window.removeEventListener("load", testOnLoad);

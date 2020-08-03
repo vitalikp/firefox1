@@ -74,10 +74,6 @@ BINPATH = bin
 endif
 DEFINES += -DBINPATH=$(BINPATH)
 
-ifdef ENABLE_MARIONETTE
-DEFINES += -DENABLE_MARIONETTE=1
-endif
-
 
 ifdef MOZ_CHROME_MULTILOCALE
 # When MOZ_CHROME_MULTILOCALE is defined, we write multilocale.json like:

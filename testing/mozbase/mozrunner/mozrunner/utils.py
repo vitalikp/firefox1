@@ -66,15 +66,6 @@ if __name__ == '__main__':
         print findInPath(i)
 
 
-def _find_marionette_in_args(*args, **kwargs):
-    try:
-        m = [a for a in args + tuple(kwargs.values()) if hasattr(a, 'session')][0]
-    except IndexError:
-        print("Can only apply decorator to function using a marionette object")
-        raise
-    return m
-
-
 def _raw_log():
     import logging
     return logging.getLogger(__name__)

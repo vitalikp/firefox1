@@ -188,10 +188,6 @@ SettingsLock.prototype = {
       return;
             }
     this.removeRequest(msg.requestID);
-    // DOMRequest callbacks called from here can die due to having
-    // things like marionetteScriptFinished in them. Make sure we file
-    // our call to run/finalize BEFORE opening the lock and fulfilling
-    // DOMRequests.
     if (!this._closeCalled) {
       // We only want to file closeHelper once per set of receiveMessage calls.
       Services.tm.currentThread.dispatch(this._closeHelper.bind(this), Ci.nsIThread.DISPATCH_NORMAL);

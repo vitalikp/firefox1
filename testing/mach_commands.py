@@ -131,10 +131,6 @@ TEST_FLAVORS = {
         'mach_command': 'firefox-ui-update',
         'kwargs': {'tests': []},
     },
-    'marionette': {
-        'mach_command': 'marionette-test',
-        'kwargs': {'tests': []},
-    },
     'mochitest': {
         'mach_command': 'mochitest',
         'kwargs': {'flavor': 'mochitest', 'test_paths': []},

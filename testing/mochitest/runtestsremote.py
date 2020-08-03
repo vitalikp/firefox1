@@ -285,9 +285,6 @@ class MochiRemote(MochitestDesktop):
         if 'profileDir' not in kwargs and 'profile' in kwargs:
             kwargs['profileDir'] = kwargs.pop('profile').profile
 
-        # remove args not supported by automation.py
-        kwargs.pop('marionette_args', None)
-
         return self._automation.runApp(*args, **kwargs)
 
 
