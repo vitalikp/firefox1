@@ -30,6 +30,8 @@ add_old_configure_assignment('_YASM_MAJOR_VERSION',
                              delayed_getattr(yasm_version, 'major'))
 add_old_configure_assignment('_YASM_MINOR_VERSION',
                              delayed_getattr(yasm_version, 'minor'))
+add_old_configure_assignment('_YASM_RELEASE',
+                             delayed_getattr(yasm_version, 'patch'))
 
 @depends(yasm, target)
 def yasm_asflags(yasm, target):
