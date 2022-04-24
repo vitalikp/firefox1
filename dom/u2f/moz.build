@@ -26,5 +26,3 @@ LOCAL_INCLUDES += [
     '/security/manager/ssl',
     '/security/pkix/include',
 ]
-
-MOCHITEST_MANIFESTS += ['tests/mochitest.ini']
